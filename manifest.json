@@ -1,0 +1,20 @@
+{
+  "name": "Mundial 2026 - Coupe du Monde FIFA",
+  "short_name": "Mundial 2026",
+  "description": "Groupes, Pronostics, Quiz et Stars de la Coupe du Monde 2026",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08091a",
+  "theme_color": "#d4af37",
+  "orientation": "portrait",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["sports", "entertainment"]
+}
