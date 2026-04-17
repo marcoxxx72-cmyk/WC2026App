@@ -1,41 +1,83 @@
 {
-  "name": "Mundial 2026 - Coupe du Monde FIFA",
-  "short_name": "Mundial 2026",
-  "description": "Application Coupe du Monde FIFA 2026 - Groupes, Pronostics, Quiz, Stars. USA, Canada, Mexique.",
+  "name": "World Cup 2026",
+  "short_name": "World Cup 2026",
+  "description": "The ultimate FIFA World Cup 2026 app - Groups, Predictions, Quiz, Stars. USA, Canada, Mexico. FR | EN | ES | PT",
+  "id": "com.marco72.mundial2026",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#08091a",
   "theme_color": "#d4af37",
   "orientation": "portrait",
-  "lang": "fr",
+  "lang": "en",
   "scope": "/",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "https://mundial2026-marco.netlify.app/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "https://mundial2026-marco.netlify.app/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["sports", "entertainment"],
+  "categories": [
+    "sports",
+    "entertainment",
+    "news"
+  ],
   "shortcuts": [
     {
-      "name": "Groupes",
-      "short_name": "Groupes",
+      "name": "Groups",
+      "short_name": "Groups",
+      "description": "View the 12 World Cup groups",
       "url": "/?tab=1",
-      "icons": [{"src": "/icon-192.png", "sizes": "192x192"}]
+      "icons": [
+        {
+          "src": "https://mundial2026-marco.netlify.app/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Quiz",
       "short_name": "Quiz",
+      "description": "Play the football quiz",
       "url": "/?tab=3",
-      "icons": [{"src": "/icon-192.png", "sizes": "192x192"}]
+      "icons": [
+        {
+          "src": "https://mundial2026-marco.netlify.app/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Predictions",
+      "short_name": "Predictions",
+      "description": "Make your World Cup predictions",
+      "url": "/?tab=2",
+      "icons": [
+        {
+          "src": "https://mundial2026-marco.netlify.app/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "https://mundial2026-marco.netlify.app/screenshot1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "World Cup 2026 App"
+    }
+  ],
+  "dir": "ltr"
 }
