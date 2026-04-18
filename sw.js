@@ -1,4 +1,4 @@
-var CACHE_NAME = 'wc2026app-v1';
+var CACHE_NAME = 'wc2026-vercel-v1';
 var URLS = [
   '/',
   '/index.html',
