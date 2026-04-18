@@ -1,10 +1,10 @@
-# WC 2026 - World Cup Fan App ⚽🏆
+[README.md](https://github.com/user-attachments/files/26852980/README.md)[Uploadi# WC 2026 - World Cup Fan App ⚽🏆
 
-![World Cup 2026](https://wc2026app-marco.netlify.app/icon-512.png)
+![World Cup 2026](https://wc-2026-app.vercel.app/icon-512.png)
 
 ## 🌍 The Ultimate FIFA World Cup 2026 Fan App
 
-Available at: **[wc2026app-marco.netlify.app](https://wc2026app-marco.netlify.app)**
+Available at: **[wc-2026-app.vercel.app](https://wc-2026-app.vercel.app)**
 
 ---
 
@@ -63,7 +63,7 @@ Available at: **[wc2026app-marco.netlify.app](https://wc2026app-marco.netlify.ap
 ## 📱 Install as App
 
 On iPhone/Android:
-1. Open **wc2026app-marco.netlify.app** in your browser
+1. Open **wc-2026-app.vercel.app** in your browser
 2. Tap **Share** → **"Add to Home Screen"**
 3. The app icon appears on your home screen!
 
@@ -73,8 +73,9 @@ On iPhone/Android:
 
 **Marco72** — marcoxxx72-cmyk
 - GitHub: [github.com/marcoxxx72-cmyk](https://github.com/marcoxxx72-cmyk)
-- App: [wc2026app-marco.netlify.app](https://wc2026app-marco.netlify.app)
+- App: [wc-2026-app.vercel.app](https://wc-2026-app.vercel.app)
 
 ---
 
 *© 2026 WC2026App — Unofficial fan app. Not affiliated with FIFA.*
+ng README.md…]()
