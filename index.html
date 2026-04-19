@@ -6,20 +6,34 @@
 <meta name="theme-color" content="#08091a"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="WC 2026"/>
-<title>World Cup 2026</title>
+<meta name="description" content="World Cup 2026 Fan App - Groups, Fixtures, AI Simulator, Quiz, Stars. EN FR ES PT IT DE"/>
+<title>World Cup 2026 ⚽</title>
 <link rel="manifest" href="/manifest.json"/>
+<link rel="apple-touch-icon" href="/icon-192.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:#08091a;color:#eee8d5;font-family:'Open Sans',sans-serif;min-height:100vh}
 #root{min-height:100vh}
 select{-webkit-appearance:none;appearance:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{opacity:0.5}50%{opacity:1}100%{opacity:0.5}}
+#error-div{display:none;padding:20px;color:#ff6b6b;font-size:12px;background:#1a0a0a;min-height:100vh}
 </style>
 </head>
 <body>
 <div id="root"></div>
+<div id="error-div"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script>
+window.onerror = function(msg, src, line, col, err) {
+  document.getElementById('error-div').style.display = 'block';
+  document.getElementById('error-div').innerHTML = 
+    '<h3>Error detected:</h3><p>' + msg + '</p><p>Line: ' + line + '</p><p>File: ' + src + '</p>';
+  return false;
+};
+</script>
 <script src="/app.js"></script>
 </body>
 </html>
