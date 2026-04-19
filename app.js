@@ -159,12 +159,12 @@ var STARS = [
 
 // ── TRANSLATIONS ───────────────────────────────────────────────
 var T = {
-  en:{appTitle:'World Cup 2026',appSub:'USA - CANADA - MEXICO',nav:['Home','Groups','Fixtures','Predictions','Quiz','Stars','Polls','Sim'],countdown:'Countdown',timeUnits:['Days','Hours','Min','Sec'],keyInfo:['Host nations','Teams','Matches','Duration'],keyVals:['3 nations','48 teams','104 matches','Jun 11-Jul 19'],format:'Tournament Format',formatLines:['12 groups of 4 teams','1st + 2nd + 8 best 3rds = 32 teams','Round of 32 > 16 > QF > SF > Final','Opening: Estadio Azteca, Mexico City','Final: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GROUPS',hostLabel:'Host',groupLabel:'Group',myTeamLabel:'My Team',pickTeam:'Pick your team',pronoSub:'Who will reach the final?',pronoWinner:'World Champion 2026',pronoFinal:'Runner-up',pronoSemi:'Semi-finalists',pronoSave:'Save',pronoSaved:'Saved!',pronoReset:'Reset',pronoChoose:'Choose...',pronoMyPick:'My pick',quizSub:'Test your knowledge!',quizScore:'Score',quizNext:'Next question',quizFinish:'See result',quizRestart:'Play again',quizPerfect:'PERFECT! You are an expert!',quizGood:'Great job!',quizAvg:'Not bad!',quizBad:'Keep studying!',starsSub:'Players to watch',pollTitle:'Polls',pollTotal:'votes',didYouKnow:'Did you know?',facts:['Italy miss the 2026 World Cup for 2nd time','Azteca hosts its 3rd World Cup','First-ever 48-team World Cup','First edition co-hosted by 3 countries','104 matches vs 64 in 2022','New IFAB rules in effect'],shareApp:'Share',shareCopied:'Link copied!',premiumBanner:'Go PREMIUM - Predictions + Stats + No ads',premiumBtn:'Unlock',manTitle:'Manual Match Simulator',manSim:'⚽ Simulate',manReset:'New Match',manWinner:'wins!',manDraw:'Draw!',simTitle:'AI Match Simulator',simTeam1:'Home Team',simTeam2:'Away Team',simRun:'Simulate with AI',simRunning:'AI Analysing...',simReset:'New Match',simWin:'wins',simDraw:'Draw',simGoals:'Goals',simStats:'Match Stats',simPoss:'Possession',simShots:'Shots',simAttack:'Attack',simDefence:'Defence',simForm:'Current Form',simAITitle:'AI Analysis',fixturesTitle:'FIXTURES & RESULTS',fixturesAll:'All matches',fixturesMy:'My team only',noFixtures:'No fixtures found'},
-  fr:{appTitle:'Mundial 2026',appSub:'ETATS-UNIS - CANADA - MEXIQUE',nav:['Accueil','Groupes','Calendrier','Pronostics','Quiz','Stars','Sondages','Sim'],countdown:'Compte a rebours',timeUnits:['Jours','Heures','Min','Sec'],keyInfo:['Pays hotes','Equipes','Matchs','Duree'],keyVals:['3 nations','48 equipes','104 matchs','11 juin-19 juil.'],format:'Format du tournoi',formatLines:['12 groupes de 4 equipes','1er + 2e + 8 meilleurs 3es = 32 equipes','Tour des 32 > 16e > QF > SF > Finale','Ouverture: Estadio Azteca, Mexico','Finale: MetLife Stadium, New York'],groupsTitle:'48 EQUIPES - 12 GROUPES',hostLabel:'Pays hote',groupLabel:'Groupe',myTeamLabel:'Mon Equipe',pickTeam:'Choisir mon equipe',pronoSub:'Qui ira en finale?',pronoWinner:'Champion du Monde 2026',pronoFinal:'Finaliste',pronoSemi:'Demi-finales',pronoSave:'Sauvegarder',pronoSaved:'Sauvegarde!',pronoReset:'Reinitialiser',pronoChoose:'Choisir...',pronoMyPick:'Mon choix',quizSub:'Testez vos connaissances!',quizScore:'Score',quizNext:'Question suivante',quizFinish:'Voir mon resultat',quizRestart:'Rejouer',quizPerfect:'PARFAIT! Tu es un expert!',quizGood:'Tres bien!',quizAvg:'Pas mal!',quizBad:'Continue a reviser!',starsSub:'Les joueurs a suivre',pollTitle:'Sondages',pollTotal:'votes',didYouKnow:'Le saviez-vous?',facts:["L Italie rate le Mondial 2026 pour la 2e fois","L Azteca accueille son 3e Mondial","1er Mondial a 48 equipes","1ere edition co-organisee par 3 pays","104 matchs contre 64 en 2022","Nouvelles regles IFAB effectives"],shareApp:'Partager',shareCopied:'Lien copie!',premiumBanner:'Passez PREMIUM - Pronostics + Stats + Sans pub',premiumBtn:'Debloquer',manTitle:'Simulateur Manuel',manSim:'⚽ Simuler',manReset:'Nouveau Match',manWinner:'gagne!',manDraw:'Match nul!',simTitle:'Simulateur IA',simTeam1:'Equipe Domicile',simTeam2:'Equipe Exterieur',simRun:'Simuler avec IA',simRunning:'IA en cours...',simReset:'Nouveau Match',simWin:'gagne',simDraw:'Nul',simGoals:'Buts',simStats:'Stats du Match',simPoss:'Possession',simShots:'Tirs',simAttack:'Attaque',simDefence:'Defense',simForm:'Forme Actuelle',simAITitle:'Analyse IA',fixturesTitle:'CALENDRIER & RESULTATS',fixturesAll:'Tous les matchs',fixturesMy:'Mon equipe uniquement',noFixtures:'Aucun match trouve'},
-  es:{appTitle:'Mundial 2026',appSub:'EE.UU. - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Pronosticos','Quiz','Estrellas','Sondeos','Sim'],countdown:'Cuenta regresiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitriones','Equipos','Partidos','Duracion'],keyVals:['3 naciones','48 equipos','104 partidos','11 jun-19 jul'],format:'Formato del torneo',formatLines:['12 grupos de 4 equipos','1 + 2 + 8 mejores 3eros = 32 equipos','Ronda de 32 > 16avos > QF > SF > Final','Apertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nueva York'],groupsTitle:'48 EQUIPOS - 12 GRUPOS',hostLabel:'Anfitri',groupLabel:'Grupo',myTeamLabel:'Mi Equipo',pickTeam:'Elegir mi equipo',pronoSub:'Quien llegara a la final?',pronoWinner:'Campeon del Mundo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalistas',pronoSave:'Guardar',pronoSaved:'Guardado!',pronoReset:'Reiniciar',pronoChoose:'Elegir...',pronoMyPick:'Mi eleccion',quizSub:'Pon a prueba tus conocimientos!',quizScore:'Puntuacion',quizNext:'Siguiente',quizFinish:'Ver resultado',quizRestart:'Jugar de nuevo',quizPerfect:'Perfecto! Eres un experto!',quizGood:'Muy bien!',quizAvg:'Nada mal!',quizBad:'Sigue estudiando!',starsSub:'Jugadores a seguir',pollTitle:'Sondeos',pollTotal:'votos',didYouKnow:'Sabias que?',facts:['Italia se pierde el Mundial 2026 por 2a vez','El Azteca acoge su 3er Mundial','El primer Mundial con 48 equipos','Primera edicion organizada por 3 paises','104 partidos frente a 64 en 2022','Nuevas reglas del IFAB en vigor'],shareApp:'Compartir',shareCopied:'Enlace copiado!',premiumBanner:'Hazte PREMIUM - Pronosticos + Estadisticas + Sin anuncios',premiumBtn:'Desbloquear',manTitle:'Simulador Manual',manSim:'⚽ Simular',manReset:'Nuevo Partido',manWinner:'gana!',manDraw:'Empate!',manTitle:'Simulador Manual',manSim:'⚽ Simular',manReset:'Nova Partida',manWinner:'vence!',manDraw:'Empate!',simTitle:'Simulador IA',simTeam1:'Equipo Local',simTeam2:'Equipo Visitante',simRun:'Simular con IA',simRunning:'IA analizando...',simReset:'Nuevo Partido',simWin:'gana',simDraw:'Empate',simGoals:'Goles',simStats:'Estadisticas',simPoss:'Posesion',simShots:'Tiros',simAttack:'Ataque',simDefence:'Defensa',simForm:'Forma Actual',simAITitle:'Analisis IA',fixturesTitle:'CALENDARIO Y RESULTADOS',fixturesAll:'Todos los partidos',fixturesMy:'Solo mi equipo',noFixtures:'No se encontraron partidos'},
-  pt:{appTitle:'Mundial 2026',appSub:'EUA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Palpites','Quiz','Estrelas','Enquetes','Sim'],countdown:'Contagem regressiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitrioes','Selecoes','Jogos','Duracao'],keyVals:['3 nacoes','48 selecoes','104 jogos','11 jun-19 jul'],format:'Formato do torneio',formatLines:['12 grupos de 4 selecoes','1 + 2 + 8 melhores 3eiros = 32 equipes','Rodada de 32 > 16 > QF > SF > Final','Abertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nova York'],groupsTitle:'48 SELECOES - 12 GRUPOS',hostLabel:'Anfitriao',groupLabel:'Grupo',myTeamLabel:'Meu Time',pickTeam:'Escolher meu time',pronoSub:'Quem vai chegar a final?',pronoWinner:'Campeao do Mundo 2026',pronoFinal:'Vice-campeao',pronoSemi:'Semifinalistas',pronoSave:'Salvar',pronoSaved:'Salvo!',pronoReset:'Reiniciar',pronoChoose:'Escolher...',pronoMyPick:'Minha escolha',quizSub:'Teste seus conhecimentos!',quizScore:'Pontuacao',quizNext:'Proxima',quizFinish:'Ver resultado',quizRestart:'Jogar novamente',quizPerfect:'Perfeito! Voce e um expert!',quizGood:'Muito bem!',quizAvg:'Nada mal!',quizBad:'Continue estudando!',starsSub:'Jogadores para acompanhar',pollTitle:'Enquetes',pollTotal:'votos',didYouKnow:'Voce sabia?',facts:['A Italia perde a Copa 2026 pela 2a vez','O Azteca sedia sua 3a Copa','Primeira Copa com 48 selecoes','Primeira edicao organizada por 3 paises','104 jogos contra 64 em 2022','Novas regras do IFAB em vigor'],shareApp:'Compartilhar',shareCopied:'Link copiado!',premiumBanner:'Seja PREMIUM - Palpites + Estatisticas + Sem anuncios',premiumBtn:'Desbloquear',manTitle:'Simulador Manual',manSim:'⚽ Simular',manReset:'Nuevo Partido',manWinner:'gana!',manDraw:'Empate!',manTitle:'Simulador Manual',manSim:'⚽ Simular',manReset:'Nova Partida',manWinner:'vence!',manDraw:'Empate!',simTitle:'Simulador IA',simTeam1:'Time da Casa',simTeam2:'Time Visitante',simRun:'Simular com IA',simRunning:'IA analisando...',simReset:'Nova Partida',simWin:'vence',simDraw:'Empate',simGoals:'Gols',simStats:'Estatisticas',simPoss:'Posse',simShots:'Chutes',simAttack:'Ataque',simDefence:'Defesa',simForm:'Forma Atual',simAITitle:'Analise IA',fixturesTitle:'CALENDARIO E RESULTADOS',fixturesAll:'Todos os jogos',fixturesMy:'Apenas meu time',noFixtures:'Nenhum jogo encontrado'},
-  it:{appTitle:'Mondiale 2026',appSub:'USA - CANADA - MESSICO',nav:['Home','Gruppi','Calendario','Pronostici','Quiz','Stelle','Sondaggi','Sim'],countdown:'Conto alla rovescia',timeUnits:['Giorni','Ore','Min','Sec'],keyInfo:['Paesi ospitanti','Squadre','Partite','Durata'],keyVals:['3 nazioni','48 squadre','104 partite','11 giu-19 lug'],format:'Formato del torneo',formatLines:['12 gironi da 4 squadre','1a + 2a + 8 migliori 3e = 32 squadre','Fase a 32 > 16 > QF > SF > Finale','Apertura: Estadio Azteca, Messico','Finale: MetLife Stadium, New York'],groupsTitle:'48 SQUADRE - 12 GIRONI',hostLabel:'Sede',groupLabel:'Girone',myTeamLabel:'La Mia Squadra',pickTeam:'Scegli la tua squadra',pronoSub:'Chi arrivera in finale?',pronoWinner:'Campione del Mondo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalisti',pronoSave:'Salva',pronoSaved:'Salvato!',pronoReset:'Azzera',pronoChoose:'Scegli...',pronoMyPick:'La mia scelta',quizSub:'Metti alla prova le tue conoscenze!',quizScore:'Punteggio',quizNext:'Domanda successiva',quizFinish:'Vedi risultato',quizRestart:'Gioca ancora',quizPerfect:'Perfetto! Sei un esperto!',quizGood:'Molto bene!',quizAvg:'Niente male!',quizBad:'Continua a studiare!',starsSub:'I giocatori da seguire',pollTitle:'Sondaggi',pollTotal:'voti',didYouKnow:'Lo sapevi?',facts:["L Italia non e al Mondiale 2026 per la 2a volta","L Azteca ospita il suo 3o Mondiale","Primo Mondiale con 48 squadre","Prima edizione co-organizzata da 3 paesi","104 partite contro 64 nel 2022","Nuove regole IFAB in vigore"],shareApp:'Condividi',shareCopied:'Link copiato!',premiumBanner:'Diventa PREMIUM - Pronostici + Statistiche + Senza pub',premiumBtn:'Sblocca',manTitle:'Simulatore Manuale',manSim:'⚽ Simula',manReset:'Nuova Partita',manWinner:'vince!',manDraw:'Pareggio!',simTitle:'Simulatore IA',simTeam1:'Squadra Casa',simTeam2:'Squadra Ospite',simRun:'Simula con IA',simRunning:'IA in analisi...',simReset:'Nuova Partita',simWin:'vince',simDraw:'Pareggio',simGoals:'Gol',simStats:'Statistiche',simPoss:'Possesso',simShots:'Tiri',simAttack:'Attacco',simDefence:'Difesa',simForm:'Forma Attuale',simAITitle:'Analisi IA',fixturesTitle:'CALENDARIO E RISULTATI',fixturesAll:'Tutte le partite',fixturesMy:'Solo la mia squadra',noFixtures:'Nessuna partita trovata'},
-  de:{appTitle:'WM 2026',appSub:'USA - KANADA - MEXIKO',nav:['Start','Gruppen','Spielplan','Tipps','Quiz','Stars','Umfragen','Sim'],countdown:'Countdown',timeUnits:['Tage','Stunden','Min','Sek'],keyInfo:['Gastgeberlaender','Teams','Spiele','Dauer'],keyVals:['3 Nationen','48 Teams','104 Spiele','11. Jun-19. Jul'],format:'Turnierformat',formatLines:['12 Gruppen mit je 4 Teams','1. + 2. + 8 beste 3. = 32 Teams','Runde der 32 > 16 > VF > HF > Finale','Eroeffnung: Estadio Azteca, Mexiko','Finale: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GRUPPEN',hostLabel:'Gastgeber',groupLabel:'Gruppe',myTeamLabel:'Mein Team',pickTeam:'Mein Team auswaehlen',pronoSub:'Wer kommt ins Finale?',pronoWinner:'Weltmeister 2026',pronoFinal:'Finalist',pronoSemi:'Halbfinalisten',pronoSave:'Speichern',pronoSaved:'Gespeichert!',pronoReset:'Zuruecksetzen',pronoChoose:'Auswaehlen...',pronoMyPick:'Meine Wahl',quizSub:'Teste dein Wissen!',quizScore:'Punkte',quizNext:'Naechste Frage',quizFinish:'Ergebnis sehen',quizRestart:'Nochmal spielen',quizPerfect:'Perfekt! Du bist ein Experte!',quizGood:'Sehr gut!',quizAvg:'Nicht schlecht!',quizBad:'Weiter lernen!',starsSub:'Spieler zum Beobachten',pollTitle:'Umfragen',pollTotal:'Stimmen',didYouKnow:'Wusstest du?',facts:['Italien verpasst die WM 2026 zum 2. Mal','Das Azteca beherbergt seine 3. WM','Erste WM mit 48 Teams','Erste WM von 3 Laendern gemeinsam ausgerichtet','104 Spiele gegen 64 in 2022','Neue IFAB-Regeln in Kraft'],shareApp:'Teilen',shareCopied:'Link kopiert!',premiumBanner:'PREMIUM werden - Tipps + Statistiken + Werbefrei',premiumBtn:'Freischalten',manTitle:'Manueller Simulator',manSim:'⚽ Simulieren',manReset:'Neues Spiel',manWinner:'gewinnt!',manDraw:'Unentschieden!',simTitle:'KI Match Simulator',simTeam1:'Heimteam',simTeam2:'Gastteam',simRun:'Mit KI simulieren',simRunning:'KI analysiert...',simReset:'Neues Spiel',simWin:'gewinnt',simDraw:'Unentschieden',simGoals:'Tore',simStats:'Spielstatistiken',simPoss:'Ballbesitz',simShots:'Schuesse',simAttack:'Angriff',simDefence:'Abwehr',simForm:'Aktuelle Form',simAITitle:'KI-Analyse',fixturesTitle:'SPIELPLAN & ERGEBNISSE',fixturesAll:'Alle Spiele',fixturesMy:'Nur mein Team',noFixtures:'Keine Spiele gefunden'}
+  en:{appTitle:'World Cup 2026',appSub:'USA - CANADA - MEXICO',nav:['Home','Groups','Fixtures','Predictions','Quiz','Players','Polls','Sim'],countdown:'Countdown',timeUnits:['Days','Hours','Min','Sec'],keyInfo:['Host nations','Teams','Matches','Duration'],keyVals:['3 nations','48 teams','104 matches','Jun 11-Jul 19'],format:'Tournament Format',formatLines:['12 groups of 4 teams','1st + 2nd + 8 best 3rds = 32 teams','Round of 32 > 16 > QF > SF > Final','Opening: Estadio Azteca, Mexico City','Final: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GROUPS',hostLabel:'Host',groupLabel:'Group',myTeamLabel:'My Team',pickTeam:'Pick your team',pronoSub:'Who will reach the final?',pronoWinner:'World Champion 2026',pronoFinal:'Runner-up',pronoSemi:'Semi-finalists',pronoSave:'Save',pronoSaved:'Saved!',pronoReset:'Reset',pronoChoose:'Choose...',pronoMyPick:'My pick',quizSub:'Test your knowledge!',quizScore:'Score',quizNext:'Next question',quizFinish:'See result',quizRestart:'Play again',quizPerfect:'PERFECT! You are an expert!',quizGood:'Great job!',quizAvg:'Not bad!',quizBad:'Keep studying!',starsSub:'Players',pollTitle:'Polls',pollTotal:'votes',didYouKnow:'Did you know?',facts:['Italy miss the 2026 World Cup for 2nd time','Azteca hosts its 3rd World Cup','First-ever 48-team World Cup','First edition co-hosted by 3 countries','104 matches vs 64 in 2022','New IFAB rules in effect'],shareApp:'Share',shareCopied:'Link copied!',premiumBanner:'Go PREMIUM - Predictions + Stats + No ads',premiumBtn:'Unlock',simTitle:'AI Match Simulator',simTeam1:'Home Team',simTeam2:'Away Team',simRun:'Simulate with AI',simRunning:'AI Analysing...',simReset:'New Match',simWin:'wins',simDraw:'Draw',simGoals:'Goals',simStats:'Match Stats',simPoss:'Possession',simShots:'Shots',simAttack:'Attack',simDefence:'Defence',simForm:'Current Form',simAITitle:'AI Analysis',fixturesTitle:'FIXTURES & RESULTS',fixturesAll:'All matches',fixturesMy:'My team only',noFixtures:'No fixtures found'},
+  fr:{appTitle:'Mundial 2026',appSub:'ETATS-UNIS - CANADA - MEXIQUE',nav:['Accueil','Groupes','Calendrier','Pronostics','Quiz','Joueurs','Sondages','Sim'],countdown:'Compte a rebours',timeUnits:['Jours','Heures','Min','Sec'],keyInfo:['Pays hotes','Equipes','Matchs','Duree'],keyVals:['3 nations','48 equipes','104 matchs','11 juin-19 juil.'],format:'Format du tournoi',formatLines:['12 groupes de 4 equipes','1er + 2e + 8 meilleurs 3es = 32 equipes','Tour des 32 > 16e > QF > SF > Finale','Ouverture: Estadio Azteca, Mexico','Finale: MetLife Stadium, New York'],groupsTitle:'48 EQUIPES - 12 GROUPES',hostLabel:'Pays hote',groupLabel:'Groupe',myTeamLabel:'Mon Equipe',pickTeam:'Choisir mon equipe',pronoSub:'Qui ira en finale?',pronoWinner:'Champion du Monde 2026',pronoFinal:'Finaliste',pronoSemi:'Demi-finales',pronoSave:'Sauvegarder',pronoSaved:'Sauvegarde!',pronoReset:'Reinitialiser',pronoChoose:'Choisir...',pronoMyPick:'Mon choix',quizSub:'Testez vos connaissances!',quizScore:'Score',quizNext:'Question suivante',quizFinish:'Voir mon resultat',quizRestart:'Rejouer',quizPerfect:'PARFAIT! Tu es un expert!',quizGood:'Tres bien!',quizAvg:'Pas mal!',quizBad:'Continue a reviser!',starsSub:'Joueurs',pollTitle:'Sondages',pollTotal:'votes',didYouKnow:'Le saviez-vous?',facts:["L Italie rate le Mondial 2026 pour la 2e fois","L Azteca accueille son 3e Mondial","1er Mondial a 48 equipes","1ere edition co-organisee par 3 pays","104 matchs contre 64 en 2022","Nouvelles regles IFAB effectives"],shareApp:'Partager',shareCopied:'Lien copie!',premiumBanner:'Passez PREMIUM - Pronostics + Stats + Sans pub',premiumBtn:'Debloquer',simTitle:'Simulateur IA',simTeam1:'Equipe Domicile',simTeam2:'Equipe Exterieur',simRun:'Simuler avec IA',simRunning:'IA en cours...',simReset:'Nouveau Match',simWin:'gagne',simDraw:'Nul',simGoals:'Buts',simStats:'Stats du Match',simPoss:'Possession',simShots:'Tirs',simAttack:'Attaque',simDefence:'Defense',simForm:'Forme Actuelle',simAITitle:'Analyse IA',fixturesTitle:'CALENDRIER & RESULTATS',fixturesAll:'Tous les matchs',fixturesMy:'Mon equipe uniquement',noFixtures:'Aucun match trouve'},
+  es:{appTitle:'Mundial 2026',appSub:'EE.UU. - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Pronosticos','Quiz','Jugadores','Sondeos','Sim'],countdown:'Cuenta regresiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitriones','Equipos','Partidos','Duracion'],keyVals:['3 naciones','48 equipos','104 partidos','11 jun-19 jul'],format:'Formato del torneo',formatLines:['12 grupos de 4 equipos','1 + 2 + 8 mejores 3eros = 32 equipos','Ronda de 32 > 16avos > QF > SF > Final','Apertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nueva York'],groupsTitle:'48 EQUIPOS - 12 GRUPOS',hostLabel:'Anfitri',groupLabel:'Grupo',myTeamLabel:'Mi Equipo',pickTeam:'Elegir mi equipo',pronoSub:'Quien llegara a la final?',pronoWinner:'Campeon del Mundo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalistas',pronoSave:'Guardar',pronoSaved:'Guardado!',pronoReset:'Reiniciar',pronoChoose:'Elegir...',pronoMyPick:'Mi eleccion',quizSub:'Pon a prueba tus conocimientos!',quizScore:'Puntuacion',quizNext:'Siguiente',quizFinish:'Ver resultado',quizRestart:'Jugar de nuevo',quizPerfect:'Perfecto! Eres un experto!',quizGood:'Muy bien!',quizAvg:'Nada mal!',quizBad:'Sigue estudiando!',starsSub:'Jugadores',pollTitle:'Sondeos',pollTotal:'votos',didYouKnow:'Sabias que?',facts:['Italia se pierde el Mundial 2026 por 2a vez','El Azteca acoge su 3er Mundial','El primer Mundial con 48 equipos','Primera edicion organizada por 3 paises','104 partidos frente a 64 en 2022','Nuevas reglas del IFAB en vigor'],shareApp:'Compartir',shareCopied:'Enlace copiado!',premiumBanner:'Hazte PREMIUM - Pronosticos + Estadisticas + Sin anuncios',premiumBtn:'Desbloquear',simTitle:'Simulador IA',simTeam1:'Equipo Local',simTeam2:'Equipo Visitante',simRun:'Simular con IA',simRunning:'IA analizando...',simReset:'Nuevo Partido',simWin:'gana',simDraw:'Empate',simGoals:'Goles',simStats:'Estadisticas',simPoss:'Posesion',simShots:'Tiros',simAttack:'Ataque',simDefence:'Defensa',simForm:'Forma Actual',simAITitle:'Analisis IA',fixturesTitle:'CALENDARIO Y RESULTADOS',fixturesAll:'Todos los partidos',fixturesMy:'Solo mi equipo',noFixtures:'No se encontraron partidos'},
+  pt:{appTitle:'Mundial 2026',appSub:'EUA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Palpites','Quiz','Jogadores','Enquetes','Sim'],countdown:'Contagem regressiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitrioes','Selecoes','Jogos','Duracao'],keyVals:['3 nacoes','48 selecoes','104 jogos','11 jun-19 jul'],format:'Formato do torneio',formatLines:['12 grupos de 4 selecoes','1 + 2 + 8 melhores 3eiros = 32 equipes','Rodada de 32 > 16 > QF > SF > Final','Abertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nova York'],groupsTitle:'48 SELECOES - 12 GRUPOS',hostLabel:'Anfitriao',groupLabel:'Grupo',myTeamLabel:'Meu Time',pickTeam:'Escolher meu time',pronoSub:'Quem vai chegar a final?',pronoWinner:'Campeao do Mundo 2026',pronoFinal:'Vice-campeao',pronoSemi:'Semifinalistas',pronoSave:'Salvar',pronoSaved:'Salvo!',pronoReset:'Reiniciar',pronoChoose:'Escolher...',pronoMyPick:'Minha escolha',quizSub:'Teste seus conhecimentos!',quizScore:'Pontuacao',quizNext:'Proxima',quizFinish:'Ver resultado',quizRestart:'Jogar novamente',quizPerfect:'Perfeito! Voce e um expert!',quizGood:'Muito bem!',quizAvg:'Nada mal!',quizBad:'Continue estudando!',starsSub:'Jogadores',pollTitle:'Enquetes',pollTotal:'votos',didYouKnow:'Voce sabia?',facts:['A Italia perde a Copa 2026 pela 2a vez','O Azteca sedia sua 3a Copa','Primeira Copa com 48 selecoes','Primeira edicao organizada por 3 paises','104 jogos contra 64 em 2022','Novas regras do IFAB em vigor'],shareApp:'Compartilhar',shareCopied:'Link copiado!',premiumBanner:'Seja PREMIUM - Palpites + Estatisticas + Sem anuncios',premiumBtn:'Desbloquear',simTitle:'Simulador IA',simTeam1:'Time da Casa',simTeam2:'Time Visitante',simRun:'Simular com IA',simRunning:'IA analisando...',simReset:'Nova Partida',simWin:'vence',simDraw:'Empate',simGoals:'Gols',simStats:'Estatisticas',simPoss:'Posse',simShots:'Chutes',simAttack:'Ataque',simDefence:'Defesa',simForm:'Forma Atual',simAITitle:'Analise IA',fixturesTitle:'CALENDARIO E RESULTADOS',fixturesAll:'Todos os jogos',fixturesMy:'Apenas meu time',noFixtures:'Nenhum jogo encontrado'},
+  it:{appTitle:'Mondiale 2026',appSub:'USA - CANADA - MESSICO',nav:['Home','Gruppi','Calendario','Pronostici','Quiz','Giocatori','Sondaggi','Sim'],countdown:'Conto alla rovescia',timeUnits:['Giorni','Ore','Min','Sec'],keyInfo:['Paesi ospitanti','Squadre','Partite','Durata'],keyVals:['3 nazioni','48 squadre','104 partite','11 giu-19 lug'],format:'Formato del torneo',formatLines:['12 gironi da 4 squadre','1a + 2a + 8 migliori 3e = 32 squadre','Fase a 32 > 16 > QF > SF > Finale','Apertura: Estadio Azteca, Messico','Finale: MetLife Stadium, New York'],groupsTitle:'48 SQUADRE - 12 GIRONI',hostLabel:'Sede',groupLabel:'Girone',myTeamLabel:'La Mia Squadra',pickTeam:'Scegli la tua squadra',pronoSub:'Chi arrivera in finale?',pronoWinner:'Campione del Mondo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalisti',pronoSave:'Salva',pronoSaved:'Salvato!',pronoReset:'Azzera',pronoChoose:'Scegli...',pronoMyPick:'La mia scelta',quizSub:'Metti alla prova le tue conoscenze!',quizScore:'Punteggio',quizNext:'Domanda successiva',quizFinish:'Vedi risultato',quizRestart:'Gioca ancora',quizPerfect:'Perfetto! Sei un esperto!',quizGood:'Molto bene!',quizAvg:'Niente male!',quizBad:'Continua a studiare!',starsSub:'Giocatori',pollTitle:'Sondaggi',pollTotal:'voti',didYouKnow:'Lo sapevi?',facts:["L Italia non e al Mondiale 2026 per la 2a volta","L Azteca ospita il suo 3o Mondiale","Primo Mondiale con 48 squadre","Prima edizione co-organizzata da 3 paesi","104 partite contro 64 nel 2022","Nuove regole IFAB in vigore"],shareApp:'Condividi',shareCopied:'Link copiato!',premiumBanner:'Diventa PREMIUM - Pronostici + Statistiche + Senza pub',premiumBtn:'Sblocca',simTitle:'Simulatore IA',simTeam1:'Squadra Casa',simTeam2:'Squadra Ospite',simRun:'Simula con IA',simRunning:'IA in analisi...',simReset:'Nuova Partita',simWin:'vince',simDraw:'Pareggio',simGoals:'Gol',simStats:'Statistiche',simPoss:'Possesso',simShots:'Tiri',simAttack:'Attacco',simDefence:'Difesa',simForm:'Forma Attuale',simAITitle:'Analisi IA',fixturesTitle:'CALENDARIO E RISULTATI',fixturesAll:'Tutte le partite',fixturesMy:'Solo la mia squadra',noFixtures:'Nessuna partita trovata'},
+  de:{appTitle:'WM 2026',appSub:'USA - KANADA - MEXIKO',nav:['Start','Gruppen','Spielplan','Tipps','Quiz','Spieler','Umfragen','Sim'],countdown:'Countdown',timeUnits:['Tage','Stunden','Min','Sek'],keyInfo:['Gastgeberlaender','Teams','Spiele','Dauer'],keyVals:['3 Nationen','48 Teams','104 Spiele','11. Jun-19. Jul'],format:'Turnierformat',formatLines:['12 Gruppen mit je 4 Teams','1. + 2. + 8 beste 3. = 32 Teams','Runde der 32 > 16 > VF > HF > Finale','Eroeffnung: Estadio Azteca, Mexiko','Finale: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GRUPPEN',hostLabel:'Gastgeber',groupLabel:'Gruppe',myTeamLabel:'Mein Team',pickTeam:'Mein Team auswaehlen',pronoSub:'Wer kommt ins Finale?',pronoWinner:'Weltmeister 2026',pronoFinal:'Finalist',pronoSemi:'Halbfinalisten',pronoSave:'Speichern',pronoSaved:'Gespeichert!',pronoReset:'Zuruecksetzen',pronoChoose:'Auswaehlen...',pronoMyPick:'Meine Wahl',quizSub:'Teste dein Wissen!',quizScore:'Punkte',quizNext:'Naechste Frage',quizFinish:'Ergebnis sehen',quizRestart:'Nochmal spielen',quizPerfect:'Perfekt! Du bist ein Experte!',quizGood:'Sehr gut!',quizAvg:'Nicht schlecht!',quizBad:'Weiter lernen!',starsSub:'Spieler',pollTitle:'Umfragen',pollTotal:'Stimmen',didYouKnow:'Wusstest du?',facts:['Italien verpasst die WM 2026 zum 2. Mal','Das Azteca beherbergt seine 3. WM','Erste WM mit 48 Teams','Erste WM von 3 Laendern gemeinsam ausgerichtet','104 Spiele gegen 64 in 2022','Neue IFAB-Regeln in Kraft'],shareApp:'Teilen',shareCopied:'Link kopiert!',premiumBanner:'PREMIUM werden - Tipps + Statistiken + Werbefrei',premiumBtn:'Freischalten',simTitle:'KI Match Simulator',simTeam1:'Heimteam',simTeam2:'Gastteam',simRun:'Mit KI simulieren',simRunning:'KI analysiert...',simReset:'Neues Spiel',simWin:'gewinnt',simDraw:'Unentschieden',simGoals:'Tore',simStats:'Spielstatistiken',simPoss:'Ballbesitz',simShots:'Schuesse',simAttack:'Angriff',simDefence:'Abwehr',simForm:'Aktuelle Form',simAITitle:'KI-Analyse',fixturesTitle:'SPIELPLAN & ERGEBNISSE',fixturesAll:'Alle Spiele',fixturesMy:'Nur mein Team',noFixtures:'Keine Spiele gefunden'}
 };
 
 var QUIZ = {
@@ -273,14 +273,18 @@ function App(){
   var s20=useState(false);var fixtureMyOnly=s20[0];var setFixtureMyOnly=s20[1];
   var s21=useState(false);var showPickTeam=s21[0];var setShowPickTeam=s21[1];
   var s22=useState('');var simTeam1=s22[0];var setSimTeam1=s22[1];
-  var s30=useState('');var manTeam1=s30[0];var setManTeam1=s30[1];
-  var s31=useState('');var manTeam2=s31[0];var setManTeam2=s31[1];
-  var s32=useState(null);var manResult=s32[0];var setManResult=s32[1];
+
   var s23=useState('');var simTeam2=s23[0];var setSimTeam2=s23[1];
   var s24=useState(null);var simResult=s24[0];var setSimResult=s24[1];
   var s25=useState(false);var simLoading=s25[0];var setSimLoading=s25[1];
   var s26=useState('');var simAIText=s26[0];var setSimAIText=s26[1];
   var s27=useState(null);var tournament=s27[0];var setTournament=s27[1];
+  // Interactive tournament state
+  var s30=useState('idle');var iPhase=s30[0];var setIPhase=s30[1]; // idle|groups|r32|r16|qf|sf|final|done
+  var s31=useState({});var iGroupStandings=s31[0];var setIGroupStandings=s31[1];
+  var s32=useState([]);var iMatches=s32[0];var setIMatches=s32[1];
+  var s33=useState(null);var iChampion=s33[0];var setIChampion=s33[1];
+  var s34=useState('A');var iSelGroup=s34[0];var setISelGroup=s34[1];
   var s28=useState(false);var tournLoading=s28[0];var setTournLoading=s28[1];
   var s29=useState('bracket');var simView=s29[0];var setSimView=s29[1];
 
@@ -336,6 +340,180 @@ function App(){
     var poss1=Math.round(40+(s1-s2)*0.35+Math.random()*10);
     poss1=Math.max(35,Math.min(65,poss1));
     setManResult({team1:manTeam1,team2:manTeam2,g1:g1,g2:g2,winner:winner,poss1:poss1,poss2:100-poss1,str1:s1,str2:s2});
+  }
+
+  // ── INTERACTIVE TOURNAMENT ───────────────────────────────────
+  function initInteractive(){
+    // Build all group matches
+    var matches=[];
+    Object.entries(GROUPS).forEach(function(entry){
+      var g=entry[0];var data=entry[1];var teams=data.teams;
+      for(var i=0;i<teams.length;i++){
+        for(var j=i+1;j<teams.length;j++){
+          matches.push({id:g+i+j,phase:'group',group:g,home:teams[i],away:teams[j],goalsHome:null,goalsAway:null,played:false});
+        }
+      }
+    });
+    setIMatches(matches);
+    setIGroupStandings({});
+    setIPhase('groups');
+    setIChampion(null);
+    setISelGroup('A');
+  }
+
+  function setMatchScore(matchId, gh, ga){
+    setIMatches(function(prev){
+      var updated=prev.map(function(m){
+        if(m.id!==matchId)return m;
+        return Object.assign({},m,{goalsHome:gh,goalsAway:ga,played:true});
+      });
+      // Recalculate group standings from played matches
+      var standings={};
+      Object.keys(GROUPS).forEach(function(g){
+        var pts={};var gd={};var gf={};
+        GROUPS[g].teams.forEach(function(t){pts[t]=0;gd[t]=0;gf[t]=0;});
+        updated.filter(function(m){return m.group===g&&m.played;}).forEach(function(m){
+          var diff=m.goalsHome-m.goalsAway;
+          gf[m.home]+=m.goalsHome;gf[m.away]+=m.goalsAway;
+          gd[m.home]+=diff;gd[m.away]-=diff;
+          if(diff>0){pts[m.home]+=3;}
+          else if(diff<0){pts[m.away]+=3;}
+          else{pts[m.home]+=1;pts[m.away]+=1;}
+        });
+        var sorted=GROUPS[g].teams.slice().sort(function(a,b){
+          if(pts[b]!==pts[a])return pts[b]-pts[a];
+          if(gd[b]!==gd[a])return gd[b]-gd[a];
+          return gf[b]-gf[a];
+        });
+        standings[g]={teams:sorted,pts:pts,gd:gd,gf:gf};
+      });
+      setIGroupStandings(standings);
+      return updated;
+    });
+  }
+
+  function quickSimGroup(g){
+    setIMatches(function(prev){
+      var updated=prev.map(function(m){
+        if(m.group!==g||m.played)return m;
+        var s1=getStrength(m.home);var s2=getStrength(m.away);
+        function rg(s){var r=Math.random();if(r<0.18)return 0;if(r<0.42)return 1;if(r<0.65)return 2;if(r<0.82)return 3;if(r<0.93)return 4;return 5;}
+        var gh=rg(s1);var ga=rg(s2);
+        return Object.assign({},m,{goalsHome:gh,goalsAway:ga,played:true});
+      });
+      // Recalc standings
+      var standings={};
+      Object.keys(GROUPS).forEach(function(g2){
+        var pts={};var gd={};var gf={};
+        GROUPS[g2].teams.forEach(function(t){pts[t]=0;gd[t]=0;gf[t]=0;});
+        updated.filter(function(m){return m.group===g2&&m.played;}).forEach(function(m){
+          var diff=m.goalsHome-m.goalsAway;
+          gf[m.home]+=m.goalsHome;gf[m.away]+=m.goalsAway;
+          gd[m.home]+=diff;gd[m.away]-=diff;
+          if(diff>0)pts[m.home]+=3;
+          else if(diff<0)pts[m.away]+=3;
+          else{pts[m.home]+=1;pts[m.away]+=1;}
+        });
+        var sorted=GROUPS[g2].teams.slice().sort(function(a,b){
+          if(pts[b]!==pts[a])return pts[b]-pts[a];
+          return gd[b]-gd[a];
+        });
+        standings[g2]={teams:sorted,pts:pts,gd:gd,gf:gf};
+      });
+      setIGroupStandings(standings);
+      return updated;
+    });
+  }
+
+  function allGroupsComplete(matches){
+    return Object.keys(GROUPS).every(function(g){
+      return matches.filter(function(m){return m.group===g;}).every(function(m){return m.played;});
+    });
+  }
+
+  function buildKnockout(standings, phase){
+    var pairs=[];
+    if(phase==='r32'){
+      var keys=Object.keys(GROUPS);
+      // 1st vs 2nd of different groups
+      var pairings=[['A','B'],['C','D'],['E','F'],['G','H'],['I','J'],['K','L']];
+      pairings.forEach(function(p){
+        var g1=p[0];var g2=p[1];
+        if(standings[g1]&&standings[g2]){
+          pairs.push({home:standings[g1].teams[0],away:standings[g2].teams[1],played:false,goalsHome:null,goalsAway:null});
+          pairs.push({home:standings[g2].teams[0],away:standings[g1].teams[1],played:false,goalsHome:null,goalsAway:null});
+        }
+      });
+      // 4 more from best 3rds
+      var thirds=Object.values(standings).map(function(s){return s.teams[2];}).slice(0,4);
+      for(var i=0;i<thirds.length;i+=2){
+        if(thirds[i]&&thirds[i+1])pairs.push({home:thirds[i],away:thirds[i+1],played:false,goalsHome:null,goalsAway:null});
+      }
+    } else {
+      // Use previous round winners
+      for(var i=0;i<pairs.length;i+=2){
+        // handled by progressKnockout
+      }
+    }
+    return pairs.map(function(p,i){return Object.assign({},p,{id:phase+i,phase:phase});});
+  }
+
+  function progressToNextPhase(currentMatches, nextPhase){
+    var winners=currentMatches.filter(function(m){return m.played;}).map(function(m){
+      if(m.goalsHome>m.goalsAway)return m.home;
+      if(m.goalsAway>m.goalsHome)return m.away;
+      // Draw - penalty shootout simulation
+      return Math.random()>0.5?m.home:m.away;
+    });
+    var newMatches=[];
+    for(var i=0;i<winners.length;i+=2){
+      if(winners[i]&&winners[i+1]){
+        newMatches.push({id:nextPhase+i,phase:nextPhase,home:winners[i],away:winners[i+1],played:false,goalsHome:null,goalsAway:null});
+      }
+    }
+    return newMatches;
+  }
+
+  function advancePhase(){
+    if(iPhase==='groups'){
+      // Build R32 from group standings
+      var r32=buildKnockout(iGroupStandings,'r32');
+      setIMatches(r32);
+      setIPhase('r32');
+    } else {
+      var phases={'r32':'r16','r16':'qf','qf':'sf','sf':'final'};
+      var next=phases[iPhase];
+      if(next==='final'){
+        var sf=iMatches.filter(function(m){return m.phase==='sf';});
+        var finalists=sf.map(function(m){return m.goalsHome>=m.goalsAway?m.home:m.away;});
+        if(finalists.length>=2){
+          setIMatches([{id:'final0',phase:'final',home:finalists[0],away:finalists[1],played:false,goalsHome:null,goalsAway:null}]);
+          setIPhase('final');
+        }
+      } else if(next){
+        var newM=progressToNextPhase(iMatches,next);
+        setIMatches(newM);
+        setIPhase(next);
+      } else if(iPhase==='final'){
+        var fin=iMatches[0];
+        var champ=fin.goalsHome>=fin.goalsAway?fin.home:fin.away;
+        setIChampion(champ);
+        setIPhase('done');
+      }
+    }
+  }
+
+  function quickSimPhase(){
+    setIMatches(function(prev){
+      return prev.map(function(m){
+        if(m.played)return m;
+        var s1=getStrength(m.home);var s2=getStrength(m.away);
+        function rg(){var r=Math.random();if(r<0.2)return 0;if(r<0.45)return 1;if(r<0.68)return 2;if(r<0.84)return 3;return r<0.93?4:5;}
+        var gh=rg();var ga=rg();
+        if(gh===ga){if(Math.random()<0.5)gh++;else ga++;}
+        return Object.assign({},m,{goalsHome:gh,goalsAway:ga,played:true});
+      });
+    });
   }
 
   // ── TOURNAMENT SIMULATOR ─────────────────────────────────────
@@ -857,61 +1035,120 @@ function App(){
 
       // ── AI SIMULATOR TAB ──
       tab===7&&e('div',null,
-        // ── MANUAL SIMULATOR ──────────────────────────────────────
-        e('div',{style:{fontSize:12,color:G,fontWeight:'bold',textAlign:'center',marginBottom:12,letterSpacing:2}},'⚽ '+t.manTitle),
-        e(Card,{style:{marginBottom:6}},
-          e('div',{style:{display:'grid',gridTemplateColumns:'1fr auto 1fr',gap:8,alignItems:'center',marginBottom:10}},
-            e('div',null,
-              e('div',{style:{fontSize:9,color:'#6a86a0',marginBottom:4}},t.simTeam1),
-              e('select',{value:manTeam1,onChange:function(ev){setManTeam1(ev.target.value);setManResult(null);},style:{width:'100%',background:'rgba(10,20,50,0.95)',color:'#eee8d5',border:'1px solid '+G,borderRadius:9,padding:'8px 6px',fontSize:11}},
-                e('option',{value:''},'--'),
-                ALL_TEAMS.map(function(team){return e('option',{key:team,value:team},team);})
-              )
-            ),
-            e('div',{style:{fontSize:16,fontWeight:'bold',color:G}},'VS'),
-            e('div',null,
-              e('div',{style:{fontSize:9,color:'#6a86a0',marginBottom:4}},t.simTeam2),
-              e('select',{value:manTeam2,onChange:function(ev){setManTeam2(ev.target.value);setManResult(null);},style:{width:'100%',background:'rgba(10,20,50,0.95)',color:'#eee8d5',border:'1px solid '+G,borderRadius:9,padding:'8px 6px',fontSize:11}},
-                e('option',{value:''},'--'),
-                ALL_TEAMS.map(function(team){return e('option',{key:team,value:team},team);})
-              )
-            )
-          ),
-          e('button',{onClick:runManual,disabled:!manTeam1||!manTeam2,style:{width:'100%',background:(!manTeam1||!manTeam2)?'rgba(100,100,100,0.3)':'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'11px 0',fontSize:13,fontWeight:'bold',color:(!manTeam1||!manTeam2)?'#666':'#0a0a1a',cursor:(!manTeam1||!manTeam2)?'not-allowed':'pointer'}},t.manSim)
+
+        // ── INTERACTIVE TOURNAMENT ───────────────────────────────
+        e('div',{style:{fontSize:12,color:G,fontWeight:'bold',textAlign:'center',marginBottom:10,letterSpacing:2}},'🏆 WORLD CUP 2026 - INTERACTIVE'),
+
+        iPhase==='idle'&&e('div',{style:{textAlign:'center',marginBottom:16}},
+          e('div',{style:{fontSize:11,color:'#9bb0c8',marginBottom:14,lineHeight:1.6}},'Simulate the FULL tournament match by match! Set scores and see who qualifies!'),
+          e('button',{onClick:initInteractive,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'14px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'⚽ START TOURNAMENT')
         ),
 
-        manResult&&e(Card,{gold:manResult.winner!==null,style:{marginBottom:14,textAlign:'center',padding:'14px 12px'}},
-          e('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}},
-            e('div',{style:{flex:1,textAlign:'center'}},
-              e('div',{style:{fontSize:12,fontWeight:'bold',color:manResult.winner===manResult.team1?G:'#eee'}},manResult.team1),
-              e('div',{style:{fontSize:9,color:'#6a86a0'}},'Str: ',manResult.str1)
+        iPhase!=='idle'&&iPhase!=='done'&&e('div',null,
+          // Phase header
+          e('div',{style:{background:'linear-gradient(135deg,rgba(10,22,54,0.97),rgba(18,45,110,0.92))',border:'1px solid '+G,borderRadius:12,padding:'10px 14px',marginBottom:12,display:'flex',justifyContent:'space-between',alignItems:'center'}},
+            e('div',{style:{fontSize:12,fontWeight:'bold',color:G}},
+              iPhase==='groups'?'📊 GROUP STAGE':
+              iPhase==='r32'?'⚽ ROUND OF 32':
+              iPhase==='r16'?'🔥 ROUND OF 16':
+              iPhase==='qf'?'🏟️ QUARTER-FINALS':
+              iPhase==='sf'?'🥊 SEMI-FINALS':'🏆 FINAL'
             ),
-            e('div',{style:{padding:'8px 16px',background:'rgba(0,0,0,0.3)',borderRadius:10,border:'1px solid '+G}},
-              e('div',{style:{fontSize:36,fontWeight:'bold',color:G,lineHeight:1}},manResult.g1,' - ',manResult.g2),
-              e('div',{style:{fontSize:10,fontWeight:'bold',marginTop:4,color:manResult.winner?'#90ee90':'#d4af37'}},
-                manResult.winner?manResult.winner+' '+t.manWinner:t.manDraw
-              )
+            e('button',{onClick:function(){setIPhase('idle');setIMatches([]);setIGroupStandings({});setIChampion(null);},style:{background:'rgba(255,60,60,0.15)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:7,padding:'4px 10px',fontSize:10,color:'#ff6b6b',cursor:'pointer'}},'✕ Reset')
+          ),
+
+          // GROUP STAGE
+          iPhase==='groups'&&e('div',null,
+            // Group selector
+            e('div',{style:{display:'flex',flexWrap:'wrap',gap:5,justifyContent:'center',marginBottom:12}},
+              Object.keys(GROUPS).map(function(g){
+                var gMatches=iMatches.filter(function(m){return m.group===g;});
+                var done=gMatches.every(function(m){return m.played;});
+                return e('button',{key:g,onClick:function(){setISelGroup(g);},style:{width:30,height:30,borderRadius:6,background:done?'rgba(40,160,40,0.3)':iSelGroup===g?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(10,20,50,0.88)',border:'1px solid '+(done?'#90ee90':iSelGroup===g?G:BD),color:done?'#90ee90':iSelGroup===g?'#0a0a1a':G,fontSize:11,fontWeight:'bold',cursor:'pointer'}},g);
+              })
             ),
-            e('div',{style:{flex:1,textAlign:'center'}},
-              e('div',{style:{fontSize:12,fontWeight:'bold',color:manResult.winner===manResult.team2?G:'#eee'}},manResult.team2),
-              e('div',{style:{fontSize:9,color:'#6a86a0'}},'Str: ',manResult.str2)
+
+            // Current group matches
+            e(Card,{style:{marginBottom:10,padding:'12px 14px'}},
+              e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:10}},'Group ',iSelGroup,' - Matches'),
+              iMatches.filter(function(m){return m.group===iSelGroup;}).map(function(m){
+                return e('div',{key:m.id,style:{marginBottom:10,padding:'8px 10px',background:'rgba(0,0,0,0.2)',borderRadius:9,border:'1px solid '+(m.played?'rgba(40,200,40,0.3)':BD)}},
+                  e('div',{style:{display:'flex',alignItems:'center',gap:6}},
+                    e('div',{style:{flex:1,fontSize:11,fontWeight:'bold',textAlign:'right'}},m.home),
+                    e('input',{type:'number',min:0,max:9,value:m.goalsHome===null?'':m.goalsHome,onChange:function(ev){setMatchScore(m.id,parseInt(ev.target.value)||0,m.goalsAway===null?0:m.goalsAway);},style:{width:36,height:32,textAlign:'center',background:'rgba(10,20,50,0.95)',color:G,border:'1px solid '+G,borderRadius:7,fontSize:16,fontWeight:'bold'}}),
+                    e('div',{style:{fontSize:10,color:'#6a86a0',minWidth:10,textAlign:'center'}},'-'),
+                    e('input',{type:'number',min:0,max:9,value:m.goalsAway===null?'':m.goalsAway,onChange:function(ev){setMatchScore(m.id,m.goalsHome===null?0:m.goalsHome,parseInt(ev.target.value)||0);},style:{width:36,height:32,textAlign:'center',background:'rgba(10,20,50,0.95)',color:G,border:'1px solid '+G,borderRadius:7,fontSize:16,fontWeight:'bold'}}),
+                    e('div',{style:{flex:1,fontSize:11,fontWeight:'bold'}},m.away)
+                  )
+                );
+              }),
+              e('button',{onClick:function(){quickSimGroup(iSelGroup);},style:{width:'100%',background:'rgba(212,175,55,0.12)',border:'1px solid rgba(212,175,55,0.3)',borderRadius:8,padding:'7px 0',fontSize:11,color:G,cursor:'pointer',marginTop:4}},'🎲 Auto-sim Group ',iSelGroup)
+            ),
+
+            // Group standing for selected group
+            iGroupStandings[iSelGroup]&&e(Card,{style:{marginBottom:10,padding:'12px 14px'}},
+              e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:8}},'Standings - Group ',iSelGroup),
+              iGroupStandings[iSelGroup].teams.map(function(team,i){
+                var pts=iGroupStandings[iSelGroup].pts[team];
+                var gd=iGroupStandings[iSelGroup].gd[team];
+                return e('div',{key:team,style:{display:'flex',alignItems:'center',gap:8,padding:'6px 0',borderBottom:i<3?'1px solid rgba(212,175,55,0.08)':'none'}},
+                  e('div',{style:{width:20,height:20,borderRadius:4,background:i<2?G:'rgba(212,175,55,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,fontWeight:'bold',color:i<2?'#0a0a1a':G}},i+1),
+                  e('div',{style:{flex:1,fontSize:11,color:i<2?'#eee':'#888'}},team),
+                  e('div',{style:{fontSize:10,fontWeight:'bold',color:G,minWidth:24,textAlign:'center'}},pts,'pts'),
+                  e('div',{style:{fontSize:9,color:'#6a86a0',minWidth:28,textAlign:'right'}},(gd>0?'+':'')+gd)
+                );
+              })
+            ),
+
+            // Advance button
+            allGroupsComplete(iMatches)&&e('button',{onClick:advancePhase,style:{width:'100%',background:'linear-gradient(135deg,#1a8a3a,#2ab858)',border:'none',borderRadius:12,padding:'13px 0',fontSize:13,fontWeight:'bold',color:'#fff',cursor:'pointer',marginBottom:10}},'✅ Groups Complete → Round of 32 !')
+          ),
+
+          // KNOCKOUT ROUNDS
+          iPhase!=='groups'&&e('div',null,
+            e(Card,{style:{marginBottom:10,padding:'12px 14px'}},
+              iMatches.map(function(m,i){
+                return e('div',{key:m.id,style:{marginBottom:10,padding:'8px 10px',background:'rgba(0,0,0,0.2)',borderRadius:9,border:'1px solid '+(m.played?'rgba(40,200,40,0.3)':BD)}},
+                  e('div',{style:{display:'flex',alignItems:'center',gap:6}},
+                    e('div',{style:{flex:1,fontSize:11,fontWeight:'bold',textAlign:'right',color:m.played&&m.goalsHome>m.goalsAway?G:'#eee'}},m.home),
+                    e('input',{type:'number',min:0,max:9,value:m.goalsHome===null?'':m.goalsHome,onChange:function(ev){
+                      var gh=parseInt(ev.target.value)||0;
+                      setIMatches(function(prev){return prev.map(function(x){return x.id===m.id?Object.assign({},x,{goalsHome:gh,played:x.goalsAway!==null}):x;});});
+                    },style:{width:36,height:32,textAlign:'center',background:'rgba(10,20,50,0.95)',color:G,border:'1px solid '+G,borderRadius:7,fontSize:16,fontWeight:'bold'}}),
+                    e('div',{style:{fontSize:10,color:'#6a86a0',minWidth:10,textAlign:'center'}},'-'),
+                    e('input',{type:'number',min:0,max:9,value:m.goalsAway===null?'':m.goalsAway,onChange:function(ev){
+                      var ga=parseInt(ev.target.value)||0;
+                      setIMatches(function(prev){return prev.map(function(x){return x.id===m.id?Object.assign({},x,{goalsAway:ga,played:x.goalsHome!==null}):x;});});
+                    },style:{width:36,height:32,textAlign:'center',background:'rgba(10,20,50,0.95)',color:G,border:'1px solid '+G,borderRadius:7,fontSize:16,fontWeight:'bold'}}),
+                    e('div',{style:{flex:1,fontSize:11,fontWeight:'bold',color:m.played&&m.goalsAway>m.goalsHome?G:'#eee'}},m.away)
+                  ),
+                  m.played&&m.goalsHome===m.goalsAway&&e('div',{style:{fontSize:9,color:'#ff9900',textAlign:'center',marginTop:4}},'⚠️ Draw → winner by penalty simulation')
+                );
+              })
+            ),
+            e('button',{onClick:quickSimPhase,style:{width:'100%',background:'rgba(212,175,55,0.12)',border:'1px solid rgba(212,175,55,0.3)',borderRadius:9,padding:'9px 0',fontSize:11,color:G,cursor:'pointer',marginBottom:10}},'🎲 Auto-sim all matches this round'),
+            iMatches.every(function(m){return m.played;})&&e('button',{onClick:advancePhase,style:{width:'100%',background:'linear-gradient(135deg,#1a8a3a,#2ab858)',border:'none',borderRadius:12,padding:'13px 0',fontSize:13,fontWeight:'bold',color:'#fff',cursor:'pointer',marginBottom:10}},
+              iPhase==='sf'?'🏆 Go to FINAL !':
+              iPhase==='final'?'🎉 Declare Champion !':
+              '✅ Next Round →'
             )
-          ),
-          e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:10,color:'#6a86a0',marginTop:6}},
-            e('span',null,t.simPoss,': ',manResult.poss1,'%'),
-            e('span',null,manResult.poss2,'%')
-          ),
-          e('div',{style:{display:'flex',gap:2,height:5,borderRadius:3,overflow:'hidden',marginTop:4}},
-            e('div',{style:{flex:manResult.poss1,background:'linear-gradient(90deg,'+G+',#ff9900)'}}),
-            e('div',{style:{flex:manResult.poss2,background:'rgba(100,150,200,0.4)'}})
-          ),
-          e('button',{onClick:function(){setManResult(null);setManTeam1('');setManTeam2('');},style:{marginTop:10,background:'rgba(212,175,55,0.1)',border:'1px solid rgba(212,175,55,0.3)',borderRadius:8,padding:'6px 16px',fontSize:11,color:G,cursor:'pointer'}},t.manReset)
+          )
         ),
 
-        e('div',{style:{height:1,background:'rgba(212,175,55,0.2)',margin:'14px 0'}}),
+        // CHAMPION!
+        iPhase==='done'&&e('div',{style:{textAlign:'center',marginBottom:16}},
+          e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.3),rgba(184,150,62,0.15))',border:'2px solid '+G,borderRadius:18,padding:'24px 16px',marginBottom:14}},
+            e('div',{style:{fontSize:14,color:G,letterSpacing:3,marginBottom:8}},'🏆 WORLD CUP 2026 CHAMPION'),
+            e('div',{style:{fontSize:40,marginBottom:6}},'🥇'),
+            e('div',{style:{fontSize:26,fontWeight:'bold',color:G}},iChampion),
+            e('div',{style:{fontSize:12,color:'#eee',marginTop:6}}),'WORLD CHAMPION 2026!'
+          ),
+          e('button',{onClick:function(){setIPhase('idle');setIMatches([]);setIGroupStandings({});setIChampion(null);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'🔄 Play Again')
+        ),
 
-        e('div',{style:{fontSize:12,color:G,fontWeight:'bold',textAlign:'center',marginBottom:12,letterSpacing:2}},'🤖 '+t.simTitle),
-        e('div',{style:{fontSize:10,color:G,marginBottom:14,textAlign:'center',letterSpacing:2}},t.simTitle),
+        e('div',{style:{height:1,background:'rgba(212,175,55,0.15)',margin:'16px 0'}}),
+
+        e('div',{style:{fontSize:10,color:G,marginBottom:14,textAlign:'center',letterSpacing:2}},'🤖 '+t.simTitle),
 
         // Team selectors
         e(Card,{style:{marginBottom:14}},
