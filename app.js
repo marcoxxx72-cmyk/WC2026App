@@ -80,7 +80,7 @@ var T = {
 };
 
 var QUIZ = {
-  en:[{q:'How many teams in the 2026 World Cup?',opts:['32','40','48','56'],a:2},{q:'Which stadium hosts the Final?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi Stadium'],a:2},{q:'Which country is NOT a host?',opts:['USA','Canada','Mexico','Brazil'],a:3},{q:'Which group is ENGLAND in?',opts:['Group A','Group C','Group J','Group L'],a:3},{q:'Who won the 2024 Ballon dOr?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2},{q:'How many total matches?',opts:['64','80','96','104'],a:3},{q:'Which stadium hosts the opening match?',opts:['MetLife','Azteca','AT&T Stadium','BC Place'],a:1},{q:'Who is France manager?',opts:['Zidane','Deschamps','Blanc','Wenger'],a:1},{q:'Which country won the 2022 World Cup?',opts:['France','Brazil','Croatia','Argentina'],a:3},{q:'Which Norwegian player is a Group I star?',opts:['Odegaard','Haaland','Sorloth','King'],a:1}],
+  en:[{q:'How many teams in the 2026 World Cup?',opts:['32','40','48','56'],a:2},{q:'Which stadium hosts the Final?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi Stadium'],a:2},{q:'Which country is NOT a host?',opts:['USA','Canada','Mexico','Brazil'],a:3},{q:'Which group is ENGLAND in?',opts:['Group A','Group C','Group J','Group L'],a:3},{q:'Who won the 2024 Ballon dOr?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2},{q:'How many total matches?',opts:['64','80','96','104'],a:3},{q:'Which stadium hosts the opening match?',opts:['MetLife','Azteca','AT&T Stadium','BC Place'],a:1},{q:'Which country has won the most World Cups?',opts:['Germany','Italy','Brazil','Argentina'],a:2},{q:'Which country won the 2022 World Cup?',opts:['France','Brazil','Croatia','Argentina'],a:3},{q:'Which Norwegian player is a Group I star?',opts:['Odegaard','Haaland','Sorloth','King'],a:1}],
   fr:[{q:'Combien d equipes au Mondial 2026?',opts:['32','40','48','56'],a:2},{q:'Dans quel stade se joue la finale?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi Stadium'],a:2},{q:'Quel pays n est PAS organisateur?',opts:['Etats-Unis','Canada','Mexique','Bresil'],a:3},{q:'Dans quel groupe evolue la FRANCE?',opts:['Groupe A','Groupe C','Groupe G','Groupe I'],a:3},{q:'Qui a remporte le Ballon d Or 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2},{q:'Combien de matchs au total?',opts:['64','80','96','104'],a:3},{q:'Quel stade accueille le match d ouverture?',opts:['MetLife','Azteca','AT&T Stadium','BC Place'],a:1},{q:'Qui est le selectionneur de la France?',opts:['Zidane','Deschamps','Blanc','Wenger'],a:1},{q:'Quel pays a remporte le Mondial 2022?',opts:['France','Bresil','Croatie','Argentine'],a:3},{q:'Quel joueur norvegien est star du groupe I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1}],
   es:[{q:'Cuantos equipos en el Mundial 2026?',opts:['32','40','48','56'],a:2},{q:'En que estadio se juega la final?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi Stadium'],a:2},{q:'Que pais NO es organizador?',opts:['EE.UU.','Canada','Mexico','Brasil'],a:3},{q:'En que grupo esta ESPANA?',opts:['Grupo A','Grupo C','Grupo H','Grupo I'],a:2},{q:'Quien gano el Balon de Oro 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2},{q:'Cuantos partidos en total?',opts:['64','80','96','104'],a:3},{q:'Que estadio acoge el partido inaugural?',opts:['MetLife','Azteca','AT&T Stadium','BC Place'],a:1},{q:'Quien es el seleccionador de Espana?',opts:['Enrique','De la Fuente','Valverde','Ancelotti'],a:1},{q:'Que pais gano el Mundial 2022?',opts:['Francia','Brasil','Croacia','Argentina'],a:3},{q:'Que jugador noruego es estrella del Grupo I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1}],
   pt:[{q:'Quantas selecoes na Copa 2026?',opts:['32','40','48','56'],a:2},{q:'Em qual estadio e a final?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi Stadium'],a:2},{q:'Qual pais NAO e sede?',opts:['EUA','Canada','Mexico','Brasil'],a:3},{q:'Em qual grupo esta PORTUGAL?',opts:['Grupo A','Grupo C','Grupo K','Grupo I'],a:2},{q:'Quem ganhou a Bola de Ouro 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2},{q:'Quantos jogos no total?',opts:['64','80','96','104'],a:3},{q:'Qual estadio recebe a abertura?',opts:['MetLife','Azteca','AT&T Stadium','BC Place'],a:1},{q:'Quem e o treinador de Portugal?',opts:['Santos','Martinez','Conceicao','Mourinho'],a:1},{q:'Qual pais ganhou a Copa 2022?',opts:['Franca','Brasil','Croacia','Argentina'],a:3},{q:'Qual jogador noruegues e estrela do Grupo I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1}],
@@ -111,24 +111,20 @@ var STRIPE_GBP = 'https://buy.stripe.com/REMPLACE_GBP';
 function getPrice(lang){return lang==='en'?'1.99 GBP':'1,99 EUR';}
 function getStripeLink(lang){return lang==='en'?STRIPE_GBP:STRIPE_EUR;}
 
-// ── PLAYER AVATAR SVG ─────────────────────────────────────────
+// ── FIFA CARD STYLE ──────────────────────────────────────────
 function PlayerAvatar(props){
   var s=props.star;
-  var size=props.size||60;
-  return e('svg',{width:size,height:size,viewBox:'0 0 60 60',style:{borderRadius:'50%',flexShrink:0}},
-    e('defs',null,
-      e('clipPath',{id:'clip'+s.name.replace(/\s/g,'')},e('circle',{cx:30,cy:30,r:30}))
-    ),
-    e('circle',{cx:30,cy:30,r:30,fill:'#1a2a4a'}),
-    e('rect',{x:0,y:30,width:60,height:30,fill:s.shirt,opacity:0.9}),
-    e('text',{x:30,y:48,textAnchor:'middle',fontSize:8,fill:'white',fontWeight:'bold',fontFamily:'Arial'},s.club.substring(0,3).toUpperCase()),
-    e('ellipse',{cx:30,cy:28,rx:12,ry:14,fill:s.skin}),
-    e('ellipse',{cx:30,cy:18,rx:13,ry:10,fill:s.hair}),
-    e('circle',{cx:26,cy:27,r:2,fill:'#2c1810'}),
-    e('circle',{cx:34,cy:27,r:2,fill:'#2c1810'}),
-    e('path',{d:'M 26 33 Q 30 36 34 33',stroke:'#8b4513',strokeWidth:1.5,fill:'none'}),
-    s.rating>=95&&e('circle',{cx:52,cy:8,r:7,fill:G}),
-    s.rating>=95&&e('text',{x:52,y:11,textAnchor:'middle',fontSize:7,fill:'#0a0a1a',fontWeight:'bold'},s.rating)
+  var cardColor=s.rating>=96?'linear-gradient(135deg,#d4af37,#ff9900)':
+                s.rating>=94?'linear-gradient(135deg,#c0c0c0,#e8e8e8)':
+                s.rating>=92?'linear-gradient(135deg,#cd7f32,#e8a857)':
+                'linear-gradient(135deg,#1a3a6b,#2a5a9b)';
+  var textColor=s.rating>=92?'#0a0a1a':'#ffffff';
+  return e('div',{style:{width:64,height:84,borderRadius:10,background:cardColor,flexShrink:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:4,boxShadow:'0 4px 12px rgba(0,0,0,0.4)',position:'relative'}},
+    e('div',{style:{fontSize:18,fontWeight:'bold',color:textColor,lineHeight:1}},s.rating),
+    e('div',{style:{fontSize:7,color:textColor,opacity:0.8,marginBottom:3}},s.pos),
+    e('div',{style:{fontSize:16,marginBottom:2}},s.flag),
+    e('div',{style:{fontSize:7,fontWeight:'bold',color:textColor,textAlign:'center',lineHeight:1.2,maxWidth:58,overflow:'hidden'}},s.name.split(' ').pop()),
+    e('div',{style:{fontSize:6,color:textColor,opacity:0.7,marginTop:1}},s.club.substring(0,10))
   );
 }
 
@@ -404,7 +400,7 @@ function App(){
         e('div',{style:{display:'flex',flexDirection:'column',gap:10}},
           STARS.map(function(s,i){
             return e(Card,{key:s.name,gold:i<3,style:{display:'flex',gap:14,alignItems:'center'}},
-              e(PlayerAvatar,{star:s,size:60}),
+              e(PlayerAvatar,{star:s}),
               e('div',{style:{flex:1,minWidth:0}},
                 e('div',{style:{display:'flex',alignItems:'center',gap:7,marginBottom:2}},
                   e('span',{style:{fontSize:13,fontWeight:'bold'}},s.name),
