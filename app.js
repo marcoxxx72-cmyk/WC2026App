@@ -336,8 +336,8 @@ var AFFILIATES = {
   de:[{name:'Tipico',desc:'100EUR Bonus',url:'https://www.tipico.de',color:'#e30613'},{name:'Bet3000',desc:'Bis zu 100EUR',url:'https://www.bet3000.com',color:'#003366'},{name:'Bet365',desc:'Willkommensbonus',url:'https://www.bet365.com',color:'#027b5b'}]
 };
 
-var STRIPE_EUR = 'https://buy.stripe.com/REMPLACE_EUR';
-var STRIPE_GBP = 'https://buy.stripe.com/REMPLACE_GBP';
+var STRIPE_EUR = 'https://buy.stripe.com/aFacN53uBdi18Mr8xvcjS00';
+var STRIPE_GBP = 'https://buy.stripe.com/fZu6oH6GNcdX7In8xvcjS01';
 function getPrice(lang){return lang==='en'?'1.99 GBP':'1,99 EUR';}
 function getStripeLink(lang){return lang==='en'?STRIPE_GBP:STRIPE_EUR;}
 
