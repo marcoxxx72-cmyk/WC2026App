@@ -6,11 +6,6 @@
 <meta name="theme-color" content="#08091a"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="WC 2026"/>
-<meta name="description" content="World Cup 2026 Fan App - Groups, Fixtures, AI Simulator, Quiz, Players. EN FR ES PT IT DE"/>
-<meta property="og:title" content="World Cup 2026 Fan App"/>
-<meta property="og:description" content="The ultimate FIFA World Cup 2026 app - Interactive Tournament, Fixtures, Quiz & more!"/>
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://wc-2026-app.vercel.app"/>
 <title>World Cup 2026 ⚽</title>
 <link rel="manifest" href="/manifest.json"/>
 <link rel="apple-touch-icon" href="/icon-192.png"/>
@@ -22,39 +17,16 @@ select{-webkit-appearance:none;appearance:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes shimmer{0%{opacity:0.5}50%{opacity:1}100%{opacity:0.5}}
 </style>
-<!-- OneSignal Push Notifications -->
+<!-- OneSignal -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "29a090bc-9893-46a1-87a3-e3f162e2271d",
-      notifyButton: {
-        enable: true,
-        size: 'medium',
-        theme: 'default',
-        position: 'bottom-left',
-        text: {
-          'tip.state.unsubscribed': 'Subscribe to notifications',
-          'tip.state.subscribed': 'You are subscribed!',
-          'tip.state.blocked': 'Notifications blocked',
-          'message.prenotify': 'Click to subscribe to match alerts!',
-          'message.action.subscribed': 'Thanks for subscribing!',
-          'message.action.resubscribed': 'You are subscribed to match alerts!',
-          'message.action.unsubscribed': 'You will no longer receive match alerts',
-          'dialog.main.title': 'World Cup 2026 Alerts',
-          'dialog.main.button.subscribe': 'SUBSCRIBE',
-          'dialog.main.button.unsubscribe': 'UNSUBSCRIBE',
-          'dialog.blocked.title': 'Unblock Notifications',
-          'dialog.blocked.message': 'Enable notifications in your browser settings'
-        }
-      },
-      welcomeNotification: {
-        title: 'World Cup 2026 ⚽',
-        message: 'Thanks for subscribing! You will receive match alerts before every game!'
-      }
-    });
+window.OneSignalDeferred=window.OneSignalDeferred||[];
+OneSignalDeferred.push(async function(OneSignal){
+  await OneSignal.init({
+    appId:"29a090bc-9893-46a1-87a3-e3f162e2271d",
+    notifyButton:{enable:true,size:'medium',position:'bottom-left'}
   });
+});
 </script>
 </head>
 <body>
