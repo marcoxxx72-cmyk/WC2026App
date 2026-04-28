@@ -1,9 +1,0 @@
-{
-  "outputDirectory": ".",
-  "crons": [
-    {
-      "path": "/api/notify",
-      "schedule": "0 * * * *"
-    }
-  ]
-}
