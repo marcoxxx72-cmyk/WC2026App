@@ -1895,24 +1895,81 @@ function App(){
           // ── PENALTY GAME TAB (tab===8) ──────────────────────────────
       tab===8&&e('div',{style:{padding:'0 0 16px'}},
 
-        // PRO gate
-        !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.2),rgba(184,150,62,0.1))',border:'2px solid '+G,borderRadius:18,padding:'24px 16px',textAlign:'center',marginBottom:16}},
-          e('div',{style:{fontSize:32,marginBottom:8}},'🔒'),
-          e('div',{style:{fontSize:16,fontWeight:'bold',color:G,marginBottom:8}},
-            lang==='fr'?'Fonctionnalite PRO':lang==='es'?'Funcion PRO':lang==='pt'?'Funcao PRO':lang==='it'?'Funzione PRO':lang==='de'?'PRO-Funktion':'PRO Feature'
+        // ── PENALTY SIMPLE (FREE) ────────────────────────────────────
+        e('div',{style:{marginBottom:20}},
+          e('div',{style:{fontSize:12,color:G,fontWeight:'bold',textAlign:'center',marginBottom:12,letterSpacing:1}},
+            '⚽ '+(lang==='fr'?'PENALTY SIMPLE - GRATUIT':lang==='es'?'PENALTI SIMPLE - GRATIS':lang==='pt'?'PENALTI SIMPLES - GRATIS':lang==='it'?'RIGORE SEMPLICE - GRATIS':lang==='de'?'ELFMETER EINFACH - KOSTENLOS':'SIMPLE PENALTY - FREE')
           ),
-          e('div',{style:{fontSize:12,color:'#9bb0c8',marginBottom:16}},
-            lang==='fr'?'Debloquez le Penalty Game avec PRO !':
-            lang==='es'?'Desbloquea el Penalty Game con PRO !':
-            lang==='pt'?'Desbloqueie o Penalty Game com PRO !':
-            lang==='it'?'Sblocca il Penalty Game con PRO !':
-            lang==='de'?'Schalte das Elfmeterspiel mit PRO frei !':
-            'Unlock the Penalty Game with PRO!'
+          // Simple score
+          e('div',{style:{display:'flex',justifyContent:'center',gap:16,marginBottom:12}},
+            e('div',{style:{textAlign:'center',background:'rgba(40,160,40,0.2)',border:'1px solid rgba(40,200,40,0.4)',borderRadius:10,padding:'8px 16px'}},
+              e('div',{style:{fontSize:22,fontWeight:'bold',color:'#90ee90'}},'⚽ ',gameScore),
+              e('div',{style:{fontSize:9,color:'#6a86a0'}},'GOALS')
+            ),
+            e('div',{style:{textAlign:'center',background:'rgba(212,175,55,0.1)',border:'1px solid '+G,borderRadius:10,padding:'8px 16px'}},
+              e('div',{style:{fontSize:22,fontWeight:'bold',color:G}},shotsLeft),
+              e('div',{style:{fontSize:9,color:'#6a86a0'}},'LEFT')
+            ),
+            e('div',{style:{textAlign:'center',background:'rgba(200,40,40,0.2)',border:'1px solid rgba(200,60,60,0.4)',borderRadius:10,padding:'8px 16px'}},
+              e('div',{style:{fontSize:22,fontWeight:'bold',color:'#ff8888'}},'✗ ',gameMiss),
+              e('div',{style:{fontSize:9,color:'#6a86a0'}},'SAVED')
+            )
           ),
-          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'13px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block'}},'🏆 PRO - '+getPrice(lang))
+          // Shot dots
+          e('div',{style:{display:'flex',justifyContent:'center',gap:6,marginBottom:12}},
+            [0,1,2,3,4].map(function(i){
+              var h=shotHistory[i];
+              return e('div',{key:i,style:{width:28,height:28,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.4)':'rgba(200,40,40,0.4)'):'rgba(255,255,255,0.1)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff8888'):'rgba(255,255,255,0.2)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:12}},h?(h.scored?'⚽':'✗'):'');
+            })
+          ),
+          // Simple goal visual
+          e('div',{style:{position:'relative',width:'100%',maxWidth:300,margin:'0 auto 12px',height:120,background:'linear-gradient(180deg,#1a4a1a,#2d7a2d)',borderRadius:10,overflow:'hidden',border:'2px solid rgba(255,255,255,0.2)'}},
+            e('div',{style:{position:'absolute',top:10,left:'20%',right:'20%',height:70,border:'3px solid white',borderBottom:'none',background:'rgba(255,255,255,0.08)'}}),
+            // Keeper simple
+            e('div',{style:{position:'absolute',top:keeperDir==='left'?15:keeperDir==='right'?15:20,left:keeperDir==='left'?'22%':keeperDir==='right'?'55%':'38%',fontSize:28,transition:'all 0.4s ease'}},'🧤'),
+            // Ball simple
+            shotDir&&e('div',{style:{position:'absolute',bottom:shotResult?40:10,left:shotDir==='left'?'22%':shotDir==='right'?'60%':'40%',fontSize:20,transition:'all 0.6s ease'}},'⚽'),
+            shotResult&&e('div',{style:{position:'absolute',top:'40%',left:'50%',transform:'translate(-50%,-50%)',fontSize:20,fontWeight:'bold',color:shotResult==='goal'?'#90ee90':'#ff8888'}},shotResult==='goal'?'GOAL!':'SAVED!')
+          ),
+          // Buttons
+          gamePhase==='idle'&&e('button',{onClick:function(){setGamePhase('shooting');},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+            lang==='fr'?'⚽ Commencer':lang==='es'?'⚽ Empezar':lang==='pt'?'⚽ Comecar':lang==='it'?'⚽ Inizia':lang==='de'?'⚽ Starten':'⚽ Start'
+          ),
+          gamePhase==='shooting'&&e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}},
+            ['left','center','right'].map(function(dir){
+              var label=dir==='left'?'⬅':dir==='center'?'⬆':'➡';
+              return e('button',{key:dir,onClick:function(){shootPenalty(dir);},style:{background:'rgba(10,30,80,0.9)',border:'2px solid '+G,borderRadius:9,padding:'12px 0',fontSize:20,cursor:'pointer'}},label);
+            })
+          ),
+          gamePhase==='animating'&&e('div',{style:{textAlign:'center',color:G,padding:10}},'...'),
+          gamePhase==='done'&&e('div',{style:{textAlign:'center'}},
+            e('div',{style:{fontSize:32,marginBottom:8}},gameScore>=4?'🏆':gameScore>=3?'⭐':'👍'),
+            e('div',{style:{fontSize:18,fontWeight:'bold',color:G,marginBottom:10}},gameScore,' / 5'),
+            e('button',{onClick:resetGame,style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'11px 30px',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+              lang==='fr'?'🔄 Rejouer':lang==='es'?'🔄 Jugar de nuevo':lang==='pt'?'🔄 Jogar novamente':lang==='it'?'🔄 Gioca ancora':lang==='de'?'🔄 Nochmal':'🔄 Play Again'
+            )
+          )
         ),
 
-        // Game UI (PRO only)
+        // ── PENALTY ANIMÉ PRO ─────────────────────────────────────
+        e('div',{style:{height:1,background:'rgba(212,175,55,0.2)',margin:'8px 0 16px'}}),
+        e('div',{style:{fontSize:12,color:G,fontWeight:'bold',textAlign:'center',marginBottom:12,letterSpacing:1}},'🏆 PENALTY GAME PRO - ANIMATED'),
+
+        // PRO gate
+        !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,150,62,0.08))',border:'2px solid '+G,borderRadius:14,padding:'20px 16px',textAlign:'center',marginBottom:16}},
+          e('div',{style:{fontSize:28,marginBottom:8}},'🔒'),
+          e('div',{style:{fontSize:13,color:'#9bb0c8',marginBottom:14}},
+            lang==='fr'?'Version animee avec effets speciaux - PRO uniquement !':
+            lang==='es'?'Version animada con efectos especiales - Solo PRO !':
+            lang==='pt'?'Versao animada com efeitos especiais - Apenas PRO !':
+            lang==='it'?'Versione animata con effetti speciali - Solo PRO !':
+            lang==='de'?'Animierte Version mit Spezialeffekten - Nur PRO !':
+            'Animated version with special effects - PRO only!'
+          ),
+          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'11px 28px',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block'}},'🏆 PRO - '+getPrice(lang))
+        ),
+
+        // PRO animated game
         premium&&e('div',null,
           // Header
           e('div',{style:{textAlign:'center',marginBottom:16}},
