@@ -663,6 +663,14 @@ function App(){
   var s33=useState(null);var iChampion=s33[0];var setIChampion=s33[1];
   var s34=useState('A');var iSelGroup=s34[0];var setISelGroup=s34[1];
   var s28=useState(false);var tournLoading=s28[0];var setTournLoading=s28[1];
+  var sG1=useState('idle');var gamePhase=sG1[0];var setGamePhase=sG1[1];
+  var sG2=useState(0);var gameScore=sG2[0];var setGameScore=sG2[1];
+  var sG3=useState(0);var gameMiss=sG3[0];var setGameMiss=sG3[1];
+  var sG4=useState(null);var shotDir=sG4[0];var setShotDir=sG4[1];
+  var sG5=useState(null);var keeperDir=sG5[0];var setKeeperDir=sG5[1];
+  var sG6=useState(null);var shotResult=sG6[0];var setShotResult=sG6[1];
+  var sG7=useState(5);var shotsLeft=sG7[0];var setShotsLeft=sG7[1];
+  var sG8=useState([]);var shotHistory=sG8[0];var setShotHistory=sG8[1];
   var sP1=useState('idle');var penPhase=sP1[0];var setPenPhase=sP1[1];
   var sP2=useState(0);var penScore=sP2[0];var setPenScore=sP2[1];
   var sP3=useState(0);var penSaved=sP3[0];var setPenSaved=sP3[1];
@@ -1165,6 +1173,39 @@ function App(){
     setPenResult(null);
     setPenDir(null);
     setKeeperDir(null);
+  }
+
+  // ── PENALTY GAME ─────────────────────────────────────────────
+  function shootPenalty(dir){
+    if(gamePhase!=='shooting')return;
+    setGamePhase('animating');
+    setShotDir(dir);
+    // Keeper dives randomly - slight bias toward center
+    var dirs=['left','center','right'];
+    var kDir=dirs[Math.floor(Math.random()*3)];
+    setKeeperDir(kDir);
+    var scored=dir!==kDir||(dir==='center'&&Math.random()<0.3);
+    setTimeout(function(){
+      setShotResult(scored?'goal':'saved');
+      if(scored)setGameScore(function(s){return s+1;});
+      else setGameMiss(function(m){return m+1;});
+      setShotHistory(function(h){return h.concat({dir:dir,keeper:kDir,scored:scored});});
+      setShotsLeft(function(s){return s-1;});
+      setTimeout(function(){
+        setShotsLeft(function(s){
+          if(s<=0){setGamePhase('done');}
+          else{setGamePhase('shooting');}
+          return s;
+        });
+        setShotDir(null);setKeeperDir(null);setShotResult(null);
+      },1200);
+    },800);
+  }
+
+  function resetGame(){
+    setGamePhase('idle');setGameScore(0);setGameMiss(0);
+    setShotDir(null);setKeeperDir(null);setShotResult(null);
+    setShotsLeft(5);setShotHistory([]);
   }
 
   function formatDate(d){var dt=new Date(d+'T12:00:00');return dt.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});}
@@ -1851,7 +1892,156 @@ function App(){
         )
       ),
 
-        !premium&&e('div',{style:{background:'rgba(2,5,15,0.95)',borderTop:'1px solid rgba(212,175,55,0.15)',padding:'8px 14px',textAlign:'center'}},
+          // ── PENALTY GAME TAB (tab===8) ──────────────────────────────
+      tab===8&&e('div',{style:{padding:'0 0 16px'}},
+
+        // PRO gate
+        !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.2),rgba(184,150,62,0.1))',border:'2px solid '+G,borderRadius:18,padding:'24px 16px',textAlign:'center',marginBottom:16}},
+          e('div',{style:{fontSize:32,marginBottom:8}},'🔒'),
+          e('div',{style:{fontSize:16,fontWeight:'bold',color:G,marginBottom:8}},
+            lang==='fr'?'Fonctionnalite PRO':lang==='es'?'Funcion PRO':lang==='pt'?'Funcao PRO':lang==='it'?'Funzione PRO':lang==='de'?'PRO-Funktion':'PRO Feature'
+          ),
+          e('div',{style:{fontSize:12,color:'#9bb0c8',marginBottom:16}},
+            lang==='fr'?'Debloquez le Penalty Game avec PRO !':
+            lang==='es'?'Desbloquea el Penalty Game con PRO !':
+            lang==='pt'?'Desbloqueie o Penalty Game com PRO !':
+            lang==='it'?'Sblocca il Penalty Game con PRO !':
+            lang==='de'?'Schalte das Elfmeterspiel mit PRO frei !':
+            'Unlock the Penalty Game with PRO!'
+          ),
+          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'13px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block'}},'🏆 PRO - '+getPrice(lang))
+        ),
+
+        // Game UI (PRO only)
+        premium&&e('div',null,
+          // Header
+          e('div',{style:{textAlign:'center',marginBottom:16}},
+            e('div',{style:{fontSize:22,fontWeight:'bold',color:G,letterSpacing:2}},'⚽ PENALTY SHOOTOUT'),
+            e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:4}},
+              lang==='fr'?'Tirez 5 penaltys - Battez le gardien !':
+              lang==='es'?'Tira 5 penaltis - Vence al portero !':
+              lang==='pt'?'Chute 5 penaltis - Venca o goleiro !':
+              lang==='it'?'Tira 5 rigori - Batti il portiere !':
+              lang==='de'?'5 Elfmeter schiessen - Den Torwart besiegen !':
+              'Take 5 penalties - Beat the keeper!'
+            )
+          ),
+
+          // Score board
+          e('div',{style:{display:'flex',justifyContent:'center',gap:20,marginBottom:16}},
+            e('div',{style:{textAlign:'center',background:'rgba(40,160,40,0.2)',border:'1px solid rgba(40,200,40,0.4)',borderRadius:12,padding:'10px 20px'}},
+              e('div',{style:{fontSize:28,fontWeight:'bold',color:'#90ee90'}},'⚽ ',gameScore),
+              e('div',{style:{fontSize:10,color:'#6a86a0'}},'GOALS')
+            ),
+            e('div',{style:{textAlign:'center',background:'rgba(212,175,55,0.1)',border:'1px solid '+G,borderRadius:12,padding:'10px 20px'}},
+              e('div',{style:{fontSize:28,fontWeight:'bold',color:G}},shotsLeft),
+              e('div',{style:{fontSize:10,color:'#6a86a0'}},'LEFT')
+            ),
+            e('div',{style:{textAlign:'center',background:'rgba(200,40,40,0.2)',border:'1px solid rgba(200,60,60,0.4)',borderRadius:12,padding:'10px 20px'}},
+              e('div',{style:{fontSize:28,fontWeight:'bold',color:'#ff8888'}},'✗ ',gameMiss),
+              e('div',{style:{fontSize:10,color:'#6a86a0'}},'SAVED')
+            )
+          ),
+
+          // Shot history dots
+          e('div',{style:{display:'flex',justifyContent:'center',gap:8,marginBottom:16}},
+            [0,1,2,3,4].map(function(i){
+              var h=shotHistory[i];
+              return e('div',{key:i,style:{width:32,height:32,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.4)':'rgba(200,40,40,0.4)'):'rgba(255,255,255,0.1)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff8888'):'rgba(255,255,255,0.2)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:14}},
+                h?(h.scored?'⚽':'✗'):(i<(5-shotsLeft)?'':i===(5-shotsLeft)&&gamePhase!=='done'?'▶':'')
+              );
+            })
+          ),
+
+          // Football pitch / goal animation
+          e('div',{style:{position:'relative',width:'100%',maxWidth:340,margin:'0 auto 16px',height:200,background:'linear-gradient(180deg,#1a4a1a,#2d7a2d)',borderRadius:12,overflow:'hidden',border:'2px solid rgba(255,255,255,0.2)'}},
+            // Grass lines
+            e('div',{style:{position:'absolute',bottom:0,left:0,right:0,height:60,background:'rgba(255,255,255,0.05)',borderTop:'1px solid rgba(255,255,255,0.15)'}}),
+            // Goal frame
+            e('div',{style:{position:'absolute',top:20,left:'15%',right:'15%',height:100,border:'4px solid white',borderBottom:'none',background:'rgba(255,255,255,0.08)'}}),
+            // Goal sections (left/center/right)
+            e('div',{style:{position:'absolute',top:24,left:'16%',width:'23%',height:92,borderRight:'2px dashed rgba(255,255,255,0.2)'}}),
+            e('div',{style:{position:'absolute',top:24,left:'39%',width:'23%',height:92,borderRight:'2px dashed rgba(255,255,255,0.2)'}}),
+
+            // KEEPER
+            e('div',{style:{
+              position:'absolute',
+              top: keeperDir==='left'?30:keeperDir==='right'?30:40,
+              left: keeperDir==='left'?'18%':keeperDir==='right'?'58%':'38%',
+              fontSize:36,
+              transition:'all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)',
+              transform:keeperDir==='left'?'rotate(-30deg)':keeperDir==='right'?'rotate(30deg)':'rotate(0deg)',
+              filter:shotResult==='goal'?'grayscale(1)':shotResult==='saved'?'brightness(1.5)':''
+            }},'🧤'),
+
+            // BALL
+            shotDir&&e('div',{style:{
+              position:'absolute',
+              bottom: shotResult?60:20,
+              left: shotDir==='left'?'20%':shotDir==='right'?'60%':'40%',
+              fontSize:shotResult?28:20,
+              transition:'all 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
+              opacity:shotDir?1:0
+            }},'⚽'),
+
+            // Result text
+            shotResult&&e('div',{style:{
+              position:'absolute',
+              top:'50%',left:'50%',
+              transform:'translate(-50%,-50%)',
+              fontSize:28,fontWeight:'bold',
+              color:shotResult==='goal'?'#90ee90':'#ff8888',
+              textShadow:'0 2px 10px rgba(0,0,0,0.8)',
+              letterSpacing:3
+            }},shotResult==='goal'?'⚽ GOAL !':'✗ SAVED !')
+          ),
+
+          // Shoot buttons (idle/shooting state)
+          gamePhase==='idle'&&e('div',{style:{textAlign:'center'}},
+            e('button',{onClick:function(){setGamePhase('shooting');},style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'14px 40px',fontSize:15,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+              lang==='fr'?'⚽ Commencer':lang==='es'?'⚽ Empezar':lang==='pt'?'⚽ Comecar':lang==='it'?'⚽ Inizia':lang==='de'?'⚽ Starten':'⚽ Start Game'
+            )
+          ),
+
+          gamePhase==='shooting'&&e('div',null,
+            e('div',{style:{fontSize:11,color:'#6a86a0',textAlign:'center',marginBottom:10}},
+              lang==='fr'?'Ou tirez-vous ?':lang==='es'?'Donde tiras ?':lang==='pt'?'Para onde chuta ?':lang==='it'?'Dove tiri ?':lang==='de'?'Wohin schiessen ?':'Where do you shoot?'
+            ),
+            e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}},
+              ['left','center','right'].map(function(dir){
+                var labels={
+                  left:{en:'⬅ Left',fr:'⬅ Gauche',es:'⬅ Izquierda',pt:'⬅ Esquerda',it:'⬅ Sinistra',de:'⬅ Links'},
+                  center:{en:'⬆ Center',fr:'⬆ Centre',es:'⬆ Centro',pt:'⬆ Centro',it:'⬆ Centro',de:'⬆ Mitte'},
+                  right:{en:'➡ Right',fr:'➡ Droite',es:'➡ Derecha',pt:'➡ Direita',it:'➡ Destra',de:'➡ Rechts'}
+                };
+                return e('button',{key:dir,onClick:function(){shootPenalty(dir);},style:{background:'linear-gradient(135deg,rgba(10,30,80,0.9),rgba(20,50,120,0.9))',border:'2px solid '+G,borderRadius:10,padding:'14px 8px',fontSize:13,fontWeight:'bold',color:G,cursor:'pointer'}},labels[dir][lang]||labels[dir]['en']);
+              })
+            )
+          ),
+
+          gamePhase==='animating'&&e('div',{style:{textAlign:'center',padding:'20px',fontSize:13,color:G}},'...'),
+
+          // Game over screen
+          gamePhase==='done'&&e('div',{style:{textAlign:'center'}},
+            e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.2),rgba(184,150,62,0.1))',border:'2px solid '+G,borderRadius:18,padding:'24px 16px',marginBottom:14}},
+              e('div',{style:{fontSize:48,marginBottom:8}},gameScore>=4?'🏆':gameScore>=3?'⭐':gameScore>=2?'👍':'😢'),
+              e('div',{style:{fontSize:24,fontWeight:'bold',color:G,marginBottom:4}},gameScore,' / 5'),
+              e('div',{style:{fontSize:13,color:'#eee',marginTop:4}},
+                gameScore===5?'PERFECT ! World class striker !':
+                gameScore===4?'Excellent ! Almost perfect !':
+                gameScore===3?'Not bad ! Keep practicing !':
+                gameScore<=1?'The keeper was on fire today !':
+                'Keep trying !'
+              )
+            ),
+            e('button',{onClick:resetGame,style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'13px 40px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+              lang==='fr'?'🔄 Rejouer':lang==='es'?'🔄 Jugar de nuevo':lang==='pt'?'🔄 Jogar novamente':lang==='it'?'🔄 Gioca ancora':lang==='de'?'🔄 Nochmal':'🔄 Play Again'
+            )
+          )
+        )
+      ),
+
+    !premium&&e('div',{style:{background:'rgba(2,5,15,0.95)',borderTop:'1px solid rgba(212,175,55,0.15)',padding:'8px 14px',textAlign:'center'}},
       e('div',{style:{fontSize:8,color:'#3a5070',marginBottom:4}},'ADVERTISEMENT'),
       e('div',{style:{display:'flex',justifyContent:'space-around',flexWrap:'wrap',gap:8}},
         affiliates.map(function(a){return e('a',{key:a.name,href:a.url,target:'_blank',rel:'noopener sponsored',style:{background:a.color,borderRadius:8,padding:'6px 12px',textDecoration:'none',display:'flex',flexDirection:'column',alignItems:'center',minWidth:80}},e('div',{style:{fontSize:11,fontWeight:'bold',color:'#fff'}},a.name),e('div',{style:{fontSize:9,color:'rgba(255,255,255,0.85)',marginTop:2}},a.desc));})
