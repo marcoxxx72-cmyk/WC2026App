@@ -633,7 +633,7 @@ function App(){
   var s1=useState(0);var tab=s1[0];var setTab=s1[1];
   var s2=useState('en');var lang=s2[0];var setLang=s2[1];
   var s3=useState('A');var selGroup=s3[0];var setSelGroup=s3[1];
-  var s4=useState(false);var premium=s4[0];var setPremium=s4[1];
+  var s4=useState(true);var premium=s4[0];var setPremium=s4[1];
   var s5=useState(false);var shareCopied=s5[0];var setShareCopied=s5[1];
   var s6=useState('');var winner=s6[0];var setWinner=s6[1];
   var s7=useState('');var finalist=s7[0];var setFinalist=s7[1];
