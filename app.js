@@ -393,8 +393,134 @@ function PlayerAvatar(props){
 // - TEAM STRENGTHS FOR SIMULATOR -
 
 // - TEAM NAME TRANSLATIONS -
+var TEAM_NAMES = {
+  en:{
+    'South Africa':'South Africa','Bosnia':'Bosnia & Herzegovina',
+    'South Korea':'South Korea','Czechia':'Czechia',
+    'Ivory Coast':'Ivory Coast','DR Congo':'DR Congo',
+    'Saudi Arabia':'Saudi Arabia','Cape Verde':'Cape Verde',
+    'New Zealand':'New Zealand','Scotland':'Scotland',
+    'Panama':'Panama','Ghana':'Ghana','Croatia':'Croatia',
+    'Norway':'Norway','Senegal':'Senegal','Algeria':'Algeria',
+    'Austria':'Austria','Jordan':'Jordan','Uzbekistan':'Uzbekistan',
+    'Colombia':'Colombia','Morocco':'Morocco','Haiti':'Haiti',
+    'Paraguay':'Paraguay','Australia':'Australia','Turkey':'Turkey',
+    'Ecuador':'Ecuador','Curacao':'Curacao','Tunisia':'Tunisia',
+    'Japan':'Japan','Sweden':'Sweden','Belgium':'Belgium',
+    'Egypt':'Egypt','Iran':'Iran','Uruguay':'Uruguay',
+    'Argentina':'Argentina','Portugal':'Portugal','England':'England',
+    'France':'France','Germany':'Germany','Spain':'Spain',
+    'Brazil':'Brazil','Netherlands':'Netherlands','Mexico':'Mexico',
+    'USA':'USA','Canada':'Canada','Qatar':'Qatar',
+    'Switzerland':'Switzerland','China PR':'China PR'
+  },
+  fr:{
+    'South Africa':'Afrique du Sud','Bosnia':'Bosnie-Herzegovine',
+    'South Korea':'Coree du Sud','Czechia':'Republique Tcheque',
+    'Ivory Coast':'Cote d Ivoire','DR Congo':'RD Congo',
+    'Saudi Arabia':'Arabie Saoudite','Cape Verde':'Cap-Vert',
+    'New Zealand':'Nouvelle-Zelande','Scotland':'Ecosse',
+    'Panama':'Panama','Ghana':'Ghana','Croatia':'Croatie',
+    'Norway':'Norvege','Senegal':'Senegal','Algeria':'Algerie',
+    'Austria':'Autriche','Jordan':'Jordanie','Uzbekistan':'Ouzbekistan',
+    'Colombia':'Colombie','Morocco':'Maroc','Haiti':'Haiti',
+    'Paraguay':'Paraguay','Australia':'Australie','Turkey':'Turquie',
+    'Ecuador':'Equateur','Curacao':'Curacao','Tunisia':'Tunisie',
+    'Japan':'Japon','Sweden':'Suede','Belgium':'Belgique',
+    'Egypt':'Egypte','Iran':'Iran','Uruguay':'Uruguay',
+    'Argentina':'Argentine','Portugal':'Portugal','England':'Angleterre',
+    'France':'France','Germany':'Allemagne','Spain':'Espagne',
+    'Brazil':'Bresil','Netherlands':'Pays-Bas','Mexico':'Mexique',
+    'USA':'Etats-Unis','Canada':'Canada','Qatar':'Qatar',
+    'Switzerland':'Suisse','China PR':'Chine'
+  },
+  es:{
+    'South Africa':'Sudafrica','Bosnia':'Bosnia y Herzegovina',
+    'South Korea':'Corea del Sur','Czechia':'Republica Checa',
+    'Ivory Coast':'Costa de Marfil','DR Congo':'RD Congo',
+    'Saudi Arabia':'Arabia Saudita','Cape Verde':'Cabo Verde',
+    'New Zealand':'Nueva Zelanda','Scotland':'Escocia',
+    'Panama':'Panama','Ghana':'Ghana','Croatia':'Croacia',
+    'Norway':'Noruega','Senegal':'Senegal','Algeria':'Argelia',
+    'Austria':'Austria','Jordan':'Jordania','Uzbekistan':'Uzbekistan',
+    'Colombia':'Colombia','Morocco':'Marruecos','Haiti':'Haiti',
+    'Paraguay':'Paraguay','Australia':'Australia','Turkey':'Turquia',
+    'Ecuador':'Ecuador','Curacao':'Curacao','Tunisia':'Tunez',
+    'Japan':'Japon','Sweden':'Suecia','Belgium':'Belgica',
+    'Egypt':'Egipto','Iran':'Iran','Uruguay':'Uruguay',
+    'Argentina':'Argentina','Portugal':'Portugal','England':'Inglaterra',
+    'France':'Francia','Germany':'Alemania','Spain':'Espana',
+    'Brazil':'Brasil','Netherlands':'Paises Bajos','Mexico':'Mexico',
+    'USA':'USA','Canada':'Canada','Qatar':'Qatar',
+    'Switzerland':'Suiza','China PR':'China'
+  },
+  pt:{
+    'South Africa':'Africa do Sul','Bosnia':'Bosnia e Herzegovina',
+    'South Korea':'Coreia do Sul','Czechia':'Republica Tcheca',
+    'Ivory Coast':'Costa do Marfim','DR Congo':'RD Congo',
+    'Saudi Arabia':'Arabia Saudita','Cape Verde':'Cabo Verde',
+    'New Zealand':'Nova Zelandia','Scotland':'Escocia',
+    'Panama':'Panama','Ghana':'Ghana','Croatia':'Croacia',
+    'Norway':'Noruega','Senegal':'Senegal','Algeria':'Algeria',
+    'Austria':'Austria','Jordan':'Jordania','Uzbekistan':'Uzbequistao',
+    'Colombia':'Colombia','Morocco':'Marrocos','Haiti':'Haiti',
+    'Paraguay':'Paraguai','Australia':'Australia','Turkey':'Turquia',
+    'Ecuador':'Equador','Curacao':'Curacao','Tunisia':'Tunisia',
+    'Japan':'Japao','Sweden':'Suecia','Belgium':'Belgica',
+    'Egypt':'Egito','Iran':'Ira','Uruguay':'Uruguai',
+    'Argentina':'Argentina','Portugal':'Portugal','England':'Inglaterra',
+    'France':'Franca','Germany':'Alemanha','Spain':'Espanha',
+    'Brazil':'Brasil','Netherlands':'Paises Baixos','Mexico':'Mexico',
+    'USA':'USA','Canada':'Canada','Qatar':'Qatar',
+    'Switzerland':'Suica','China PR':'China'
+  },
+  it:{
+    'South Africa':'Sudafrica','Bosnia':'Bosnia ed Erzegovina',
+    'South Korea':'Corea del Sud','Czechia':'Repubblica Ceca',
+    'Ivory Coast':'Costa d Avorio','DR Congo':'RD Congo',
+    'Saudi Arabia':'Arabia Saudita','Cape Verde':'Capo Verde',
+    'New Zealand':'Nuova Zelanda','Scotland':'Scozia',
+    'Panama':'Panama','Ghana':'Ghana','Croatia':'Croazia',
+    'Norway':'Norvegia','Senegal':'Senegal','Algeria':'Algeria',
+    'Austria':'Austria','Jordan':'Giordania','Uzbekistan':'Uzbekistan',
+    'Colombia':'Colombia','Morocco':'Marocco','Haiti':'Haiti',
+    'Paraguay':'Paraguay','Australia':'Australia','Turkey':'Turchia',
+    'Ecuador':'Ecuador','Curacao':'Curacao','Tunisia':'Tunisia',
+    'Japan':'Giappone','Sweden':'Svezia','Belgium':'Belgio',
+    'Egypt':'Egitto','Iran':'Iran','Uruguay':'Uruguay',
+    'Argentina':'Argentina','Portugal':'Portogallo','England':'Inghilterra',
+    'France':'Francia','Germany':'Germania','Spain':'Spagna',
+    'Brazil':'Brasile','Netherlands':'Paesi Bassi','Mexico':'Messico',
+    'USA':'USA','Canada':'Canada','Qatar':'Qatar',
+    'Switzerland':'Svizzera','China PR':'Cina'
+  },
+  de:{
+    'South Africa':'Sudafrika','Bosnia':'Bosnien u. Herzegowina',
+    'South Korea':'Sudkorea','Czechia':'Tschechische Republik',
+    'Ivory Coast':'Elfenbeinkuste','DR Congo':'DR Kongo',
+    'Saudi Arabia':'Saudi-Arabien','Cape Verde':'Kap Verde',
+    'New Zealand':'Neuseeland','Scotland':'Schottland',
+    'Panama':'Panama','Ghana':'Ghana','Croatia':'Kroatien',
+    'Norway':'Norwegen','Senegal':'Senegal','Algeria':'Algerien',
+    'Austria':'Osterreich','Jordan':'Jordanien','Uzbekistan':'Usbekistan',
+    'Colombia':'Kolumbien','Morocco':'Marokko','Haiti':'Haiti',
+    'Paraguay':'Paraguay','Australia':'Australien','Turkey':'Turkei',
+    'Ecuador':'Ecuador','Curacao':'Curacao','Tunisia':'Tunesien',
+    'Japan':'Japan','Sweden':'Schweden','Belgium':'Belgien',
+    'Egypt':'Agypten','Iran':'Iran','Uruguay':'Uruguay',
+    'Argentina':'Argentinien','Portugal':'Portugal','England':'England',
+    'France':'Frankreich','Germany':'Deutschland','Spain':'Spanien',
+    'Brazil':'Brasilien','Netherlands':'Niederlande','Mexico':'Mexiko',
+    'USA':'USA','Canada':'Kanada','Qatar':'Katar',
+    'Switzerland':'Schweiz','China PR':'China'
+  }
+};
 
 // Helper to translate team name
+function tn(team, lang){
+  if(!team)return team;
+  return (TEAM_NAMES[lang]&&TEAM_NAMES[lang][team])||team;
+}
 
 // Phase labels per language
 var PHASE_LABELS = {
