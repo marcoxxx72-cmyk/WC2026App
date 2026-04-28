@@ -1,4 +1,4 @@
-var CACHE_NAME = 'wc2026-v17771034';
+var CACHE_NAME = 'wc2026-v4-fresh';
 var URLS = [
   '/',
   '/index.html',
@@ -7,33 +7,37 @@ var URLS = [
   '/icon-512.png'
 ];
 
-self.addEventListener('install', function(e){
+self.addEventListener('install', function(e) {
+  self.skipWaiting();
   e.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache){
+    caches.open(CACHE_NAME).then(function(cache) {
       return cache.addAll(URLS);
     })
   );
-  self.skipWaiting();
 });
 
-self.addEventListener('activate', function(e){
+self.addEventListener('activate', function(e) {
   e.waitUntil(
-    caches.keys().then(function(keys){
+    caches.keys().then(function(keys) {
       return Promise.all(
-        keys.filter(function(k){ return k !== CACHE_NAME; })
-            .map(function(k){ return caches.delete(k); })
+        keys.filter(function(k) { return k !== CACHE_NAME; })
+            .map(function(k) { return caches.delete(k); })
       );
+    }).then(function() {
+      return self.clients.claim();
     })
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', function(e){
+self.addEventListener('fetch', function(e) {
+  // Never cache app.js - always fetch fresh
+  if (e.request.url.includes('app.js')) {
+    e.respondWith(fetch(e.request));
+    return;
+  }
   e.respondWith(
-    caches.match(e.request).then(function(r){
-      return r || fetch(e.request).catch(function(){
-        return caches.match('/index.html');
-      });
+    caches.match(e.request).then(function(r) {
+      return r || fetch(e.request);
     })
   );
 });
