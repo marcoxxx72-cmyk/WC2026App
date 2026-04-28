@@ -1,0 +1,20 @@
+{
+  "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/app.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/notify",
+      "schedule": "0 * * * *"
+    }
+  ]
+}
