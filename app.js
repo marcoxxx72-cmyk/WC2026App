@@ -1603,86 +1603,103 @@ function App(){
             e('svg',{
               style:{
                 position:'absolute',
-                top:keeperDir==='left'?5:keeperDir==='right'?5:15,
-                left:keeperDir==='left'?'12%':keeperDir==='right'?'50%':'32%',
-                width:60,height:80,
+                top:keeperDir==='left'?5:keeperDir==='right'?5:12,
+                left:keeperDir==='left'?'14%':keeperDir==='right'?'52%':'35%',
+                width:56,height:82,
                 transition:'all 0.45s cubic-bezier(0.25,0.46,0.45,0.94)',
-                transform:keeperDir==='left'?'rotate(-20deg) scaleX(-1)':keeperDir==='right'?'rotate(20deg)':'rotate(0deg)',
-                filter:shotResult==='goal'?'grayscale(0.9) opacity(0.5)':shotResult==='saved'?'drop-shadow(0 0 10px #ffd700)':''
+                transform:keeperDir==='left'?'rotate(-28deg) scaleX(-1)':keeperDir==='right'?'rotate(28deg)':'rotate(0deg)',
+                filter:shotResult==='goal'?'grayscale(0.9) opacity(0.5)':shotResult==='saved'?'drop-shadow(0 0 12px #ffd700)':''
               },
-              viewBox:'0 0 60 80',xmlns:'http://www.w3.org/2000/svg'
+              viewBox:'0 0 56 82',xmlns:'http://www.w3.org/2000/svg'
             },
-              // Colombia yellow jersey
-              e('rect',{x:15,y:30,width:26,height:28,rx:5,fill:'#FCD116',stroke:'#d4a000',strokeWidth:1.5}),
-              // Red stripe on jersey
-              e('rect',{x:15,y:38,width:26,height:6,fill:'#CE1126',opacity:0.7}),
-              // Blue stripe
-              e('rect',{x:15,y:44,width:26,height:4,fill:'#003087',opacity:0.7}),
+              // === EL LOCO HIGUITA - COLOMBIA GK ===
+
+              // Jersey Colombia yellow
+              e('rect',{x:13,y:30,width:26,height:26,rx:5,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1.5}),
+              e('rect',{x:13,y:37,width:26,height:6,fill:'#CE1126'}),
+              e('rect',{x:13,y:43,width:26,height:4,fill:'#003087'}),
+              e('text',{x:26,y:41,textAnchor:'middle',fontSize:5,fontWeight:'bold',fill:'white'},'EL LOCO'),
 
               // Neck
-              e('rect',{x:25,y:22,width:10,height:10,rx:3,fill:'#C68642'}),
+              e('rect',{x:22,y:22,width:10,height:10,rx:3,fill:'#C68642'}),
 
-              // Head - Higuita face
-              e('ellipse',{cx:30,cy:16,rx:11,ry:12,fill:'#C68642',stroke:'#a0522d',strokeWidth:1}),
+              // HEAD
+              e('ellipse',{cx:27,cy:15,rx:11,ry:12,fill:'#C68642',stroke:'#a0522d',strokeWidth:1}),
 
-              // CHEVEUX FRISÉS ICONIQUES - longs et bouclés
-              e('path',{d:'M19 10 Q15 2 20 -2 Q25 6 30 4 Q35 6 40 -2 Q45 2 41 10',fill:'#1a0a00',stroke:'#1a0a00',strokeWidth:1}),
-              e('path',{d:'M19 10 Q16 16 18 20',fill:'none',stroke:'#1a0a00',strokeWidth:4,strokeLinecap:'round'}),
-              e('path',{d:'M41 10 Q44 16 42 20',fill:'none',stroke:'#1a0a00',strokeWidth:4,strokeLinecap:'round'}),
-              // Boucles laterales
-              e('circle',{cx:17,cy:14,r:4,fill:'#1a0a00'}),
-              e('circle',{cx:43,cy:14,r:4,fill:'#1a0a00'}),
-              e('circle',{cx:16,cy:20,r:3,fill:'#1a0a00'}),
-              e('circle',{cx:44,cy:20,r:3,fill:'#1a0a00'}),
+              // LONG CURLY HAIR - iconic Higuita
+              e('path',{d:'M16 8 Q12 0 18 -3 Q23 5 27 3 Q31 5 36 -3 Q42 0 38 8',fill:'#0d0500',stroke:'#0d0500',strokeWidth:1}),
+              e('path',{d:'M16 8 Q13 15 15 22',fill:'none',stroke:'#0d0500',strokeWidth:5,strokeLinecap:'round'}),
+              e('path',{d:'M38 8 Q41 15 39 22',fill:'none',stroke:'#0d0500',strokeWidth:5,strokeLinecap:'round'}),
+              e('circle',{cx:14,cy:13,r:4.5,fill:'#0d0500'}),
+              e('circle',{cx:40,cy:13,r:4.5,fill:'#0d0500'}),
+              e('circle',{cx:13,cy:20,r:3.5,fill:'#0d0500'}),
+              e('circle',{cx:41,cy:20,r:3.5,fill:'#0d0500'}),
+              e('circle',{cx:14,cy:26,r:2.5,fill:'#0d0500'}),
+              e('circle',{cx:40,cy:26,r:2.5,fill:'#0d0500'}),
+              // Curly texture
+              e('circle',{cx:20,cy:3,r:3,fill:'#0d0500'}),
+              e('circle',{cx:27,cy:1,r:3.5,fill:'#0d0500'}),
+              e('circle',{cx:34,cy:3,r:3,fill:'#0d0500'}),
 
-              // Yeux expressifs
-              e('ellipse',{cx:25,cy:15,rx:2.5,ry:2,fill:'white'}),
-              e('ellipse',{cx:35,cy:15,rx:2.5,ry:2,fill:'white'}),
-              e('circle',{cx:25,cy:15,r:1.5,fill:'#4a2c0a'}),
-              e('circle',{cx:35,cy:15,r:1.5,fill:'#4a2c0a'}),
-              // Sourcils
-              e('path',{d:'M22 12 Q25 11 28 12',stroke:'#1a0a00',strokeWidth:1.5,fill:'none'}),
-              e('path',{d:'M32 12 Q35 11 38 12',stroke:'#1a0a00',strokeWidth:1.5,fill:'none'}),
+              // EYES
+              e('ellipse',{cx:22,cy:14,rx:2.5,ry:2.2,fill:'white'}),
+              e('ellipse',{cx:32,cy:14,rx:2.5,ry:2.2,fill:'white'}),
+              e('circle',{cx:22,cy:14,r:1.5,fill:'#3a1a00'}),
+              e('circle',{cx:32,cy:14,r:1.5,fill:'#3a1a00'}),
+              e('circle',{cx:22.6,cy:13.4,r:0.5,fill:'white'}),
+              e('circle',{cx:32.6,cy:13.4,r:0.5,fill:'white'}),
 
-              // MOUSTACHE ICONIQUE
-              e('path',{d:'M24 20 Q27 22 30 21 Q33 22 36 20 Q33 24 30 23 Q27 24 24 20',fill:'#1a0a00'}),
+              // Eyebrows - thick
+              e('path',{d:'M19 11 Q22 10 25 11',stroke:'#0d0500',strokeWidth:2,fill:'none',strokeLinecap:'round'}),
+              e('path',{d:'M29 11 Q32 10 35 11',stroke:'#0d0500',strokeWidth:2,fill:'none',strokeLinecap:'round'}),
 
-              // Expression - sourire si arrêt, triste si but
+              // BIG BUSHY MOUSTACHE
+              e('path',{d:'M18 20 Q22 17 27 19 Q32 17 36 20 Q33 24 27 23 Q21 24 18 20',fill:'#0d0500'}),
+              e('path',{d:'M19 20 Q23 18.5 27 20',stroke:'#2a0d00',strokeWidth:0.8,fill:'none'}),
+              e('path',{d:'M27 20 Q31 18.5 35 20',stroke:'#2a0d00',strokeWidth:0.8,fill:'none'}),
+
+              // BEARD STUBBLE
+              e('path',{d:'M19 24 Q23 27 27 26 Q31 27 35 24',stroke:'#0d0500',strokeWidth:1.5,fill:'none',strokeLinecap:'round'}),
+              e('path',{d:'M21 27 Q24 30 27 29 Q30 30 33 27',stroke:'#0d0500',strokeWidth:1.2,fill:'none',strokeLinecap:'round'}),
+              e('line',{x1:17,y1:19,x2:16,y2:23,stroke:'#0d0500',strokeWidth:1}),
+              e('line',{x1:37,y1:19,x2:38,y2:23,stroke:'#0d0500',strokeWidth:1}),
+
+              // Expression
               shotResult==='saved'
-                ?e('path',{d:'M25 25 Q30 28 35 25',stroke:'#8B4513',strokeWidth:1.5,fill:'none',strokeLinecap:'round'})
+                ?e('path',{d:'M22 27 Q27 31 32 27',stroke:'#8B4513',strokeWidth:1.5,fill:'none',strokeLinecap:'round'})
                 :shotResult==='goal'
-                ?e('path',{d:'M25 26 Q30 23 35 26',stroke:'#8B4513',strokeWidth:1.5,fill:'none',strokeLinecap:'round'})
-                :e('path',{d:'M26 24 Q30 26 34 24',stroke:'#8B4513',strokeWidth:1,fill:'none'}),
+                ?e('path',{d:'M22 28 Q27 25 32 28',stroke:'#8B4513',strokeWidth:1.5,fill:'none',strokeLinecap:'round'})
+                :null,
 
-              // Bras gauche
+              // ARMS
               keeperDir==='left'
-                ?e('path',{d:'M15 36 L-4 20',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'})
-                :e('path',{d:'M15 40 L8 55',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round'}),
-              // Bras droit
+                ?e('path',{d:'M13 34 L-6 18',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'})
+                :e('path',{d:'M13 38 L6 52',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round'}),
               keeperDir==='right'
-                ?e('path',{d:'M45 36 L64 20',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'})
-                :e('path',{d:'M45 40 L52 55',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round'}),
+                ?e('path',{d:'M43 34 L62 18',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'})
+                :e('path',{d:'M43 38 L50 52',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round'}),
 
-              // Gants rouges
+              // GLOVES orange
               keeperDir==='left'
-                ?e('circle',{cx:-4,cy:20,r:6,fill:'#CC0000',stroke:'#990000',strokeWidth:1.5})
-                :e('circle',{cx:8,cy:55,r:6,fill:'#CC0000',stroke:'#990000',strokeWidth:1.5}),
+                ?e('circle',{cx:-6,cy:18,r:6,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5})
+                :e('circle',{cx:6,cy:52,r:5.5,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5}),
               keeperDir==='right'
-                ?e('circle',{cx:64,cy:20,r:6,fill:'#CC0000',stroke:'#990000',strokeWidth:1.5})
-                :e('circle',{cx:52,cy:55,r:6,fill:'#CC0000',stroke:'#990000',strokeWidth:1.5}),
+                ?e('circle',{cx:62,cy:18,r:6,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5})
+                :e('circle',{cx:50,cy:52,r:5.5,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5}),
 
-              // Jambes
-              e('rect',{x:17,y:56,width:10,height:18,rx:4,fill:'#FCD116',stroke:'#d4a000',strokeWidth:1}),
-              e('rect',{x:33,y:56,width:10,height:18,rx:4,fill:'#FCD116',stroke:'#d4a000',strokeWidth:1}),
-              // Chaussettes
-              e('rect',{x:17,y:66,width:10,height:8,rx:2,fill:'#CE1126'}),
-              e('rect',{x:33,y:66,width:10,height:8,rx:2,fill:'#CE1126'}),
-              // Crampons
-              e('ellipse',{cx:22,cy:75,rx:8,ry:4,fill:'#1a1a2e'}),
-              e('ellipse',{cx:38,cy:75,rx:8,ry:4,fill:'#1a1a2e'}),
+              // LEGS - normal (hidden during scorpion)
+              shotResult!=='saved'&&e('rect',{x:15,y:55,width:10,height:14,rx:3,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1}),
+              shotResult!=='saved'&&e('rect',{x:31,y:55,width:10,height:14,rx:3,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1}),
+              shotResult!=='saved'&&e('rect',{x:15,y:63,width:10,height:7,rx:2,fill:'#CE1126'}),
+              shotResult!=='saved'&&e('rect',{x:31,y:63,width:10,height:7,rx:2,fill:'#CE1126'}),
+              shotResult!=='saved'&&e('ellipse',{cx:20,cy:72,rx:8,ry:4,fill:'#1a1a2e'}),
+              shotResult!=='saved'&&e('ellipse',{cx:36,cy:72,rx:8,ry:4,fill:'#1a1a2e'}),
 
-              // Label EL LOCO
-              e('text',{x:28,y:43,textAnchor:'middle',fontSize:5,fontWeight:'bold',fill:'#003087'},'EL LOCO')
+              // SCORPION KICK - legs fly up when saving!
+              shotResult==='saved'&&e('path',{d:'M15 56 Q8 42 6 30',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'}),
+              shotResult==='saved'&&e('path',{d:'M41 56 Q48 42 50 30',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'}),
+              shotResult==='saved'&&e('ellipse',{cx:6,cy:28,rx:8,ry:4,fill:'#1a1a2e',stroke:'#333',strokeWidth:1}),
+              shotResult==='saved'&&e('ellipse',{cx:50,cy:28,rx:8,ry:4,fill:'#1a1a2e',stroke:'#333',strokeWidth:1})
             ),
             shotDir&&e('div',{style:{position:'absolute',bottom:shotResult?50:8,left:shotDir==='left'?'22%':shotDir==='right'?'60%':'40%',fontSize:22,transition:'all 0.6s ease'}},'⚽'),
             shotResult&&e('div',{style:{position:'absolute',top:'35%',left:'50%',transform:'translate(-50%,-50%)',fontSize:18,fontWeight:'bold',color:shotResult==='goal'?'#90ee90':'#ff8888',textShadow:'0 2px 8px rgba(0,0,0,0.8)'}},shotResult==='goal'?'⚽ GOAL !':'✗ '+(lang==='fr'?'ARRETE !':lang==='es'?'PARADO !':lang==='pt'?'DEFENDIDO !':lang==='it'?'PARATO !':lang==='de'?'GEHALTEN !':'SAVED !'))
