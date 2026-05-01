@@ -476,7 +476,38 @@ var STARS = [
   {name:'Achraf Hakimi',flag:'🇲🇦',club:'PSG',pos:'DF',age:27,stat:'African Player of Year 2022',rating:87,group:'C'},
   {name:'Marcus Thuram',flag:'🇫🇷',club:'Inter Milan',pos:'FW',age:27,stat:'Serie A champion 2024',rating:87,group:'I'},
   {name:'Sadio Mane',flag:'🇸🇳',club:'Al Nassr',pos:'FW',age:33,stat:'AFCON winner 2022',rating:85,group:'I'},
-  {name:'Raphinha',flag:'🇧🇷',club:'FC Barcelona',pos:'FW',age:29,stat:'Champions League 2025',rating:85,group:'C'}
+  {name:'Raphinha',flag:'🇧🇷',club:'FC Barcelona',pos:'FW',age:29,stat:'Champions League 2025',rating:85,group:'C'},
+  {name:'Trent Alexander-Arnold',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',club:'Real Madrid',pos:'DF',age:27,stat:'Champions League winner',rating:87,group:'L'},
+  {name:'Virgil van Dijk',flag:'🇳🇱',club:'Liverpool',pos:'DF',age:34,stat:'Best defender 2019',rating:87,group:'F'},
+  {name:'Manuel Neuer',flag:'🇩🇪',club:'Bayern Munich',pos:'GK',age:40,stat:'World Cup winner 2014',rating:86,group:'E'},
+  {name:'Mike Maignan',flag:'🇫🇷',club:'AC Milan',pos:'GK',age:29,stat:'Euro 2024 GK',rating:87,group:'I'},
+  {name:'Diogo Costa',flag:'🇵🇹',club:'Porto',pos:'GK',age:25,stat:'Best GK UCL 2023',rating:86,group:'K'},
+  {name:'David Raya',flag:'🇪🇸',club:'Arsenal',pos:'GK',age:29,stat:'PL Golden Glove 2024',rating:85,group:'H'},
+  {name:'Jordan Pickford',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',club:'Everton',pos:'GK',age:32,stat:'England No.1',rating:84,group:'L'},
+  {name:'Alisson Becker',flag:'🇧🇷',club:'Liverpool',pos:'GK',age:32,stat:'Best GK 2019',rating:88,group:'C'},
+  {name:'Emiliano Martinez',flag:'🇦🇷',club:'Aston Villa',pos:'GK',age:32,stat:'WC 2022 Golden Glove',rating:88,group:'J'},
+  {name:'Josko Gvardiol',flag:'🇭🇷',club:'Man. City',pos:'DF',age:23,stat:'WC 2022 finalist',rating:87,group:'L'},
+  {name:'William Saliba',flag:'🇫🇷',club:'Arsenal',pos:'DF',age:24,stat:'Best young defender 2024',rating:87,group:'I'},
+  {name:'Marquinhos',flag:'🇧🇷',club:'PSG',pos:'DF',age:31,stat:'UCL finalist 2020',rating:86,group:'C'},
+  {name:'Antonio Rudiger',flag:'🇩🇪',club:'Real Madrid',pos:'DF',age:32,stat:'UCL winner 2022',rating:85,group:'E'},
+  {name:'Dayot Upamecano',flag:'🇫🇷',club:'Bayern Munich',pos:'DF',age:26,stat:'Euro 2024 finalist',rating:85,group:'I'},
+  {name:'Jules Kounde',flag:'🇫🇷',club:'FC Barcelona',pos:'DF',age:26,stat:'Euro 2024 finalist',rating:86,group:'I'},
+  {name:'Theo Hernandez',flag:'🇫🇷',club:'AC Milan',pos:'DF',age:27,stat:'Serie A champion',rating:86,group:'I'},
+  {name:'Kyle Walker',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',club:'AC Milan',pos:'DF',age:35,stat:'PL champion x6',rating:83,group:'L'},
+  {name:'Marc Cucurella',flag:'🇪🇸',club:'Chelsea',pos:'DF',age:26,stat:'Euro 2024 champion',rating:84,group:'H'},
+  {name:'Dani Carvajal',flag:'🇪🇸',club:'Real Madrid',pos:'DF',age:33,stat:'UCL winner 2024',rating:85,group:'H'},
+  {name:'Frenkie de Jong',flag:'🇳🇱',club:'FC Barcelona',pos:'MF',age:28,stat:'UCL semifinal 2019',rating:86,group:'F'},
+  {name:'Granit Xhaka',flag:'🇨🇭',club:'Bayer Leverkusen',pos:'MF',age:32,stat:'Bundesliga champion 2024',rating:84,group:'B'},
+  {name:'Martin Odegaard',flag:'🇳🇴',club:'Arsenal',pos:'MF',age:27,stat:'Arsenal captain',rating:88,group:'I'},
+  {name:'Declan Rice',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',club:'Arsenal',pos:'MF',age:26,stat:'PL Best midfielder 2024',rating:87,group:'L'},
+  {name:'Aurelien Tchouameni',flag:'🇫🇷',club:'Real Madrid',pos:'MF',age:25,stat:'WC 2022 finalist',rating:86,group:'I'},
+  {name:'Eduardo Camavinga',flag:'🇫🇷',club:'Real Madrid',pos:'MF',age:22,stat:'UCL winner 2024',rating:85,group:'I'},
+  {name:'Nico Williams',flag:'🇪🇸',club:'Athletic Bilbao',pos:'FW',age:22,stat:'Euro 2024 champion',rating:87,group:'H'},
+  {name:'Donyell Malen',flag:'🇳🇱',club:'Aston Villa',pos:'FW',age:26,stat:'PL top scorer',rating:83,group:'F'},
+  {name:'Cody Gakpo',flag:'🇳🇱',club:'Liverpool',pos:'FW',age:26,stat:'WC 2022 top scorer',rating:85,group:'F'},
+  {name:'Dusan Vlahovic',flag:'🇷🇸',club:'Juventus',pos:'FW',age:25,stat:'Serie A top scorer',rating:85,group:null},
+  {name:'Victor Osimhen',flag:'🇳🇬',club:'Galatasaray',pos:'FW',age:26,stat:'Serie A top scorer 2023',rating:86,group:null},
+  {name:'Robert Lewandowski',flag:'🇵🇱',club:'FC Barcelona',pos:'FW',age:37,stat:'5x top scorer',rating:86,group:null}
 ];
 
 // - FIFA CARD STYLE - World Cup 2026 -
@@ -1652,8 +1683,7 @@ function App(){
         // Goal visual with Higuita SVG
         e('div',{style:{position:'relative',width:'100%',maxWidth:300,margin:'0 auto 12px',height:140,background:'linear-gradient(180deg,#1a4a1a,#2d7a2d)',borderRadius:10,overflow:'visible',border:'2px solid rgba(255,255,255,0.2)'}},
           e('div',{style:{position:'absolute',top:10,left:'20%',right:'20%',height:85,border:'3px solid white',borderBottom:'none',background:'rgba(255,255,255,0.08)'}}),
-          e('div',{style:{position:'absolute',top:10,left:'20%',width:'20%',height:85,borderRight:'1px dashed rgba(255,255,255,0.2)'}}),
-          e('div',{style:{position:'absolute',top:10,left:'60%',width:'20%',height:85,borderLeft:'1px dashed rgba(255,255,255,0.2)'}}),
+
           e('div',{style:{position:'absolute',bottom:0,left:0,right:0,height:30,background:'rgba(255,255,255,0.05)',borderTop:'2px solid rgba(255,255,255,0.15)'}}),
           // HIGUITA SVG
           e('svg',{
