@@ -271,12 +271,127 @@ var FIXTURES = [
 
 // - TRANSLATIONS -
 var T = {
-  en:{appTitle:'World Cup 2026',appSub:'USA - CANADA - MEXICO',nav:['Home','Groups','Fixtures','Predictions','Quiz','Players','Polls','Sim','Game'],countdown:'Countdown',timeUnits:['Days','Hours','Min','Sec'],keyInfo:['Host nations','Teams','Matches','Duration'],keyVals:['3 nations','48 teams','104 matches','Jun 11-Jul 19'],format:'Tournament Format',formatLines:['12 groups of 4 teams','1st + 2nd + 8 best 3rds = 32 teams','Round of 32 > 16 > QF > SF > Final','Opening: Estadio Azteca, Mexico City','Final: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GROUPS',hostLabel:'Host',groupLabel:'Group',myTeamLabel:'My Team',pickTeam:'Pick your team',pronoSub:'Who will reach the final?',pronoWinner:'World Champion 2026',pronoFinal:'Runner-up',pronoSemi:'Semi-finalists',pronoSave:'Save',pronoSaved:'Saved!',pronoReset:'Reset',pronoChoose:'Choose...',pronoMyPick:'My pick',quizSub:'Test your knowledge!',quizScore:'Score',quizNext:'Next question',quizFinish:'See result',quizRestart:'Play again',quizPerfect:'PERFECT! You are an expert!',quizGood:'Great job!',quizAvg:'Not bad!',quizBad:'Keep studying!',starsSub:'Players',pollTitle:'Polls',pollTotal:'votes',didYouKnow:'Did you know?',facts:['Italy miss the 2026 World Cup for 2nd time','Azteca hosts its 3rd World Cup','First-ever 48-team World Cup','First edition co-hosted by 3 countries','104 matches vs 64 in 2022','New IFAB rules in effect'],shareApp:'Share',shareCopied:'Link copied!',premiumBanner:'Go PREMIUM - Predictions + Stats + No ads',premiumBtn:'Unlock',fixturesTitle:'FIXTURES & RESULTS',fixturesAll:'All matches',fixturesMy:'My team only',noFixtures:'No fixtures found'},
-  fr:{appTitle:'Coupe du Monde 2026',appSub:'USA - CANADA - MEXIQUE',nav:['Accueil','Groupes','Calendrier','Pronostics','Quiz','Joueurs','Sondages','Sim','Jeu'],countdown:'Compte a rebours',timeUnits:['Jours','Heures','Min','Sec'],keyInfo:['Pays hotes','Equipes','Matchs','Duree'],keyVals:['3 nations','48 equipes','104 matchs','11 juin-19 juil.'],format:'Format du tournoi',formatLines:['12 groupes de 4 equipes','1er + 2e + 8 meilleurs 3es = 32 equipes','Tour des 32 > 16e > QF > SF > Finale','Ouverture: Estadio Azteca, Mexico','Finale: MetLife Stadium, New York'],groupsTitle:'48 EQUIPES - 12 GROUPES',hostLabel:'Pays hote',groupLabel:'Groupe',myTeamLabel:'Mon Equipe',pickTeam:'Choisir mon equipe',pronoSub:'Qui ira en finale?',pronoWinner:'Champion du Monde 2026',pronoFinal:'Finaliste',pronoSemi:'Demi-finales',pronoSave:'Sauvegarder',pronoSaved:'Sauvegarde!',pronoReset:'Reinitialiser',pronoChoose:'Choisir...',pronoMyPick:'Mon choix',quizSub:'Testez vos connaissances!',quizScore:'Score',quizNext:'Question suivante',quizFinish:'Voir mon resultat',quizRestart:'Rejouer',quizPerfect:'PARFAIT! Tu es un expert!',quizGood:'Tres bien!',quizAvg:'Pas mal!',quizBad:'Continue a reviser!',starsSub:'Joueurs',pollTitle:'Sondages',pollTotal:'votes',didYouKnow:'Le saviez-vous?',facts:["L Italie rate le Mondial 2026 pour la 2e fois","L Azteca accueille son 3e Mondial","1er Mondial a 48 equipes","1ere edition co-organisee par 3 pays","104 matchs contre 64 en 2022","Nouvelles regles IFAB effectives"],shareApp:'Partager',shareCopied:'Lien copie!',premiumBanner:'Passez PREMIUM - Pronostics + Stats + Sans pub',premiumBtn:'Debloquer',fixturesTitle:'CALENDRIER & RESULTATS',fixturesAll:'Tous les matchs',fixturesMy:'Mon equipe uniquement',noFixtures:'Aucun match trouve'},
-  es:{appTitle:'Copa del Mundo 2026',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Pronosticos','Quiz','Jugadores','Sondeos','Sim','Juego'],countdown:'Cuenta regresiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitriones','Equipos','Partidos','Duracion'],keyVals:['3 naciones','48 equipos','104 partidos','11 jun-19 jul'],format:'Formato del torneo',formatLines:['12 grupos de 4 equipos','1 + 2 + 8 mejores 3eros = 32 equipos','Ronda de 32 > 16avos > QF > SF > Final','Apertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nueva York'],groupsTitle:'48 EQUIPOS - 12 GRUPOS',hostLabel:'Anfitri',groupLabel:'Grupo',myTeamLabel:'Mi Equipo',pickTeam:'Elegir mi equipo',pronoSub:'Quien llegara a la final?',pronoWinner:'Campeon del Mundo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalistas',pronoSave:'Guardar',pronoSaved:'Guardado!',pronoReset:'Reiniciar',pronoChoose:'Elegir...',pronoMyPick:'Mi eleccion',quizSub:'Pon a prueba tus conocimientos!',quizScore:'Puntuacion',quizNext:'Siguiente',quizFinish:'Ver resultado',quizRestart:'Jugar de nuevo',quizPerfect:'Perfecto! Eres un experto!',quizGood:'Muy bien!',quizAvg:'Nada mal!',quizBad:'Sigue estudiando!',starsSub:'Jugadores',pollTitle:'Sondeos',pollTotal:'votos',didYouKnow:'Sabias que?',facts:['Italia se pierde el Mundial 2026 por 2a vez','El Azteca acoge su 3er Mundial','El primer Mundial con 48 equipos','Primera edicion organizada por 3 paises','104 partidos frente a 64 en 2022','Nuevas reglas del IFAB en vigor'],shareApp:'Compartir',shareCopied:'Enlace copiado!',premiumBanner:'Hazte PREMIUM - Pronosticos + Estadisticas + Sin anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO Y RESULTADOS',fixturesAll:'Todos los partidos',fixturesMy:'Solo mi equipo',noFixtures:'No se encontraron partidos'},
-  pt:{appTitle:'Copa do Mundo 2026',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Palpites','Quiz','Jogadores','Enquetes','Sim','Jogo'],countdown:'Contagem regressiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitrioes','Selecoes','Jogos','Duracao'],keyVals:['3 nacoes','48 selecoes','104 jogos','11 jun-19 jul'],format:'Formato do torneio',formatLines:['12 grupos de 4 selecoes','1 + 2 + 8 melhores 3eiros = 32 equipes','Rodada de 32 > 16 > QF > SF > Final','Abertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nova York'],groupsTitle:'48 SELECOES - 12 GRUPOS',hostLabel:'Anfitriao',groupLabel:'Grupo',myTeamLabel:'Meu Time',pickTeam:'Escolher meu time',pronoSub:'Quem vai chegar a final?',pronoWinner:'Campeao do Mundo 2026',pronoFinal:'Vice-campeao',pronoSemi:'Semifinalistas',pronoSave:'Salvar',pronoSaved:'Salvo!',pronoReset:'Reiniciar',pronoChoose:'Escolher...',pronoMyPick:'Minha escolha',quizSub:'Teste seus conhecimentos!',quizScore:'Pontuacao',quizNext:'Proxima',quizFinish:'Ver resultado',quizRestart:'Jogar novamente',quizPerfect:'Perfeito! Voce e um expert!',quizGood:'Muito bem!',quizAvg:'Nada mal!',quizBad:'Continue estudando!',starsSub:'Jogadores',pollTitle:'Enquetes',pollTotal:'votos',didYouKnow:'Voce sabia?',facts:['A Italia perde a Copa 2026 pela 2a vez','O Azteca sedia sua 3a Copa','Primeira Copa com 48 selecoes','Primeira edicao organizada por 3 paises','104 jogos contra 64 em 2022','Novas regras do IFAB em vigor'],shareApp:'Compartilhar',shareCopied:'Link copiado!',premiumBanner:'Seja PREMIUM - Palpites + Estatisticas + Sem anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO E RESULTADOS',fixturesAll:'Todos os jogos',fixturesMy:'Apenas meu time',noFixtures:'Nenhum jogo encontrado'},
-  it:{appTitle:'Coppa del Mondo 2026',appSub:'USA - CANADA - MESSICO',nav:['Home','Gruppi','Calendario','Pronostici','Quiz','Giocatori','Sondaggi','Sim','Gioco'],countdown:'Conto alla rovescia',timeUnits:['Giorni','Ore','Min','Sec'],keyInfo:['Paesi ospitanti','Squadre','Partite','Durata'],keyVals:['3 nazioni','48 squadre','104 partite','11 giu-19 lug'],format:'Formato del torneo',formatLines:['12 gironi da 4 squadre','1a + 2a + 8 migliori 3e = 32 squadre','Fase a 32 > 16 > QF > SF > Finale','Apertura: Estadio Azteca, Messico','Finale: MetLife Stadium, New York'],groupsTitle:'48 SQUADRE - 12 GIRONI',hostLabel:'Sede',groupLabel:'Girone',myTeamLabel:'La Mia Squadra',pickTeam:'Scegli la tua squadra',pronoSub:'Chi arrivera in finale?',pronoWinner:'Campione del Mondo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalisti',pronoSave:'Salva',pronoSaved:'Salvato!',pronoReset:'Azzera',pronoChoose:'Scegli...',pronoMyPick:'La mia scelta',quizSub:'Metti alla prova le tue conoscenze!',quizScore:'Punteggio',quizNext:'Domanda successiva',quizFinish:'Vedi risultato',quizRestart:'Gioca ancora',quizPerfect:'Perfetto! Sei un esperto!',quizGood:'Molto bene!',quizAvg:'Niente male!',quizBad:'Continua a studiare!',starsSub:'Giocatori',pollTitle:'Sondaggi',pollTotal:'voti',didYouKnow:'Lo sapevi?',facts:["L Italia non e al Mondiale 2026 per la 2a volta","L Azteca ospita il suo 3o Mondiale","Primo Mondiale con 48 squadre","Prima edizione co-organizzata da 3 paesi","104 partite contro 64 nel 2022","Nuove regole IFAB in vigore"],shareApp:'Condividi',shareCopied:'Link copiato!',premiumBanner:'Diventa PREMIUM - Pronostici + Statistiche + Senza pub',premiumBtn:'Sblocca',fixturesTitle:'CALENDARIO E RISULTATI',fixturesAll:'Tutte le partite',fixturesMy:'Solo la mia squadra',noFixtures:'Nessuna partita trovata'},
-  de:{appTitle:'Weltmeisterschaft 2026',appSub:'USA - KANADA - MEXIKO',nav:['Start','Gruppen','Spielplan','Tipps','Quiz','Spieler','Umfragen','Sim','Spiel'],countdown:'Countdown',timeUnits:['Tage','Stunden','Min','Sek'],keyInfo:['Gastgeberlaender','Teams','Spiele','Dauer'],keyVals:['3 Nationen','48 Teams','104 Spiele','11. Jun-19. Jul'],format:'Turnierformat',formatLines:['12 Gruppen mit je 4 Teams','1. + 2. + 8 beste 3. = 32 Teams','Runde der 32 > 16 > VF > HF > Finale','Eroeffnung: Estadio Azteca, Mexiko','Finale: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GRUPPEN',hostLabel:'Gastgeber',groupLabel:'Gruppe',myTeamLabel:'Mein Team',pickTeam:'Mein Team auswaehlen',pronoSub:'Wer kommt ins Finale?',pronoWinner:'Weltmeister 2026',pronoFinal:'Finalist',pronoSemi:'Halbfinalisten',pronoSave:'Speichern',pronoSaved:'Gespeichert!',pronoReset:'Zuruecksetzen',pronoChoose:'Auswaehlen...',pronoMyPick:'Meine Wahl',quizSub:'Teste dein Wissen!',quizScore:'Punkte',quizNext:'Naechste Frage',quizFinish:'Ergebnis sehen',quizRestart:'Nochmal spielen',quizPerfect:'Perfekt! Du bist ein Experte!',quizGood:'Sehr gut!',quizAvg:'Nicht schlecht!',quizBad:'Weiter lernen!',starsSub:'Spieler',pollTitle:'Umfragen',pollTotal:'Stimmen',didYouKnow:'Wusstest du?',facts:['Italien verpasst die WM 2026 zum 2. Mal','Das Azteca beherbergt seine 3. WM','Erste WM mit 48 Teams','Erste WM von 3 Laendern gemeinsam ausgerichtet','104 Spiele gegen 64 in 2022','Neue IFAB-Regeln in Kraft'],shareApp:'Teilen',shareCopied:'Link kopiert!',premiumBanner:'PREMIUM werden - Tipps + Statistiken + Werbefrei',premiumBtn:'Freischalten',fixturesTitle:'SPIELPLAN & ERGEBNISSE',fixturesAll:'Alle Spiele',fixturesMy:'Nur mein Team',noFixtures:'Keine Spiele gefunden'}
+  en:{appTitle:'World Cup 2026',appSub:'USA - CANADA - MEXICO',nav:['Home','Groups','Fixtures','Predictions','Quiz','Players','Polls','Sim','Game','Fantasy','Predict'],countdown:'Countdown',timeUnits:['Days','Hours','Min','Sec'],keyInfo:['Host nations','Teams','Matches','Duration'],keyVals:['3 nations','48 teams','104 matches','Jun 11-Jul 19'],format:'Tournament Format',formatLines:['12 groups of 4 teams','1st + 2nd + 8 best 3rds = 32 teams','Round of 32 > 16 > QF > SF > Final','Opening: Estadio Azteca, Mexico City','Final: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GROUPS',hostLabel:'Host',groupLabel:'Group',myTeamLabel:'My Team',pickTeam:'Pick your team',pronoSub:'Who will reach the final?',pronoWinner:'World Champion 2026',pronoFinal:'Runner-up',pronoSemi:'Semi-finalists',pronoSave:'Save',pronoSaved:'Saved!',pronoReset:'Reset',pronoChoose:'Choose...',pronoMyPick:'My pick',quizSub:'Test your knowledge!',quizScore:'Score',quizNext:'Next question',quizFinish:'See result',quizRestart:'Play again',quizPerfect:'PERFECT! You are an expert!',quizGood:'Great job!',quizAvg:'Not bad!',quizBad:'Keep studying!',starsSub:'Players',pollTitle:'Polls',pollTotal:'votes',didYouKnow:'Did you know?',facts:['Italy miss the 2026 World Cup for 2nd time','Azteca hosts its 3rd World Cup','First-ever 48-team World Cup','First edition co-hosted by 3 countries','104 matches vs 64 in 2022','New IFAB rules in effect'],shareApp:'Share',shareCopied:'Link copied!',premiumBanner:'Go PREMIUM - Predictions + Stats + No ads',premiumBtn:'Unlock',fixturesTitle:'FIXTURES & RESULTS',fixturesAll:'All matches',fixturesMy:'My team only',noFixtures:'No fixtures found'},
+  fr:{appTitle:'Coupe du Monde 2026',appSub:'USA - CANADA - MEXIQUE',nav:['Accueil','Groupes','Calendrier','Pronostics','Quiz','Joueurs','Sondages','Sim','Jeu','Fantasy','Predict'],countdown:'Compte a rebours',timeUnits:['Jours','Heures','Min','Sec'],keyInfo:['Pays hotes','Equipes','Matchs','Duree'],keyVals:['3 nations','48 equipes','104 matchs','11 juin-19 juil.'],format:'Format du tournoi',formatLines:['12 groupes de 4 equipes','1er + 2e + 8 meilleurs 3es = 32 equipes','Tour des 32 > 16e > QF > SF > Finale','Ouverture: Estadio Azteca, Mexico','Finale: MetLife Stadium, New York'],groupsTitle:'48 EQUIPES - 12 GROUPES',hostLabel:'Pays hote',groupLabel:'Groupe',myTeamLabel:'Mon Equipe',pickTeam:'Choisir mon equipe',pronoSub:'Qui ira en finale?',pronoWinner:'Champion du Monde 2026',pronoFinal:'Finaliste',pronoSemi:'Demi-finales',pronoSave:'Sauvegarder',pronoSaved:'Sauvegarde!',pronoReset:'Reinitialiser',pronoChoose:'Choisir...',pronoMyPick:'Mon choix',quizSub:'Testez vos connaissances!',quizScore:'Score',quizNext:'Question suivante',quizFinish:'Voir mon resultat',quizRestart:'Rejouer',quizPerfect:'PARFAIT! Tu es un expert!',quizGood:'Tres bien!',quizAvg:'Pas mal!',quizBad:'Continue a reviser!',starsSub:'Joueurs',pollTitle:'Sondages',pollTotal:'votes',didYouKnow:'Le saviez-vous?',facts:["L Italie rate le Mondial 2026 pour la 2e fois","L Azteca accueille son 3e Mondial","1er Mondial a 48 equipes","1ere edition co-organisee par 3 pays","104 matchs contre 64 en 2022","Nouvelles regles IFAB effectives"],shareApp:'Partager',shareCopied:'Lien copie!',premiumBanner:'Passez PREMIUM - Pronostics + Stats + Sans pub',premiumBtn:'Debloquer',fixturesTitle:'CALENDRIER & RESULTATS',fixturesAll:'Tous les matchs',fixturesMy:'Mon equipe uniquement',noFixtures:'Aucun match trouve'},
+  es:{appTitle:'Copa del Mundo 2026',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Pronosticos','Quiz','Jugadores','Sondeos','Sim','Juego','Fantasy','Predict'],countdown:'Cuenta regresiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitriones','Equipos','Partidos','Duracion'],keyVals:['3 naciones','48 equipos','104 partidos','11 jun-19 jul'],format:'Formato del torneo',formatLines:['12 grupos de 4 equipos','1 + 2 + 8 mejores 3eros = 32 equipos','Ronda de 32 > 16avos > QF > SF > Final','Apertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nueva York'],groupsTitle:'48 EQUIPOS - 12 GRUPOS',hostLabel:'Anfitri',groupLabel:'Grupo',myTeamLabel:'Mi Equipo',pickTeam:'Elegir mi equipo',pronoSub:'Quien llegara a la final?',pronoWinner:'Campeon del Mundo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalistas',pronoSave:'Guardar',pronoSaved:'Guardado!',pronoReset:'Reiniciar',pronoChoose:'Elegir...',pronoMyPick:'Mi eleccion',quizSub:'Pon a prueba tus conocimientos!',quizScore:'Puntuacion',quizNext:'Siguiente',quizFinish:'Ver resultado',quizRestart:'Jugar de nuevo',quizPerfect:'Perfecto! Eres un experto!',quizGood:'Muy bien!',quizAvg:'Nada mal!',quizBad:'Sigue estudiando!',starsSub:'Jugadores',pollTitle:'Sondeos',pollTotal:'votos',didYouKnow:'Sabias que?',facts:['Italia se pierde el Mundial 2026 por 2a vez','El Azteca acoge su 3er Mundial','El primer Mundial con 48 equipos','Primera edicion organizada por 3 paises','104 partidos frente a 64 en 2022','Nuevas reglas del IFAB en vigor'],shareApp:'Compartir',shareCopied:'Enlace copiado!',premiumBanner:'Hazte PREMIUM - Pronosticos + Estadisticas + Sin anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO Y RESULTADOS',fixturesAll:'Todos los partidos',fixturesMy:'Solo mi equipo',noFixtures:'No se encontraron partidos'},
+  pt:{appTitle:'Copa do Mundo 2026',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Palpites','Quiz','Jogadores','Enquetes','Sim','Jogo','Fantasy','Predict'],countdown:'Contagem regressiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitrioes','Selecoes','Jogos','Duracao'],keyVals:['3 nacoes','48 selecoes','104 jogos','11 jun-19 jul'],format:'Formato do torneio',formatLines:['12 grupos de 4 selecoes','1 + 2 + 8 melhores 3eiros = 32 equipes','Rodada de 32 > 16 > QF > SF > Final','Abertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nova York'],groupsTitle:'48 SELECOES - 12 GRUPOS',hostLabel:'Anfitriao',groupLabel:'Grupo',myTeamLabel:'Meu Time',pickTeam:'Escolher meu time',pronoSub:'Quem vai chegar a final?',pronoWinner:'Campeao do Mundo 2026',pronoFinal:'Vice-campeao',pronoSemi:'Semifinalistas',pronoSave:'Salvar',pronoSaved:'Salvo!',pronoReset:'Reiniciar',pronoChoose:'Escolher...',pronoMyPick:'Minha escolha',quizSub:'Teste seus conhecimentos!',quizScore:'Pontuacao',quizNext:'Proxima',quizFinish:'Ver resultado',quizRestart:'Jogar novamente',quizPerfect:'Perfeito! Voce e um expert!',quizGood:'Muito bem!',quizAvg:'Nada mal!',quizBad:'Continue estudando!',starsSub:'Jogadores',pollTitle:'Enquetes',pollTotal:'votos',didYouKnow:'Voce sabia?',facts:['A Italia perde a Copa 2026 pela 2a vez','O Azteca sedia sua 3a Copa','Primeira Copa com 48 selecoes','Primeira edicao organizada por 3 paises','104 jogos contra 64 em 2022','Novas regras do IFAB em vigor'],shareApp:'Compartilhar',shareCopied:'Link copiado!',premiumBanner:'Seja PREMIUM - Palpites + Estatisticas + Sem anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO E RESULTADOS',fixturesAll:'Todos os jogos',fixturesMy:'Apenas meu time',noFixtures:'Nenhum jogo encontrado'},
+  it:{appTitle:'Coppa del Mondo 2026',appSub:'USA - CANADA - MESSICO',nav:['Home','Gruppi','Calendario','Pronostici','Quiz','Giocatori','Sondaggi','Sim','Gioco','Fantasy','Predict'],countdown:'Conto alla rovescia',timeUnits:['Giorni','Ore','Min','Sec'],keyInfo:['Paesi ospitanti','Squadre','Partite','Durata'],keyVals:['3 nazioni','48 squadre','104 partite','11 giu-19 lug'],format:'Formato del torneo',formatLines:['12 gironi da 4 squadre','1a + 2a + 8 migliori 3e = 32 squadre','Fase a 32 > 16 > QF > SF > Finale','Apertura: Estadio Azteca, Messico','Finale: MetLife Stadium, New York'],groupsTitle:'48 SQUADRE - 12 GIRONI',hostLabel:'Sede',groupLabel:'Girone',myTeamLabel:'La Mia Squadra',pickTeam:'Scegli la tua squadra',pronoSub:'Chi arrivera in finale?',pronoWinner:'Campione del Mondo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalisti',pronoSave:'Salva',pronoSaved:'Salvato!',pronoReset:'Azzera',pronoChoose:'Scegli...',pronoMyPick:'La mia scelta',quizSub:'Metti alla prova le tue conoscenze!',quizScore:'Punteggio',quizNext:'Domanda successiva',quizFinish:'Vedi risultato',quizRestart:'Gioca ancora',quizPerfect:'Perfetto! Sei un esperto!',quizGood:'Molto bene!',quizAvg:'Niente male!',quizBad:'Continua a studiare!',starsSub:'Giocatori',pollTitle:'Sondaggi',pollTotal:'voti',didYouKnow:'Lo sapevi?',facts:["L Italia non e al Mondiale 2026 per la 2a volta","L Azteca ospita il suo 3o Mondiale","Primo Mondiale con 48 squadre","Prima edizione co-organizzata da 3 paesi","104 partite contro 64 nel 2022","Nuove regole IFAB in vigore"],shareApp:'Condividi',shareCopied:'Link copiato!',premiumBanner:'Diventa PREMIUM - Pronostici + Statistiche + Senza pub',premiumBtn:'Sblocca',fixturesTitle:'CALENDARIO E RISULTATI',fixturesAll:'Tutte le partite',fixturesMy:'Solo la mia squadra',noFixtures:'Nessuna partita trovata'},
+  de:{appTitle:'Weltmeisterschaft 2026',appSub:'USA - KANADA - MEXIKO',nav:['Start','Gruppen','Spielplan','Tipps','Quiz','Spieler','Umfragen','Sim','Spiel','Fantasy','Predict'],countdown:'Countdown',timeUnits:['Tage','Stunden','Min','Sek'],keyInfo:['Gastgeberlaender','Teams','Spiele','Dauer'],keyVals:['3 Nationen','48 Teams','104 Spiele','11. Jun-19. Jul'],format:'Turnierformat',formatLines:['12 Gruppen mit je 4 Teams','1. + 2. + 8 beste 3. = 32 Teams','Runde der 32 > 16 > VF > HF > Finale','Eroeffnung: Estadio Azteca, Mexiko','Finale: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GRUPPEN',hostLabel:'Gastgeber',groupLabel:'Gruppe',myTeamLabel:'Mein Team',pickTeam:'Mein Team auswaehlen',pronoSub:'Wer kommt ins Finale?',pronoWinner:'Weltmeister 2026',pronoFinal:'Finalist',pronoSemi:'Halbfinalisten',pronoSave:'Speichern',pronoSaved:'Gespeichert!',pronoReset:'Zuruecksetzen',pronoChoose:'Auswaehlen...',pronoMyPick:'Meine Wahl',quizSub:'Teste dein Wissen!',quizScore:'Punkte',quizNext:'Naechste Frage',quizFinish:'Ergebnis sehen',quizRestart:'Nochmal spielen',quizPerfect:'Perfekt! Du bist ein Experte!',quizGood:'Sehr gut!',quizAvg:'Nicht schlecht!',quizBad:'Weiter lernen!',starsSub:'Spieler',pollTitle:'Umfragen',pollTotal:'Stimmen',didYouKnow:'Wusstest du?',facts:['Italien verpasst die WM 2026 zum 2. Mal','Das Azteca beherbergt seine 3. WM','Erste WM mit 48 Teams','Erste WM von 3 Laendern gemeinsam ausgerichtet','104 Spiele gegen 64 in 2022','Neue IFAB-Regeln in Kraft'],shareApp:'Teilen',shareCopied:'Link kopiert!',premiumBanner:'PREMIUM werden - Tipps + Statistiken + Werbefrei',premiumBtn:'Freischalten',fixturesTitle:'SPIELPLAN & ERGEBNISSE',fixturesAll:'Alle Spiele',fixturesMy:'Nur mein Team',noFixtures:'Keine Spiele gefunden'}
+};
+
+
+// QUIZ CHAMPIONSHIP DATA
+var QUIZ_CHAMPIONSHIP = {
+  en:[
+    {q:'How many teams in World Cup 2026?',opts:['32','40','48','56'],a:2,pts:1},
+    {q:'Which stadium hosts the Final?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi'],a:2,pts:1},
+    {q:'Which country is NOT a host?',opts:['USA','Canada','Mexico','Brazil'],a:3,pts:1},
+    {q:'How many total matches?',opts:['64','80','96','104'],a:3,pts:1},
+    {q:'Who won Ballon dOr 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2,pts:2},
+    {q:'Who won World Cup 2022?',opts:['France','Brazil','Croatia','Argentina'],a:3,pts:1},
+    {q:'Which group is England in?',opts:['Group A','Group C','Group J','Group L'],a:3,pts:2},
+    {q:'Who is Englands all-time top scorer?',opts:['Rooney','Lineker','Kane','Shearer'],a:2,pts:2},
+    {q:'Opening match stadium?',opts:['MetLife','Azteca','AT&T','BC Place'],a:1,pts:1},
+    {q:'Norwegian star in Group I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1,pts:2},
+    {q:'How many WC has Brazil won?',opts:['3','4','5','6'],a:2,pts:2},
+    {q:'Who invented the Scorpion Kick?',opts:['Buffon','Higuita','Casillas','Yashin'],a:1,pts:3},
+    {q:'Final city?',opts:['Los Angeles','Dallas','Miami','New York'],a:3,pts:2},
+    {q:'Italy last qualified for WC in?',opts:['2014','2018','2022','Never'],a:0,pts:3},
+    {q:'Mbappe goals at WC 2022?',opts:['6','7','8','9'],a:2,pts:3}
+  ],
+  fr:[
+    {q:'Combien d equipes au Mondial 2026?',opts:['32','40','48','56'],a:2,pts:1},
+    {q:'Stade de la Finale?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi'],a:2,pts:1},
+    {q:'Quel pays n est PAS organisateur?',opts:['USA','Canada','Mexique','Bresil'],a:3,pts:1},
+    {q:'Combien de matchs au total?',opts:['64','80','96','104'],a:3,pts:1},
+    {q:'Ballon d Or 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2,pts:2},
+    {q:'Vainqueur Mondial 2022?',opts:['France','Bresil','Croatie','Argentine'],a:3,pts:1},
+    {q:'Groupe de la France?',opts:['A','C','G','I'],a:3,pts:2},
+    {q:'Meilleur buteur historique de France?',opts:['Platini','Zidane','Giroud','Mbappe'],a:2,pts:2},
+    {q:'Stade du match d ouverture?',opts:['MetLife','Azteca','AT&T','BC Place'],a:1,pts:1},
+    {q:'Star norvegienne Groupe I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1,pts:2},
+    {q:'Titres mondiaux du Bresil?',opts:['3','4','5','6'],a:2,pts:2},
+    {q:'Inventeur du coup du Scorpion?',opts:['Buffon','Higuita','Casillas','Yashin'],a:1,pts:3},
+    {q:'Ville de la Finale?',opts:['Los Angeles','Dallas','Miami','New York'],a:3,pts:2},
+    {q:'Derniere qualification de l Italie?',opts:['2014','2018','2022','Jamais'],a:0,pts:3},
+    {q:'Buts de Mbappe au Mondial 2022?',opts:['6','7','8','9'],a:2,pts:3}
+  ],
+  es:[
+    {q:'Cuantos equipos en el Mundial 2026?',opts:['32','40','48','56'],a:2,pts:1},
+    {q:'Estadio de la Final?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi'],a:2,pts:1},
+    {q:'Que pais NO es organizador?',opts:['USA','Canada','Mexico','Brasil'],a:3,pts:1},
+    {q:'Cuantos partidos en total?',opts:['64','80','96','104'],a:3,pts:1},
+    {q:'Balon de Oro 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2,pts:2},
+    {q:'Campeon Mundial 2022?',opts:['Francia','Brasil','Croacia','Argentina'],a:3,pts:1},
+    {q:'Grupo de Espana?',opts:['A','C','H','I'],a:2,pts:2},
+    {q:'Maximo goleador historico de Espana?',opts:['Raul','Villa','Torres','Morata'],a:0,pts:2},
+    {q:'Estadio del partido inaugural?',opts:['MetLife','Azteca','AT&T','BC Place'],a:1,pts:1},
+    {q:'Estrella noruega Grupo I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1,pts:2},
+    {q:'Mundiales ganados por Brasil?',opts:['3','4','5','6'],a:2,pts:2},
+    {q:'Quien invento el golpe del Escorpion?',opts:['Buffon','Higuita','Casillas','Yashin'],a:1,pts:3},
+    {q:'Ciudad de la Final?',opts:['Los Angeles','Dallas','Miami','Nueva York'],a:3,pts:2},
+    {q:'Ultima clasificacion de Italia?',opts:['2014','2018','2022','Nunca'],a:0,pts:3},
+    {q:'Goles de Mbappe en el Mundial 2022?',opts:['6','7','8','9'],a:2,pts:3}
+  ],
+  pt:[
+    {q:'Quantas selecoes na Copa 2026?',opts:['32','40','48','56'],a:2,pts:1},
+    {q:'Estadio da Final?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi'],a:2,pts:1},
+    {q:'Qual pais NAO e sede?',opts:['USA','Canada','Mexico','Brasil'],a:3,pts:1},
+    {q:'Quantos jogos no total?',opts:['64','80','96','104'],a:3,pts:1},
+    {q:'Bola de Ouro 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2,pts:2},
+    {q:'Campeao Copa 2022?',opts:['Franca','Brasil','Croacia','Argentina'],a:3,pts:1},
+    {q:'Grupo de Portugal?',opts:['A','C','K','I'],a:2,pts:2},
+    {q:'Maior artilheiro historico de Portugal?',opts:['Figo','Eusebio','Ronaldo','Joao Felix'],a:2,pts:2},
+    {q:'Estadio da abertura?',opts:['MetLife','Azteca','AT&T','BC Place'],a:1,pts:1},
+    {q:'Estrela norueguesa Grupo I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1,pts:2},
+    {q:'Copas do Mundo do Brasil?',opts:['3','4','5','6'],a:2,pts:2},
+    {q:'Quem inventou o chute escorpiao?',opts:['Buffon','Higuita','Casillas','Yashin'],a:1,pts:3},
+    {q:'Cidade da Final?',opts:['Los Angeles','Dallas','Miami','Nova York'],a:3,pts:2},
+    {q:'Ultima classificacao da Italia?',opts:['2014','2018','2022','Nunca'],a:0,pts:3},
+    {q:'Gols de Mbappe na Copa 2022?',opts:['6','7','8','9'],a:2,pts:3}
+  ],
+  it:[
+    {q:'Quante squadre al Mondiale 2026?',opts:['32','40','48','56'],a:2,pts:1},
+    {q:'Stadio della Finale?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi'],a:2,pts:1},
+    {q:'Quale paese NON e organizzatore?',opts:['USA','Canada','Messico','Brasile'],a:3,pts:1},
+    {q:'Quante partite in totale?',opts:['64','80','96','104'],a:3,pts:1},
+    {q:'Pallone d Or 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2,pts:2},
+    {q:'Vincitore Mondiale 2022?',opts:['Francia','Brasile','Croazia','Argentina'],a:3,pts:1},
+    {q:'L Italia e al Mondiale 2026?',opts:['Si gruppo A','Si gruppo B','No','Si gruppo C'],a:2,pts:2},
+    {q:'Miglior marcatore storico italiano?',opts:['Totti','Del Piero','Riva','Vieri'],a:2,pts:2},
+    {q:'Stadio partita inaugurale?',opts:['MetLife','Azteca','AT&T','BC Place'],a:1,pts:1},
+    {q:'Stella norvegese Girone I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1,pts:2},
+    {q:'Mondiali vinti dal Brasile?',opts:['3','4','5','6'],a:2,pts:2},
+    {q:'Chi ha inventato il calcio dello scorpione?',opts:['Buffon','Higuita','Casillas','Yashin'],a:1,pts:3},
+    {q:'Citta della Finale?',opts:['Los Angeles','Dallas','Miami','New York'],a:3,pts:2},
+    {q:'Ultima qualificazione dell Italia?',opts:['2014','2018','2022','Mai'],a:0,pts:3},
+    {q:'Gol di Mbappe al Mondiale 2022?',opts:['6','7','8','9'],a:2,pts:3}
+  ],
+  de:[
+    {q:'Wie viele Teams bei der WM 2026?',opts:['32','40','48','56'],a:2,pts:1},
+    {q:'Stadion des Finales?',opts:['Azteca','AT&T Stadium','MetLife Stadium','SoFi'],a:2,pts:1},
+    {q:'Welches Land ist KEIN Gastgeber?',opts:['USA','Kanada','Mexiko','Brasilien'],a:3,pts:1},
+    {q:'Wie viele Spiele insgesamt?',opts:['64','80','96','104'],a:3,pts:1},
+    {q:'Ballon d Or 2024?',opts:['Mbappe','Bellingham','Rodri','Vinicius'],a:2,pts:2},
+    {q:'WM Sieger 2022?',opts:['Frankreich','Brasilien','Kroatien','Argentinien'],a:3,pts:1},
+    {q:'Deutschlands Gruppe?',opts:['A','C','E','I'],a:2,pts:2},
+    {q:'Historischer Torschutzkoenig Deutschlands?',opts:['Klose','Mueller','Rummenigge','Bierhoff'],a:0,pts:2},
+    {q:'Stadion Eroeffnungsspiel?',opts:['MetLife','Azteca','AT&T','BC Place'],a:1,pts:1},
+    {q:'Norwegischer Star Gruppe I?',opts:['Odegaard','Haaland','Sorloth','King'],a:1,pts:2},
+    {q:'WM Titel Brasilien?',opts:['3','4','5','6'],a:2,pts:2},
+    {q:'Wer erfand den Skorpion Tritt?',opts:['Buffon','Higuita','Casillas','Yashin'],a:1,pts:3},
+    {q:'Stadt des Finales?',opts:['Los Angeles','Dallas','Miami','New York'],a:3,pts:2},
+    {q:'Letzte WM Qualifikation Italiens?',opts:['2014','2018','2022','Nie'],a:0,pts:3},
+    {q:'Mbappe Tore WM 2022?',opts:['6','7','8','9'],a:2,pts:3}
+  ]
+};
+var QC_OPPONENTS={
+  en:['Bolivia','Haiti','Panama','Ghana','Scotland','Croatia','Morocco','Norway','USA','Argentina','Brazil','Spain','France','Germany','England'],
+  fr:['Bolivie','Haiti','Panama','Ghana','Ecosse','Croatie','Maroc','Norvege','USA','Argentine','Bresil','Espagne','France','Allemagne','France'],
+  es:['Bolivia','Haiti','Panama','Ghana','Escocia','Croacia','Marruecos','Noruega','USA','Argentina','Brasil','Espana','Francia','Alemania','Espana'],
+  pt:['Bolivia','Haiti','Panama','Ghana','Escocia','Croacia','Marrocos','Noruega','USA','Argentina','Brasil','Espanha','Franca','Alemanha','Portugal'],
+  it:['Bolivia','Haiti','Panama','Ghana','Scozia','Croazia','Marocco','Norvegia','USA','Argentina','Brasile','Spagna','Francia','Germania','Italia'],
+  de:['Bolivien','Haiti','Panama','Ghana','Schottland','Kroatien','Marokko','Norwegen','USA','Argentinien','Brasilien','Spanien','Frankreich','Deutschland','Deutschland']
 };
 
 var QUIZ = {
@@ -529,6 +644,7 @@ function App(){
   var sA=useState('');var manTeam1=sA[0];var setManTeam1=sA[1];
   var sB=useState('');var manTeam2=sB[0];var setManTeam2=sB[1];
   var sC=useState(null);var manResult=sC[0];var setManResult=sC[1];
+  var s27=useState(null);var tournament=s27[0];var setTournament=s27[1];
   var sG1=useState('idle');var gamePhase=sG1[0];var setGamePhase=sG1[1];
   var sG2=useState(0);var gameScore=sG2[0];var setGameScore=sG2[1];
   var sG3=useState(0);var gameMiss=sG3[0];var setGameMiss=sG3[1];
@@ -540,7 +656,19 @@ function App(){
   var sG9=useState(3);var timer=sG9[0];var setTimer=sG9[1];
   var sG10=useState(0);var combo=sG10[0];var setCombo=sG10[1];
   var sG11=useState(null);var timerRef=sG11[0];var setTimerRef=sG11[1];
-  var s27=useState(null);var tournament=s27[0];var setTournament=s27[1];
+  var sQ1=useState(0);var qcIdx=sQ1[0];var setQcIdx=sQ1[1];
+  var sQ2=useState(0);var qcScore=sQ2[0];var setQcScore=sQ2[1];
+  var sQ3=useState(null);var qcSelected=sQ3[0];var setQcSelected=sQ3[1];
+  var sQ4=useState(false);var qcAnswered=sQ4[0];var setQcAnswered=sQ4[1];
+  var sQ5=useState(false);var qcDone=sQ5[0];var setQcDone=sQ5[1];
+  var sQ6=useState(1);var qcRound=sQ6[0];var setQcRound=sQ6[1];
+  var sQ7=useState(null);var qcOpponent=sQ7[0];var setQcOpponent=sQ7[1];
+  var sQ8=useState('idle');var qcPhase=sQ8[0];var setQcPhase=sQ8[1];
+  var sF1=useState([]);var fantasyTeam=sF1[0];var setFantasyTeam=sF1[1];
+  var sF2=useState(null);var fantasyPos=sF2[0];var setFantasyPos=sF2[1];
+  var sF3=useState(false);var fantasyDone=sF3[0];var setFantasyDone=sF3[1];
+  var sM1=useState({});var predictions=sM1[0];var setPredictions=sM1[1];
+  var sM2=useState(false);var predSaved=sM2[0];var setPredSaved=sM2[1];
   // Interactive tournament state
   var s30=useState('idle');var iPhase=s30[0];var setIPhase=s30[1]; // idle|groups|r32|r16|qf|sf|final|done
   var s31=useState({});var iGroupStandings=s31[0];var setIGroupStandings=s31[1];
@@ -992,42 +1120,24 @@ function App(){
 
   // - AI MATCH SIMULATOR -
 
-  // PENALTY GAME FUNCTIONS
   function shootPenalty(dir){
     if(gamePhase!=='shooting')return;
-    // Clear timer
     if(timerRef){clearInterval(timerRef);setTimerRef(null);}
-    setTimer(3);
-    setGamePhase('animating');
-    setShotDir(dir);
-
-    // Smart keeper - learns from shot history
+    setTimer(3);setGamePhase('animating');setShotDir(dir);
     setShotHistory(function(hist){
-      var dirs=['left','center','right'];
-      var kDir;
+      var dirs=['left','center','right'];var kDir;
       if(hist.length>=2){
-        // Count player tendencies
         var counts={left:0,center:0,right:0};
         hist.forEach(function(h){counts[h.dir]++;});
         var maxDir=Object.keys(counts).reduce(function(a,b){return counts[a]>counts[b]?a:b;});
-        // 60% chance keeper goes to player's favorite spot
         kDir=Math.random()<0.6?maxDir:dirs[Math.floor(Math.random()*3)];
-      } else {
-        kDir=dirs[Math.floor(Math.random()*3)];
-      }
+      } else {kDir=dirs[Math.floor(Math.random()*3)];}
       setKeeperDir(kDir);
-
       var scored=dir!==kDir||(dir==='center'&&Math.random()<0.2);
-
       setTimeout(function(){
         setShotResult(scored?'goal':'saved');
-        if(scored){
-          setGameScore(function(s){return s+1;});
-          setCombo(function(c){return c+1;});
-        } else {
-          setGameMiss(function(m){return m+1;});
-          setCombo(0);
-        }
+        if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
+        else{setGameMiss(function(m){return m+1;});setCombo(0);}
         setShotsLeft(function(s){return s-1;});
         setTimeout(function(){
           setShotsLeft(function(s){
@@ -1038,34 +1148,15 @@ function App(){
           setShotDir(null);setKeeperDir(null);setShotResult(null);
         },1300);
       },700);
-
-      return hist.concat({dir:dir,scored:scored});
+      return hist.concat([{dir:dir,scored:scored}]);
     });
   }
-
-  function startTimer(){
-    var t=3;
-    var id=setInterval(function(){
-      t--;
-      setTimer(t);
-      if(t<=0){
-        clearInterval(id);
-        // Auto shoot random if time runs out
-        var dirs=['left','center','right'];
-        shootPenalty(dirs[Math.floor(Math.random()*3)]);
-      }
-    },1000);
-    setTimerRef(id);
-    return id;
-  }
-
   function resetGame(){
     if(timerRef){clearInterval(timerRef);setTimerRef(null);}
     setGamePhase('idle');setGameScore(0);setGameMiss(0);
     setShotDir(null);setKeeperDir(null);setShotResult(null);
     setShotsLeft(5);setShotHistory([]);setCombo(0);setTimer(3);
   }
-
   function formatDate(d){var dt=new Date(d+'T12:00:00');return dt.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});}
 
   return e('div',{style:{minHeight:'100vh',background:'linear-gradient(160deg,'+DARK+',#0c1e44 50%,'+DARK+')',fontFamily:"'Open Sans',sans-serif",color:'#eee8d5'}},
@@ -1305,34 +1396,7 @@ function App(){
       ),
 
       // - QUIZ -
-      tab===4&&e('div',null,
-        e('div',{style:{fontSize:10,color:G,marginBottom:14,textAlign:'center'}},t.quizSub),
-        !quizDone?e('div',null,
-          e('div',{style:{marginBottom:14}},
-            e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:10,color:'#6a86a0',marginBottom:6}},e('span',null,qIdx+1,' / ',questions.length),e('span',null,t.quizScore,': ',score)),
-            e('div',{style:{height:4,background:'rgba(255,255,255,0.08)',borderRadius:2,overflow:'hidden'}},e('div',{style:{width:(qIdx/questions.length*100)+'%',height:'100%',background:'linear-gradient(90deg,'+G+',#ff9900)',borderRadius:2,transition:'width 0.4s'}}))
-          ),
-          e(Card,{style:{marginBottom:13,padding:20,textAlign:'center'}},e('div',{style:{fontSize:14,fontWeight:'bold',lineHeight:1.5,color:'#fff'}},questions[qIdx].q)),
-          e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:14}},
-            questions[qIdx].opts.map(function(opt,i){
-              var bg=CB,brd=BD,col='#eee8d5';
-              if(answered){if(i===questions[qIdx].a){bg='rgba(40,160,40,0.25)';brd='rgba(40,200,40,0.6)';col='#90ee90';}else if(i===selected){bg='rgba(200,40,40,0.25)';brd='rgba(200,60,60,0.6)';col='#ff8888';}}
-              return e('button',{key:i,onClick:function(){handleAnswer(i);},style:{background:bg,border:'1px solid '+brd,borderRadius:10,padding:'12px 10px',fontSize:12,color:col,cursor:answered?'default':'pointer',textAlign:'center',fontWeight:answered&&i===questions[qIdx].a?'bold':'normal'}},answered&&i===questions[qIdx].a?'OK ':answered&&i===selected&&i!==questions[qIdx].a?'X ':'',opt);
-            })
-          ),
-          answered&&e('button',{onClick:nextQ,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},qIdx<questions.length-1?t.quizNext:t.quizFinish)
-        ):e('div',{style:{textAlign:'center'}},
-          e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.18),rgba(184,150,62,0.08))',border:'1.5px solid '+G,borderRadius:18,padding:28,marginBottom:16}},
-            e('div',{style:{fontSize:40,marginBottom:12}},score===questions.length?'🏆':score>=questions.length*0.7?'⭐':score>=questions.length*0.4?'👍':'📚'),
-            e('div',{style:{fontSize:22,fontWeight:'bold',color:G}},score,'/',questions.length),
-            e('div',{style:{fontSize:13,color:'#eee',marginTop:8}},getMsg(score))
-          ),
-          e('button',{onClick:resetQuiz,style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'13px 40px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},t.quizRestart)
-        )
-      ),
-
-      // - STARS with AVATARS -
-      tab===5&&e('div',null,
+            tab===5&&e('div',null,
         e('div',{style:{fontSize:10,color:G,marginBottom:14,textAlign:'center',letterSpacing:2}},t.starsSub),
         e('div',{style:{display:'flex',flexDirection:'column',gap:10}},
           STARS.map(function(s,i){
@@ -1383,8 +1447,7 @@ function App(){
             );
           })
         )
-      )
-    ),
+      ),
 
       // - INTERACTIVE TOURNAMENT TAB -
       tab===7&&e('div',null,
@@ -1558,256 +1621,386 @@ function App(){
         )
       ),
 
-      // TAB 8 - GAME
+      // ── TAB 8 - PENALTY GAME ──────────────────────────────────
       tab===8&&e('div',{style:{paddingBottom:16}},
-
-        // SECTION 1 - PENALTY SIMPLE (GRATUIT)
-        e('div',{style:{marginBottom:20}},
-          e('div',{style:{textAlign:'center',marginBottom:12}},
-            e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:1}},
-              '⚽ '+(lang==='fr'?'PENALTY SIMPLE - GRATUIT':lang==='es'?'PENALTI SIMPLE - GRATIS':lang==='pt'?'PENALTI SIMPLES - GRATIS':lang==='it'?'RIGORE SEMPLICE - GRATIS':lang==='de'?'ELFMETER - KOSTENLOS':'SIMPLE PENALTY - FREE')
+        e('div',{style:{textAlign:'center',marginBottom:10}},
+          e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:1}},'⚽ PENALTY GAME'),
+          e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
+            lang==='fr'?'5 tirs - Battez Higuita !':lang==='es'?'5 penaltis - Vence a Higuita !':lang==='pt'?'5 penaltis - Venca Higuita !':lang==='it'?'5 rigori - Batti Higuita !':lang==='de'?'5 Elfmeter - Bezwinge Higuita !':'5 penalties - Beat Higuita!'
+          )
+        ),
+        e('div',{style:{display:'flex',justifyContent:'center',gap:10,marginBottom:10}},
+          e('div',{style:{textAlign:'center',background:'rgba(40,160,40,0.2)',border:'1px solid rgba(40,200,40,0.4)',borderRadius:10,padding:'7px 14px'}},
+            e('div',{style:{fontSize:20,fontWeight:'bold',color:'#90ee90'}},'⚽ ',gameScore),
+            e('div',{style:{fontSize:9,color:'#6a86a0'}},'GOALS')
+          ),
+          e('div',{style:{textAlign:'center',background:'rgba(212,175,55,0.1)',border:'1px solid '+G,borderRadius:10,padding:'7px 14px'}},
+            e('div',{style:{fontSize:20,fontWeight:'bold',color:G}},shotsLeft),
+            e('div',{style:{fontSize:9,color:'#6a86a0'}},'LEFT')
+          ),
+          e('div',{style:{textAlign:'center',background:'rgba(200,40,40,0.2)',border:'1px solid rgba(200,60,60,0.4)',borderRadius:10,padding:'7px 14px'}},
+            e('div',{style:{fontSize:20,fontWeight:'bold',color:'#ff8888'}},'✗ ',gameMiss),
+            e('div',{style:{fontSize:9,color:'#6a86a0'}},'SAVED')
+          )
+        ),
+        e('div',{style:{display:'flex',justifyContent:'center',gap:5,marginBottom:10}},
+          [0,1,2,3,4].map(function(i){
+            var h=shotHistory[i];
+            return e('div',{key:i,style:{width:26,height:26,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.4)':'rgba(200,40,40,0.4)'):'rgba(255,255,255,0.1)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff8888'):'rgba(255,255,255,0.2)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h?(h.scored?'⚽':'✗'):'');
+          })
+        ),
+        // Goal visual with Higuita SVG
+        e('div',{style:{position:'relative',width:'100%',maxWidth:300,margin:'0 auto 12px',height:140,background:'linear-gradient(180deg,#1a4a1a,#2d7a2d)',borderRadius:10,overflow:'visible',border:'2px solid rgba(255,255,255,0.2)'}},
+          e('div',{style:{position:'absolute',top:10,left:'20%',right:'20%',height:85,border:'3px solid white',borderBottom:'none',background:'rgba(255,255,255,0.08)'}}),
+          e('div',{style:{position:'absolute',top:10,left:'20%',width:'20%',height:85,borderRight:'1px dashed rgba(255,255,255,0.2)'}}),
+          e('div',{style:{position:'absolute',top:10,left:'60%',width:'20%',height:85,borderLeft:'1px dashed rgba(255,255,255,0.2)'}}),
+          e('div',{style:{position:'absolute',bottom:0,left:0,right:0,height:30,background:'rgba(255,255,255,0.05)',borderTop:'2px solid rgba(255,255,255,0.15)'}}),
+          // HIGUITA SVG
+          e('svg',{
+            style:{position:'absolute',top:keeperDir==='left'?5:keeperDir==='right'?5:10,left:keeperDir==='left'?'18%':keeperDir==='right'?'54%':'39%',width:54,height:78,transition:'all 0.45s cubic-bezier(0.25,0.46,0.45,0.94)',transform:keeperDir==='left'?'rotate(-28deg) scaleX(-1)':keeperDir==='right'?'rotate(28deg)':'rotate(0deg)',filter:shotResult==='goal'?'grayscale(0.9) opacity(0.5)':shotResult==='saved'?'drop-shadow(0 0 10px #ffd700)':''},
+            viewBox:'0 0 54 78',xmlns:'http://www.w3.org/2000/svg'
+          },
+            e('rect',{x:13,y:28,width:24,height:24,rx:4,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1.5}),
+            e('rect',{x:13,y:35,width:24,height:5,fill:'#CE1126'}),
+            e('rect',{x:13,y:40,width:24,height:4,fill:'#003087'}),
+            e('text',{x:25,y:38,textAnchor:'middle',fontSize:4,fontWeight:'bold',fill:'white'},'EL LOCO'),
+            e('rect',{x:21,y:21,width:9,height:9,rx:2,fill:'#C68642'}),
+            e('ellipse',{cx:25,cy:13,rx:10,ry:11,fill:'#C68642',stroke:'#a0522d',strokeWidth:1}),
+            e('path',{d:'M15 7 Q19 1 25 0 Q31 1 35 7 Q32 4 25 3 Q18 4 15 7',fill:'#0d0500'}),
+            e('ellipse',{cx:13,cy:12,rx:4,ry:7,fill:'#0d0500'}),
+            e('ellipse',{cx:37,cy:12,rx:4,ry:7,fill:'#0d0500'}),
+            e('circle',{cx:13,cy:19,r:3,fill:'#0d0500'}),
+            e('circle',{cx:37,cy:19,r:3,fill:'#0d0500'}),
+            e('circle',{cx:20,cy:2,r:3,fill:'#0d0500'}),
+            e('circle',{cx:25,cy:0,r:3,fill:'#0d0500'}),
+            e('circle',{cx:30,cy:2,r:3,fill:'#0d0500'}),
+            e('ellipse',{cx:20,cy:13,rx:2.2,ry:1.8,fill:'white'}),
+            e('ellipse',{cx:30,cy:13,rx:2.2,ry:1.8,fill:'white'}),
+            e('circle',{cx:20,cy:13,r:1.3,fill:'#2a1500'}),
+            e('circle',{cx:30,cy:13,r:1.3,fill:'#2a1500'}),
+            e('path',{d:'M17 10 Q20 9 23 10',stroke:'#0d0500',strokeWidth:1.8,fill:'none',strokeLinecap:'round'}),
+            e('path',{d:'M27 10 Q30 9 33 10',stroke:'#0d0500',strokeWidth:1.8,fill:'none',strokeLinecap:'round'}),
+            e('path',{d:'M16 18 Q20 15 25 17 Q30 15 34 18 Q31 22 25 21 Q19 22 16 18',fill:'#0d0500'}),
+            e('path',{d:'M17 22 Q21 25 25 24 Q29 25 33 22',stroke:'#0d0500',strokeWidth:1.3,fill:'none',strokeLinecap:'round'}),
+            keeperDir==='left'?e('path',{d:'M13 32 L-4 18',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round'}):e('path',{d:'M13 36 L6 50',stroke:'#FCD116',strokeWidth:6,strokeLinecap:'round'}),
+            keeperDir==='right'?e('path',{d:'M37 32 L54 18',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round'}):e('path',{d:'M37 36 L44 50',stroke:'#FCD116',strokeWidth:6,strokeLinecap:'round'}),
+            keeperDir==='left'?e('circle',{cx:-4,cy:17,r:5.5,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5}):e('circle',{cx:6,cy:50,r:5,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5}),
+            keeperDir==='right'?e('circle',{cx:54,cy:17,r:5.5,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5}):e('circle',{cx:44,cy:50,r:5,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5}),
+            shotResult!=='saved'&&e('rect',{x:15,y:52,width:9,height:13,rx:2,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1}),
+            shotResult!=='saved'&&e('rect',{x:30,y:52,width:9,height:13,rx:2,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1}),
+            shotResult!=='saved'&&e('ellipse',{cx:19,cy:67,rx:7,ry:3.5,fill:'#111'}),
+            shotResult!=='saved'&&e('ellipse',{cx:34,cy:67,rx:7,ry:3.5,fill:'#111'}),
+            shotResult==='saved'&&e('path',{d:'M17 54 Q8 46 5 34 Q2 20 14 10',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round',fill:'none'}),
+            shotResult==='saved'&&e('path',{d:'M37 54 Q46 46 49 34 Q52 20 40 10',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round',fill:'none'}),
+            shotResult==='saved'&&e('ellipse',{cx:14,cy:8,rx:7,ry:3,fill:'#111',transform:'rotate(-25 14 8)'}),
+            shotResult==='saved'&&e('ellipse',{cx:40,cy:8,rx:7,ry:3,fill:'#111',transform:'rotate(25 40 8)'}),
+            shotResult==='saved'&&e('text',{x:25,y:3,textAnchor:'middle',fontSize:11},'🦂')
+          ),
+          // Ball
+          shotDir&&e('div',{style:{position:'absolute',bottom:shotResult?55:5,left:shotDir==='left'?'22%':shotDir==='right'?'62%':'42%',fontSize:20,transition:'all 0.65s ease'}},'⚽'),
+          shotResult&&e('div',{style:{position:'absolute',top:'38%',left:'50%',transform:'translate(-50%,-50%)',fontSize:16,fontWeight:'bold',color:shotResult==='goal'?'#90ee90':'#ff8888',textShadow:'0 2px 8px rgba(0,0,0,0.9)',whiteSpace:'nowrap'}},
+            shotResult==='goal'?'⚽ GOAL !':(lang==='fr'?'✗ ARRETE !':lang==='es'?'✗ PARADO !':lang==='pt'?'✗ DEFENDIDO !':lang==='it'?'✗ PARATO !':lang==='de'?'✗ GEHALTEN !':'✗ SAVED !')
+          )
+        ),
+        // Combo
+        combo>=2&&e('div',{style:{textAlign:'center',marginBottom:8}},
+          e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.3),rgba(255,150,0,0.2))',border:'1px solid '+G,borderRadius:8,padding:'4px 16px',display:'inline-block',fontSize:12,fontWeight:'bold',color:G}},'🔥 COMBO x',combo,' !')
+        ),
+        gamePhase==='idle'&&e('button',{onClick:function(){setGamePhase('shooting');setTimer(3);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+          lang==='fr'?'⚽ Commencer':lang==='es'?'⚽ Empezar':lang==='pt'?'⚽ Comecar':lang==='it'?'⚽ Inizia':lang==='de'?'⚽ Starten':'⚽ Start'
+        ),
+        gamePhase==='shooting'&&e('div',null,
+          e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8,padding:'0 4px'}},
+            e('div',{style:{display:'flex',alignItems:'center',gap:5}},
+              e('div',{style:{width:34,height:34,borderRadius:'50%',background:timer<=1?'rgba(200,40,40,0.3)':timer===2?'rgba(255,165,0,0.3)':'rgba(40,200,40,0.3)',border:'2px solid '+(timer<=1?'#ff6b6b':timer===2?'orange':'#90ee90'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:'bold',color:timer<=1?'#ff6b6b':timer===2?'orange':'#90ee90'}},timer),
+              e('div',{style:{fontSize:9,color:'#6a86a0'}},'sec')
             ),
-            e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
-              lang==='fr'?'5 tirs au but - Battez le gardien !':lang==='es'?'5 penaltis - Vence al portero !':lang==='pt'?'5 penaltis - Venca o goleiro !':lang==='it'?'5 rigori - Batti il portiere !':lang==='de'?'5 Elfmeter - Torwart bezwingen !':'5 penalties - Beat the keeper!'
+            e('div',{style:{fontSize:10,color:'#6a86a0'}},lang==='fr'?'Ou tirez ?':lang==='es'?'Donde ?':lang==='pt'?'Para onde ?':lang==='it'?'Dove ?':lang==='de'?'Wohin ?':'Shoot where?')
+          ),
+          e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}},
+            ['left','center','right'].map(function(dir){
+              var labels={left:{en:'⬅ Left',fr:'⬅ Gauche',es:'⬅ Izq',pt:'⬅ Esq',it:'⬅ Sin',de:'⬅ Links'},center:{en:'⬆ Center',fr:'⬆ Centre',es:'⬆ Centro',pt:'⬆ Centro',it:'⬆ Centro',de:'⬆ Mitte'},right:{en:'➡ Right',fr:'➡ Droite',es:'➡ Der',pt:'➡ Dir',it:'➡ Des',de:'➡ Rechts'}};
+              return e('button',{key:dir,onClick:function(){shootPenalty(dir);},style:{background:'linear-gradient(135deg,rgba(10,30,80,0.95),rgba(20,60,140,0.9))',border:'2px solid '+G,borderRadius:9,padding:'13px 4px',fontSize:12,fontWeight:'bold',color:G,cursor:'pointer'}},labels[dir][lang]||labels[dir].en);
+            })
+          )
+        ),
+        gamePhase==='animating'&&e('div',{style:{textAlign:'center',padding:'10px',color:G,fontSize:13}},'...'),
+        gamePhase==='done'&&e('div',{style:{textAlign:'center'}},
+          e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,150,62,0.08))',border:'2px solid '+G,borderRadius:16,padding:'20px 16px',marginBottom:12}},
+            e('div',{style:{fontSize:44,marginBottom:6}},gameScore===5?'🏆':gameScore===4?'🥇':gameScore===3?'⭐':gameScore===2?'👍':'😢'),
+            e('div',{style:{fontSize:22,fontWeight:'bold',color:G,marginBottom:4}},gameScore,' / 5'),
+            e('div',{style:{fontSize:12,color:gameScore>=4?'#90ee90':gameScore>=3?G:'#ff8888',marginBottom:4}},
+              gameScore===5?(lang==='fr'?'PARFAIT ! Classe mondiale !':lang==='es'?'PERFECTO ! Clase mundial !':lang==='pt'?'PERFEITO ! Classe mundial !':lang==='it'?'PERFETTO ! Classe mondiale !':lang==='de'?'PERFEKT ! Weltklasse !':'PERFECT! World class!'):
+              gameScore===4?(lang==='fr'?'Excellent ! Higuita ne peut rien !':lang==='es'?'Excelente ! Higuita sin opciones !':'Excellent! Higuita had no chance!'):
+              gameScore===3?(lang==='fr'?'Pas mal ! Continue a t entrainer !':'Not bad! Keep practicing!'):
+              (lang==='fr'?'Higuita a tout arrete... Revenge ?':lang==='es'?'Higuita para todo... Revancha ?':'Higuita saved everything... Revenge?')
+            ),
+            e('div',{style:{display:'flex',justifyContent:'center',gap:5,marginTop:8}},
+              shotHistory.map(function(h,i){return e('div',{key:i,style:{width:22,height:22,borderRadius:'50%',background:h.scored?'rgba(40,200,40,0.4)':'rgba(200,40,40,0.4)',border:'1px solid '+(h.scored?'#90ee90':'#ff8888'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:10}},h.scored?'⚽':'✗');})
             )
           ),
+          e('button',{onClick:resetGame,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+            lang==='fr'?'🔄 Rejouer':lang==='es'?'🔄 Jugar':lang==='pt'?'🔄 Jogar':lang==='it'?'🔄 Rigioca':lang==='de'?'🔄 Nochmal':'🔄 Play Again'
+          )
+        ),
+        e('div',{style:{height:1,background:'rgba(212,175,55,0.2)',margin:'16px 0'}}),
+        e('div',{style:{textAlign:'center',marginBottom:8}},
+          e('div',{style:{fontSize:11,fontWeight:'bold',color:G}},'🏆 PENALTY PRO - ANIMATED'),
+          e('div',{style:{fontSize:9,color:'#6a86a0',marginTop:2}},lang==='fr'?'Version animee avec effets - PRO uniquement':lang==='es'?'Version animada - Solo PRO':lang==='pt'?'Versao animada - Apenas PRO':lang==='it'?'Versione animata - Solo PRO':lang==='de'?'Animierte Version - Nur PRO':'Animated version - PRO only')
+        ),
+        !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.06))',border:'1px solid '+G,borderRadius:12,padding:'16px',textAlign:'center'}},
+          e('div',{style:{fontSize:24,marginBottom:6}},'🔒'),
+          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block'}},'🏆 PRO - '+getPrice(lang))
+        ),
+        premium&&e('div',{style:{textAlign:'center',padding:16,color:'#9bb0c8',fontSize:12}},'🎮 PRO Animated Penalty - Coming Soon !')
+      ),
 
-          // Scoreboard
-          e('div',{style:{display:'flex',justifyContent:'center',gap:12,marginBottom:12}},
-            e('div',{style:{textAlign:'center',background:'rgba(40,160,40,0.2)',border:'1px solid rgba(40,200,40,0.4)',borderRadius:10,padding:'8px 16px'}},
-              e('div',{style:{fontSize:22,fontWeight:'bold',color:'#90ee90'}},'⚽ ',gameScore),
-              e('div',{style:{fontSize:9,color:'#6a86a0'}},'GOALS')
+      // ── TAB 4 - QUIZ CHAMPIONSHIP ─────────────────────────────
+      tab===4&&e('div',null,
+        e('div',{style:{textAlign:'center',marginBottom:12}},
+          e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:2}},'🏆 QUIZ CHAMPIONSHIP'),
+          e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
+            lang==='fr'?'15 questions - 5 rounds - Battez toutes les equipes !':
+            lang==='es'?'15 preguntas - 5 rondas - Vence a todos los equipos !':
+            lang==='pt'?'15 perguntas - 5 rodadas - Venca todos os times !':
+            lang==='it'?'15 domande - 5 round - Batti tutte le squadre !':
+            lang==='de'?'15 Fragen - 5 Runden - Besiege alle Teams !':
+            '15 questions - 5 rounds - Beat all teams!'
+          )
+        ),
+        qcPhase==='idle'&&e('div',{style:{textAlign:'center'}},
+          e('div',{style:{background:CB,border:'1px solid '+BD,borderRadius:12,padding:16,marginBottom:14}},
+            e('div',{style:{display:'flex',justifyContent:'center',gap:6,marginBottom:12}},
+              ['🥉','🥈','🥇','🏅','🏆'].map(function(m,i){return e('div',{key:i,style:{fontSize:22,opacity:0.4}},m);})
             ),
-            e('div',{style:{textAlign:'center',background:'rgba(212,175,55,0.1)',border:'1px solid '+G,borderRadius:10,padding:'8px 16px'}},
-              e('div',{style:{fontSize:22,fontWeight:'bold',color:G}},shotsLeft),
-              e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'TIRS':lang==='de'?'LINKS':'LEFT')
-            ),
-            e('div',{style:{textAlign:'center',background:'rgba(200,40,40,0.2)',border:'1px solid rgba(200,60,60,0.4)',borderRadius:10,padding:'8px 16px'}},
-              e('div',{style:{fontSize:22,fontWeight:'bold',color:'#ff8888'}},'✗ ',gameMiss),
-              e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'ARRETS':'SAVED')
+            e('div',{style:{fontSize:11,color:'#9bb0c8',lineHeight:1.7}},
+              lang==='fr'?'Affrontez 5 adversaires ! Repondez correctement pour marquer des points bonus !':
+              lang==='es'?'Enfrenta 5 rivales ! Responde correctamente para conseguir puntos bonus !':
+              lang==='pt'?'Enfrente 5 adversarios ! Responda corretamente para ganhar pontos bonus !':
+              lang==='it'?'Affronta 5 avversari ! Rispondi correttamente per punti bonus !':
+              lang==='de'?'Besiege 5 Gegner ! Richtige Antworten bringen Bonuspunkte !':
+              'Face 5 opponents! Answer correctly for bonus points!'
             )
           ),
+          e('button',{
+            onClick:function(){
+              var opps=(QC_OPPONENTS[lang]||QC_OPPONENTS.en);
+              setQcOpponent(opps[0]);setQcRound(1);setQcIdx(0);
+              setQcScore(0);setQcSelected(null);setQcAnswered(false);
+              setQcPhase('playing');
+            },
+            style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}
+          },'🏆 '+(lang==='fr'?'Commencer':lang==='es'?'Empezar':lang==='pt'?'Comecar':lang==='it'?'Inizia':lang==='de'?'Starten':'Start Championship'))
+        ),
+        qcPhase==='playing'&&e('div',null,
+          e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,150,62,0.08))',border:'1px solid '+G,borderRadius:10,padding:'10px 14px',marginBottom:10,display:'flex',justifyContent:'space-between',alignItems:'center'}},
+            e('div',null,
+              e('div',{style:{fontSize:9,color:'#6a86a0'}},'Round ',qcRound,' / 5'),
+              e('div',{style:{fontSize:12,fontWeight:'bold',color:G}},'vs ',qcOpponent||'')
+            ),
+            e('div',{style:{textAlign:'right'}},
+              e('div',{style:{fontSize:9,color:'#6a86a0'}},'Q ',qcIdx+1,' / 3'),
+              e('div',{style:{fontSize:13,fontWeight:'bold',color:G}},qcScore,' pts')
+            )
+          ),
+          e('div',{style:{height:4,background:'rgba(255,255,255,0.08)',borderRadius:2,marginBottom:12,overflow:'hidden'}},
+            e('div',{style:{width:(qcIdx/3*100)+'%',height:'100%',background:'linear-gradient(90deg,'+G+',#ff9900)',borderRadius:2,transition:'width 0.4s'}})
+          ),
+          (function(){
+            var allQ=QUIZ_CHAMPIONSHIP[lang]||QUIZ_CHAMPIONSHIP.en;
+            var qi=((qcRound-1)*3)+qcIdx;
+            var q=allQ[Math.min(qi,allQ.length-1)];
+            if(!q)return null;
+            return e('div',null,
+              e('div',{style:{background:CB,border:'1px solid '+BD,borderRadius:12,padding:'14px',marginBottom:10,textAlign:'center'}},
+                e('div',{style:{fontSize:9,color:G,marginBottom:5,letterSpacing:1}},'+',q.pts,' pts'),
+                e('div',{style:{fontSize:13,fontWeight:'bold',color:'#fff',lineHeight:1.5}},q.q)
+              ),
+              e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:10}},
+                q.opts.map(function(opt,i){
+                  var bg=CB,brd=BD,col='#eee8d5';
+                  if(qcAnswered){if(i===q.a){bg='rgba(40,160,40,0.25)';brd='rgba(40,200,40,0.6)';col='#90ee90';}else if(i===qcSelected){bg='rgba(200,40,40,0.25)';brd='rgba(200,60,60,0.6)';col='#ff8888';}}
+                  return e('button',{key:i,onClick:function(){
+                    if(qcAnswered)return;
+                    setQcSelected(i);setQcAnswered(true);
+                    if(i===q.a)setQcScore(function(s){return s+q.pts;});
+                  },style:{background:bg,border:'1px solid '+brd,borderRadius:10,padding:'11px 8px',fontSize:12,color:col,cursor:qcAnswered?'default':'pointer',fontWeight:qcAnswered&&i===q.a?'bold':'normal'}},
+                  qcAnswered&&i===q.a?'✅ ':qcAnswered&&i===qcSelected&&i!==q.a?'❌ ':'',opt);
+                })
+              ),
+              qcAnswered&&e('button',{
+                onClick:function(){
+                  if(qcIdx<2){setQcIdx(function(n){return n+1;});setQcSelected(null);setQcAnswered(false);}
+                  else{
+                    var opps=(QC_OPPONENTS[lang]||QC_OPPONENTS.en);
+                    if(qcRound<5){setQcRound(function(r){return r+1;});setQcOpponent(opps[qcRound]);setQcIdx(0);setQcSelected(null);setQcAnswered(false);setQcPhase('roundend');}
+                    else{setQcPhase('done');}
+                  }
+                },
+                style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}
+              },qcIdx<2?(lang==='fr'?'Question suivante':lang==='es'?'Siguiente':lang==='pt'?'Proxima':lang==='it'?'Successiva':lang==='de'?'Nachste':'Next'):(lang==='fr'?'Round suivant !':lang==='es'?'Siguiente ronda !':lang==='pt'?'Proxima rodada !':lang==='it'?'Round successivo !':lang==='de'?'Nachste Runde !':'Next Round!'))
+            );
+          })()
+        ),
+        qcPhase==='roundend'&&e('div',{style:{textAlign:'center',padding:20}},
+          e('div',{style:{fontSize:30,marginBottom:8}},'⚽'),
+          e('div',{style:{fontSize:15,fontWeight:'bold',color:G,marginBottom:6}},lang==='fr'?'Round '+(qcRound-1)+' termine !':lang==='es'?'Ronda '+(qcRound-1)+' terminada !':lang==='pt'?'Rodada '+(qcRound-1)+' concluida !':lang==='it'?'Round '+(qcRound-1)+' completato !':lang==='de'?'Runde '+(qcRound-1)+' beendet !':'Round '+(qcRound-1)+' complete!'),
+          e('div',{style:{fontSize:12,color:'#9bb0c8',marginBottom:6}},lang==='fr'?'Score actuel: ':lang==='de'?'Aktueller Stand: ':'Current score: ',e('strong',{style:{color:G}},qcScore,' pts')),
+          e('div',{style:{fontSize:11,color:'#9bb0c8',marginBottom:14}},lang==='fr'?'Prochain: ':lang==='es'?'Siguiente: ':lang==='pt'?'Proximo: ':lang==='it'?'Prossimo: ':lang==='de'?'Nachster: ':'Next: ',e('strong',{style:{color:G}},qcOpponent)),
+          e('button',{onClick:function(){setQcPhase('playing');},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'13px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'⚽ '+(lang==='fr'?'Jouer Round '+qcRound:lang==='es'?'Jugar Ronda '+qcRound:lang==='pt'?'Jogar Rodada '+qcRound:lang==='it'?'Gioca Round '+qcRound:lang==='de'?'Runde '+qcRound+' spielen':'Play Round '+qcRound))
+        ),
+        qcPhase==='done'&&e('div',{style:{textAlign:'center'}},
+          e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.2),rgba(184,150,62,0.1))',border:'2px solid '+G,borderRadius:18,padding:'22px 16px',marginBottom:12}},
+            e('div',{style:{fontSize:46,marginBottom:6}},qcScore>=35?'🏆':qcScore>=25?'🥇':qcScore>=15?'🥈':'🥉'),
+            e('div',{style:{fontSize:22,fontWeight:'bold',color:G,marginBottom:4}},qcScore,' pts'),
+            e('div',{style:{fontSize:12,color:'#eee'}},
+              qcScore>=35?(lang==='fr'?'CHAMPION DU MONDE ! Expert absolu !':lang==='es'?'CAMPEON DEL MUNDO ! Experto absoluto !':lang==='pt'?'CAMPEAO DO MUNDO ! Expert absoluto !':lang==='it'?'CAMPIONE DEL MONDO ! Esperto assoluto !':lang==='de'?'WELTMEISTER ! Absoluter Experte !':'WORLD CHAMPION! Absolute expert!'):
+              qcScore>=25?(lang==='fr'?'Excellent ! Tres bonne connaissance !':'Excellent! Great knowledge!'):
+              qcScore>=15?(lang==='fr'?'Pas mal ! Continuez !':'Not bad! Keep going!'):
+              (lang==='fr'?'Continuez a vous entrainer !':'Keep practicing!')
+            )
+          ),
+          e('button',{onClick:function(){setQcPhase('idle');setQcScore(0);setQcIdx(0);setQcRound(1);setQcSelected(null);setQcAnswered(false);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'🔄 '+(lang==='fr'?'Rejouer':lang==='es'?'Jugar de nuevo':lang==='pt'?'Jogar novamente':lang==='it'?'Rigioca':lang==='de'?'Nochmal':'Play Again'))
+        )
+      ),
 
-          // Shot history dots
-          e('div',{style:{display:'flex',justifyContent:'center',gap:6,marginBottom:12}},
-            [0,1,2,3,4].map(function(i){
-              var h=shotHistory[i];
-              return e('div',{key:i,style:{width:28,height:28,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.4)':'rgba(200,40,40,0.4)'):'rgba(255,255,255,0.1)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff8888'):'rgba(255,255,255,0.2)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:12}},h?(h.scored?'⚽':'✗'):'');
+      // ── TAB 9 - FANTASY WORLD CUP ────────────────────────────
+      tab===9&&e('div',null,
+        e('div',{style:{textAlign:'center',marginBottom:12}},
+          e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:2}},'⭐ FANTASY WORLD CUP'),
+          e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
+            lang==='fr'?'Composez votre equipe de reve en 4-3-3 !':
+            lang==='es'?'Compone tu equipo de suenos en 4-3-3 !':
+            lang==='pt'?'Monte seu time dos sonhos em 4-3-3 !':
+            lang==='it'?'Componi la tua squadra dei sogni in 4-3-3 !':
+            lang==='de'?'Stelle dein Traumteam in 4-3-3 auf !':
+            'Build your dream team in 4-3-3!'
+          )
+        ),
+        e('div',{style:{background:'linear-gradient(180deg,#1a5c1a,#2d8a2d)',borderRadius:14,padding:'12px 8px',marginBottom:12,position:'relative'}},
+          e('div',{style:{textAlign:'center',fontSize:10,color:'rgba(255,255,255,0.6)',marginBottom:10}},'4 - 3 - 3'),
+          e('div',{style:{display:'flex',justifyContent:'space-around',marginBottom:10}},
+            ['LW','CF','RW'].map(function(pos){
+              var pl=fantasyTeam.find(function(p){return p.pos===pos;});
+              return e('div',{key:pos,onClick:function(){if(!fantasyDone)setFantasyPos(pos);},style:{textAlign:'center',cursor:'pointer'}},
+                e('div',{style:{width:50,height:50,borderRadius:'50%',background:pl?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.15)',border:'2px solid '+(pl?G:'rgba(255,255,255,0.3)'),display:'flex',alignItems:'center',justifyContent:'center',marginBottom:3}},
+                  pl?e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:8,fontWeight:'bold',color:'#0a0a1a',lineHeight:1}},pl.name.split(' ').pop()),e('div',{style:{fontSize:9}},pl.flag)):e('div',{style:{fontSize:18,color:'rgba(255,255,255,0.4)'}},'＋')
+                ),
+                e('div',{style:{fontSize:9,color:'rgba(255,255,255,0.8)',fontWeight:'bold'}},pos)
+              );
             })
           ),
-
-          // Goal visual
-          e('div',{style:{position:'relative',width:'100%',maxWidth:300,margin:'0 auto 12px',height:130,background:'linear-gradient(180deg,#1a4a1a,#2d7a2d)',borderRadius:10,overflow:'hidden',border:'2px solid rgba(255,255,255,0.2)'}},
-            e('div',{style:{position:'absolute',top:10,left:'20%',right:'20%',height:80,border:'3px solid white',borderBottom:'none',background:'rgba(255,255,255,0.08)'}}),
-            e('div',{style:{position:'absolute',bottom:0,left:0,right:0,height:40,background:'rgba(255,255,255,0.05)',borderTop:'2px solid rgba(255,255,255,0.15)'}}),
-            e('svg',{
-              style:{
-                position:'absolute',
-                top:keeperDir==='left'?5:keeperDir==='right'?5:12,
-                left:keeperDir==='left'?'14%':keeperDir==='right'?'52%':'35%',
-                width:56,height:82,
-                transition:'all 0.45s cubic-bezier(0.25,0.46,0.45,0.94)',
-                transform:keeperDir==='left'?'rotate(-28deg) scaleX(-1)':keeperDir==='right'?'rotate(28deg)':'rotate(0deg)',
-                filter:shotResult==='goal'?'grayscale(0.9) opacity(0.5)':shotResult==='saved'?'drop-shadow(0 0 12px #ffd700)':''
-              },
-              viewBox:'0 0 56 82',xmlns:'http://www.w3.org/2000/svg'
-            },
-              // === EL LOCO HIGUITA - COLOMBIA GK ===
-
-              // Jersey Colombia yellow
-              e('rect',{x:13,y:30,width:26,height:26,rx:5,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1.5}),
-              e('rect',{x:13,y:37,width:26,height:6,fill:'#CE1126'}),
-              e('rect',{x:13,y:43,width:26,height:4,fill:'#003087'}),
-              e('text',{x:26,y:41,textAnchor:'middle',fontSize:5,fontWeight:'bold',fill:'white'},'EL LOCO'),
-
-              // Neck
-              e('rect',{x:22,y:22,width:10,height:10,rx:3,fill:'#C68642'}),
-
-              // HEAD
-              e('ellipse',{cx:27,cy:15,rx:11,ry:12,fill:'#C68642',stroke:'#a0522d',strokeWidth:1}),
-
-              // LONG CURLY HAIR - iconic Higuita
-              e('path',{d:'M16 8 Q12 0 18 -3 Q23 5 27 3 Q31 5 36 -3 Q42 0 38 8',fill:'#0d0500',stroke:'#0d0500',strokeWidth:1}),
-              e('path',{d:'M16 8 Q13 15 15 22',fill:'none',stroke:'#0d0500',strokeWidth:5,strokeLinecap:'round'}),
-              e('path',{d:'M38 8 Q41 15 39 22',fill:'none',stroke:'#0d0500',strokeWidth:5,strokeLinecap:'round'}),
-              e('circle',{cx:14,cy:13,r:4.5,fill:'#0d0500'}),
-              e('circle',{cx:40,cy:13,r:4.5,fill:'#0d0500'}),
-              e('circle',{cx:13,cy:20,r:3.5,fill:'#0d0500'}),
-              e('circle',{cx:41,cy:20,r:3.5,fill:'#0d0500'}),
-              e('circle',{cx:14,cy:26,r:2.5,fill:'#0d0500'}),
-              e('circle',{cx:40,cy:26,r:2.5,fill:'#0d0500'}),
-              // Curly texture
-              e('circle',{cx:20,cy:3,r:3,fill:'#0d0500'}),
-              e('circle',{cx:27,cy:1,r:3.5,fill:'#0d0500'}),
-              e('circle',{cx:34,cy:3,r:3,fill:'#0d0500'}),
-
-              // EYES
-              e('ellipse',{cx:22,cy:14,rx:2.5,ry:2.2,fill:'white'}),
-              e('ellipse',{cx:32,cy:14,rx:2.5,ry:2.2,fill:'white'}),
-              e('circle',{cx:22,cy:14,r:1.5,fill:'#3a1a00'}),
-              e('circle',{cx:32,cy:14,r:1.5,fill:'#3a1a00'}),
-              e('circle',{cx:22.6,cy:13.4,r:0.5,fill:'white'}),
-              e('circle',{cx:32.6,cy:13.4,r:0.5,fill:'white'}),
-
-              // Eyebrows - thick
-              e('path',{d:'M19 11 Q22 10 25 11',stroke:'#0d0500',strokeWidth:2,fill:'none',strokeLinecap:'round'}),
-              e('path',{d:'M29 11 Q32 10 35 11',stroke:'#0d0500',strokeWidth:2,fill:'none',strokeLinecap:'round'}),
-
-              // BIG BUSHY MOUSTACHE
-              e('path',{d:'M18 20 Q22 17 27 19 Q32 17 36 20 Q33 24 27 23 Q21 24 18 20',fill:'#0d0500'}),
-              e('path',{d:'M19 20 Q23 18.5 27 20',stroke:'#2a0d00',strokeWidth:0.8,fill:'none'}),
-              e('path',{d:'M27 20 Q31 18.5 35 20',stroke:'#2a0d00',strokeWidth:0.8,fill:'none'}),
-
-              // BEARD STUBBLE
-              e('path',{d:'M19 24 Q23 27 27 26 Q31 27 35 24',stroke:'#0d0500',strokeWidth:1.5,fill:'none',strokeLinecap:'round'}),
-              e('path',{d:'M21 27 Q24 30 27 29 Q30 30 33 27',stroke:'#0d0500',strokeWidth:1.2,fill:'none',strokeLinecap:'round'}),
-              e('line',{x1:17,y1:19,x2:16,y2:23,stroke:'#0d0500',strokeWidth:1}),
-              e('line',{x1:37,y1:19,x2:38,y2:23,stroke:'#0d0500',strokeWidth:1}),
-
-              // Expression
-              shotResult==='saved'
-                ?e('path',{d:'M22 27 Q27 31 32 27',stroke:'#8B4513',strokeWidth:1.5,fill:'none',strokeLinecap:'round'})
-                :shotResult==='goal'
-                ?e('path',{d:'M22 28 Q27 25 32 28',stroke:'#8B4513',strokeWidth:1.5,fill:'none',strokeLinecap:'round'})
-                :null,
-
-              // ARMS
-              keeperDir==='left'
-                ?e('path',{d:'M13 34 L-6 18',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'})
-                :e('path',{d:'M13 38 L6 52',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round'}),
-              keeperDir==='right'
-                ?e('path',{d:'M43 34 L62 18',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'})
-                :e('path',{d:'M43 38 L50 52',stroke:'#FCD116',strokeWidth:7,strokeLinecap:'round'}),
-
-              // GLOVES orange
-              keeperDir==='left'
-                ?e('circle',{cx:-6,cy:18,r:6,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5})
-                :e('circle',{cx:6,cy:52,r:5.5,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5}),
-              keeperDir==='right'
-                ?e('circle',{cx:62,cy:18,r:6,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5})
-                :e('circle',{cx:50,cy:52,r:5.5,fill:'#FF6B00',stroke:'#cc4400',strokeWidth:1.5}),
-
-              // LEGS - normal (hidden during scorpion)
-              shotResult!=='saved'&&e('rect',{x:15,y:55,width:10,height:14,rx:3,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1}),
-              shotResult!=='saved'&&e('rect',{x:31,y:55,width:10,height:14,rx:3,fill:'#FCD116',stroke:'#c8a000',strokeWidth:1}),
-              shotResult!=='saved'&&e('rect',{x:15,y:63,width:10,height:7,rx:2,fill:'#CE1126'}),
-              shotResult!=='saved'&&e('rect',{x:31,y:63,width:10,height:7,rx:2,fill:'#CE1126'}),
-              shotResult!=='saved'&&e('ellipse',{cx:20,cy:72,rx:8,ry:4,fill:'#1a1a2e'}),
-              shotResult!=='saved'&&e('ellipse',{cx:36,cy:72,rx:8,ry:4,fill:'#1a1a2e'}),
-
-              // SCORPION KICK - legs fly up when saving!
-              shotResult==='saved'&&e('path',{d:'M15 56 Q8 42 6 30',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'}),
-              shotResult==='saved'&&e('path',{d:'M41 56 Q48 42 50 30',stroke:'#FCD116',strokeWidth:8,strokeLinecap:'round'}),
-              shotResult==='saved'&&e('ellipse',{cx:6,cy:28,rx:8,ry:4,fill:'#1a1a2e',stroke:'#333',strokeWidth:1}),
-              shotResult==='saved'&&e('ellipse',{cx:50,cy:28,rx:8,ry:4,fill:'#1a1a2e',stroke:'#333',strokeWidth:1})
-            ),
-            shotDir&&e('div',{style:{position:'absolute',bottom:shotResult?50:8,left:shotDir==='left'?'22%':shotDir==='right'?'60%':'40%',fontSize:22,transition:'all 0.6s ease'}},'⚽'),
-            shotResult&&e('div',{style:{position:'absolute',top:'35%',left:'50%',transform:'translate(-50%,-50%)',fontSize:18,fontWeight:'bold',color:shotResult==='goal'?'#90ee90':'#ff8888',textShadow:'0 2px 8px rgba(0,0,0,0.8)'}},shotResult==='goal'?'⚽ GOAL !':'✗ '+(lang==='fr'?'ARRETE !':lang==='es'?'PARADO !':lang==='pt'?'DEFENDIDO !':lang==='it'?'PARATO !':lang==='de'?'GEHALTEN !':'SAVED !'))
+          e('div',{style:{display:'flex',justifyContent:'space-around',marginBottom:10}},
+            ['LM','CM','RM'].map(function(pos){
+              var pl=fantasyTeam.find(function(p){return p.pos===pos;});
+              return e('div',{key:pos,onClick:function(){if(!fantasyDone)setFantasyPos(pos);},style:{textAlign:'center',cursor:'pointer'}},
+                e('div',{style:{width:46,height:46,borderRadius:'50%',background:pl?'linear-gradient(135deg,#4a90e2,#2c5fa8)':'rgba(255,255,255,0.15)',border:'2px solid '+(pl?'#4a90e2':'rgba(255,255,255,0.3)'),display:'flex',alignItems:'center',justifyContent:'center',marginBottom:3}},
+                  pl?e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:7,fontWeight:'bold',color:'#fff',lineHeight:1}},pl.name.split(' ').pop()),e('div',{style:{fontSize:8}},pl.flag)):e('div',{style:{fontSize:16,color:'rgba(255,255,255,0.4)'}},'＋')
+                ),
+                e('div',{style:{fontSize:9,color:'rgba(255,255,255,0.8)',fontWeight:'bold'}},pos)
+              );
+            })
           ),
-
-          // START button
-          gamePhase==='idle'&&e('button',{
-            onClick:function(){setGamePhase('shooting');setTimer(3);},
-            style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}
-          },lang==='fr'?'⚽ Commencer':lang==='es'?'⚽ Empezar':lang==='pt'?'⚽ Comecar':lang==='it'?'⚽ Inizia':lang==='de'?'⚽ Starten':'⚽ Start'),
-
-          // SHOOTING phase
-          gamePhase==='shooting'&&e('div',null,
-            // Timer + Combo bar
-            e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8,padding:'0 4px'}},
-              e('div',{style:{display:'flex',alignItems:'center',gap:6}},
-                e('div',{style:{width:36,height:36,borderRadius:'50%',background:timer<=1?'rgba(200,40,40,0.3)':timer===2?'rgba(255,165,0,0.3)':'rgba(40,200,40,0.3)',border:'2px solid '+(timer<=1?'#ff6b6b':timer===2?'orange':'#90ee90'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:'bold',color:timer<=1?'#ff6b6b':timer===2?'orange':'#90ee90'}},timer),
-                e('div',{style:{fontSize:10,color:'#6a86a0'}},lang==='fr'?'sec':lang==='de'?'Sek':'sec')
-              ),
-              combo>=2&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.3),rgba(255,150,0,0.2))',border:'1px solid '+G,borderRadius:8,padding:'4px 10px',fontSize:11,fontWeight:'bold',color:G}},'🔥 x',combo,' COMBO !'),
-              e('div',{style:{fontSize:10,color:'#6a86a0'}},
-                lang==='fr'?'Ou tirez ?':lang==='es'?'Donde ?':lang==='pt'?'Para onde ?':lang==='it'?'Dove ?':lang==='de'?'Wohin ?':'Where?'
-              )
-            ),
-            // Shoot buttons
-            e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}},
-              ['left','center','right'].map(function(dir){
-                var labels={
-                  left:{en:'⬅',fr:'⬅',es:'⬅',pt:'⬅',it:'⬅',de:'⬅'},
-                  center:{en:'⬆',fr:'⬆',es:'⬆',pt:'⬆',it:'⬆',de:'⬆'},
-                  right:{en:'➡',fr:'➡',es:'➡',pt:'➡',it:'➡',de:'➡'}
-                };
-                var lbls2={left:{en:'Left',fr:'Gauche',es:'Izq',pt:'Esq',it:'Sin',de:'Links'},center:{en:'Center',fr:'Centre',es:'Centro',pt:'Centro',it:'Centro',de:'Mitte'},right:{en:'Right',fr:'Droite',es:'Der',pt:'Dir',it:'Des',de:'Rechts'}};
-                return e('button',{key:dir,onClick:function(){shootPenalty(dir);},style:{
-                  background:'linear-gradient(135deg,rgba(10,30,80,0.95),rgba(20,60,140,0.9))',
-                  border:'2px solid '+G,borderRadius:9,padding:'14px 4px',
-                  fontSize:11,fontWeight:'bold',color:G,cursor:'pointer',
-                  display:'flex',flexDirection:'column',alignItems:'center',gap:3
-                }},
-                  e('div',{style:{fontSize:22}},(labels[dir][lang]||labels[dir].en)),
-                  e('div',null,(lbls2[dir][lang]||lbls2[dir].en))
-                );
-              })
-            )
+          e('div',{style:{display:'flex',justifyContent:'space-around',marginBottom:10}},
+            ['LB','CB','CB','RB'].map(function(pos,idx){
+              var realPos=idx===1?'CB1':idx===2?'CB2':pos;
+              var pl=fantasyTeam.find(function(p){return p.pos===realPos;});
+              return e('div',{key:realPos,onClick:function(){if(!fantasyDone)setFantasyPos(realPos);},style:{textAlign:'center',cursor:'pointer'}},
+                e('div',{style:{width:42,height:42,borderRadius:'50%',background:pl?'linear-gradient(135deg,#e74c3c,#c0392b)':'rgba(255,255,255,0.15)',border:'2px solid '+(pl?'#e74c3c':'rgba(255,255,255,0.3)'),display:'flex',alignItems:'center',justifyContent:'center',marginBottom:3}},
+                  pl?e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:7,fontWeight:'bold',color:'#fff',lineHeight:1}},pl.name.split(' ').pop()),e('div',{style:{fontSize:7}},pl.flag)):e('div',{style:{fontSize:14,color:'rgba(255,255,255,0.4)'}},'＋')
+                ),
+                e('div',{style:{fontSize:8,color:'rgba(255,255,255,0.8)',fontWeight:'bold'}},pos)
+              );
+            })
           ),
-
-          // ANIMATING
-          gamePhase==='animating'&&e('div',{style:{textAlign:'center',padding:'8px 0'}}),
-
-          // DONE screen
-          gamePhase==='done'&&e('div',{style:{textAlign:'center'}},
-            e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,150,62,0.08))',border:'2px solid '+G,borderRadius:16,padding:'20px 16px',marginBottom:12}},
-              e('div',{style:{fontSize:44,marginBottom:6}},
-                gameScore===5?'🏆':gameScore===4?'🥇':gameScore===3?'⭐':gameScore===2?'👍':'😢'
-              ),
-              e('div',{style:{fontSize:24,fontWeight:'bold',color:G,marginBottom:4}},gameScore,' / 5'),
-              e('div',{style:{fontSize:12,color:gameScore>=4?'#90ee90':gameScore>=3?G:'#ff8888',fontWeight:'bold',marginBottom:4}},
-                gameScore===5?(lang==='fr'?'PARFAIT ! Tireur de classe mondiale !':lang==='es'?'PERFECTO ! Tirador de clase mundial !':lang==='pt'?'PERFEITO ! Cobrador de classe mundial !':lang==='it'?'PERFETTO ! Rigorista di classe mondiale !':lang==='de'?'PERFEKT ! Weltklasse Elfmeter !':'PERFECT ! World class penalty taker !'):
-                gameScore===4?(lang==='fr'?'Excellent ! Le gardien ne peut rien !':lang==='es'?'Excelente ! Portero sin opciones !':'Excellent ! Keeper had no chance !'):
-                gameScore===3?(lang==='fr'?'Pas mal ! Continue a t entrainer !':lang==='es'?'No esta mal ! Sigue practicando !':'Not bad ! Keep practicing !'):
-                gameScore<=1?(lang==='fr'?'Le gardien a tout arrete... Revenge ?':lang==='es'?'El portero para todo... Revancha ?':'The keeper saved everything... Revenge ?'):
-                (lang==='fr'?'Peut mieux faire ! Rejoue !':lang==='es'?'Puedes mejorar ! Juega de nuevo !':'Can do better ! Play again !')
-              ),
-              // Shot recap
-              e('div',{style:{display:'flex',justifyContent:'center',gap:6,marginTop:8}},
-                shotHistory.map(function(h,i){
-                  return e('div',{key:i,style:{width:24,height:24,borderRadius:'50%',background:h.scored?'rgba(40,200,40,0.4)':'rgba(200,40,40,0.4)',border:'1px solid '+(h.scored?'#90ee90':'#ff8888'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h.scored?'⚽':'✗');
-                })
-              )
-            ),
-            e('button',{onClick:resetGame,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
-              lang==='fr'?'🔄 Rejouer':lang==='es'?'🔄 Jugar de nuevo':lang==='pt'?'🔄 Jogar novamente':lang==='it'?'🔄 Rigioca':lang==='de'?'🔄 Nochmal spielen':'🔄 Play Again'
-            )
+          e('div',{style:{display:'flex',justifyContent:'center'}},
+            (function(){
+              var pl=fantasyTeam.find(function(p){return p.pos==='GK';});
+              return e('div',{onClick:function(){if(!fantasyDone)setFantasyPos('GK');},style:{textAlign:'center',cursor:'pointer'}},
+                e('div',{style:{width:48,height:48,borderRadius:'50%',background:pl?'linear-gradient(135deg,#f39c12,#e67e22)':'rgba(255,255,255,0.15)',border:'2px solid '+(pl?'#f39c12':'rgba(255,255,255,0.3)'),display:'flex',alignItems:'center',justifyContent:'center',marginBottom:3}},
+                  pl?e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:7,fontWeight:'bold',color:'#fff',lineHeight:1}},pl.name.split(' ').pop()),e('div',{style:{fontSize:8}},pl.flag)):e('div',{style:{fontSize:16,color:'rgba(255,255,255,0.4)'}},'＋')
+                ),
+                e('div',{style:{fontSize:9,color:'rgba(255,255,255,0.8)',fontWeight:'bold'}},'GK')
+              );
+            })()
           )
         ),
+        fantasyPos&&!fantasyDone&&e('div',{style:{background:CB,border:'1px solid '+G,borderRadius:12,padding:12,marginBottom:10}},
+          e('div',{style:{fontSize:11,color:G,fontWeight:'bold',marginBottom:8}},lang==='fr'?'Choisir pour ':lang==='es'?'Elegir para ':lang==='pt'?'Escolher para ':lang==='it'?'Scegli per ':lang==='de'?'Wahle fur ':'Pick for ',fantasyPos),
+          e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5,maxHeight:160,overflowY:'auto'}},
+            STARS.filter(function(s){return !fantasyTeam.find(function(p){return p.name===s.name;});}).map(function(s){
+              return e('button',{key:s.name,onClick:function(){
+                setFantasyTeam(function(t){return t.filter(function(p){return p.pos!==fantasyPos;}).concat([{name:s.name,flag:s.flag,pos:fantasyPos,rating:s.rating}]);});
+                setFantasyPos(null);
+              },style:{background:CB,border:'1px solid '+BD,borderRadius:8,padding:'7px 8px',fontSize:10,color:'#eee8d5',cursor:'pointer',textAlign:'left',display:'flex',gap:5,alignItems:'center'}},
+                e('span',null,s.flag),
+                e('div',null,e('div',{style:{fontSize:10,fontWeight:'bold'}},s.name.split(' ').slice(-1)[0]),e('div',{style:{fontSize:8,color:G}},s.rating,' ⭐'))
+              );
+            })
+          ),
+          e('button',{onClick:function(){setFantasyPos(null);},style:{width:'100%',background:'rgba(255,60,60,0.12)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:7,padding:'7px 0',fontSize:10,color:'#ff6b6b',cursor:'pointer',marginTop:6}},lang==='fr'?'Annuler':lang==='es'?'Cancelar':lang==='pt'?'Cancelar':lang==='it'?'Annulla':lang==='de'?'Abbrechen':'Cancel')
+        ),
+        e('div',{style:{display:'flex',gap:8}},
+          e('button',{onClick:function(){if(fantasyTeam.length>=11)setFantasyDone(true);},style:{flex:2,background:fantasyTeam.length>=11?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.08)',border:'none',borderRadius:10,padding:'12px 0',fontSize:12,fontWeight:'bold',color:fantasyTeam.length>=11?'#0a0a1a':'#6a86a0',cursor:fantasyTeam.length>=11?'pointer':'default'}},
+            fantasyDone?'✅ '+(lang==='fr'?'Equipe sauvegardee !':'Team saved!'):'💾 '+(lang==='fr'?'Sauvegarder ('+fantasyTeam.length+'/11)':lang==='es'?'Guardar ('+fantasyTeam.length+'/11)':lang==='pt'?'Salvar ('+fantasyTeam.length+'/11)':lang==='it'?'Salva ('+fantasyTeam.length+'/11)':lang==='de'?'Speichern ('+fantasyTeam.length+'/11)':'Save ('+fantasyTeam.length+'/11)')
+          ),
+          e('button',{onClick:function(){setFantasyTeam([]);setFantasyPos(null);setFantasyDone(false);},style:{flex:1,background:'rgba(255,60,60,0.12)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:10,padding:'12px 0',fontSize:11,color:'#ff6b6b',cursor:'pointer'}},'Reset')
+        )
+      ),
 
-        // DIVIDER
-        e('div',{style:{height:1,background:'rgba(212,175,55,0.25)',margin:'8px 0 16px'}}),
-
-        // SECTION 2 - PENALTY ANIME PRO
+      // ── TAB 10 - MATCH PREDICTOR PRO ──────────────────────────
+      tab===10&&e('div',null,
         e('div',{style:{textAlign:'center',marginBottom:12}},
-          e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:1}},'🏆 PENALTY PRO - ANIMATED'),
+          e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:2}},'🎯 MATCH PREDICTOR PRO'),
           e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
-            lang==='fr'?'Version animee avec effets speciaux':
-            lang==='es'?'Version animada con efectos':
-            lang==='pt'?'Versao animada com efeitos':
-            lang==='it'?'Versione animata con effetti':
-            lang==='de'?'Animierte Version mit Effekten':
-            'Animated version with special effects'
+            lang==='fr'?'Pronostiquez les scores exacts et gagnez des points !':
+            lang==='es'?'Pronostica los marcadores exactos y gana puntos !':
+            lang==='pt'?'Preveja os placares exatos e ganhe pontos !':
+            lang==='it'?'Pronostica i risultati esatti e guadagna punti !':
+            lang==='de'?'Tippe genaue Ergebnisse und sammle Punkte !':
+            'Predict exact scores and earn points!'
           )
         ),
-
-        !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,150,62,0.08))',border:'2px solid '+G,borderRadius:14,padding:'20px 16px',textAlign:'center'}},
-          e('div',{style:{fontSize:28,marginBottom:8}},'🔒'),
-          e('div',{style:{fontSize:12,color:'#9bb0c8',marginBottom:14}},
-            lang==='fr'?'Debloquez la version animee PRO !':
-            lang==='es'?'Desbloquea la version animada PRO !':
-            lang==='pt'?'Desbloqueie a versao animada PRO !':
-            lang==='it'?'Sblocca la versione animata PRO !':
-            lang==='de'?'Animierte PRO-Version freischalten !':
-            'Unlock the animated PRO version!'
+        !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,150,62,0.08))',border:'2px solid '+G,borderRadius:14,padding:'22px 16px',textAlign:'center'}},
+          e('div',{style:{fontSize:32,marginBottom:8}},'🔒'),
+          e('div',{style:{fontSize:12,color:'#9bb0c8',marginBottom:6,lineHeight:1.6}},
+            lang==='fr'?'Pronostiquez tous les 104 matchs ! Gagnez des points pour chaque bon score !':
+            lang==='es'?'Pronostica los 104 partidos ! Gana puntos por cada marcador correcto !':
+            lang==='pt'?'Preveja todos os 104 jogos ! Ganhe pontos por cada placar correto !':
+            lang==='it'?'Pronostica tutte le 104 partite ! Guadagna punti per ogni risultato esatto !':
+            lang==='de'?'Tippe alle 104 Spiele ! Punkte fuer jeden richtigen Tipp !':
+            'Predict all 104 matches! Earn points for every correct score!'
           ),
-          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'11px 28px',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block'}},'🏆 PRO - '+getPrice(lang))
+          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'12px 28px',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block'}},'🏆 PRO - '+getPrice(lang))
         ),
-
-        premium&&e('div',{style:{textAlign:'center',padding:20}},
-          e('div',{style:{fontSize:40,marginBottom:8}},'⚽'),
-          e('div',{style:{fontSize:13,color:'#9bb0c8'}},'PRO Animated Penalty - Coming Soon !')
+        premium&&e('div',null,
+          e('div',{style:{fontSize:11,color:'#6a86a0',marginBottom:10,textAlign:'center'}},
+            lang==='fr'?'Entrez vos pronostics pour les premiers matchs':
+            lang==='es'?'Ingresa tus pronosticos para los primeros partidos':
+            lang==='pt'?'Insira seus palpites para os primeiros jogos':
+            lang==='it'?'Inserisci i tuoi pronostici per le prime partite':
+            lang==='de'?'Gib deine Tipps fuer die ersten Spiele ein':
+            'Enter your predictions for the first matches'
+          ),
+          e('div',{style:{display:'flex',flexDirection:'column',gap:7}},
+            FIXTURES.slice(0,10).map(function(f,i){
+              if(['R32','R16','QF','SF','3P','FIN'].indexOf(f.group)>=0)return null;
+              var pred=predictions[i]||{h:'',a:''};
+              return e('div',{key:i,style:{background:CB,border:'1px solid '+BD,borderRadius:10,padding:'10px 12px'}},
+                e('div',{style:{fontSize:9,color:'#6a86a0',marginBottom:5}},f.date,' | ',f.time,' ET | 📺 ',getTV(f.home,lang)),
+                e('div',{style:{display:'flex',alignItems:'center',gap:6}},
+                  e('div',{style:{flex:1,fontSize:11,fontWeight:'bold',textAlign:'right',color:'#eee'}},tn(f.home,lang)),
+                  e('input',{type:'number',min:0,max:9,value:pred.h,onChange:function(ev){setPredictions(function(p){var n=Object.assign({},p);n[i]=Object.assign({},n[i]||{},{h:ev.target.value});return n;});},style:{width:30,height:26,textAlign:'center',background:'rgba(10,20,50,0.95)',color:G,border:'1px solid '+G,borderRadius:5,fontSize:13,fontWeight:'bold'}}),
+                  e('div',{style:{fontSize:10,color:'#6a86a0'}},'-'),
+                  e('input',{type:'number',min:0,max:9,value:pred.a,onChange:function(ev){setPredictions(function(p){var n=Object.assign({},p);n[i]=Object.assign({},n[i]||{},{a:ev.target.value});return n;});},style:{width:30,height:26,textAlign:'center',background:'rgba(10,20,50,0.95)',color:G,border:'1px solid '+G,borderRadius:5,fontSize:13,fontWeight:'bold'}}),
+                  e('div',{style:{flex:1,fontSize:11,fontWeight:'bold',color:'#eee'}},tn(f.away,lang))
+                )
+              );
+            })
+          ),
+          e('button',{onClick:function(){setPredSaved(true);setTimeout(function(){setPredSaved(false);},2000);},style:{width:'100%',background:predSaved?'linear-gradient(135deg,#2d7a2d,#3a9e3a)':'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:predSaved?'#fff':'#0a0a1a',cursor:'pointer',marginTop:10}},
+            predSaved?'✅ '+(lang==='fr'?'Pronostics sauvegardes !':'Predictions saved!'):'💾 '+(lang==='fr'?'Sauvegarder':lang==='es'?'Guardar':lang==='pt'?'Salvar':lang==='it'?'Salva':lang==='de'?'Speichern':'Save')
+          )
         )
       ),
 
@@ -1818,7 +2011,7 @@ function App(){
       )
     ),
 
-    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:9,color:'#2e4460',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},'World Cup 2026 Fan App - ',premium?'PRO':'Free')
+    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:9,color:'#2e4460',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},'World Cup 2026 Fan App - ',premium?'PRO':'Free'))
   );
 }
 
