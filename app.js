@@ -1781,7 +1781,7 @@ function App(){
           })
         ),
         // Goal visual with Higuita SVG
-        e('div',{style:{position:'relative',width:'100%',maxWidth:300,margin:'0 auto 12px',height:140,background:'linear-gradient(180deg,#1a4a1a,#2d7a2d)',borderRadius:10,overflow:'visible',border:'2px solid rgba(255,255,255,0.2)'}},
+        e('div',{style:{position:'relative',width:'100%',maxWidth:300,margin:'0 auto 12px',height:240,background:'linear-gradient(180deg,#0d3b0d,#1a6a1a,#2d8a2d)',borderRadius:12,overflow:'visible',border:'3px solid rgba(255,255,255,0.35)'}},
           e('div',{style:{position:'absolute',top:10,left:'20%',right:'20%',height:85,border:'3px solid white',borderBottom:'none',background:'rgba(255,255,255,0.08)'}}),
 
           e('div',{style:{position:'absolute',bottom:0,left:0,right:0,height:30,background:'rgba(255,255,255,0.05)',borderTop:'2px solid rgba(255,255,255,0.15)'}}),
@@ -1789,7 +1789,7 @@ function App(){
           e('svg',{
             style:{
               position:'absolute',
-              top: keeperDir==='left'?28:keeperDir==='right'?28:32,
+              top: keeperDir==='left'?10:keeperDir==='right'?10:12,
               left:keeperDir==='left'?'18%':keeperDir==='right'?'56%':'40%',
               width:56,height:82,
               transition:'all 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
@@ -1904,17 +1904,19 @@ function App(){
             // Scorpion above boots!
             shotResult==='saved'&&e('text',{x:27,y:6,textAnchor:'middle',fontSize:14},'🦂'),
 
-            // ── BALL - always visible, trajectory from penalty spot ──
+            // ── PENALTY SPOT white circle ──
+            e('div',{style:{position:'absolute',bottom:38,left:'47%',width:10,height:10,borderRadius:'50%',background:'white',opacity:0.8,zIndex:5}}),
+            // ── BALL - big, always visible ──
             e('div',{style:{
               position:'absolute',
-              bottom:shotResult?(shotDir==='left'?65:shotDir==='right'?65:55):10,
-              left:shotResult?(shotDir==='left'?'16%':shotDir==='right'?'62%':'41%'):'41%',
-              fontSize:shotResult?34:26,
-              transition:'all 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
-              filter:shotResult?'drop-shadow(0 0 8px yellow)':'drop-shadow(0 3px 5px rgba(0,0,0,0.9))',
-              transform:shotResult==='goal'?'scale(1.4) rotate(360deg)':shotResult==='saved'?'scale(0.7)':'scale(1)',
-              zIndex:50,
-              pointerEvents:'none'
+              bottom:shotResult==='goal'?(shotDir==='left'?130:shotDir==='right'?130:120):34,
+              left:shotResult==='goal'?(shotDir==='left'?'10%':shotDir==='right'?'64%':'41%'):'40%',
+              fontSize:44,
+              lineHeight:'1',
+              transition:'all 0.9s cubic-bezier(0.2,0.8,0.3,1)',
+              filter:'drop-shadow(0 6px 12px rgba(0,0,0,1))',
+              transform:shotResult==='goal'?'scale(1.3)':shotResult==='saved'?'scale(0.7)':'scale(1)',
+              zIndex:200
             }},'⚽'),
 
             // ── RESULT TEXT inside goal visual ──
