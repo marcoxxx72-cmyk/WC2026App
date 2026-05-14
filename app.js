@@ -901,6 +901,7 @@ function App(){
   var sF1=useState([]);var fantasyTeam=sF1[0];var setFantasyTeam=sF1[1];
   var sF2=useState(null);var fantasyPos=sF2[0];var setFantasyPos=sF2[1];
   var sF3=useState(false);var fantasyDone=sF3[0];var setFantasyDone=sF3[1];
+  var sF4=useState('4-3-3');var fantasyFormation=sF4[0];var setFantasyFormation=sF4[1];
   var sM1=useState({});var predictions=sM1[0];var setPredictions=sM1[1];
   var sM2=useState(false);var predSaved=sM2[0];var setPredSaved=sM2[1];
   // Interactive tournament state
@@ -2552,175 +2553,302 @@ function App(){
 
       // ── TAB 9 - FANTASY WORLD CUP ────────────────────────────
       tab===9?e('div',null,
-        e('div',{style:{textAlign:'center',marginBottom:12}},
-          e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:2}},'⭐ FANTASY WORLD CUP'),
-          e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
-            lang==='fr'?'Composez votre equipe de reve en 4-3-3 !':
-            lang==='es'?'Compone tu equipo de suenos en 4-3-3 !':
-            lang==='pt'?'Monte seu time dos sonhos em 4-3-3 !':
-            lang==='it'?'Componi la tua squadra dei sogni in 4-3-3 !':
-            lang==='de'?'Stelle dein Traumteam in 4-3-3 auf !':
-            'Build your dream team in 4-3-3!'
-          )
-        ),
-        e('div',{style:{background:'linear-gradient(180deg,#1a5c1a,#2d8a2d)',borderRadius:14,padding:'12px 8px',marginBottom:12,position:'relative'}},
-          e('div',{style:{textAlign:'center',fontSize:10,color:'rgba(255,255,255,0.6)',marginBottom:10}},'4 - 3 - 3'),
-          e('div',{style:{display:'flex',justifyContent:'space-around',marginBottom:10}},
-            ['LW','CF','RW'].map(function(pos){
-              var pl=fantasyTeam.find(function(p){return p.pos===pos;});
-              return e('div',{key:pos,onClick:function(){if(!fantasyDone)setFantasyPos(pos);},style:{textAlign:'center',cursor:'pointer'}},
-                e('div',{style:{width:50,height:50,borderRadius:'50%',background:pl?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.15)',border:'2px solid '+(pl?G:'rgba(255,255,255,0.3)'),display:'flex',alignItems:'center',justifyContent:'center',marginBottom:3}},
-                  pl?e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:8,fontWeight:'bold',color:'#0a0a1a',lineHeight:1}},pl.name.split(' ').pop()),e('div',{style:{fontSize:9}},pl.flag)):e('div',{style:{fontSize:18,color:'rgba(255,255,255,0.4)'}},'＋')
-                ),
-                e('div',{style:{fontSize:8,color:'rgba(255,255,255,0.85)',fontWeight:'bold',letterSpacing:0.3}},
-                  ({LW:{fr:'Ail. Gauche',en:'Left Wing',es:'Ext. Izq',pt:'Ala Esq',it:'Ala Sin',de:'LA'},
-                    CF:{fr:'Avant-Centre',en:'Centre Fwd',es:'Delantero C',pt:'Centroavante',it:'Prima Punta',de:'Mittelstürmer'},
-                    RW:{fr:'Ail. Droit',en:'Right Wing',es:'Ext. Der',pt:'Ala Dir',it:'Ala Des',de:'RA'},
-                    LM:{fr:'Milieu G',en:'Left Mid',es:'Medio Izq',pt:'Meio Esq',it:'Mezzala Sin',de:'LM'},
-                    CM:{fr:'Milieu Centre',en:'Centre Mid',es:'Medio C',pt:'Meio Centro',it:'Centrocampista',de:'ZM'},
-                    RM:{fr:'Milieu D',en:'Right Mid',es:'Medio Der',pt:'Meio Dir',it:'Mezzala Des',de:'RM'},
-                    LB:{fr:'Arrière G',en:'Left Back',es:'Lateral Izq',pt:'Lateral Esq',it:'Terzino Sin',de:'LV'},
-                    CB:{fr:'Défenseur C',en:'Centre Back',es:'Central',pt:'Zagueiro',it:'Difensore C',de:'IV'},
-                    CB1:{fr:'Défenseur C',en:'Centre Back',es:'Central',pt:'Zagueiro',it:'Difensore C',de:'IV'},
-                    CB2:{fr:'Défenseur C',en:'Centre Back',es:'Central',pt:'Zagueiro',it:'Difensore C',de:'IV'},
-                    RB:{fr:'Arrière D',en:'Right Back',es:'Lateral Der',pt:'Lateral Dir',it:'Terzino Des',de:'RV'},
-                    GK:{fr:'Gardien',en:'Goalkeeper',es:'Portero',pt:'Goleiro',it:'Portiere',de:'Torwart'}}[pos]||{})[lang]||pos)
-              );
-            })
-          ),
-          e('div',{style:{display:'flex',justifyContent:'space-around',marginBottom:10}},
-            ['LM','CM','RM'].map(function(pos){
-              var subMap={LM:0,CM:1,RM:2};
-              var pl=fantasyTeam.find(function(p){return p.pos===pos;});
-              return e('div',{key:pos,onClick:function(){if(!fantasyDone)setFantasyPos(pos);},style:{textAlign:'center',cursor:'pointer'}},
-                e('div',{style:{width:46,height:46,borderRadius:'50%',background:pl?'linear-gradient(135deg,#4a90e2,#2c5fa8)':'rgba(255,255,255,0.15)',border:'2px solid '+(pl?'#4a90e2':'rgba(255,255,255,0.3)'),display:'flex',alignItems:'center',justifyContent:'center',marginBottom:3}},
-                  pl?e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:7,fontWeight:'bold',color:'#fff',lineHeight:1}},pl.name.split(' ').pop()),e('div',{style:{fontSize:8}},pl.flag)):e('div',{style:{fontSize:16,color:'rgba(255,255,255,0.4)'}},'＋')
-                ),
-                e('div',{style:{fontSize:8,color:'rgba(255,255,255,0.85)',fontWeight:'bold',letterSpacing:0.3}},
-                  ({LW:{fr:'Ail. Gauche',en:'Left Wing',es:'Ext. Izq',pt:'Ala Esq',it:'Ala Sin',de:'LA'},
-                    CF:{fr:'Avant-Centre',en:'Centre Fwd',es:'Delantero C',pt:'Centroavante',it:'Prima Punta',de:'Mittelstürmer'},
-                    RW:{fr:'Ail. Droit',en:'Right Wing',es:'Ext. Der',pt:'Ala Dir',it:'Ala Des',de:'RA'},
-                    LM:{fr:'Milieu G',en:'Left Mid',es:'Medio Izq',pt:'Meio Esq',it:'Mezzala Sin',de:'LM'},
-                    CM:{fr:'Milieu Centre',en:'Centre Mid',es:'Medio C',pt:'Meio Centro',it:'Centrocampista',de:'ZM'},
-                    RM:{fr:'Milieu D',en:'Right Mid',es:'Medio Der',pt:'Meio Dir',it:'Mezzala Des',de:'RM'},
-                    LB:{fr:'Arrière G',en:'Left Back',es:'Lateral Izq',pt:'Lateral Esq',it:'Terzino Sin',de:'LV'},
-                    CB:{fr:'Défenseur C',en:'Centre Back',es:'Central',pt:'Zagueiro',it:'Difensore C',de:'IV'},
-                    CB1:{fr:'Défenseur C',en:'Centre Back',es:'Central',pt:'Zagueiro',it:'Difensore C',de:'IV'},
-                    CB2:{fr:'Défenseur C',en:'Centre Back',es:'Central',pt:'Zagueiro',it:'Difensore C',de:'IV'},
-                    RB:{fr:'Arrière D',en:'Right Back',es:'Lateral Der',pt:'Lateral Dir',it:'Terzino Des',de:'RV'},
-                    GK:{fr:'Gardien',en:'Goalkeeper',es:'Portero',pt:'Goleiro',it:'Portiere',de:'Torwart'}}[pos]||{})[lang]||pos)
-              );
-            })
-          ),
-          e('div',{style:{display:'flex',justifyContent:'space-around',marginBottom:10}},
-            ['LB','CB','CB','RB'].map(function(pos,idx){
-              var realPos=idx===1?'CB1':idx===2?'CB2':pos;
-              var pl=fantasyTeam.find(function(p){return p.pos===realPos;});
-              return e('div',{key:realPos,onClick:function(){if(!fantasyDone)setFantasyPos(realPos);},style:{textAlign:'center',cursor:'pointer'}},
-                e('div',{style:{width:42,height:42,borderRadius:'50%',background:pl?'linear-gradient(135deg,#e74c3c,#c0392b)':'rgba(255,255,255,0.15)',border:'2px solid '+(pl?'#e74c3c':'rgba(255,255,255,0.3)'),display:'flex',alignItems:'center',justifyContent:'center',marginBottom:3}},
-                  pl?e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:7,fontWeight:'bold',color:'#fff',lineHeight:1}},pl.name.split(' ').pop()),e('div',{style:{fontSize:7}},pl.flag)):e('div',{style:{fontSize:14,color:'rgba(255,255,255,0.4)'}},'＋')
-                ),
-                e('div',{style:{fontSize:8,color:'rgba(255,255,255,0.8)',fontWeight:'bold'}},(function(){var pl2={GK:{fr:'GB',en:'GK',es:'PO',pt:'GL',it:'PO',de:'TW'},DF:{fr:'DEF',en:'DF',es:'DEF',pt:'DEF',it:'DIF',de:'ABW'},MF:{fr:'MIL',en:'MF',es:'MED',pt:'MEI',it:'CEN',de:'MIT'},FW:{fr:'ATT',en:'FW',es:'DEL',pt:'ATA',it:'ATT',de:'STU'}};return (pl2[pos]||{})[lang]||pos;})())
-              );
-            })
-          ),
-          e('div',{style:{display:'flex',justifyContent:'center'}},
+
+        // ── FORMATIONS DEFINITIONS ──
+        (function(){
+          var SLOT_POS={LW:'FW',RW:'FW',CF:'FW',CF1:'FW',CF2:'FW',ST:'FW',
+            LAM:'MF',RAM:'MF',CAM:'MF',LM:'MF',RM:'MF',
+            CM:'MF',CM1:'MF',CM2:'MF',DM:'MF',DM1:'MF',DM2:'MF',
+            LB:'DF',RB:'DF',LWB:'DF',RWB:'DF',CB:'DF',CB1:'DF',CB2:'DF',CB3:'DF',GK:'GK'};
+
+          var LABELS={
+            LW:{fr:'Ail.Gauche',en:'L.Wing'},RW:{fr:'Ail.Droit',en:'R.Wing'},
+            CF:{fr:'Avant-C.',en:'Striker'},CF1:{fr:'Avant.G',en:'L.Striker'},CF2:{fr:'Avant.D',en:'R.Striker'},
+            ST:{fr:'Avant-C.',en:'Striker'},
+            LAM:{fr:'Mil.Off.G',en:'L.AMid'},RAM:{fr:'Mil.Off.D',en:'R.AMid'},CAM:{fr:'Milieu Off.',en:'CAM'},
+            LM:{fr:'Mil.G',en:'L.Mid'},RM:{fr:'Mil.D',en:'R.Mid'},
+            CM:{fr:'Milieu',en:'C.Mid'},CM1:{fr:'Mil.G',en:'CM L'},CM2:{fr:'Mil.D',en:'CM R'},
+            DM:{fr:'Mil.Def.',en:'D.Mid'},DM1:{fr:'Mil.Def.G',en:'DM L'},DM2:{fr:'Mil.Def.D',en:'DM R'},
+            LB:{fr:'Arr.G',en:'L.Back'},RB:{fr:'Arr.D',en:'R.Back'},
+            LWB:{fr:'Piston G',en:'LWB'},RWB:{fr:'Piston D',en:'RWB'},
+            CB:{fr:'Def.C.',en:'C.Back'},CB1:{fr:'Def.C.',en:'C.Back'},CB2:{fr:'Def.C.',en:'C.Back'},CB3:{fr:'Def.C.',en:'C.Back'},
+            GK:{fr:'Gardien',en:'GK'}
+          };
+
+          var FMTS={
+            '4-3-3':{rows:[
+              {slots:['CF'],pad:0,jc:'center'},
+              {slots:['LW','RW'],pad:0,jc:'space-between'},
+              {slots:['CM1','CM2'],pad:15,jc:'space-around'},
+              {slots:['DM'],pad:0,jc:'center'},
+              {slots:['LB','CB1','CB2','RB'],pad:0,jc:'space-around'},
+              {slots:['GK'],pad:0,jc:'center'}]},
+            '4-4-2':{rows:[
+              {slots:['CF1','CF2'],pad:10,jc:'space-around'},
+              {slots:['LM','CM1','CM2','RM'],pad:0,jc:'space-around'},
+              {slots:['LB','CB1','CB2','RB'],pad:0,jc:'space-around'},
+              {slots:['GK'],pad:0,jc:'center'}]},
+            '5-4-1':{rows:[
+              {slots:['ST'],pad:0,jc:'center'},
+              {slots:['LM','CM1','CM2','RM'],pad:5,jc:'space-around'},
+              {slots:['LWB','CB1','CB2','CB3','RWB'],pad:0,jc:'space-around'},
+              {slots:['GK'],pad:0,jc:'center'}]},
+            '4-1-2-2-1':{rows:[
+              {slots:['CF'],pad:0,jc:'center'},
+              {slots:['LAM','RAM'],pad:5,jc:'space-around'},
+              {slots:['CM1','CM2'],pad:5,jc:'space-around'},
+              {slots:['DM'],pad:0,jc:'center'},
+              {slots:['LB','CB1','CB2','RB'],pad:0,jc:'space-around'},
+              {slots:['GK'],pad:0,jc:'center'}]},
+            '4-2-3-1':{rows:[
+              {slots:['ST'],pad:0,jc:'center'},
+              {slots:['LW','CAM','RW'],pad:0,jc:'space-around'},
+              {slots:['DM1','DM2'],pad:15,jc:'space-around'},
+              {slots:['LB','CB1','CB2','RB'],pad:0,jc:'space-around'},
+              {slots:['GK'],pad:0,jc:'center'}]}
+          };
+
+          var fmt=FMTS[fantasyFormation]||FMTS['4-3-3'];
+          var allSlots=fmt.rows.reduce(function(a,r){return a.concat(r.slots||r.map(function(x){return x.s;}))},[]);
+
+          function slotLabel(s){var l=LABELS[s]||{};return l[lang]||l.en||s;}
+          function slotColor(s){
+            var p=SLOT_POS[s];
+            if(p==='GK')return '#f39c12';
+            if(p==='DF')return '#e74c3c';
+            if(p==='MF')return '#4a90e2';
+            return '#d4af37';
+          }
+
+          return e('div',null,
+
+            // HEADER
+            e('div',{style:{textAlign:'center',marginBottom:10}},
+              e('div',{style:{fontSize:13,fontWeight:'bold',color:'#d4af37',letterSpacing:2}},'⭐ FANTASY WORLD CUP'),
+              e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:2}},
+                lang==='fr'?'Composez votre equipe de reve !':
+                lang==='es'?'Compone tu equipo de suenos !':
+                lang==='pt'?'Monte seu time dos sonhos !':'Build your dream team !')
+            ),
+
+            // FORMATION SELECTOR
+            e('div',{style:{display:'flex',gap:4,justifyContent:'center',flexWrap:'wrap',marginBottom:10}},
+              ['4-3-3','4-4-2','5-4-1','4-1-2-2-1','4-2-3-1'].map(function(f){
+                var active=f===fantasyFormation;
+                return e('button',{key:f,onClick:function(){
+                  if(!fantasyDone){setFantasyFormation(f);setFantasyTeam([]);setFantasyPos(null);}
+                },style:{
+                  background:active?'linear-gradient(135deg,#1565c0,#42a5f5)':'rgba(255,255,255,0.06)',
+                  color:active?'#fff':'#6a86a0',
+                  border:'1px solid '+(active?'#42a5f5':'rgba(255,255,255,0.1)'),
+                  borderRadius:8,padding:'5px 10px',fontSize:10,cursor:'pointer',fontWeight:active?'bold':'normal'
+                }},f);
+              })
+            ),
+
+            // PITCH - SVG absolute positioning
             (function(){
-              var pl=fantasyTeam.find(function(p){return p.pos==='GK';});
-              return e('div',{onClick:function(){if(!fantasyDone)setFantasyPos('GK');},style:{textAlign:'center',cursor:'pointer'}},
-                e('div',{style:{width:48,height:48,borderRadius:'50%',background:pl?'linear-gradient(135deg,#f39c12,#e67e22)':'rgba(255,255,255,0.15)',border:'2px solid '+(pl?'#f39c12':'rgba(255,255,255,0.3)'),display:'flex',alignItems:'center',justifyContent:'center',marginBottom:3}},
-                  pl?e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:7,fontWeight:'bold',color:'#fff',lineHeight:1}},pl.name.split(' ').pop()),e('div',{style:{fontSize:8}},pl.flag)):e('div',{style:{fontSize:16,color:'rgba(255,255,255,0.4)'}},'＋')
-                ),
-                e('div',{style:{fontSize:9,color:'rgba(255,255,255,0.8)',fontWeight:'bold'}},lang==='fr'?'GB':lang==='es'?'PO':lang==='pt'?'GL':lang==='it'?'PO':lang==='de'?'TW':'GK')
-              );
-            })()
-          )
-        ),
-        fantasyPos&&!fantasyDone&&e('div',null,
-          // Saved banner
-          e('div',{style:{background:'rgba(144,238,144,0.15)',border:'1px solid rgba(144,238,144,0.4)',borderRadius:10,padding:'8px 16px',marginBottom:10,textAlign:'center',display:'flex',alignItems:'center',justifyContent:'center',gap:8}},
-            e('span',null,'✅'),
-            e('span',{style:{fontSize:11,color:'#90ee90',fontWeight:'bold'}},
-              lang==='fr'?'Equipe sauvegardée !':lang==='es'?'Equipo guardado !':lang==='pt'?'Time salvo !':lang==='it'?'Squadra salvata !':lang==='de'?'Team gespeichert !':'Team saved !'
-            )
-          )),
-          e('div',{style:{background:CB,border:'1px solid '+G,borderRadius:12,padding:12,marginBottom:10}},
-          e('div',{style:{fontSize:11,color:G,fontWeight:'bold',marginBottom:8}},(function(){
-              var posMap={LW:'FW',CF:'FW',RW:'FW',LM:'MF',CM:'MF',RM:'MF',LB:'DF',CB:'DF',CB1:'DF',CB2:'DF',RB:'DF',GK:'GK'}; var roleMap={LW:'LW',RW:'RW',CF:'CF'};
-              var posLabels={
-                GK:{fr:'Gardien de but',en:'Goalkeeper',es:'Portero',pt:'Goleiro',it:'Portiere',de:'Torwart'},
-                DF:{fr:'Defenseur',en:'Defender',es:'Defensa',pt:'Defensor',it:'Difensore',de:'Verteidiger'},
-                MF:{fr:'Milieu de terrain',en:'Midfielder',es:'Centrocampista',pt:'Meio-campista',it:'Centrocampista',de:'Mittelfeld'},
-                FW:{fr:'Attaquant',en:'Forward',es:'Delantero',pt:'Atacante',it:'Attaccante',de:'Sturmer'},
-                LW:{fr:'Ailier gauche',en:'Left Winger',es:'Extremo izq',pt:'Ponta esq',it:'Ala sinistra',de:'Linksaussen'},
-                RW:{fr:'Ailier droit',en:'Right Winger',es:'Extremo der',pt:'Ponta dir',it:'Ala destra',de:'Rechtsaussen'},
-                CF:{fr:'Avant-centre',en:'Centre Forward',es:'Delantero centro',pt:'Centroavante',it:'Prima punta',de:'Mittelstuermer'},
-                LM:{fr:'Milieu gauche',en:'Left Mid',es:'Medio izq',pt:'Meio esq',it:'Centrocampista sx',de:'Linkes Mittelfeld'},
-                CM:{fr:'Milieu central',en:'Central Mid',es:'Medio centro',pt:'Meio central',it:'Centrocampista',de:'Zentrales Mittelfeld'},
-                RM:{fr:'Milieu droit',en:'Right Mid',es:'Medio der',pt:'Meio dir',it:'Centrocampista dx',de:'Rechtes Mittelfeld'},
-                LB:{fr:'Arriere gauche',en:'Left Back',es:'Lateral izq',pt:'Lateral esq',it:'Terzino sx',de:'Linker Aussenverteidiger'},
-                CB:{fr:'Defenseur central',en:'Centre Back',es:'Central',pt:'Zagueiro',it:'Difensore centrale',de:'Innenverteidiger'},
-                RB:{fr:'Arriere droit',en:'Right Back',es:'Lateral der',pt:'Lateral dir',it:'Terzino dx',de:'Rechter Aussenverteidiger'}
-              };
-              var lbl=posLabels[fantasyPos]||posLabels[posMap[fantasyPos]]||{};
-              return (lang==='fr'?'Choisir: ':lang==='es'?'Elegir: ':lang==='pt'?'Escolher: ':lang==='it'?'Scegli: ':lang==='de'?'Wahle: ':'Pick: ')+(lbl[lang]||lbl.en||fantasyPos);
-            })(),
-          e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5,maxHeight:160,overflowY:'auto'}},
-            STARS.filter(function(s){
-              var posMap={LW:'FW',CF:'FW',RW:'FW',LM:'MF',CM:'MF',RM:'MF',LB:'DF',CB:'DF',CB1:'DF',CB2:'DF',RB:'DF',GK:'GK'};
-              var needed=posMap[fantasyPos]||fantasyPos;
-              var roleNeeded=fantasyPos==='LW'||fantasyPos==='RW'||fantasyPos==='CF'?fantasyPos:null;
-              var notPicked=!fantasyTeam.find(function(p){return p.name===s.name;});
-              if(roleNeeded){
-                // Show role-matched first, then other FW
-                return s.pos===needed&&notPicked;
-              }
-              return s.pos===needed&&notPicked;
-            }).map(function(s){
-              return e('button',{key:s.name,onClick:function(){
-                setFantasyTeam(function(t){return t.filter(function(p){return p.pos!==fantasyPos;}).concat([{name:s.name,flag:s.flag,pos:fantasyPos,rating:s.rating}]);});
-                setFantasyPos(null);
-              },style:{background:CB,border:'1px solid '+BD,borderRadius:8,padding:'7px 8px',fontSize:10,color:'#eee8d5',cursor:'pointer',textAlign:'left',display:'flex',gap:5,alignItems:'center'}},
-                e('span',{style:{fontSize:16}},s.flag),
-                e('div',null,
-                  e('div',{style:{fontSize:10,fontWeight:'bold',color:'#eee'}},s.name),
-                  e('div',{style:{fontSize:8,color:'#6a86a0'}},s.club),
-                  e('div',{style:{fontSize:9,color:G}},s.rating,' ⭐')
-                )
-              );
-            })
-          ),
-          e('button',{onClick:function(){setFantasyPos(null);},style:{width:'100%',background:'rgba(255,60,60,0.12)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:7,padding:'7px 0',fontSize:10,color:'#ff6b6b',cursor:'pointer',marginTop:6}},lang==='fr'?'Annuler':lang==='es'?'Cancelar':lang==='pt'?'Cancelar':lang==='it'?'Annulla':lang==='de'?'Abbrechen':'Cancel')
-        ),
-        e('div',{style:{display:'flex',gap:8,marginTop:10}},
-          // Progress indicator
-          e('div',{style:{width:'100%',marginBottom:8,textAlign:'center',fontSize:10,color:fantasyTeam.length>=11?'#90ee90':'#6a86a0'}},
-            (lang==='fr'?'Joueurs selectionnes':lang==='es'?'Jugadores':lang==='pt'?'Jogadores':lang==='de'?'Spieler':'Players')+': '+fantasyTeam.length+'/11 '+
-            (fantasyTeam.length>=11?'✅':'')
-          )),
-          e('div',{style:{display:'flex',gap:8}},
-          e('button',{onClick:function(){
-                if(fantasyTeam.length>=11){
-                  setFantasyDone(true);
-                  try{
-                    localStorage.setItem('wc2026_fantasy_team',JSON.stringify(fantasyTeam));
-                    localStorage.setItem('wc2026_fantasy_done','true');
-                  }catch(e){}
+              var POS={
+                '4-3-3':{
+                  CF: {t:14.3,l:50},
+                  LW: {t:25.7,l:17.5}, RW:{t:25.7,l:82.5},
+                  CM1:{t:42.9,l:37.5}, CM2:{t:42.9,l:62.5},
+                  DM: {t:54.3,l:50},
+                  LB: {t:65.7,l:17.5}, CB1:{t:71.4,l:37.5}, CB2:{t:71.4,l:62.5}, RB:{t:65.7,l:82.5},
+                  GK: {t:85.7,l:50}
+                },
+                '4-4-2':{
+                  CF1:{t:14.3,l:33}, CF2:{t:14.3,l:67},
+                  LM: {t:42.9,l:10}, CM1:{t:42.9,l:35}, CM2:{t:42.9,l:65}, RM:{t:42.9,l:90},
+                  LB: {t:65.7,l:17.5}, CB1:{t:71.4,l:37.5}, CB2:{t:71.4,l:62.5}, RB:{t:65.7,l:82.5},
+                  GK: {t:85.7,l:50}
+                },
+                '5-4-1':{
+                  ST: {t:14.3,l:50},
+                  LM: {t:40,l:10}, CM1:{t:42.9,l:33}, CM2:{t:42.9,l:67}, RM:{t:40,l:90},
+                  LWB:{t:63,l:8}, CB1:{t:70,l:27}, CB2:{t:71.4,l:50}, CB3:{t:70,l:73}, RWB:{t:63,l:92},
+                  GK: {t:85.7,l:50}
+                },
+                '4-1-2-2-1':{
+                  CF: {t:14.3,l:50},
+                  LAM:{t:30,l:30}, RAM:{t:30,l:70},
+                  CM1:{t:46,l:35}, CM2:{t:46,l:65},
+                  DM: {t:57,l:50},
+                  LB: {t:65.7,l:17.5}, CB1:{t:71.4,l:37.5}, CB2:{t:71.4,l:62.5}, RB:{t:65.7,l:82.5},
+                  GK: {t:85.7,l:50}
+                },
+                '4-2-3-1':{
+                  ST: {t:14.3,l:50},
+                  LW: {t:30,l:17.5}, CAM:{t:30,l:50}, RW:{t:30,l:82.5},
+                  DM1:{t:50,l:37.5}, DM2:{t:50,l:62.5},
+                  LB: {t:65.7,l:17.5}, CB1:{t:71.4,l:37.5}, CB2:{t:71.4,l:62.5}, RB:{t:65.7,l:82.5},
+                  GK: {t:85.7,l:50}
                 }
-              },style:{flex:2,background:fantasyTeam.length>=11?'linear-gradient(135deg,'+G+',#ff9900)':'rgba(212,175,55,0.15)',border:'2px solid '+(fantasyTeam.length>=11?G:'rgba(212,175,55,0.3)'),borderRadius:12,padding:'14px 0',fontSize:13,fontWeight:'bold',color:fantasyTeam.length>=11?'#0a0a1a':'#6a86a0',cursor:fantasyTeam.length>=11?'pointer':'default',transition:'all 0.3s'}},
-            fantasyTeam.length<11
-              ?(lang==='fr'?'Selectionner '+fantasyTeam.length+'/11 joueurs':lang==='es'?'Selecciona '+fantasyTeam.length+'/11 jugadores':lang==='pt'?'Selecione '+fantasyTeam.length+'/11 jogadores':lang==='it'?'Seleziona '+fantasyTeam.length+'/11 giocatori':lang==='de'?'Wahle '+fantasyTeam.length+'/11 Spieler':'Select '+fantasyTeam.length+'/11 players')
-              :fantasyDone
-              ?'✅ '+(lang==='fr'?'Equipe sauvegardee !':lang==='es'?'Equipo guardado !':lang==='pt'?'Time salvo !':lang==='it'?'Squadra salvata !':lang==='de'?'Team gespeichert !':'Team saved !')
-              :'💾 '+(lang==='fr'?'Sauvegarder mon equipe':lang==='es'?'Guardar mi equipo':lang==='pt'?'Salvar meu time':lang==='it'?'Salva la mia squadra':lang==='de'?'Team speichern':'Save my team')),
-          e('button',{onClick:function(){
+              };
+
+              var positions=POS[fantasyFormation]||POS['4-3-3'];
+              var slots=Object.keys(positions);
+
+              return e('div',{style:{
+                position:'relative',width:'100%',paddingTop:'116.67%',
+                borderRadius:14,overflow:'hidden',marginBottom:10
+              }},
+                // Gazon rayé
+                e('div',{style:{position:'absolute',inset:0,
+                  background:'repeating-linear-gradient(180deg,#1b5e20 0px,#1b5e20 50px,#2e7d32 50px,#2e7d32 100px)'
+                }}),
+                // SVG lignes terrain
+                e('svg',{style:{position:'absolute',inset:0,width:'100%',height:'100%'},
+                  viewBox:'0 0 600 700',preserveAspectRatio:'none'},
+                  // Bordure
+                  e('rect',{x:'18',y:'18',width:'564',height:'664',fill:'none',stroke:'white',strokeWidth:'2.5'}),
+                  // Coins arrondis
+                  e('path',{d:'M18,46 A28,28 0 0,1 46,18',fill:'none',stroke:'white',strokeWidth:'2'}),
+                  e('path',{d:'M554,18 A28,28 0 0,1 582,46',fill:'none',stroke:'white',strokeWidth:'2'}),
+                  e('path',{d:'M582,654 A28,28 0 0,1 554,682',fill:'none',stroke:'white',strokeWidth:'2'}),
+                  e('path',{d:'M46,682 A28,28 0 0,1 18,654',fill:'none',stroke:'white',strokeWidth:'2'}),
+                  // Ligne médiane + point central
+                  e('line',{x1:'18',y1:'350',x2:'582',y2:'350',stroke:'white',strokeWidth:'2'}),
+                  e('circle',{cx:'300',cy:'350',r:'4',fill:'white'}),
+                  // But haut
+                  e('rect',{x:'252',y:'5',width:'96',height:'16',fill:'rgba(200,200,200,0.2)',stroke:'white',strokeWidth:'1.8'}),
+                  // Grande surface haut
+                  e('rect',{x:'172',y:'21',width:'256',height:'118',fill:'none',stroke:'white',strokeWidth:'2'}),
+                  // Petite surface haut
+                  e('rect',{x:'228',y:'21',width:'144',height:'58',fill:'none',stroke:'white',strokeWidth:'1.8'}),
+                  // Point penalty haut
+                  e('circle',{cx:'300',cy:'96',r:'3.5',fill:'white'}),
+                  // But bas
+                  e('rect',{x:'252',y:'679',width:'96',height:'16',fill:'rgba(200,200,200,0.2)',stroke:'white',strokeWidth:'1.8'}),
+                  // Grande surface bas
+                  e('rect',{x:'172',y:'561',width:'256',height:'118',fill:'none',stroke:'white',strokeWidth:'2'}),
+                  // Petite surface bas
+                  e('rect',{x:'228',y:'621',width:'144',height:'58',fill:'none',stroke:'white',strokeWidth:'1.8'}),
+                  // Point penalty bas
+                  e('circle',{cx:'300',cy:'604',r:'3.5',fill:'white'})
+                ),
+                // Formation label
+                e('div',{style:{position:'absolute',top:6,left:0,right:0,
+                  textAlign:'center',fontSize:9,color:'rgba(255,255,255,0.4)',fontWeight:'bold'}},
+                  fantasyFormation),
+
+                // Players
+                slots.map(function(s){
+                  var pos=positions[s];
+                  var pl=fantasyTeam.find(function(p){return p.pos===s;});
+                  var col=s==='GK'?'#f39c12':
+                    (s.startsWith('CB')||s==='LB'||s==='RB'||s.startsWith('LW'+'B')||s.startsWith('RW'+'B'))?'#e74c3c':
+                    (s.startsWith('CM')||s==='DM'||s.startsWith('DM')||s==='LM'||s==='RM'||s==='CAM'||s==='LAM'||s==='RAM')?'#4a90e2':
+                    '#d4af37';
+                  var sz=s==='GK'?44:s.startsWith('CB')||s==='LB'||s==='RB'?38:42;
+                  var active=fantasyPos===s;
+                  return e('div',{
+                    key:s,
+                    onClick:function(){if(!fantasyDone)setFantasyPos(s);},
+                    style:{
+                      position:'absolute',
+                      top:pos.t+'%',left:pos.l+'%',
+                      transform:'translate(-50%,-50%)',
+                      textAlign:'center',cursor:'pointer',
+                      zIndex:active?10:1,
+                      transition:'all 0.2s'
+                    }
+                  },
+                    e('div',{style:{
+                      width:sz,height:sz,borderRadius:'50%',
+                      background:pl?('linear-gradient(135deg,'+col+','+col+'bb)'):'rgba(255,255,255,0.12)',
+                      border:'2px solid '+(active?'#fff':pl?col:'rgba(255,255,255,0.3)'),
+                      display:'flex',alignItems:'center',justifyContent:'center',
+                      boxShadow:active?'0 0 0 3px rgba(255,255,255,0.5)':pl?('0 2px 8px '+col+'66'):'none',
+                      transform:active?'scale(1.15)':'scale(1)',transition:'all 0.2s'
+                    }},
+                      pl
+                        ?e('div',{style:{textAlign:'center',padding:1}},
+                            e('div',{style:{fontSize:6,fontWeight:'bold',color:'#fff',lineHeight:1.1,maxWidth:34,overflow:'hidden'}},pl.name.split(' ').slice(-1)[0]),
+                            e('div',{style:{fontSize:9}},pl.flag))
+                        :e('div',{style:{fontSize:13,color:'rgba(255,255,255,0.4)'}},'＋')
+                    ),
+                    e('div',{style:{fontSize:6,color:'rgba(255,255,255,0.85)',fontWeight:'bold',
+                      marginTop:2,lineHeight:1.1,maxWidth:48,
+                      textShadow:'0 1px 2px rgba(0,0,0,0.8)'}},
+                      (function(){var l=({
+                        LW:{fr:'Ail.G',en:'LW'},RW:{fr:'Ail.D',en:'RW'},
+                        CF:{fr:'Avant-C',en:'CF'},CF1:{fr:'Att.G',en:'ST L'},CF2:{fr:'Att.D',en:'ST R'},
+                        ST:{fr:'Avant-C',en:'ST'},
+                        CM1:{fr:'Mil.G',en:'CM'},CM2:{fr:'Mil.D',en:'CM'},
+                        DM:{fr:'Mil.Def',en:'DM'},DM1:{fr:'Mil.D.G',en:'DM'},DM2:{fr:'Mil.D.D',en:'DM'},
+                        LM:{fr:'Mil.G',en:'LM'},RM:{fr:'Mil.D',en:'RM'},
+                        CAM:{fr:'Mil.Off',en:'CAM'},LAM:{fr:'Off.G',en:'AM L'},RAM:{fr:'Off.D',en:'AM R'},
+                        LB:{fr:'Arr.G',en:'LB'},RB:{fr:'Arr.D',en:'RB'},
+                        CB1:{fr:'Def.C',en:'CB'},CB2:{fr:'Def.C',en:'CB'},CB3:{fr:'Def.C',en:'CB'},
+                        LWB:{fr:'Pist.G',en:'LWB'},RWB:{fr:'Pist.D',en:'RWB'},
+                        GK:{fr:'Gardien',en:'GK'}
+                      })[s]||{};return l[lang]||l.en||s;})()
+                    )
+                  );
+                })
+              );
+            })(),
+
+            // PLAYER PICKER
+            fantasyPos&&!fantasyDone&&e('div',{style:{background:'rgba(15,20,40,0.97)',border:'1px solid #d4af37',borderRadius:12,padding:10,marginBottom:10}},
+              e('div',{style:{fontSize:11,color:'#d4af37',fontWeight:'bold',marginBottom:8}},
+                (lang==='fr'?'Choisir : ':lang==='es'?'Elegir : ':lang==='pt'?'Escolher : ':'Pick : ')+slotLabel(fantasyPos)+
+                ' ('+(SLOT_POS[fantasyPos]==='GK'?'GK':SLOT_POS[fantasyPos]==='DF'?lang==='fr'?'Défenseurs':'Defenders':SLOT_POS[fantasyPos]==='MF'?lang==='fr'?'Milieux':'Midfielders':lang==='fr'?'Attaquants':'Forwards')+')'
+              ),
+              e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5,maxHeight:180,overflowY:'auto'}},
+                STARS.filter(function(s){
+                  var needed=SLOT_POS[fantasyPos];
+                  var notPicked=!fantasyTeam.find(function(p){return p.name===s.name;});
+                  return s.pos===needed&&notPicked;
+                }).map(function(s){
+                  return e('button',{key:s.name,onClick:function(){
+                    setFantasyTeam(function(t){return t.filter(function(p){return p.pos!==fantasyPos;}).concat([{name:s.name,flag:s.flag,club:s.club,pos:fantasyPos,rating:s.rating}]);});
+                    setFantasyPos(null);
+                  },style:{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,padding:'6px 8px',fontSize:10,color:'#eee',cursor:'pointer',textAlign:'left',display:'flex',gap:5,alignItems:'center'}},
+                    e('span',{style:{fontSize:15}},s.flag),
+                    e('div',null,
+                      e('div',{style:{fontSize:10,fontWeight:'bold',color:'#eee',lineHeight:1.2}},s.name),
+                      e('div',{style:{fontSize:8,color:'#6a86a0'}},s.club||''),
+                      e('div',{style:{fontSize:9,color:'#d4af37'}},s.rating+' ⭐')
+                    )
+                  );
+                })
+              ),
+              e('button',{onClick:function(){setFantasyPos(null);},style:{width:'100%',background:'rgba(255,60,60,0.1)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:7,padding:'6px 0',fontSize:10,color:'#ff6b6b',cursor:'pointer',marginTop:6}},
+                lang==='fr'?'Annuler':lang==='es'?'Cancelar':lang==='pt'?'Cancelar':'Cancel')
+            ),
+
+            // PROGRESS + BUTTONS
+            e('div',{style:{textAlign:'center',fontSize:10,color:fantasyTeam.length>=11?'#90ee90':'#6a86a0',marginBottom:8}},
+              (lang==='fr'?'Joueurs sélectionnés':lang==='es'?'Jugadores':lang==='pt'?'Jogadores':'Players')+
+              ': '+fantasyTeam.length+'/'+allSlots.length+' '+(fantasyTeam.length>=allSlots.length?'✅':'')
+            ),
+            e('div',{style:{display:'flex',gap:8}},
+              e('button',{onClick:function(){
+                if(fantasyTeam.length>=allSlots.length){
+                  setFantasyDone(true);
+                  try{localStorage.setItem('wc2026_fantasy_team',JSON.stringify(fantasyTeam));localStorage.setItem('wc2026_fantasy_done','true');}catch(err){}
+                }
+              },style:{flex:2,background:fantasyTeam.length>=allSlots.length?'linear-gradient(135deg,#d4af37,#ff9900)':'rgba(212,175,55,0.1)',
+                border:'2px solid '+(fantasyTeam.length>=allSlots.length?'#d4af37':'rgba(212,175,55,0.2)'),
+                borderRadius:12,padding:'13px 0',fontSize:12,fontWeight:'bold',
+                color:fantasyTeam.length>=allSlots.length?'#0a0a1a':'#6a86a0',cursor:fantasyTeam.length>=allSlots.length?'pointer':'default',transition:'all 0.3s'}},
+                fantasyTeam.length<allSlots.length
+                  ?(lang==='fr'?'Sélectionner '+fantasyTeam.length+'/'+allSlots.length:lang==='es'?'Selecciona '+fantasyTeam.length+'/'+allSlots.length:'Select '+fantasyTeam.length+'/'+allSlots.length)
+                  :fantasyDone?'✅ '+(lang==='fr'?'Equipe sauvegardée !':'Team saved !')
+                  :'💾 '+(lang==='fr'?'Sauvegarder':'Save')),
+              e('button',{onClick:function(){
                 setFantasyTeam([]);setFantasyPos(null);setFantasyDone(false);
-                try{localStorage.removeItem('wc2026_fantasy_team');localStorage.removeItem('wc2026_fantasy_done');}catch(e){}
-              },style:{flex:1,background:'rgba(255,60,60,0.12)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:12,padding:'14px 0',fontSize:12,color:'#ff6b6b',cursor:'pointer',fontWeight:'bold'}},
-            lang==='fr'?'🗑️ Reset':lang==='es'?'🗑️ Reset':lang==='pt'?'🗑️ Reset':lang==='it'?'🗑️ Reset':lang==='de'?'🗑️ Reset':'🗑️ Reset'
-          )
-        )
-      )):null,
+                try{localStorage.removeItem('wc2026_fantasy_team');localStorage.removeItem('wc2026_fantasy_done');}catch(err){}
+              },style:{flex:1,background:'rgba(255,60,60,0.1)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:12,padding:'13px 0',fontSize:12,color:'#ff6b6b',cursor:'pointer',fontWeight:'bold'}},
+              '🗑️ Reset')
+            )
+
+          ); // end return
+        })() // end IIFE
+
+      ):null,
 
       // ── TAB 10 - MATCH PREDICTOR PRO ──────────────────────────
       tab===10?e('div',null,
