@@ -128,7 +128,7 @@ var TEAM_NAMES = {
     'Argentina':'Argentina','Algeria':'Algeria','Austria':'Austria','Jordan':'Jordan',
     'Portugal':'Portugal','DR Congo':'DR Congo','Uzbekistan':'Uzbekistan',
     'Colombia':'Colombia','England':'England','Croatia':'Croatia','Ghana':'Ghana',
-    'Panama':'Panama'
+    'Panama':'Panamá'
   },
   fr:{
     'Mexico':'Mexique','South Africa':'Afrique du Sud','South Korea':'Coree du Sud',
@@ -142,32 +142,32 @@ var TEAM_NAMES = {
     'Cape Verde':'Cap-Vert','Saudi Arabia':'Arabie Saoudite','Uruguay':'Uruguay',
     'France':'France','Senegal':'Senegal','Iraq':'Irak','Norway':'Norvege',
     'Argentina':'Argentine','Algeria':'Algerie','Austria':'Autriche','Jordan':'Jordanie',
-    'Portugal':'Portugal','DR Congo':'RD Congo','Uzbekistan':'Ouzbekistan',
+    'Portugal':'Portugal','DR Congo':'R.D. Congo','Uzbekistan':'Ouzbekistan',
     'Colombia':'Colombie','England':'Angleterre','Croatia':'Croatie','Ghana':'Ghana',
-    'Panama':'Panama'
+    'Panama':'Panamá'
   },
   es:{
-    'Mexico':'Mexico','South Africa':'Sudafrica','South Korea':'Corea del Sur',
-    'Czechia':'Republica Checa','Canada':'Canada','Bosnia':'Bosnia y Herzegovina',
+    'Mexico':'Mexico','South Africa':'Sudáfrica','South Korea':'Corea del Sur',
+    'Czechia':'República Checa','Canada':'Canada','Bosnia':'Bosnia y Herzegovina',
     'Qatar':'Qatar','Switzerland':'Suiza','Brazil':'Brasil','Morocco':'Marruecos',
     'Haiti':'Haiti','Scotland':'Escocia','USA':'USA','Paraguay':'Paraguay',
-    'Australia':'Australia','Turkey':'Turquia','Germany':'Alemania','Curacao':'Curacao',
+    'Australia':'Australia','Turkey':'Turquía','Germany':'Alemania','Curacao':'Curacao',
     'Ivory Coast':'Costa de Marfil','Ecuador':'Ecuador','Netherlands':'Paises Bajos',
     'Japan':'Japon','Sweden':'Suecia','Tunisia':'Tunez','Belgium':'Belgica',
-    'Egypt':'Egipto','Iran':'Iran','New Zealand':'Nueva Zelanda','Spain':'Espana',
+    'Egypt':'Egipto','Iran':'Iran','New Zealand':'Nueva Zelanda','Spain':'España',
     'Cape Verde':'Cabo Verde','Saudi Arabia':'Arabia Saudita','Uruguay':'Uruguay',
     'France':'Francia','Senegal':'Senegal','Iraq':'Irak','Norway':'Noruega',
     'Argentina':'Argentina','Algeria':'Argelia','Austria':'Austria','Jordan':'Jordania',
     'Portugal':'Portugal','DR Congo':'R.D. Congo','Uzbekistan':'Uzbekistan',
     'Colombia':'Colombia','England':'Inglaterra','Croatia':'Croacia','Ghana':'Ghana',
-    'Panama':'Panama'
+    'Panama':'Panamá'
   },
   pt:{
     'Mexico':'Mexico','South Africa':'Africa do Sul','South Korea':'Coreia do Sul',
     'Czechia':'Republica Tcheca','Canada':'Canada','Bosnia':'Bosnia e Herzegovina',
     'Qatar':'Catar','Switzerland':'Suica','Brazil':'Brasil','Morocco':'Marrocos',
     'Haiti':'Haiti','Scotland':'Escocia','USA':'USA','Paraguay':'Paraguai',
-    'Australia':'Australia','Turkey':'Turquia','Germany':'Alemanha','Curacao':'Curacao',
+    'Australia':'Australia','Turkey':'Turquía','Germany':'Alemanha','Curacao':'Curacao',
     'Ivory Coast':'Costa do Marfim','Ecuador':'Equador','Netherlands':'Paises Baixos',
     'Japan':'Japao','Sweden':'Suecia','Tunisia':'Tunisia','Belgium':'Belgica',
     'Egypt':'Egito','Iran':'Ira','New Zealand':'Nova Zelandia','Spain':'Espanha',
@@ -176,10 +176,10 @@ var TEAM_NAMES = {
     'Argentina':'Argentina','Algeria':'Algeria','Austria':'Austria','Jordan':'Jordania',
     'Portugal':'Portugal','DR Congo':'R.D. Congo','Uzbekistan':'Uzbequistao',
     'Colombia':'Colombia','England':'Inglaterra','Croatia':'Croacia','Ghana':'Gana',
-    'Panama':'Panama'
+    'Panama':'Panamá'
   },
   it:{
-    'Mexico':'Messico','South Africa':'Sudafrica','South Korea':'Corea del Sud',
+    'Mexico':'Messico','South Africa':'Sudáfrica','South Korea':'Corea del Sud',
     'Czechia':'Repubblica Ceca','Canada':'Canada','Bosnia':'Bosnia ed Erzegovina',
     'Qatar':'Qatar','Switzerland':'Svizzera','Brazil':'Brasile','Morocco':'Marocco',
     'Haiti':'Haiti','Scotland':'Scozia','USA':'USA','Paraguay':'Paraguay',
@@ -192,7 +192,7 @@ var TEAM_NAMES = {
     'Argentina':'Argentina','Algeria':'Algeria','Austria':'Austria','Jordan':'Giordania',
     'Portugal':'Portogallo','DR Congo':'R.D. Congo','Uzbekistan':'Uzbekistan',
     'Colombia':'Colombia','England':'Inghilterra','Croatia':'Croazia','Ghana':'Ghana',
-    'Panama':'Panama'
+    'Panama':'Panamá'
   },
   de:{
     'Mexico':'Mexiko','South Africa':'Sudafrika','South Korea':'Sudkorea',
@@ -208,7 +208,7 @@ var TEAM_NAMES = {
     'Argentina':'Argentinien','Algeria':'Algerien','Austria':'Osterreich','Jordan':'Jordanien',
     'Portugal':'Portugal','DR Congo':'DR Kongo','Uzbekistan':'Usbekistan',
     'Colombia':'Kolumbien','England':'England','Croatia':'Kroatien','Ghana':'Ghana',
-    'Panama':'Panama'
+    'Panama':'Panamá'
   }
 };
 
