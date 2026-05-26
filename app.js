@@ -3531,15 +3531,15 @@ function App(){
                 selectedCity===i&&e('div',{style:{marginTop:12,paddingTop:12,borderTop:'1px solid rgba(212,175,55,0.2)'}},
                   e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
                     e('div',{style:{background:'rgba(0,80,200,0.08)',border:'1px solid rgba(0,80,200,0.2)',borderRadius:8,padding:'8px 10px'}},
-                      e('div',{style:{fontSize:9,color:'#7ab0ff',fontWeight:'bold',marginBottom:4}},'🚌 '+{en:'Getting there',fr:'Comment y aller',es:'Cómo llegar',pt:'Como chegar',it:'Come arrivare',de:'Anreise'}[lang]},
+                      e('div',{style:{fontSize:9,color:'#7ab0ff',fontWeight:'bold',marginBottom:4}},'🚌 '+({en:'Getting there',fr:'Comment y aller',es:'Cómo llegar',pt:'Como chegar',it:'Come arrivare',de:'Anreise'}[lang]||'Getting there')),
                       e('div',{style:{fontSize:10,color:'#c0d0e0',lineHeight:1.6}},c.transport[lang]||c.transport.en)
                     ),
                     e('div',{style:{background:'rgba(40,160,40,0.08)',border:'1px solid rgba(40,160,40,0.2)',borderRadius:8,padding:'8px 10px'}},
-                      e('div',{style:{fontSize:9,color:'#90ee90',fontWeight:'bold',marginBottom:4}},'💡 '+{en:'Practical tips',fr:'Conseils pratiques',es:'Consejos prácticos',pt:'Dicas práticas',it:'Consigli pratici',de:'Praktische Tipps'}[lang]},
+                      e('div',{style:{fontSize:9,color:'#90ee90',fontWeight:'bold',marginBottom:4}},'💡 '+({en:'Practical tips',fr:'Conseils pratiques',es:'Consejos prácticos',pt:'Dicas práticas',it:'Consigli pratici',de:'Praktische Tipps'}[lang]||'Practical tips')),
                       e('div',{style:{fontSize:10,color:'#c0d0e0',lineHeight:1.6}},c.tip[lang]||c.tip.en)
                     ),
                     e('div',{style:{background:'rgba(212,100,0,0.08)',border:'1px solid rgba(212,100,0,0.2)',borderRadius:8,padding:'8px 10px'}},
-                      e('div',{style:{fontSize:9,color:'#ffaa44',fontWeight:'bold',marginBottom:4}},'🍽️ '+{en:'Local food',fr:'Cuisine locale',es:'Comida local',pt:'Comida local',it:'Cucina locale',de:'Lokale Küche'}[lang]},
+                      e('div',{style:{fontSize:9,color:'#ffaa44',fontWeight:'bold',marginBottom:4}},'🍽️ '+({en:'Local food',fr:'Cuisine locale',es:'Comida local',pt:'Comida local',it:'Cucina locale',de:'Lokale Küche'}[lang]||'Local food')),
                       e('div',{style:{fontSize:10,color:'#c0d0e0',lineHeight:1.6}},c.food[lang]||c.food.en)
                     )
                   )
