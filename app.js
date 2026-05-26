@@ -3551,7 +3551,7 @@ function App(){
                 selectedCity===i&&e('div',{style:{marginTop:12,paddingTop:12,borderTop:'1px solid rgba(212,175,55,0.2)'}},
                   CITY_IMAGES[i]&&e('img',{src:CITY_IMAGES[i],alt:c.city,loading:'lazy',
                     onError:function(ev){ev.target.style.display='none';},
-                    style:{width:'100%',height:140,objectFit:'cover',borderRadius:10,marginBottom:10,display:'block'}}),
+                    style:{width:'100%',height:140,objectFit:'cover',objectPosition:'center center',borderRadius:10,marginBottom:10,display:'block'}}),
                   e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
                     e('div',{style:{background:'rgba(0,80,200,0.08)',border:'1px solid rgba(0,80,200,0.2)',borderRadius:8,padding:'8px 10px'}},
                       e('div',{style:{fontSize:9,color:'#7ab0ff',fontWeight:'bold',marginBottom:4}},'🚌 '+({en:'Getting there',fr:'Comment y aller',es:'Cómo llegar',pt:'Como chegar',it:'Come arrivare',de:'Anreise'}[lang]||'Getting there')),
