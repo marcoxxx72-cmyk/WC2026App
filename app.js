@@ -141,6 +141,21 @@ var WC2026_ID = 2000;
 var ONESIGNAL_APP_ID = '29a090bc-9893-46a1-87a3-e3f162e2271d';
 var G = '#d4af37';
 var DARK = '#08091a';
+var TEAM_COLORS = {
+  'Argentina':'#74ACDF','Australia':'#FFD700','Austria':'#ED2939','Belgium':'#EF3340',
+  'Bosnia':'#003087','Brazil':'#009C3B','Canada':'#FF0000','Cape Verde':'#003893',
+  'Colombia':'#FCD116','Croatia':'#FF0000','Czechia':'#D7141A','DR Congo':'#007FFF',
+  'Ecuador':'#FFD100','Egypt':'#CE1126','England':'#003090','France':'#002395',
+  'Germany':'#DD0000','Haiti':'#003F87','Iran':'#239F40','Italy':'#009246',
+  'Japan':'#BC002D','Mexico':'#006847','Morocco':'#C1272D','Netherlands':'#FF6600',
+  'New Zealand':'#000000','Nigeria':'#008751','Norway':'#EF2B2D','Panama':'#DA121A',
+  'Paraguay':'#D52B1E','Peru':'#D91023','Poland':'#DC143C','Portugal':'#006600',
+  'Qatar':'#8D1B3D','Saudi Arabia':'#006C35','Scotland':'#003380','Senegal':'#00853F',
+  'Serbia':'#C6363C','Slovenia':'#003DA5','South Africa':'#007A4D','South Korea':'#003478',
+  'Spain':'#AA151B','Switzerland':'#FF0000','Turkey':'#E30A17','Ukraine':'#005BBB',
+  'Uruguay':'#75AADB','USA':'#002868','Curacao':'#003DA5','Ivory Coast':'#F77F00',
+  'Algeria':'#006233','Scotland':'#003380'
+};
 var CB = 'rgba(12,24,54,0.9)';
 var BD = 'rgba(212,175,55,0.22)';
 
@@ -1030,6 +1045,9 @@ function App(){
   var s19=useState(null);var myTeam=s19[0];var setMyTeam=s19[1];
   var s20=useState(false);var fixtureMyOnly=s20[0];var setFixtureMyOnly=s20[1];
   var s21=useState(false);var showPickTeam=s21[0];var setShowPickTeam=s21[1];
+  var sT1=useState(function(){try{return localStorage.getItem('wc2026_theme')==='1';}catch(e){return false;}}());var themeActive=sT1[0];var setThemeActive=sT1[1];
+  var G=premium&&themeActive&&myTeam&&TEAM_COLORS[myTeam&&myTeam.team]?TEAM_COLORS[myTeam.team]:'#d4af37';
+  var BD='rgba('+(G==='#d4af37'?'212,175,55':''+parseInt(G.slice(1,3),16)+','+parseInt(G.slice(3,5),16)+','+parseInt(G.slice(5,7),16))+',0.22)';
 
   var sA=useState('');var manTeam1=sA[0];var setManTeam1=sA[1];
   var sB=useState('');var manTeam2=sB[0];var setManTeam2=sB[1];
@@ -1728,6 +1746,39 @@ function App(){
                 tn(team,lang),grp&&e('span',{style:{fontSize:9,color:G,marginLeft:4}},'('+grp+')')
               );
             })
+          )
+        ),
+
+        // Theme equipe section
+        e('div',{style:{background:'rgba(12,24,54,0.85)',border:'1px solid '+BD,borderRadius:14,padding:'12px 16px',marginBottom:13}},
+          e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}},
+            e('div',{style:{fontSize:12,fontWeight:'bold',color:G}},'🎨 '+(lang==='fr'?'Thème Équipe':lang==='es'?'Tema Equipo':lang==='pt'?'Tema Time':lang==='it'?'Tema Squadra':lang==='de'?'Team-Thema':'Team Theme')),
+            !premium&&e('div',{style:{background:'linear-gradient(135deg,#d4af37,#b8963e)',borderRadius:6,padding:'2px 8px',fontSize:9,fontWeight:'bold',color:'#0a0a1a'}},'PRO')
+          ),
+          premium?e('div',null,
+            e('div',{style:{display:'flex',alignItems:'center',gap:10,marginBottom:10}},
+              e('div',{style:{width:28,height:28,borderRadius:7,background:TEAM_COLORS[myTeam&&myTeam.team]||'#d4af37',border:'2px solid rgba(255,255,255,0.2)'}}),
+              e('div',{style:{fontSize:11,color:'#ccc'}},
+                myTeam?((lang==='fr'?'Couleur ':lang==='es'?'Color ':lang==='pt'?'Cor ':'Color ')+myTeam.flag+' '+(myTeam.team||'')):(lang==='fr'?'Choisis ton équipe ci-dessus':lang==='es'?'Elige tu equipo arriba':lang==='pt'?'Escolha sua equipe acima':'Pick your team above')
+              )
+            ),
+            myTeam&&e('button',{
+              onClick:function(){
+                var next=!themeActive;
+                setThemeActive(next);
+                try{localStorage.setItem('wc2026_theme',next?'1':'0');}catch(e){}
+              },
+              style:{width:'100%',background:themeActive?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:'1px solid '+G,borderRadius:10,padding:'9px 0',fontSize:12,fontWeight:'bold',color:themeActive?'#0a0a1a':G,cursor:'pointer'}
+            },themeActive?(lang==='fr'?'✓ Thème activé':lang==='es'?'✓ Tema activado':lang==='pt'?'✓ Tema ativo':'✓ Theme active'):(lang==='fr'?'Activer mon thème':lang==='es'?'Activar mi tema':lang==='pt'?'Ativar meu tema':'Activate my theme'))
+          ):e('div',{style:{display:'flex',alignItems:'center',gap:12}},
+            e('div',{style:{display:'flex',gap:6}},
+              ['#002395','#009C3B','#AA151B','#FF6600','#003090'].map(function(c,i){
+                return e('div',{key:i,style:{width:20,height:20,borderRadius:5,background:c,opacity:0.6}});
+              })
+            ),
+            e('button',{onClick:function(){window.location.href=getStripeLink(lang);},style:{marginLeft:'auto',background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:9,padding:'6px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+              '🔒 '+lang==='fr'?'Débloquer PRO':lang==='es'?'Desbloquear PRO':lang==='pt'?'Desbloquear PRO':'Unlock PRO'
+            )
           )
         ),
 
