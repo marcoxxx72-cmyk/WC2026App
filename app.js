@@ -229,24 +229,23 @@ var CITY_GUIDE = [
    food:{en:'Cabrito (roasted goat), machacado con huevo, pan de polvo, craft beer scene — norteño cuisine at its best.',fr:'Cabrito (chevreau rôti), machacado con huevo, pan de polvo, bières artisanales — cuisine norteño dans toute sa splendeur.',es:'Cabrito (cabra asada), machacado con huevo, pan de polvo, escena de cerveza artesana — cocina norteña en su máxima expresión.',pt:'Cabrito (cabra assada), machacado con huevo, pan de polvo, cenas de cerveja artesanal — culinária norteña no seu melhor.',it:'Cabrito (capretto arrosto), machacado con huevo, pan de polvo, birre artigianali — cucina norteño al suo meglio.',de:'Cabrito (gebratene Ziege), Machacado con Huevo, Pan de Polvo, Craft Beer Szene — Norteño-Küche vom Feinsten.'}}
 ];
 
-var P='/api/cityimg?url=';
 var CITY_IMAGES=[
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg/600px-View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Hollywood_Sign_%28Zuschnitt%29.jpg/600px-Hollywood_Sign_%28Zuschnitt%29.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/View_of_Dallas_from_Reunion_Tower_August_2015_05.jpg/600px-View_of_Dallas_from_Reunion_Tower_August_2015_05.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/San_Francisco_Downtown_Aerial%2C_August_2025.jpg/600px-San_Francisco_Downtown_Aerial%2C_August_2025.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Villa_Vizcaya_20110228.jpg/600px-Villa_Vizcaya_20110228.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Seattle_Center_as_night_falls.jpg/600px-Seattle_Center_as_night_falls.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/ISH_WC_Boston4.jpg/600px-ISH_WC_Boston4.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Texas_medical_center.jpg/600px-Texas_medical_center.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Kansas_City_-_Downtown_-_panoramio_%2815%29.jpg/600px-Kansas_City_-_Downtown_-_panoramio_%2815%29.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Philadelphia_skyline_20240528_%28cropped_2-1%29.jpg/600px-Philadelphia_skyline_20240528_%28cropped_2-1%29.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/A2ATL20250614-0721_%28cropped%29.jpg/600px-A2ATL20250614-0721_%28cropped%29.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Toronto_Skyline_from_Snake_Island%2C_February_28_2026_%2808%29.jpg/600px-Toronto_Skyline_from_Snake_Island%2C_February_28_2026_%2808%29.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Skyline_of_Vancouver%2C_Canada.jpg/600px-Skyline_of_Vancouver%2C_Canada.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sobrevuelos_CDMX_HJ2A4913_%2825514321687%29_%28cropped%29.jpg/600px-Sobrevuelos_CDMX_HJ2A4913_%2825514321687%29_%28cropped%29.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Panor%C3%A1mica_Guadalajara_desde_edificio_Bansi_hacia_norte_%28cropped%29.jpg/600px-Panor%C3%A1mica_Guadalajara_desde_edificio_Bansi_hacia_norte_%28cropped%29.jpg'),
-  P+encodeURIComponent('https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/View_of_Monterrey_%282015%29.jpg/600px-View_of_Monterrey_%282015%29.jpg')
+  '/cities/newyork.jpg',
+  '/cities/losangeles.jpg',
+  '/cities/dallas.jpg',
+  '/cities/sanfrancisco.jpg',
+  '/cities/miami.jpg',
+  '/cities/seattle.jpg',
+  '/cities/boston.jpg',
+  '/cities/houston.jpg',
+  '/cities/kansascity.jpg',
+  '/cities/philadelphia.jpg',
+  '/cities/atlanta.jpg',
+  '/cities/toronto.jpg',
+  '/cities/vancouver.jpg',
+  '/cities/mexicocity.jpg',
+  '/cities/guadalajara.jpg',
+  '/cities/monterrey.jpg'
 ];
 
 var WC_WEATHER = {
