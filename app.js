@@ -229,6 +229,24 @@ var CITY_GUIDE = [
    food:{en:'Cabrito (roasted goat), machacado con huevo, pan de polvo, craft beer scene — norteño cuisine at its best.',fr:'Cabrito (chevreau rôti), machacado con huevo, pan de polvo, bières artisanales — cuisine norteño dans toute sa splendeur.',es:'Cabrito (cabra asada), machacado con huevo, pan de polvo, escena de cerveza artesana — cocina norteña en su máxima expresión.',pt:'Cabrito (cabra assada), machacado con huevo, pan de polvo, cenas de cerveja artesanal — culinária norteña no seu melhor.',it:'Cabrito (capretto arrosto), machacado con huevo, pan de polvo, birre artigianali — cucina norteño al suo meglio.',de:'Cabrito (gebratene Ziege), Machacado con Huevo, Pan de Polvo, Craft Beer Szene — Norteño-Küche vom Feinsten.'}}
 ];
 
+var CITY_POS=[
+  'center center',  // NY
+  'center center',  // LA
+  'center 60%',     // Dallas
+  'center 50%',     // SF - Golden Gate
+  'center 40%',     // Miami
+  'center center',  // Seattle
+  'center center',  // Boston
+  'center center',  // Houston
+  'center center',  // Kansas City
+  'center center',  // Philadelphia
+  'center center',  // Atlanta
+  'center center',  // Toronto
+  'center 40%',     // Vancouver
+  'center 40%',     // Mexico City
+  'center 40%',     // Guadalajara
+  'center center'   // Monterrey
+];
 var CITY_IMAGES=[
   '/public/cities/newyork.jpg',
   '/public/cities/losangeles.jpg',
@@ -3551,7 +3569,7 @@ function App(){
                   CITY_IMAGES[i]&&e('div',{style:{position:'relative',marginBottom:10,borderRadius:10,overflow:'hidden'}},
                     e('img',{src:CITY_IMAGES[i],alt:c.city,loading:'lazy',
                       onError:function(ev){ev.target.parentNode.style.display='none';},
-                      style:{width:'100%',height:160,objectFit:'cover',objectPosition:'center center',display:'block'}}),
+                      style:{width:'100%',height:160,objectFit:'cover',objectPosition:CITY_POS[i]||'center center',display:'block'}}),
                     e('div',{style:{position:'absolute',bottom:0,left:0,right:0,height:50,
                       background:'linear-gradient(transparent,rgba(0,0,0,0.7))',
                       display:'flex',alignItems:'flex-end',padding:'0 10px 8px'}},
