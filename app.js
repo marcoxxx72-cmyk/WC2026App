@@ -101,7 +101,22 @@ var LEGENDS = [
    facts:['World Cup winner 1966 with England','European Cup winner 1968 with Man Utd','Survived the 1958 Munich Air Disaster']},
   {name:'Bobby Moore',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',years:'1962-1973',caps:108,goals:2,wc:1,wc_goals:0,club:'West Ham/Fulham',pos:'DF',
    quote:'The greatest footballer I ever played against. — Pelé',
-   facts:['World Cup winner & captain 1966 with England','Voted England\'s greatest captain ever','Pelé called him the finest defender he ever faced']}
+   facts:['World Cup winner & captain 1966 with England','Voted England\'s greatest captain ever','Pelé called him the finest defender he ever faced']},
+  {name:'Roberto Baggio',flag:'🇮🇹',years:'1988-2004',caps:56,goals:27,wc:0,wc_goals:9,club:'Juventus/AC Milan/Fiorentina',pos:'FW',
+   quote:'Every penalty kick is a lottery. That one just wasn\'t for me.',
+   facts:['WC finalist 1994 — missed the deciding penalty','Top scorer WC 1990 & 1994 with 9 WC goals total','Il Divin Codino — the Divine Ponytail']},
+  {name:'Paolo Maldini',flag:'🇮🇹',years:'1988-2002',caps:126,goals:7,wc:0,wc_goals:0,club:'AC Milan',pos:'DF',
+   quote:'If I have to make a tackle then I have already made a mistake.',
+   facts:['5x Champions League winner with AC Milan','Spent entire 25-year career at AC Milan','Considered the greatest defender in football history']},
+  {name:'Xavi Hernández',flag:'🇪🇸',years:'2000-2014',caps:133,goals:13,wc:1,wc_goals:0,club:'FC Barcelona/Al-Sadd',pos:'MF',
+   quote:'Football is about being together, sharing the ball, the space.',
+   facts:['World Cup winner 2010 with Spain','3x Euro winner with Spain (2008, 2010, 2012)','Architect of the greatest tiki-taka era in history']},
+  {name:'Andrés Iniesta',flag:'🇪🇸',years:'2006-2018',caps:131,goals:13,wc:1,wc_goals:1,club:'FC Barcelona/Vissel Kobe',pos:'MF',
+   quote:'I always try to play the simple ball, the ball that hurts the opposition.',
+   facts:['Scored the winning goal in the 2010 WC Final','3x Euro winner with Spain','Golden Ball at 2012 Euros — masterclass in midfield play']},
+  {name:'Ferenc Puskás',flag:'🇭🇺',years:'1945-1956',caps:85,goals:84,wc:0,wc_goals:11,club:'Honvéd/Real Madrid',pos:'FW',
+   quote:'Football is the simplest game in the world. You just have to put the ball in the net.',
+   facts:['84 goals in 85 caps for Hungary — all-time record rate','WC finalist 1954 with the legendary Magical Magyars','Scored 4 goals in the 1960 European Cup Final for Real Madrid']}
 ];
 
 var WC_WEATHER = {
