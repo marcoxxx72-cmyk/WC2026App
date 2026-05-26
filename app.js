@@ -230,22 +230,22 @@ var CITY_GUIDE = [
 ];
 
 var CITY_IMAGES=[
-  '/cities/newyork.jpg',
-  '/cities/losangeles.jpg',
-  '/cities/dallas.jpg',
-  '/cities/sanfrancisco.jpg',
-  '/cities/miami.jpg',
-  '/cities/seattle.jpg',
-  '/cities/boston.jpg',
-  '/cities/houston.jpg',
-  '/cities/kansascity.jpg',
-  '/cities/philadelphia.jpg',
-  '/cities/atlanta.jpg',
-  '/cities/toronto.jpg',
-  '/cities/vancouver.jpg',
-  '/cities/mexicocity.jpg',
-  '/cities/guadalajara.jpg',
-  '/cities/monterrey.jpg'
+  '/public/cities/newyork.jpg',
+  '/public/cities/losangeles.jpg',
+  '/public/cities/dallas.jpg',
+  '/public/cities/sanfrancisco.jpg',
+  '/public/cities/miami.jpg',
+  '/public/cities/seattle.jpg',
+  '/public/cities/boston.jpg',
+  '/public/cities/houston.jpg',
+  '/public/cities/kansascity.jpg',
+  '/public/cities/philadelphia.jpg',
+  '/public/cities/atlanta.jpg',
+  '/public/cities/toronto.jpg',
+  '/public/cities/vancouver.jpg',
+  '/public/cities/mexicocity.jpg',
+  '/public/cities/guadalajara.jpg',
+  '/public/cities/monterrey.jpg'
 ];
 
 var WC_WEATHER = {
