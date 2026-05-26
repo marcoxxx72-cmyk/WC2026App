@@ -93,7 +93,7 @@ var LEGENDS = [
   {name:'Alfredo Di Stéfano',flag:'🇦🇷',years:'1947-1966',caps:31,goals:23,wc:0,wc_goals:0,club:'River Plate/Real Madrid',pos:'FW',
    quote:'Whoever invented football deserves to be worshipped as a god.',
    facts:['5x European Cup winner with Real Madrid','Won 5 consecutive European Cups 1956-60','Considered one of greatest ever despite no WC title']},
-  {name:'George Best',flag:'🇬🇧',years:'1964-1982',caps:37,goals:9,wc:0,wc_goals:0,club:'Manchester United',pos:'FW',
+  {name:'George Best',flag:'🏴󠁧󠁢󠁮󠁩󠁲󠁿',years:'1964-1982',caps:37,goals:9,wc:0,wc_goals:0,club:'Manchester United',pos:'FW',
    quote:'I spent a lot of money on booze, birds and fast cars. The rest I just squandered.',
    facts:['Ballon d\'Or 1968','European Cup winner 1968 with Man Utd','Belfast Boy — greatest Northern Irish footballer ever']},
   {name:'Bobby Charlton',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',years:'1958-1970',caps:106,goals:49,wc:1,wc_goals:4,club:'Manchester United',pos:'MF',
