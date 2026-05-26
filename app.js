@@ -1045,6 +1045,8 @@ function App(){
   var s19=useState(null);var myTeam=s19[0];var setMyTeam=s19[1];
   var s20=useState(false);var fixtureMyOnly=s20[0];var setFixtureMyOnly=s20[1];
   var s21=useState(false);var showPickTeam=s21[0];var setShowPickTeam=s21[1];
+  var sAg=useState(function(){try{return JSON.parse(localStorage.getItem('wc2026_agenda')||'[]');}catch(e){return [];}});var agenda=sAg[0];var setAgenda=sAg[1];
+  var sAv=useState(false);var agendaOnly=sAv[0];var setAgendaOnly=sAv[1];
   var sT1=useState(function(){try{return localStorage.getItem('wc2026_theme')==='1';}catch(e){return false;}}());var themeActive=sT1[0];var setThemeActive=sT1[1];
   var G=premium&&themeActive&&myTeam&&TEAM_COLORS[myTeam&&myTeam.team]?TEAM_COLORS[myTeam.team]:'#d4af37';
   var BD='rgba('+(G==='#d4af37'?'212,175,55':''+parseInt(G.slice(1,3),16)+','+parseInt(G.slice(3,5),16)+','+parseInt(G.slice(5,7),16))+',0.22)';
@@ -1102,7 +1104,10 @@ function App(){
   var t=T[lang];
   var defaultTeam=MY_TEAM[lang];
   var activeTeam=myTeam||defaultTeam;
-  var filteredFixtures=fixtureMyOnly?FIXTURES.filter(function(f){return f.home===activeTeam.team||f.away===activeTeam.team;}):FIXTURES;
+  var MAX_AGENDA=premium?9999:5;
+  function fid(f){return f.date+'|'+f.home+'|'+f.away;}
+  function toggleAgenda(f){var id=fid(f);setAgenda(function(prev){var has=prev.indexOf(id)>=0;if(has)return prev.filter(function(x){return x!==id;});if(!premium&&prev.length>=MAX_AGENDA)return prev;var next=prev.concat([id]);try{localStorage.setItem('wc2026_agenda',JSON.stringify(next));}catch(e){}return next;});}
+  var filteredFixtures=agendaOnly?FIXTURES.filter(function(f){return agenda.indexOf(fid(f))>=0;}):fixtureMyOnly?FIXTURES.filter(function(f){return f.home===activeTeam.team||f.away===activeTeam.team;}):FIXTURES;
   var questions=QUIZ[lang];
   var polls=POLLS[lang];
   var sponsors=SPONSORS[lang];
@@ -1948,18 +1953,27 @@ function App(){
       // - FIXTURES -
       tab===2?e('div',null,
         e('div',{style:{fontSize:10,color:G,marginBottom:12,textAlign:'center',letterSpacing:2}},t.fixturesTitle),
-        e('div',{style:{display:'flex',gap:8,marginBottom:14,justifyContent:'center'}},
-          e('button',{onClick:function(){setFixtureMyOnly(false);},style:{background:!fixtureMyOnly?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:!fixtureMyOnly?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 14px',fontSize:11,fontWeight:'bold',color:!fixtureMyOnly?'#0a0a1a':'#9bb0c8',cursor:'pointer'}},t.fixturesAll),
-          e('button',{onClick:function(){setFixtureMyOnly(true);},style:{background:fixtureMyOnly?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:fixtureMyOnly?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 14px',fontSize:11,fontWeight:'bold',color:fixtureMyOnly?'#0a0a1a':'#9bb0c8',cursor:'pointer'}},activeTeam.flag+' '+t.fixturesMy)
+        e('div',{style:{display:'flex',gap:6,marginBottom:14,justifyContent:'center',flexWrap:'wrap'}},
+          e('button',{onClick:function(){setFixtureMyOnly(false);setAgendaOnly(false);},style:{background:(!fixtureMyOnly&&!agendaOnly)?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:(!fixtureMyOnly&&!agendaOnly)?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:(!fixtureMyOnly&&!agendaOnly)?'#0a0a1a':'#9bb0c8',cursor:'pointer'}},t.fixturesAll),
+          e('button',{onClick:function(){setFixtureMyOnly(true);setAgendaOnly(false);},style:{background:(fixtureMyOnly&&!agendaOnly)?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:(fixtureMyOnly&&!agendaOnly)?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:(fixtureMyOnly&&!agendaOnly)?'#0a0a1a':'#9bb0c8',cursor:'pointer'}},activeTeam.flag+' '+t.fixturesMy),
+          e('button',{onClick:function(){setAgendaOnly(true);setFixtureMyOnly(false);},style:{background:agendaOnly?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:agendaOnly?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:agendaOnly?'#0a0a1a':'#9bb0c8',cursor:'pointer',display:'flex',alignItems:'center',gap:4}},
+            '⭐ '+(lang==='fr'?'Mon Agenda':lang==='es'?'Mi Agenda':lang==='pt'?'Minha Agenda':lang==='it'?'La Mia Agenda':lang==='de'?'Mein Plan':'My Schedule'),
+            e('span',{style:{background:agendaOnly?'rgba(0,0,0,0.3)':'rgba(212,175,55,0.25)',borderRadius:8,padding:'1px 6px',fontSize:9}},agenda.length+(premium?'':'/'+MAX_AGENDA))
+          )
         ),
         filteredFixtures.length===0&&e('div',{style:{textAlign:'center',color:'#6a86a0',padding:30}},t.noFixtures),
         e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
           filteredFixtures.map(function(f,i){
             var isMyMatch=f.home===activeTeam.team||f.away===activeTeam.team;
-            return e(Card,{key:i,style:{padding:'12px 14px',border:'1px solid '+(isMyMatch?G:BD),background:isMyMatch?'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.05))':CB}},
+            var isInAgenda=agenda.indexOf(fid(f))>=0;
+            var agendaFull=!premium&&agenda.length>=MAX_AGENDA&&!isInAgenda;
+            return e(Card,{key:i,style:{padding:'12px 14px',border:'1px solid '+(isInAgenda?G:isMyMatch?G:BD),background:isInAgenda?'linear-gradient(135deg,rgba(212,175,55,0.10),rgba(184,150,62,0.04))':isMyMatch?'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.05))':CB}},
               e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}},
                 e('div',{style:{fontSize:9,color:isMyMatch?G:'#6a86a0'}},formatDate(f.date),' ',f.time,' ET',f.group&&' - '+(['R32','R16','QF','SF','3P','FIN'].indexOf(f.group)>=0?phaseLabel(f.group,lang):t.groupLabel+' '+f.group)),
-                isMyMatch&&e('span',{style:{fontSize:9,color:G,background:'rgba(212,175,55,0.15)',padding:'2px 6px',borderRadius:6}},'⭐ '+t.myTeamLabel)
+                e('div',{style:{display:'flex',alignItems:'center',gap:6}},
+                  isMyMatch&&e('span',{style:{fontSize:9,color:G,background:'rgba(212,175,55,0.15)',padding:'2px 6px',borderRadius:6}},t.myTeamLabel),
+                  e('button',{onClick:function(ev){ev.stopPropagation();if(!agendaFull)toggleAgenda(f);},title:agendaFull?'Limite atteinte (5 matchs)':'',style:{background:'none',border:'none',cursor:agendaFull?'not-allowed':'pointer',fontSize:16,opacity:agendaFull?0.35:1,padding:'0 2px',lineHeight:1}},isInAgenda?'⭐':'☆')
+                )
               ),
               e('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between'}},
                 e('div',{style:{flex:1,textAlign:'left',fontSize:13,fontWeight:f.home===activeTeam.team?'bold':'normal',color:f.home===activeTeam.team?G:'#eee8d5'}},tn(f.home,lang)),
