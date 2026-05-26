@@ -3566,10 +3566,10 @@ function App(){
                   e('div',{style:{fontSize:16}},selectedCity===i?'▲':'▼')
                 ),
                 selectedCity===i&&e('div',{style:{marginTop:12,paddingTop:12,borderTop:'1px solid rgba(212,175,55,0.2)'}},
-                  CITY_IMAGES[i]&&e('div',{style:{position:'relative',marginBottom:10,borderRadius:10,overflow:'hidden'}},
+                  CITY_IMAGES[i]&&e('div',{style:{position:'relative',marginBottom:10,borderRadius:10,overflow:'hidden',background:'#08091a'}},
                     e('img',{src:CITY_IMAGES[i],alt:c.city,loading:'lazy',
                       onError:function(ev){ev.target.parentNode.style.display='none';},
-                      style:{width:'100%',height:160,objectFit:'cover',objectPosition:CITY_POS[i]||'center center',display:'block'}}),
+                      style:{width:'100%',maxHeight:220,objectFit:'contain',display:'block'}}),
                     e('div',{style:{position:'absolute',bottom:0,left:0,right:0,height:50,
                       background:'linear-gradient(transparent,rgba(0,0,0,0.7))',
                       display:'flex',alignItems:'flex-end',padding:'0 10px 8px'}},
