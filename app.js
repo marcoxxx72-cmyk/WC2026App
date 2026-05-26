@@ -2563,9 +2563,9 @@ function App(){
         qcPhase==='idle'&&e('div',null,
           e('div',{style:{display:'grid',gridTemplateColumns:'1fr',gap:10,marginBottom:14}},
             [
-              {level:'easy',icon:'🟢',label:{en:'BEGINNER',fr:'DEBUTANT',es:'PRINCIPIANTE',pt:'INICIANTE',it:'PRINCIPIANTE',de:'ANFANGER'},desc:{en:'10 questions - 5 pts each - 50 pts max',fr:'10 questions - 5 pts chacune - 50 pts max',es:'10 preguntas - 5 pts cada una - 50 pts max',pt:'10 perguntas - 5 pts cada - 50 pts max',it:'10 domande - 5 pts ciascuna - 50 pts max',de:'10 Fragen - je 5 Pkte - max 50 Pkte'},color:'rgba(40,160,40,0.2)',border:'rgba(40,200,40,0.5)'},
-              {level:'medium',icon:'🟡',label:{en:'EXPERT',fr:'EXPERT',es:'EXPERTO',pt:'ESPECIALISTA',it:'ESPERTO',de:'EXPERTE'},desc:{en:'10 questions - 10 pts each - 100 pts max',fr:'10 questions - 10 pts chacune - 100 pts max',es:'10 preguntas - 10 pts cada una - 100 pts max',pt:'10 perguntas - 10 pts cada - 100 pts max',it:'10 domande - 10 pts ciascuna - 100 pts max',de:'10 Fragen - je 10 Pkte - max 100 Pkte'},color:'rgba(255,165,0,0.2)',border:'rgba(255,165,0,0.5)'},
-              {level:'hard',icon:'🔴',label:{en:'WORLD CLASS',fr:'CLASSE MONDIALE',es:'CLASE MUNDIAL',pt:'CLASSE MUNDIAL',it:'CLASSE MONDIALE',de:'WELTKLASSE'},desc:{en:'10 questions - 20 pts each - 200 pts max',fr:'10 questions - 20 pts chacune - 200 pts max',es:'10 preguntas - 20 pts cada una - 200 pts max',pt:'10 perguntas - 20 pts cada - 200 pts max',it:'10 domande - 20 pts ciascuna - 200 pts max',de:'10 Fragen - je 20 Pkte - max 200 Pkte'},color:'rgba(200,40,40,0.2)',border:'rgba(200,60,60,0.5)'}
+              {level:'easy',icon:'🟢',label:{en:'BEGINNER',fr:'DEBUTANT',es:'PRINCIPIANTE',pt:'INICIANTE',it:'PRINCIPIANTE',de:'ANFANGER'},desc:{en:(premium?'30':'10')+' questions - 5 pts each - '+(premium?'150':'50')+' pts max',fr:(premium?'30':'10')+' questions - 5 pts chacune - '+(premium?'150':'50')+' pts max',es:(premium?'30':'10')+' preguntas - 5 pts cada una - '+(premium?'150':'50')+' pts max',pt:(premium?'30':'10')+' perguntas - 5 pts cada - '+(premium?'150':'50')+' pts max',it:(premium?'30':'10')+' domande - 5 pts ciascuna - '+(premium?'150':'50')+' pts max',de:(premium?'30':'10')+' Fragen - je 5 Pkte - max '+(premium?'150':'50')+' Pkte'},color:'rgba(40,160,40,0.2)',border:'rgba(40,200,40,0.5)'},
+              {level:'medium',icon:'🟡',label:{en:'EXPERT',fr:'EXPERT',es:'EXPERTO',pt:'ESPECIALISTA',it:'ESPERTO',de:'EXPERTE'},desc:{en:(premium?'30':'10')+' questions - 10 pts each - '+(premium?'300':'100')+' pts max',fr:(premium?'30':'10')+' questions - 10 pts chacune - '+(premium?'300':'100')+' pts max',es:(premium?'30':'10')+' preguntas - 10 pts cada una - '+(premium?'300':'100')+' pts max',pt:(premium?'30':'10')+' perguntas - 10 pts cada - '+(premium?'300':'100')+' pts max',it:(premium?'30':'10')+' domande - 10 pts ciascuna - '+(premium?'300':'100')+' pts max',de:(premium?'30':'10')+' Fragen - je 10 Pkte - max '+(premium?'300':'100')+' Pkte'},color:'rgba(255,165,0,0.2)',border:'rgba(255,165,0,0.5)'},
+              {level:'hard',icon:'🔴',label:{en:'WORLD CLASS',fr:'CLASSE MONDIALE',es:'CLASE MUNDIAL',pt:'CLASSE MUNDIAL',it:'CLASSE MONDIALE',de:'WELTKLASSE'},desc:{en:(premium?'30':'10')+' questions - 20 pts each - '+(premium?'600':'200')+' pts max',fr:(premium?'30':'10')+' questions - 20 pts chacune - '+(premium?'600':'200')+' pts max',es:(premium?'30':'10')+' preguntas - 20 pts cada una - '+(premium?'600':'200')+' pts max',pt:(premium?'30':'10')+' perguntas - 20 pts cada - '+(premium?'600':'200')+' pts max',it:(premium?'30':'10')+' domande - 20 pts ciascuna - '+(premium?'600':'200')+' pts max',de:(premium?'30':'10')+' Fragen - je 20 Pkte - max '+(premium?'600':'200')+' Pkte'},color:'rgba(200,40,40,0.2)',border:'rgba(200,60,60,0.5)'}
             ].map(function(lvl){
               return e('div',{key:lvl.level,
                 onClick:function(){
@@ -2608,7 +2608,7 @@ function App(){
         qcPhase==='playing'&&e('div',null,
           (function(){
             var levelKey=qcRound===0?'easy':qcRound===1?'medium':'hard';
-            var questions=(QUIZ_CHAMPIONSHIP[levelKey]||[]).slice(0,10);
+            var questions=(QUIZ_CHAMPIONSHIP[levelKey]||[]).slice(0,premium?30:10);
             var q=questions[qcIdx];
             if(!q)return null;
             var levelColors={easy:'#90ee90',medium:'orange',hard:'#ff6b6b'};
@@ -2684,7 +2684,7 @@ function App(){
         qcPhase==='done'&&e('div',null,
           (function(){
             var levelKey=qcRound===0?'easy':qcRound===1?'medium':'hard';
-            var maxPts=levelKey==='easy'?50:levelKey==='medium'?100:200;
+            var maxPts=levelKey==='easy'?(premium?150:50):levelKey==='medium'?(premium?300:100):(premium?600:200);
             var pct=Math.round(qcScore/maxPts*100);
             var trophy=pct>=90?'🏆':pct>=70?'🥇':pct>=50?'🥈':pct>=30?'🥉':'📚';
             return e('div',null,
