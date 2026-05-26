@@ -6,30 +6,38 @@
 })();
 
 var STADIUMS = [
-  {name:'MetLife Stadium',city:'New York / New Jersey',country:'USA',flag:'🇺🇸',cap:82500,surface:'Grass',roof:'Open',matches:8,final:true,lat:40.8135,lng:-74.0745,
+  {name:'MetLife Stadium',city:'New York / New Jersey',country:'USA',flag:'🇺🇸',cap:82500,surface:'Grass',roof:'Open',matches:8,final:true,alt:5,lat:40.8135,lng:-74.0745,
    facts:['Hosts the WC 2026 Final','Largest stadium in the tournament','Home of NY Giants & Jets']},
-  {name:'SoFi Stadium',city:'Los Angeles',country:'USA',flag:'🇺🇸',cap:70240,surface:'Grass',roof:'Partial',matches:8,final:false,lat:33.9534,lng:-118.3392,
+  {name:'SoFi Stadium',city:'Los Angeles',country:'USA',flag:'🇺🇸',cap:70240,surface:'Grass',roof:'Partial',matches:8,final:false,alt:27,lat:33.9534,lng:-118.3392,
    facts:['Most expensive stadium ever built ($5.5B)','Opened in 2020','State-of-the-art technology']},
-  {name:'AT&T Stadium',city:'Dallas',country:'USA',flag:'🇺🇸',cap:80000,surface:'Grass',roof:'Retractable',matches:9,final:false,lat:32.7473,lng:-97.0945,
+  {name:'AT&T Stadium',city:'Dallas',country:'USA',flag:'🇺🇸',cap:80000,surface:'Grass',roof:'Retractable',matches:9,final:false,alt:188,lat:32.7473,lng:-97.0945,
    facts:['Retractable roof for comfort','Home of Dallas Cowboys NFL','Giant HD video screen']},
-  {name:"Levi's Stadium",city:'San Francisco',country:'USA',flag:'🇺🇸',cap:68500,surface:'Grass',roof:'Open',matches:8,final:false,lat:37.4033,lng:-121.9694,
+  {name:"Levi's Stadium",city:'San Francisco',country:'USA',flag:'🇺🇸',cap:68500,surface:'Grass',roof:'Open',matches:8,final:false,alt:18,lat:37.4033,lng:-121.9694,
    facts:['Silicon Valley tech hub location','Home of San Francisco 49ers','Solar panels on roof']},
-  {name:'Arrowhead Stadium',city:'Kansas City',country:'USA',flag:'🇺🇸',cap:76416,surface:'Grass',roof:'Open',matches:7,final:false,lat:39.0489,lng:-94.4839,
+  {name:'Arrowhead Stadium',city:'Kansas City',country:'USA',flag:'🇺🇸',cap:76416,surface:'Grass',roof:'Open',matches:7,final:false,alt:290,lat:39.0489,lng:-94.4839,
    facts:['Loudest NFL stadium ever recorded','Home of Kansas City Chiefs','Opening match venue']},
-  {name:'Allegiant Stadium',city:'Las Vegas',country:'USA',flag:'🇺🇸',cap:65000,surface:'Grass',roof:'Fixed',matches:8,final:false,lat:36.0909,lng:-115.1833,
-   facts:['Newest stadium in tournament','Fully enclosed domed stadium','Las Vegas Raiders home']},
-  {name:'Estadio Azteca',city:'Mexico City',country:'Mexico',flag:'🇲🇽',cap:87523,surface:'Grass',roof:'Open',matches:5,final:false,lat:19.3029,lng:-99.1504,
-   facts:['Only stadium to host 3 World Cups','Maradona Hand of God goal here','Iconic football cathedral']},
-  {name:'Estadio Akron',city:'Guadalajara',country:'Mexico',flag:'🇲🇽',cap:49850,surface:'Grass',roof:'Partial',matches:5,final:false,lat:20.6817,lng:-103.4593,
-   facts:['Modern design opened 2010','Home of Chivas de Guadalajara','Mountain views from stands']},
-  {name:'Estadio BBVA',city:'Monterrey',country:'Mexico',flag:'🇲🇽',cap:53500,surface:'Grass',roof:'Open',matches:5,final:false,lat:25.6693,lng:-100.2436,
-   facts:['Stunning mountain backdrop','Home of CF Monterrey','One of Mexicos finest stadiums']},
-  {name:'BC Place',city:'Vancouver',country:'Canada',flag:'🇨🇦',cap:54500,surface:'Artificial',roof:'Retractable',matches:7,final:false,lat:49.2767,lng:-123.1116,
-   facts:['Only Canadian stadium with retractable roof','Beautiful waterfront location','Hosted 2010 Winter Olympics events']},
-  {name:'BMO Field',city:'Toronto',country:'Canada',flag:'🇨🇦',cap:30000,surface:'Grass',roof:'Open',matches:6,final:false,lat:43.6333,lng:-79.4186,
-   facts:['Smallest stadium in tournament','Expansion planned for WC 2026','Home of Toronto FC MLS']},
-  {name:'Stade Olympique',city:'Montreal',country:'Canada',flag:'🇨🇦',cap:61004,surface:'Artificial',roof:'Retractable',matches:6,final:false,lat:45.5597,lng:-73.5517,
-   facts:['Built for 1976 Olympics','Iconic tower structure','Bilingual French-English city']}
+  {name:'Gillette Stadium',city:'Boston',country:'USA',flag:'🇺🇸',cap:65878,surface:'Grass',roof:'Open',matches:6,final:false,alt:30,lat:42.0909,lng:-71.2643,
+   facts:['Home of New England Patriots NFL','Located in Foxborough near Boston','Opened 2002']},
+  {name:'Lincoln Financial Field',city:'Philadelphia',country:'USA',flag:'🇺🇸',cap:69796,surface:'Grass',roof:'Open',matches:6,final:false,alt:12,lat:39.9008,lng:-75.1675,
+   facts:['Home of Philadelphia Eagles NFL','Known as The Linc','One of most passionate fanbases in NFL']},
+  {name:'Lumen Field',city:'Seattle',country:'USA',flag:'🇺🇸',cap:68740,surface:'Artificial',roof:'Partial',matches:6,final:false,alt:10,lat:47.5952,lng:-122.3316,
+   facts:['Home of Seattle Seahawks & Sounders MLS','Famous 12th Man crowd noise','Pacific Northwest iconic venue']},
+  {name:'NRG Stadium',city:'Houston',country:'USA',flag:'🇺🇸',cap:72220,surface:'Grass',roof:'Retractable',matches:6,final:false,alt:15,lat:29.6847,lng:-95.4107,
+   facts:['First NFL stadium with retractable roof','Home of Houston Texans','Hosted Super Bowl LI']},
+  {name:'Hard Rock Stadium',city:'Miami',country:'USA',flag:'🇺🇸',cap:65326,surface:'Grass',roof:'Open',matches:6,final:false,alt:3,lat:25.9580,lng:-80.2389,
+   facts:['Home of Miami Dolphins NFL','Tropical heat & humidity challenge for players','Hosted multiple Super Bowls']},
+  {name:'Mercedes-Benz Stadium',city:'Atlanta',country:'USA',flag:'🇺🇸',cap:71000,surface:'Grass',roof:'Retractable',matches:6,final:false,alt:320,lat:33.7553,lng:-84.4006,
+   facts:['Most sustainable NFL stadium (LEED Platinum)','Iconic petal-shaped retractable roof','Home of Atlanta Falcons & Atlanta United FC']},
+  {name:'Estadio Azteca',city:'Mexico City',country:'Mexico',flag:'🇲🇽',cap:87523,surface:'Grass',roof:'Open',matches:5,final:false,alt:2240,lat:19.3029,lng:-99.1504,
+   facts:['⚠️ Altitude 2,240m — players need 48h+ acclimatisation','Only stadium to host 3 World Cups (1970, 1986, 2026)','Maradona Hand of God & Goal of the Century — 1986']},
+  {name:'Estadio Akron',city:'Guadalajara',country:'Mexico',flag:'🇲🇽',cap:49850,surface:'Grass',roof:'Partial',matches:5,final:false,alt:1566,lat:20.6817,lng:-103.4593,
+   facts:['⚠️ Altitude 1,566m — significant physical impact on players','Home of Chivas de Guadalajara','Modern design opened 2010 with mountain views']},
+  {name:'Estadio BBVA',city:'Monterrey',country:'Mexico',flag:'🇲🇽',cap:53500,surface:'Grass',roof:'Open',matches:5,final:false,alt:537,lat:25.6693,lng:-100.2436,
+   facts:['Altitude 537m — moderate impact','Spectacular Sierra Madre mountain backdrop','Home of CF Monterrey, one of Mexico\'s finest stadiums']},
+  {name:'BC Place',city:'Vancouver',country:'Canada',flag:'🇨🇦',cap:54500,surface:'Artificial',roof:'Retractable',matches:7,final:false,alt:5,lat:49.2767,lng:-123.1116,
+   facts:['Only Canadian stadium with retractable roof','Beautiful downtown waterfront location','Hosted 2010 Winter Olympics closing ceremony']},
+  {name:'BMO Field',city:'Toronto',country:'Canada',flag:'🇨🇦',cap:45000,surface:'Grass',roof:'Open',matches:6,final:false,alt:76,lat:43.6333,lng:-79.4186,
+   facts:['Expanded to 45,000 seats for WC 2026','Home of Toronto FC MLS','Only open-air stadium in Canada in tournament']}
 ];
 
 var LEGENDS = [
@@ -2998,7 +3006,10 @@ function App(){
                   e('div',null,
                     e('div',{style:{fontSize:12,fontWeight:'bold',color:G}},' ',s.flag,' ',s.name),
                     e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:2}},s.city,' • ',s.cap.toLocaleString(),' seats'),
-                    e('div',{style:{fontSize:10,color:'#5a7090'}},s.matches,' matches',s.final?' • 🏆 FINAL':'')
+                    e('div',{style:{fontSize:10,color:s.alt>1000?'#ff9944':s.alt>500?'#ffcc44':'#5a7090'}},
+                      s.matches,' matches',s.final?' • 🏆 FINAL':'',
+                      ' • 🏔️ ',s.alt,'m',s.alt>1000?' ⚠️':''
+                    )
                   ),
                   e('div',{style:{fontSize:18}},selectedStadium===i?'▲':'▼')
                 ),
@@ -3006,7 +3017,8 @@ function App(){
                   e('div',{style:{display:'flex',gap:8,flexWrap:'wrap',marginBottom:8}},
                     e('span',{style:{background:'rgba(212,175,55,0.1)',border:'1px solid rgba(212,175,55,0.3)',borderRadius:8,padding:'4px 10px',fontSize:9,color:G}},'⛳ '+s.surface),
                     e('span',{style:{background:'rgba(0,80,200,0.1)',border:'1px solid rgba(0,80,200,0.3)',borderRadius:8,padding:'4px 10px',fontSize:9,color:'#7ab0ff'}},'🏠 '+s.roof),
-                    e('span',{style:{background:'rgba(40,160,40,0.1)',border:'1px solid rgba(40,160,40,0.3)',borderRadius:8,padding:'4px 10px',fontSize:9,color:'#90ee90'}},s.flag+' '+s.country)
+                    e('span',{style:{background:'rgba(40,160,40,0.1)',border:'1px solid rgba(40,160,40,0.3)',borderRadius:8,padding:'4px 10px',fontSize:9,color:'#90ee90'}},s.flag+' '+s.country),
+                    e('span',{style:{background:s.alt>1000?'rgba(255,100,0,0.15)':s.alt>500?'rgba(255,200,0,0.1)':'rgba(100,150,255,0.1)',border:'1px solid '+(s.alt>1000?'rgba(255,100,0,0.5)':s.alt>500?'rgba(255,200,0,0.4)':'rgba(100,150,255,0.3)'),borderRadius:8,padding:'4px 10px',fontSize:9,color:s.alt>1000?'#ff9944':s.alt>500?'#ffdd44':'#99bbff'}},'🏔️ '+s.alt+'m altitude')
                   ),
                   s.facts.map(function(fact,fi){
                     return e('div',{key:fi,style:{fontSize:10,color:'#a0b8cc',padding:'4px 0',borderBottom:fi<2?'1px solid rgba(255,255,255,0.05)':'none'}},'• '+fact);
