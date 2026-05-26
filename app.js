@@ -229,6 +229,26 @@ var CITY_GUIDE = [
    food:{en:'Cabrito (roasted goat), machacado con huevo, pan de polvo, craft beer scene — norteño cuisine at its best.',fr:'Cabrito (chevreau rôti), machacado con huevo, pan de polvo, bières artisanales — cuisine norteño dans toute sa splendeur.',es:'Cabrito (cabra asada), machacado con huevo, pan de polvo, escena de cerveza artesana — cocina norteña en su máxima expresión.',pt:'Cabrito (cabra assada), machacado con huevo, pan de polvo, cenas de cerveja artesanal — culinária norteña no seu melhor.',it:'Cabrito (capretto arrosto), machacado con huevo, pan de polvo, birre artigianali — cucina norteño al suo meglio.',de:'Cabrito (gebratene Ziege), Machacado con Huevo, Pan de Polvo, Craft Beer Szene — Norteño-Küche vom Feinsten.'}}
 ];
 
+var FP='https://commons.wikimedia.org/wiki/Special:FilePath/';
+var CITY_IMAGES=[
+  FP+'Statue_of_Liberty_7.jpg?width=400',
+  FP+'Hollywood_Sign.jpg?width=400',
+  FP+'Dallas_skyline.jpg?width=400',
+  FP+'GoldenGateBridge-001.jpg?width=400',
+  FP+'South_Beach_20080315.jpg?width=400',
+  FP+'Space_Needle002.jpg?width=400',
+  FP+'Boston_-_panoramio_(23).jpg?width=400',
+  FP+'Houston_skyline_during_twilight.jpg?width=400',
+  FP+'Kansas_City_Missouri_Skyline_2018.jpg?width=400',
+  FP+'Philadelphia_from_the_south.jpg?width=400',
+  FP+'Midtown_Atlanta_from_the_BeltLine_in_November_2019.jpg?width=400',
+  FP+'Toronto_-_ON_-_Toronto_Skyline_at_Dusk1.jpg?width=400',
+  FP+'Vancouver_BC_from_above.jpg?width=400',
+  FP+'El_Zócalo,_Mexico_City.jpg?width=400',
+  FP+'Guadalajara_Jalisco_Mexico_Cathedral.jpg?width=400',
+  FP+'Monterrey_Macroplaza_at_night.jpg?width=400'
+];
+
 var WC_WEATHER = {
   'New York':     {temp_c:24,temp_f:75,condition:'Warm & Humid',icon:'⛅',rain:'40%',wind:'15 km/h',tip:'Pack light clothes, rain possible'},
   'Los Angeles':  {temp_c:27,temp_f:80,condition:'Sunny & Warm',icon:'☀️',rain:'5%',wind:'10 km/h',tip:'Perfect weather, sunscreen essential'},
@@ -3529,6 +3549,9 @@ function App(){
                   e('div',{style:{fontSize:16}},selectedCity===i?'▲':'▼')
                 ),
                 selectedCity===i&&e('div',{style:{marginTop:12,paddingTop:12,borderTop:'1px solid rgba(212,175,55,0.2)'}},
+                  CITY_IMAGES[i]&&e('img',{src:CITY_IMAGES[i],alt:c.city,loading:'lazy',
+                    onError:function(ev){ev.target.style.display='none';},
+                    style:{width:'100%',height:140,objectFit:'cover',borderRadius:10,marginBottom:10,display:'block'}}),
                   e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
                     e('div',{style:{background:'rgba(0,80,200,0.08)',border:'1px solid rgba(0,80,200,0.2)',borderRadius:8,padding:'8px 10px'}},
                       e('div',{style:{fontSize:9,color:'#7ab0ff',fontWeight:'bold',marginBottom:4}},'🚌 '+({en:'Getting there',fr:'Comment y aller',es:'Cómo llegar',pt:'Como chegar',it:'Come arrivare',de:'Anreise'}[lang]||'Getting there')),
