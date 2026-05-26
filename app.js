@@ -229,24 +229,23 @@ var CITY_GUIDE = [
    food:{en:'Cabrito (roasted goat), machacado con huevo, pan de polvo, craft beer scene — norteño cuisine at its best.',fr:'Cabrito (chevreau rôti), machacado con huevo, pan de polvo, bières artisanales — cuisine norteño dans toute sa splendeur.',es:'Cabrito (cabra asada), machacado con huevo, pan de polvo, escena de cerveza artesana — cocina norteña en su máxima expresión.',pt:'Cabrito (cabra assada), machacado con huevo, pan de polvo, cenas de cerveja artesanal — culinária norteña no seu melhor.',it:'Cabrito (capretto arrosto), machacado con huevo, pan de polvo, birre artigianali — cucina norteño al suo meglio.',de:'Cabrito (gebratene Ziege), Machacado con Huevo, Pan de Polvo, Craft Beer Szene — Norteño-Küche vom Feinsten.'}}
 ];
 
-var FP='https://commons.wikimedia.org/wiki/Special:FilePath/';
 var CITY_IMAGES=[
-  FP+'Statue_of_Liberty_7.jpg?width=400',
-  FP+'Hollywood_Sign.jpg?width=400',
-  FP+'Dallas_skyline.jpg?width=400',
-  FP+'GoldenGateBridge-001.jpg?width=400',
-  FP+'South_Beach_20080315.jpg?width=400',
-  FP+'Space_Needle002.jpg?width=400',
-  FP+'Boston_-_panoramio_(23).jpg?width=400',
-  FP+'Houston_skyline_during_twilight.jpg?width=400',
-  FP+'Kansas_City_Missouri_Skyline_2018.jpg?width=400',
-  FP+'Philadelphia_from_the_south.jpg?width=400',
-  FP+'Midtown_Atlanta_from_the_BeltLine_in_November_2019.jpg?width=400',
-  FP+'Toronto_-_ON_-_Toronto_Skyline_at_Dusk1.jpg?width=400',
-  FP+'Vancouver_BC_from_above.jpg?width=400',
-  FP+'El_Zócalo,_Mexico_City.jpg?width=400',
-  FP+'Guadalajara_Jalisco_Mexico_Cathedral.jpg?width=400',
-  FP+'Monterrey_Macroplaza_at_night.jpg?width=400'
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg/600px-View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Hollywood_Sign_%28Zuschnitt%29.jpg/600px-Hollywood_Sign_%28Zuschnitt%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/View_of_Dallas_from_Reunion_Tower_August_2015_05.jpg/600px-View_of_Dallas_from_Reunion_Tower_August_2015_05.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/San_Francisco_Downtown_Aerial%2C_August_2025.jpg/600px-San_Francisco_Downtown_Aerial%2C_August_2025.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Villa_Vizcaya_20110228.jpg/600px-Villa_Vizcaya_20110228.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Seattle_Center_as_night_falls.jpg/600px-Seattle_Center_as_night_falls.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/ISH_WC_Boston4.jpg/600px-ISH_WC_Boston4.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Texas_medical_center.jpg/600px-Texas_medical_center.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Kansas_City_-_Downtown_-_panoramio_%2815%29.jpg/600px-Kansas_City_-_Downtown_-_panoramio_%2815%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Philadelphia_skyline_20240528_%28cropped_2-1%29.jpg/600px-Philadelphia_skyline_20240528_%28cropped_2-1%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/A2ATL20250614-0721_%28cropped%29.jpg/600px-A2ATL20250614-0721_%28cropped%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Toronto_Skyline_from_Snake_Island%2C_February_28_2026_%2808%29.jpg/600px-Toronto_Skyline_from_Snake_Island%2C_February_28_2026_%2808%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Skyline_of_Vancouver%2C_Canada.jpg/600px-Skyline_of_Vancouver%2C_Canada.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sobrevuelos_CDMX_HJ2A4913_%2825514321687%29_%28cropped%29.jpg/600px-Sobrevuelos_CDMX_HJ2A4913_%2825514321687%29_%28cropped%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Panor%C3%A1mica_Guadalajara_desde_edificio_Bansi_hacia_norte_%28cropped%29.jpg/600px-Panor%C3%A1mica_Guadalajara_desde_edificio_Bansi_hacia_norte_%28cropped%29.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/View_of_Monterrey_%282015%29.jpg/600px-View_of_Monterrey_%282015%29.jpg'
 ];
 
 var WC_WEATHER = {
@@ -3549,9 +3548,16 @@ function App(){
                   e('div',{style:{fontSize:16}},selectedCity===i?'▲':'▼')
                 ),
                 selectedCity===i&&e('div',{style:{marginTop:12,paddingTop:12,borderTop:'1px solid rgba(212,175,55,0.2)'}},
-                  CITY_IMAGES[i]&&e('img',{src:CITY_IMAGES[i],alt:c.city,loading:'lazy',
-                    onError:function(ev){ev.target.style.display='none';},
-                    style:{width:'100%',height:140,objectFit:'cover',objectPosition:'center center',borderRadius:10,marginBottom:10,display:'block'}}),
+                  CITY_IMAGES[i]&&e('div',{style:{position:'relative',marginBottom:10,borderRadius:10,overflow:'hidden'}},
+                    e('img',{src:CITY_IMAGES[i],alt:c.city,loading:'lazy',
+                      onError:function(ev){ev.target.parentNode.style.display='none';},
+                      style:{width:'100%',height:160,objectFit:'cover',objectPosition:'center center',display:'block'}}),
+                    e('div',{style:{position:'absolute',bottom:0,left:0,right:0,height:50,
+                      background:'linear-gradient(transparent,rgba(0,0,0,0.7))',
+                      display:'flex',alignItems:'flex-end',padding:'0 10px 8px'}},
+                      e('span',{style:{color:'#fff',fontSize:11,fontWeight:'bold',textShadow:'0 1px 3px rgba(0,0,0,0.8)'}},c.flag+' '+c.city)
+                    )
+                  ),
                   e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
                     e('div',{style:{background:'rgba(0,80,200,0.08)',border:'1px solid rgba(0,80,200,0.2)',borderRadius:8,padding:'8px 10px'}},
                       e('div',{style:{fontSize:9,color:'#7ab0ff',fontWeight:'bold',marginBottom:4}},'🚌 '+({en:'Getting there',fr:'Comment y aller',es:'Cómo llegar',pt:'Como chegar',it:'Come arrivare',de:'Anreise'}[lang]||'Getting there')),
