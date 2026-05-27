@@ -762,61 +762,71 @@ function PenaltyPitch(props){
 
     // ── Kicker (player seen from behind — classic penalty view) ──
     var kickerJerseyTex=makeCanvasTex(function(ctx,sz){
-      // Red & green diagonal stripes (WC style)
       for(var s=0;s<10;s++){ctx.fillStyle=s%2===0?'#c01010':'#197a19';ctx.fillRect(0,s*sz/10,sz,sz/10);}
-      ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fillRect(sz*0.28,0,sz*0.44,sz*0.1);// collar
+      ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fillRect(sz*0.28,0,sz*0.44,sz*0.1);
     },256);
     var pSkinMat=new THREE.MeshStandardMaterial({color:0xd49060,roughness:0.78,metalness:0});
     var pJerseyMat=new THREE.MeshStandardMaterial({map:kickerJerseyTex,roughness:0.82,metalness:0});
     var pShortsMat=new THREE.MeshStandardMaterial({color:0xf0f0f0,roughness:0.88});
-    var pSockMat=new THREE.MeshStandardMaterial({color:0xcc1010,roughness:0.9});
+    var pSockMatK=new THREE.MeshStandardMaterial({color:0xcc1010,roughness:0.9});
     var pBootKMat=new THREE.MeshStandardMaterial({color:0x060606,roughness:0.5,metalness:0.4});
     var pHairKMat=new THREE.MeshStandardMaterial({color:0x2a1808,roughness:0.95});
 
     var pg=new THREE.Group();
-    pg.position.set(-0.18,0,2.55); // between camera(z=4) and ball(z=3.2), slightly left
+    pg.position.set(-0.18,0,2.55);
     scene.add(pg);
 
     // Torso
     var pBodyGeo=THREE.CapsuleGeometry?new THREE.CapsuleGeometry(0.24,0.78,4,16):new THREE.BoxGeometry(0.48,1.02,0.26);
-    var pBody=new THREE.Mesh(pBodyGeo,pJerseyMat);pBody.position.set(0,1.42,0);pBody.castShadow=true;pg.add(pBody);
+    var pBody=new THREE.Mesh(pBodyGeo,pJerseyMat);
+    pBody.position.set(0,1.42,0);pBody.castShadow=true;pg.add(pBody);
     // Neck
-    pg.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.082,0.092,0.18,12),pSkinMat),{position:new THREE.Vector3(0,1.99,0)}));
-    // Head (only back visible to camera)
-    var pHead=new THREE.Mesh(new THREE.SphereGeometry(0.21,24,20),pSkinMat);
-    pHead.position.set(0,2.24,0);pHead.castShadow=true;pg.add(pHead);
-    // Hair — covers back of head (what camera sees)
-    var pHair=new THREE.Mesh(new THREE.SphereGeometry(0.218,18,10,0,Math.PI*2,0,Math.PI*0.65),pHairKMat);
-    pHair.position.set(0,2.22,0);pHair.rotation.x=-0.12;pg.add(pHair);
+    var pNeck=new THREE.Mesh(new THREE.CylinderGeometry(0.082,0.092,0.18,12),pSkinMat);
+    pNeck.position.set(0,1.99,0);pg.add(pNeck);
+    // Head
+    var pHeadM=new THREE.Mesh(new THREE.SphereGeometry(0.21,24,20),pSkinMat);
+    pHeadM.position.set(0,2.24,0);pHeadM.castShadow=true;pg.add(pHeadM);
+    // Hair (back of head — all camera sees)
+    var pHairM=new THREE.Mesh(new THREE.SphereGeometry(0.218,18,10,0,Math.PI*2,0,Math.PI*0.65),pHairKMat);
+    pHairM.position.set(0,2.22,0);pHairM.rotation.x=-0.12;pg.add(pHairM);
     // Shorts
-    var pShorts=new THREE.Mesh(new THREE.BoxGeometry(0.54,0.38,0.28),pShortsMat);
-    pShorts.position.set(0,0.96,0);pg.add(pShorts);
+    var pShortsM=new THREE.Mesh(new THREE.BoxGeometry(0.54,0.38,0.28),pShortsMat);
+    pShortsM.position.set(0,0.96,0);pg.add(pShortsM);
 
-    // LEFT ARM (support, slightly raised for balance)
+    // LEFT ARM group
     var pArmLGrp=new THREE.Group();pArmLGrp.position.set(-0.28,1.65,0);pg.add(pArmLGrp);
-    pArmLGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.062,0.62,12),pJerseyMat),{position:new THREE.Vector3(-0.08,-0.28,0),rotation:new THREE.Euler(0,0,Math.PI/8)}));
-    pArmLGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.056,0.048,0.38,12),pSkinMat),{position:new THREE.Vector3(-0.18,-0.68,0)}));
+    var pArmLUp=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.062,0.62,12),pJerseyMat);
+    pArmLUp.position.set(-0.08,-0.28,0);pArmLUp.rotation.z=Math.PI/8;pArmLGrp.add(pArmLUp);
+    var pArmLLow=new THREE.Mesh(new THREE.CylinderGeometry(0.056,0.048,0.38,12),pSkinMat);
+    pArmLLow.position.set(-0.18,-0.68,0);pArmLGrp.add(pArmLLow);
 
-    // RIGHT ARM (balance arm, out slightly)
+    // RIGHT ARM group
     var pArmRGrp=new THREE.Group();pArmRGrp.position.set(0.28,1.65,0);pg.add(pArmRGrp);
-    pArmRGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.062,0.62,12),pJerseyMat),{position:new THREE.Vector3(0.08,-0.28,0),rotation:new THREE.Euler(0,0,-Math.PI/8)}));
-    pArmRGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.056,0.048,0.38,12),pSkinMat),{position:new THREE.Vector3(0.18,-0.68,0)}));
+    var pArmRUp=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.062,0.62,12),pJerseyMat);
+    pArmRUp.position.set(0.08,-0.28,0);pArmRUp.rotation.z=-Math.PI/8;pArmRGrp.add(pArmRUp);
+    var pArmRLow=new THREE.Mesh(new THREE.CylinderGeometry(0.056,0.048,0.38,12),pSkinMat);
+    pArmRLow.position.set(0.18,-0.68,0);pArmRGrp.add(pArmRLow);
 
-    // LEFT LEG — plant leg (stays grounded during kick)
+    // LEFT LEG — plant leg
     var pLegLGrp=new THREE.Group();pLegLGrp.position.set(-0.16,0.96,0);pg.add(pLegLGrp);
-    pLegLGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.09,0.54,14),pSkinMat),{position:new THREE.Vector3(0,-0.27,0)}));
-    pLegLGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.075,0.5,14),pSockMat),{position:new THREE.Vector3(0,-0.72,0)}));
-    pLegLGrp.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(0.2,0.12,0.36),pBootKMat),{position:new THREE.Vector3(0,-1.02,0.02)}));
+    var pThighL=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.09,0.54,14),pSkinMat);
+    pThighL.position.set(0,-0.27,0);pLegLGrp.add(pThighL);
+    var pShinL=new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.075,0.5,14),pSockMatK);
+    pShinL.position.set(0,-0.72,0);pLegLGrp.add(pShinL);
+    var pBootLM=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.12,0.36),pBootKMat);
+    pBootLM.position.set(0,-1.02,0.02);pLegLGrp.add(pBootLM);
 
-    // RIGHT LEG — kicking leg (animated, pivot at hip)
+    // RIGHT LEG — kicking leg (animated)
     var pLegRGrp=new THREE.Group();pLegRGrp.position.set(0.16,0.96,0);pg.add(pLegRGrp);
-    // Upper thigh (rotates at hip)
     var pThighR=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.09,0.54,14),pSkinMat);
     pThighR.position.set(0,-0.27,0);pLegRGrp.add(pThighR);
-    // Knee joint group (for shin/foot follow-through bend)
+    // Knee group (shin+boot pivot here for follow-through)
     var pKneeRGrp=new THREE.Group();pKneeRGrp.position.set(0,-0.54,0);pLegRGrp.add(pKneeRGrp);
-    pKneeRGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.075,0.5,14),pSockMat),{position:new THREE.Vector3(0,-0.25,0)}));
-    pKneeRGrp.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(0.2,0.12,0.38),pBootKMat),{position:new THREE.Vector3(0,-0.52,0.04)}));
+    var pShinR=new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.075,0.5,14),pSockMatK);
+    pShinR.position.set(0,-0.25,0);pKneeRGrp.add(pShinR);
+    var pBootRM=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.12,0.38),pBootKMat);
+    pBootRM.position.set(0,-0.52,0.04);pKneeRGrp.add(pBootRM);
+
 
     // ── Aim plane & crosshair ──
     var aimPlane=new THREE.Mesh(new THREE.PlaneGeometry(GW*2.6,GH*2.6),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
