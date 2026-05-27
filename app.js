@@ -847,15 +847,16 @@ function PenaltyPitch(props){
         if(thr.animFrame>4&&thr.animFrame<52){
           kg.position.x+=(thr.keeperTarget-kg.position.x)*0.11;
           kg.rotation.y=0;
-          if(Math.abs(thr.keeperTarget)>0.4){
+          // Keeper ALWAYS dives dramatically (Higuita never stands still again!)
+          {
             var ds=thr.keeperTarget>0?1:-1;
-            var dt2=Math.min(Math.max((thr.animFrame-8)/22,0),1);
+            var dt2=Math.min(Math.max((thr.animFrame-5)/20,0),1);
             var dts=dt2*dt2*(3-2*dt2); // smoothstep
-            kg.rotation.z=-ds*dts*0.95;
-            kg.position.y=Math.sin(dts*Math.PI)*0.45; // jump arc
-            kGloveL.position.x=-0.54-(ds<0?dts*1.1:0);kGloveR.position.x=0.54+(ds>0?dts*1.1:0);
-            kGloveL.position.y=1.36+(ds<0?dts*0.9:0);kGloveR.position.y=1.36+(ds>0?dts*0.9:0);
-            kArmL.rotation.z=Math.PI/5+(ds<0?dts*1.2:0);kArmR.rotation.z=-(Math.PI/5+(ds>0?dts*1.2:0));
+            kg.rotation.z=-ds*dts*1.05; // more dramatic lean
+            kg.position.y=Math.sin(dts*Math.PI)*0.52; // higher jump
+            kGloveL.position.x=-0.54-(ds<0?dts*1.25:0);kGloveR.position.x=0.54+(ds>0?dts*1.25:0);
+            kGloveL.position.y=1.36+(ds<0?dts*1.0:0);kGloveR.position.y=1.36+(ds>0?dts*1.0:0);
+            kArmL.rotation.z=Math.PI/5+(ds<0?dts*1.35:0);kArmR.rotation.z=-(Math.PI/5+(ds>0?dts*1.35:0));
           }
         }
 
@@ -903,11 +904,14 @@ function PenaltyPitch(props){
     function fireShot(){
       if(!thr.aimPoint)return;
       thr.shotTarget={x:thr.aimPoint.x,y:thr.aimPoint.y,curve:Math.max(-0.5,Math.min(0.5,thr.curveAccum))};
-      var dirs=[-1.55,0,1.55];
-      var side=thr.aimPoint.x>0.88?2:thr.aimPoint.x<-0.88?0:1;
+      // Higuita ALWAYS dives — no more standing still! keeper picks left or right
+      var dirs=[-1.72,1.72];
+      var side=thr.aimPoint.x>=0?0:1; // mirror of shot side (keeper guesses opposite to mix things up)
       var diff=[0.52,0.62,0.74,0.85][roundIdx]||0.52;
       var reaction=Math.max(0.28,Math.min(0.94,diff+(thr.power-0.5)*0.12));
-      thr.keeperTarget=Math.random()<reaction?dirs[side]:dirs[Math.floor(Math.random()*3)];
+      // React correctly to shot side, or guess the other side
+      var correctSide=thr.aimPoint.x>0.1?0:thr.aimPoint.x<-0.1?1:Math.floor(Math.random()*2);
+      thr.keeperTarget=Math.random()<reaction?dirs[correctSide]:dirs[1-correctSide];
       thr.phase='animating';thr.animFrame=0;
       if(powerBarRef.current)powerBarRef.current.style.width='0%';
       playSound('kick');setPhase('animating');
