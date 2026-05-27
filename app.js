@@ -760,75 +760,7 @@ function PenaltyPitch(props){
     var kGloveL=new THREE.Mesh(new THREE.BoxGeometry(0.19,0.17,0.2),kGloveMat);kGloveL.position.set(-0.54,1.36,0);kg.add(kGloveL);
     var kGloveR=new THREE.Mesh(new THREE.BoxGeometry(0.19,0.17,0.2),kGloveMat);kGloveR.position.set(0.54,1.36,0);kg.add(kGloveR);
 
-    // ── Kicker (player seen from behind — classic penalty view) ──
-    var kickerJerseyTex=makeCanvasTex(function(ctx,sz){
-      for(var s=0;s<10;s++){ctx.fillStyle=s%2===0?'#c01010':'#197a19';ctx.fillRect(0,s*sz/10,sz,sz/10);}
-      ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fillRect(sz*0.28,0,sz*0.44,sz*0.1);
-    },256);
-    var pSkinMat=new THREE.MeshStandardMaterial({color:0xd49060,roughness:0.78,metalness:0});
-    var pJerseyMat=new THREE.MeshStandardMaterial({map:kickerJerseyTex,roughness:0.82,metalness:0});
-    var pShortsMat=new THREE.MeshStandardMaterial({color:0xf0f0f0,roughness:0.88});
-    var pSockMatK=new THREE.MeshStandardMaterial({color:0xcc1010,roughness:0.9});
-    var pBootKMat=new THREE.MeshStandardMaterial({color:0x060606,roughness:0.5,metalness:0.4});
-    var pHairKMat=new THREE.MeshStandardMaterial({color:0x2a1808,roughness:0.95});
-
-    var pg=new THREE.Group();
-    pg.position.set(-0.18,0,2.55);
-    scene.add(pg);
-
-    // Torso
-    var pBodyGeo=THREE.CapsuleGeometry?new THREE.CapsuleGeometry(0.24,0.78,4,16):new THREE.BoxGeometry(0.48,1.02,0.26);
-    var pBody=new THREE.Mesh(pBodyGeo,pJerseyMat);
-    pBody.position.set(0,1.42,0);pBody.castShadow=true;pg.add(pBody);
-    // Neck
-    var pNeck=new THREE.Mesh(new THREE.CylinderGeometry(0.082,0.092,0.18,12),pSkinMat);
-    pNeck.position.set(0,1.99,0);pg.add(pNeck);
-    // Head
-    var pHeadM=new THREE.Mesh(new THREE.SphereGeometry(0.21,24,20),pSkinMat);
-    pHeadM.position.set(0,2.24,0);pHeadM.castShadow=true;pg.add(pHeadM);
-    // Hair (back of head — all camera sees)
-    var pHairM=new THREE.Mesh(new THREE.SphereGeometry(0.218,18,10,0,Math.PI*2,0,Math.PI*0.65),pHairKMat);
-    pHairM.position.set(0,2.22,0);pHairM.rotation.x=-0.12;pg.add(pHairM);
-    // Shorts
-    var pShortsM=new THREE.Mesh(new THREE.BoxGeometry(0.54,0.38,0.28),pShortsMat);
-    pShortsM.position.set(0,0.96,0);pg.add(pShortsM);
-
-    // LEFT ARM group
-    var pArmLGrp=new THREE.Group();pArmLGrp.position.set(-0.28,1.65,0);pg.add(pArmLGrp);
-    var pArmLUp=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.062,0.62,12),pJerseyMat);
-    pArmLUp.position.set(-0.08,-0.28,0);pArmLUp.rotation.z=Math.PI/8;pArmLGrp.add(pArmLUp);
-    var pArmLLow=new THREE.Mesh(new THREE.CylinderGeometry(0.056,0.048,0.38,12),pSkinMat);
-    pArmLLow.position.set(-0.18,-0.68,0);pArmLGrp.add(pArmLLow);
-
-    // RIGHT ARM group
-    var pArmRGrp=new THREE.Group();pArmRGrp.position.set(0.28,1.65,0);pg.add(pArmRGrp);
-    var pArmRUp=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.062,0.62,12),pJerseyMat);
-    pArmRUp.position.set(0.08,-0.28,0);pArmRUp.rotation.z=-Math.PI/8;pArmRGrp.add(pArmRUp);
-    var pArmRLow=new THREE.Mesh(new THREE.CylinderGeometry(0.056,0.048,0.38,12),pSkinMat);
-    pArmRLow.position.set(0.18,-0.68,0);pArmRGrp.add(pArmRLow);
-
-    // LEFT LEG — plant leg
-    var pLegLGrp=new THREE.Group();pLegLGrp.position.set(-0.16,0.96,0);pg.add(pLegLGrp);
-    var pThighL=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.09,0.54,14),pSkinMat);
-    pThighL.position.set(0,-0.27,0);pLegLGrp.add(pThighL);
-    var pShinL=new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.075,0.5,14),pSockMatK);
-    pShinL.position.set(0,-0.72,0);pLegLGrp.add(pShinL);
-    var pBootLM=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.12,0.36),pBootKMat);
-    pBootLM.position.set(0,-1.02,0.02);pLegLGrp.add(pBootLM);
-
-    // RIGHT LEG — kicking leg (animated)
-    var pLegRGrp=new THREE.Group();pLegRGrp.position.set(0.16,0.96,0);pg.add(pLegRGrp);
-    var pThighR=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.09,0.54,14),pSkinMat);
-    pThighR.position.set(0,-0.27,0);pLegRGrp.add(pThighR);
-    // Knee group (shin+boot pivot here for follow-through)
-    var pKneeRGrp=new THREE.Group();pKneeRGrp.position.set(0,-0.54,0);pLegRGrp.add(pKneeRGrp);
-    var pShinR=new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.075,0.5,14),pSockMatK);
-    pShinR.position.set(0,-0.25,0);pKneeRGrp.add(pShinR);
-    var pBootRM=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.12,0.38),pBootKMat);
-    pBootRM.position.set(0,-0.52,0.04);pKneeRGrp.add(pBootRM);
-
-
-    // ── Aim plane & crosshair ──
+        // ── Aim plane & crosshair ──
     var aimPlane=new THREE.Mesh(new THREE.PlaneGeometry(GW*2.6,GH*2.6),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
     aimPlane.position.set(0,GH/2,GZ);scene.add(aimPlane);
     var markerGrp=new THREE.Group();markerGrp.visible=false;scene.add(markerGrp);
@@ -857,7 +789,6 @@ function PenaltyPitch(props){
     var thr={
       renderer,scene,camera,raycaster,aimPlane,markerGrp,
       ball,ballShadow,kg,kGloveL,kGloveR,kArmL,kArmR,
-      pg,pLegRGrp,pKneeRGrp,pArmLGrp,pArmRGrp,
       GW,GH,GZ,BS,
       phase:'idle',aimPoint:null,keeperTarget:0,
       shotTarget:null,animFrame:0,totalFrames:58,
@@ -890,10 +821,6 @@ function PenaltyPitch(props){
         kGloveL.position.x=-0.54+Math.sin(now*1.4)*0.08;kGloveR.position.x=0.54-Math.sin(now*1.4)*0.08;
         kGloveL.position.y=1.36+Math.abs(Math.sin(now*0.85))*0.12;kGloveR.position.y=1.36+Math.abs(Math.sin(now*0.85+1.3))*0.12;
         kArmL.rotation.z=Math.PI/5+Math.sin(now*1.4)*0.15;kArmR.rotation.z=-(Math.PI/5+Math.sin(now*1.4)*0.15);
-        // Player idle: subtle weight-shift sway
-        pg.rotation.z=Math.sin(now*0.7)*0.025;
-        pg.position.y=Math.abs(Math.sin(now*1.1))*0.012;
-        pArmLGrp.rotation.x=Math.sin(now*0.9)*0.08;pArmRGrp.rotation.x=-Math.sin(now*0.9)*0.08;
       }
 
       if(thr.phase==='animating'){
@@ -941,24 +868,6 @@ function PenaltyPitch(props){
           }
         }
 
-        // ── Kicker animation ──
-        var kt=Math.min(t*2.8,1); // kick completes in first ~36% of ball flight
-        var ktSmooth=kt*kt*(3-2*kt);
-        if(kt<0.35){
-          // Wind-up: leg swings back, knee bends
-          var wu=kt/0.35;
-          pLegRGrp.rotation.x=-wu*0.85; // thigh swings back
-          pKneeRGrp.rotation.x=wu*0.9; // knee bends
-          pg.rotation.x=wu*0.08; // body rocks back slightly
-        } else {
-          // Power through-swing: explosive forward kick
-          var sw=(kt-0.35)/0.65;var swS=sw*sw*(3-2*sw);
-          pLegRGrp.rotation.x=-0.85+swS*2.0; // full forward swing
-          pKneeRGrp.rotation.x=0.9-swS*1.1; // knee extends through ball
-          pg.rotation.x=0.08+swS*0.3; // body follows through, leans forward
-          pArmLGrp.rotation.x=-swS*0.5; // left arm swings back for balance
-          pArmRGrp.rotation.x=swS*0.45; // right arm forward for balance
-        }
 
         if(t>=1){
           thr.phase='result';
@@ -985,10 +894,6 @@ function PenaltyPitch(props){
             kGloveL.position.set(-0.54,1.36,0);kGloveR.position.set(0.54,1.36,0);
             kArmL.rotation.z=Math.PI/5;kArmR.rotation.z=-Math.PI/5;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
-            // Reset kicker pose
-            pLegRGrp.rotation.x=0;pKneeRGrp.rotation.x=0;
-            pArmLGrp.rotation.x=0;pArmRGrp.rotation.x=0;
-            pg.rotation.x=0;pg.rotation.z=0;pg.position.y=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
             setResult(null);setPhase('idle');
             exitFullscreen();
@@ -1054,7 +959,6 @@ function PenaltyPitch(props){
     if(thr.kGloveR)thr.kGloveR.position.set(0.54,1.36,0);
     if(thr.kArmL)thr.kArmL.rotation.z=Math.PI/5;
     if(thr.kArmR)thr.kArmR.rotation.z=-Math.PI/5;
-    if(thr.pLegRGrp){thr.pLegRGrp.rotation.x=0;thr.pKneeRGrp.rotation.x=0;thr.pArmLGrp.rotation.x=0;thr.pArmRGrp.rotation.x=0;thr.pg.rotation.x=0;thr.pg.rotation.z=0;thr.pg.position.y=0;}
     if(thr.markerGrp)thr.markerGrp.visible=false;
     if(thr.confMat)thr.confMat.opacity=0;
     if(powerBarRef.current)powerBarRef.current.style.width='0%';
@@ -1133,9 +1037,7 @@ function PenaltyPitch(props){
         ),
         result&&e('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',fontSize:66,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 50px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 6px 18px rgba(0,0,0,1)',textAlign:'center'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !')
       ),
-      !fullscreen&&phase==='idle'&&props.shotsLeft>0&&e('div',{style:{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'rgba(0,0,0,0.3)',borderRadius:10,pointerEvents:'none'}},
-        e('div',{style:{fontSize:11,color:'rgba(255,255,255,0.7)',textAlign:'center'}},'⚽ 3D Penalty · Live Stadium')
-      )
+      
     ),
     e('div',{style:{display:'flex',justifyContent:'center',gap:6,margin:'6px 0'}},
       [0,1,2,3,4].map(function(i){var h=(props.shotHistory||[])[i];return e('div',{key:i,style:{width:24,height:24,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)'):'rgba(255,255,255,0.08)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff6666'):'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h?(h.scored?'⚽':'✗'):'');})
