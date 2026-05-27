@@ -628,130 +628,182 @@ function PenaltyPitch(props){
     scene.add(new THREE.Points(trailGeo,trailMat));
     var trailHistory=[];
 
-    // ── Goalkeeper — realistic human proportions ──
-    var kg=new THREE.Group();kg.position.set(0,0,GZ+1.1);scene.add(kg);
-
-    // Jersey texture — realistic football shirt with sponsor
-    var jerseyTex=makeCanvasTex(function(ctx,sz){
-      // Primary color gradient
-      var g=ctx.createLinearGradient(0,0,sz,sz);
-      g.addColorStop(0,'#1a8a3f');g.addColorStop(0.5,'#22a84e');g.addColorStop(1,'#1a7a38');
-      ctx.fillStyle=g;ctx.fillRect(0,0,sz,sz);
-      // Jersey texture lines
-      ctx.globalAlpha=0.15;
-      for(var jl=0;jl<8;jl++){ctx.fillStyle='#ffffff';ctx.fillRect(0,jl*sz*0.125,sz,sz*0.06);}
-      ctx.globalAlpha=1;
-      // Sponsor text
-      ctx.fillStyle='rgba(255,255,255,0.92)';ctx.font='bold '+(sz*0.14)+'px sans-serif';
-      ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('FIFA',sz/2,sz*0.35);
-      ctx.font='bold '+(sz*0.28)+'px sans-serif';ctx.fillText('1',sz/2,sz*0.65);
-    },256);
-
-    // Shorts texture
-    var shortsTex=makeCanvasTex(function(ctx,sz){
-      ctx.fillStyle='#0a1a5a';ctx.fillRect(0,0,sz,sz);
-      ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fillRect(0,0,sz/2,sz);
-    },128);
-
-    // Skin texture for face/hands
-    var skinTex=makeCanvasTex(function(ctx,sz){
-      var g=ctx.createRadialGradient(sz/2,sz*0.4,0,sz/2,sz/2,sz*0.5);
-      g.addColorStop(0,'#f0c090');g.addColorStop(1,'#d4956d');
-      ctx.fillStyle=g;ctx.fillRect(0,0,sz,sz);
-    },128);
-
-    // Face texture
-    var faceTex=makeCanvasTex(function(ctx,sz){
-      // Skin
-      var g=ctx.createRadialGradient(sz/2,sz*0.45,0,sz/2,sz/2,sz*0.5);
-      g.addColorStop(0,'#f5c5a0');g.addColorStop(1,'#d4906a');
-      ctx.fillStyle=g;ctx.fillRect(0,0,sz,sz);
-      // Eyes
-      ctx.fillStyle='#1a1008';
-      ctx.beginPath();ctx.ellipse(sz*0.34,sz*0.42,sz*0.07,sz*0.055,0,0,Math.PI*2);ctx.fill();
-      ctx.beginPath();ctx.ellipse(sz*0.66,sz*0.42,sz*0.07,sz*0.055,0,0,Math.PI*2);ctx.fill();
-      // Eye whites
-      ctx.fillStyle='#ffffff';
-      ctx.beginPath();ctx.ellipse(sz*0.34,sz*0.41,sz*0.04,sz*0.03,0,0,Math.PI*2);ctx.fill();
-      ctx.beginPath();ctx.ellipse(sz*0.66,sz*0.41,sz*0.04,sz*0.03,0,0,Math.PI*2);ctx.fill();
+    // ── Goalkeeper — Canvas Sprite (2D illustration on PlaneGeometry) ──
+    var kCanvas=document.createElement('canvas');kCanvas.width=256;kCanvas.height=512;
+    var kCtx=kCanvas.getContext('2d');
+    function drawGoalkeeperBody(ctx,diveDir){
+      var c=ctx;c.clearRect(0,0,256,512);
+      // Boots
+      c.fillStyle='#111';c.fillRect(52,478,58,20);c.fillRect(146,478,58,20);
+      c.fillStyle='rgba(255,255,255,0.2)';c.fillRect(56,480,24,7);c.fillRect(150,480,24,7);
+      // Socks
+      c.fillStyle='#efefef';c.fillRect(62,416,36,64);c.fillRect(157,416,36,64);
+      c.fillStyle='#00aa44';c.fillRect(62,416,36,10);c.fillRect(157,416,36,10);
+      c.fillStyle='rgba(0,0,0,0.06)';
+      for(var si=0;si<3;si++){c.fillRect(62,430+si*12,36,6);c.fillRect(157,430+si*12,36,6);}
+      // Legs (skin)
+      c.fillStyle='#d4906a';c.fillRect(66,360,33,58);c.fillRect(157,360,33,58);
+      // Shorts (navy)
+      c.fillStyle='#0a1040';c.fillRect(48,327,160,48);
+      c.fillStyle='rgba(255,255,255,0.28)';c.fillRect(48,329,13,44);c.fillRect(195,329,13,44);
+      c.fillStyle='rgba(0,0,0,0.1)';c.fillRect(122,329,12,44);
+      // Jersey (green gradient)
+      var jg=c.createLinearGradient(38,168,218,168);
+      jg.addColorStop(0,'#1a8a3f');jg.addColorStop(0.5,'#28c05a');jg.addColorStop(1,'#1a8a3f');
+      c.fillStyle=jg;
+      c.beginPath();c.moveTo(38,170);c.lineTo(218,170);c.lineTo(206,328);c.lineTo(50,328);c.closePath();c.fill();
+      c.fillStyle='rgba(255,255,255,0.06)';
+      for(var jl=0;jl<9;jl++){c.fillRect(38,176+jl*18,180,9);}
+      c.fillStyle='rgba(255,255,255,0.95)';c.font='bold 56px Arial';
+      c.textAlign='center';c.textBaseline='middle';c.fillText('1',128,268);
+      c.font='bold 15px Arial';c.fillText('FIFA',128,226);
+      c.strokeStyle='#cc0000';c.lineWidth=5;c.lineCap='round';
+      c.beginPath();c.moveTo(85,170);c.lineTo(128,215);c.lineTo(171,170);c.stroke();
+      // Arms (sleeve gradient)
+      var ag=c.createLinearGradient(0,170,0,310);
+      ag.addColorStop(0,'#1e9444');ag.addColorStop(1,'#157030');
+      c.fillStyle=ag;
+      // Left arm: up when diving left, down otherwise
+      var lAX,lAY,lFX,lFY;
+      if(diveDir===-1){lAX=14;lAY=130;lFX=-6;lFY=48;}
+      else{lAX=10;lAY=305;lFX=6;lFY=368;}
+      c.beginPath();c.moveTo(38,170);c.lineTo(16,180);c.lineTo(lAX-10,lAY);c.lineTo(lAX+14,lAY);c.closePath();c.fill();
+      // Right arm: up when diving right, down otherwise
+      var rAX,rAY,rFX,rFY;
+      if(diveDir===1){rAX=242;rAY=130;rFX=262;rFY=48;}
+      else{rAX=246;rAY=305;rFX=250;rFY=368;}
+      c.beginPath();c.moveTo(218,170);c.lineTo(240,180);c.lineTo(rAX+10,rAY);c.lineTo(rAX-14,rAY);c.closePath();c.fill();
+      // Forearms (skin)
+      c.fillStyle='#d4906a';
+      c.beginPath();c.moveTo(lAX-10,lAY);c.lineTo(lAX+14,lAY);c.lineTo(lFX+10,lFY);c.lineTo(lFX-12,lFY);c.closePath();c.fill();
+      c.beginPath();c.moveTo(rAX-14,rAY);c.lineTo(rAX+10,rAY);c.lineTo(rFX+12,rFY);c.lineTo(rFX-10,rFY);c.closePath();c.fill();
+      // Left glove (orange)
+      var lgx=lFX-2,lgy=Math.max(18,lFY+18);
+      var lgg=c.createRadialGradient(lgx,lgy,2,lgx,lgy,22);
+      lgg.addColorStop(0,'#ff8800');lgg.addColorStop(1,'#cc5500');
+      c.fillStyle=lgg;c.beginPath();c.ellipse(lgx,lgy,23,17,0,0,Math.PI*2);c.fill();
+      c.fillStyle='rgba(0,0,0,0.28)';for(var fl=0;fl<4;fl++){c.fillRect(lgx-19+fl*10,lgy-14,7,28);}
+      c.fillStyle='rgba(255,180,80,0.35)';c.beginPath();c.ellipse(lgx-7,lgy-5,10,7,0,0,Math.PI*2);c.fill();
+      c.strokeStyle='#ff6600';c.lineWidth=4;c.lineCap='round';
+      c.beginPath();c.moveTo(lFX-12,lFY-2);c.lineTo(lFX+10,lFY-2);c.stroke();
+      // Right glove (orange)
+      var rgx=rFX+2,rgy=Math.max(18,rFY+18);
+      var rgg=c.createRadialGradient(rgx,rgy,2,rgx,rgy,22);
+      rgg.addColorStop(0,'#ff8800');rgg.addColorStop(1,'#cc5500');
+      c.fillStyle=rgg;c.beginPath();c.ellipse(rgx,rgy,23,17,0,0,Math.PI*2);c.fill();
+      c.fillStyle='rgba(0,0,0,0.28)';for(var fr=0;fr<4;fr++){c.fillRect(rgx-19+fr*10,rgy-14,7,28);}
+      c.fillStyle='rgba(255,180,80,0.35)';c.beginPath();c.ellipse(rgx-7,rgy-5,10,7,0,0,Math.PI*2);c.fill();
+      c.strokeStyle='#ff6600';c.lineWidth=4;c.lineCap='round';
+      c.beginPath();c.moveTo(rFX-10,rFY-2);c.lineTo(rFX+12,rFY-2);c.stroke();
+      // Neck
+      c.fillStyle='#d4906a';c.beginPath();c.ellipse(128,162,18,15,0,0,Math.PI*2);c.fill();
+      // Hair cap
+      c.fillStyle='#1a0f08';c.beginPath();c.ellipse(128,96,50,55,0,0,Math.PI*2);c.fill();
+      c.fillStyle='rgba(100,55,20,0.45)';c.beginPath();c.ellipse(115,80,22,17,0.4,0,Math.PI*2);c.fill();
+      // Face skin
+      var fg=c.createRadialGradient(128,108,5,128,114,47);
+      fg.addColorStop(0,'#f5c5a0');fg.addColorStop(1,'#d4906a');
+      c.fillStyle=fg;c.beginPath();c.ellipse(128,114,44,50,0,Math.PI*0.06,Math.PI*1.94);c.fill();
+      // Eyes (white + iris + pupil)
+      c.fillStyle='#fff';c.beginPath();c.ellipse(108,105,12,8,0,0,Math.PI*2);c.fill();
+      c.beginPath();c.ellipse(148,105,12,8,0,0,Math.PI*2);c.fill();
+      c.fillStyle='#2255bb';c.beginPath();c.ellipse(108,105,7,7,0,0,Math.PI*2);c.fill();
+      c.beginPath();c.ellipse(148,105,7,7,0,0,Math.PI*2);c.fill();
+      c.fillStyle='#000';var eyeOX=diveDir!==0?diveDir*2:0;
+      c.beginPath();c.ellipse(108+eyeOX,105,3.5,4,0,0,Math.PI*2);c.fill();
+      c.beginPath();c.ellipse(148+eyeOX,105,3.5,4,0,0,Math.PI*2);c.fill();
+      c.fillStyle='rgba(255,255,255,0.85)';c.beginPath();c.ellipse(105,102,2.5,2.5,0,0,Math.PI*2);c.fill();
+      c.beginPath();c.ellipse(145,102,2.5,2.5,0,0,Math.PI*2);c.fill();
+      // Eyebrows (furrowed when diving)
+      c.strokeStyle='#3a2010';c.lineWidth=3.5;c.lineCap='round';
+      if(diveDir===0){c.beginPath();c.moveTo(95,92);c.lineTo(120,89);c.stroke();c.beginPath();c.moveTo(136,89);c.lineTo(161,92);c.stroke();}
+      else{c.beginPath();c.moveTo(95,95);c.lineTo(120,87);c.stroke();c.beginPath();c.moveTo(136,87);c.lineTo(161,95);c.stroke();}
       // Nose
-      ctx.strokeStyle='#b07040';ctx.lineWidth=sz*0.02;
-      ctx.beginPath();ctx.moveTo(sz*0.47,sz*0.52);ctx.lineTo(sz*0.42,sz*0.65);ctx.lineTo(sz*0.58,sz*0.65);ctx.stroke();
+      c.strokeStyle='#b07040';c.lineWidth=2.2;
+      c.beginPath();c.moveTo(124,116);c.lineTo(119,130);c.lineTo(137,130);c.stroke();
       // Mouth
-      ctx.strokeStyle='#9a5030';ctx.lineWidth=sz*0.028;ctx.lineCap='round';
-      ctx.beginPath();ctx.arc(sz*0.5,sz*0.73,sz*0.12,-0.2,Math.PI+0.2);ctx.stroke();
-      // Eyebrows
-      ctx.strokeStyle='#3a2010';ctx.lineWidth=sz*0.04;
-      ctx.beginPath();ctx.moveTo(sz*0.27,sz*0.33);ctx.lineTo(sz*0.44,sz*0.31);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(sz*0.56,sz*0.31);ctx.lineTo(sz*0.73,sz*0.33);ctx.stroke();
-    },256);
+      c.strokeStyle='#8a4020';c.lineWidth=2.8;c.lineCap='round';
+      if(diveDir===0){c.beginPath();c.arc(128,140,11,-0.15,Math.PI+0.15);c.stroke();}
+      else{c.beginPath();c.moveTo(114,140);c.lineTo(142,140);c.stroke();}
+    }
+    drawGoalkeeperBody(kCtx,0);
+    var kTex=new THREE.CanvasTexture(kCanvas);
+    var kSpriteMesh=new THREE.Mesh(
+      new THREE.PlaneGeometry(1.4,2.8),
+      new THREE.MeshBasicMaterial({map:kTex,transparent:true,alphaTest:0.05,side:THREE.DoubleSide})
+    );
+    kSpriteMesh.position.set(0,1.4,GZ+0.6);
+    scene.add(kSpriteMesh);
+    var kSprite={
+      mesh:kSpriteMesh,tex:kTex,
+      setDive:function(dir){drawGoalkeeperBody(kCtx,dir);kTex.needsUpdate=true;},
+      setIdle:function(){drawGoalkeeperBody(kCtx,0);kTex.needsUpdate=true;}
+    };
 
-    // Hair texture
-    var hairTex=makeCanvasTex(function(ctx,sz){
-      ctx.fillStyle='#1a0f0a';ctx.fillRect(0,0,sz,sz);
-      ctx.fillStyle='rgba(80,40,20,0.4)';
-      for(var hl=0;hl<20;hl++){ctx.fillRect(0,hl*sz*0.05,sz,sz*0.025);}
-    },128);
-
-    // Body
-    var kBodyGeo=THREE.CapsuleGeometry?new THREE.CapsuleGeometry(0.25,0.82,4,12):new THREE.BoxGeometry(0.5,1.07,0.25);
-    var kBody=new THREE.Mesh(kBodyGeo,new THREE.MeshStandardMaterial({map:jerseyTex,roughness:0.82,metalness:0}));
-    kBody.position.set(0,1.5,0);kBody.castShadow=true;kg.add(kBody);
-
-    // Shorts
-    var kShortMat=new THREE.MeshStandardMaterial({map:shortsTex,roughness:0.88,metalness:0});
-    var kShort=new THREE.Mesh(new THREE.BoxGeometry(0.55,0.38,0.26),kShortMat);
-    kShort.position.set(0,1.0,0);kg.add(kShort);
-
-    // Legs — with shin guards detail
-    var kLegMat=new THREE.MeshStandardMaterial({color:0xe8c49a,roughness:0.8});
-    var kLegGeoC=new THREE.CylinderGeometry(0.09,0.08,0.82,14);
-    var kLegL=new THREE.Mesh(kLegGeoC,kLegMat);kLegL.position.set(-0.155,0.43,0);kg.add(kLegL);
-    var kLegR=new THREE.Mesh(kLegGeoC,kLegMat);kLegR.position.set(0.155,0.43,0);kg.add(kLegR);
-    // Socks
-    var sockMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:0.9});
-    var kSockL=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.075,0.38,12),sockMat);kSockL.position.set(-0.155,0.12,0);kg.add(kSockL);
-    var kSockR=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.075,0.38,12),sockMat);kSockR.position.set(0.155,0.12,0);kg.add(kSockR);
-    // Boots — realistic cleats
-    var kBootMat=new THREE.MeshStandardMaterial({color:0x0a0a0a,roughness:0.55,metalness:0.3});
-    var kBootGeo=new THREE.BoxGeometry(0.2,0.12,0.34);
-    var kBootL=new THREE.Mesh(kBootGeo,kBootMat);kBootL.position.set(-0.155,0.03,-0.04);kg.add(kBootL);
-    var kBootR=new THREE.Mesh(kBootGeo,kBootMat);kBootR.position.set(0.155,0.03,-0.04);kg.add(kBootR);
-
-    // Neck
-    var kNeck=new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.095,0.18,12),new THREE.MeshStandardMaterial({color:0xd4956d,roughness:0.8}));
-    kNeck.position.set(0,2.05,0);kg.add(kNeck);
-
-    // Head
-    var kHead=new THREE.Mesh(new THREE.SphereGeometry(0.215,24,20),new THREE.MeshStandardMaterial({map:faceTex,roughness:0.78,metalness:0}));
-    kHead.position.set(0,2.33,0);kHead.castShadow=true;kg.add(kHead);
-
-    // Hair
-    var kHair=new THREE.Mesh(new THREE.SphereGeometry(0.222,16,8,0,Math.PI*2,0,Math.PI*0.55),new THREE.MeshStandardMaterial({map:hairTex,roughness:0.95,metalness:0}));
-    kHair.position.set(0,2.31,0);kHair.rotation.x=0.12;kg.add(kHair);
-
-    // Arms
-    var kArmMat=new THREE.MeshStandardMaterial({map:jerseyTex,roughness:0.82});
-    var kArmGeo=new THREE.CylinderGeometry(0.068,0.062,0.68,12);
-    var kArmL=new THREE.Mesh(kArmGeo,kArmMat);kArmL.rotation.z=Math.PI/5;kArmL.position.set(-0.42,1.52,0);kg.add(kArmL);
-    var kArmR=new THREE.Mesh(kArmGeo,kArmMat);kArmR.rotation.z=-Math.PI/5;kArmR.position.set(0.42,1.52,0);kg.add(kArmR);
-
-    // Forearms
-    var kFAMat=new THREE.MeshStandardMaterial({color:0xe8c49a,roughness:0.8});
-    var kFAGeo=new THREE.CylinderGeometry(0.058,0.05,0.42,12);
-    var kFAL=new THREE.Mesh(kFAGeo,kFAMat);kFAL.rotation.z=Math.PI/5+0.1;kFAL.position.set(-0.58,1.28,0);kg.add(kFAL);
-    var kFAR=new THREE.Mesh(kFAGeo,kFAMat);kFAR.rotation.z=-(Math.PI/5+0.1);kFAR.position.set(0.58,1.28,0);kg.add(kFAR);
-
-    // Gloves — orange goalkeeper gloves with texture
-    var gloveTex=makeCanvasTex(function(ctx,sz){
-      ctx.fillStyle='#d44000';ctx.fillRect(0,0,sz,sz);
-      ctx.fillStyle='rgba(255,255,255,0.3)';
-      for(var gl=0;gl<5;gl++){ctx.fillRect(gl*sz*0.2,0,sz*0.08,sz);}
-      ctx.fillStyle='rgba(0,0,0,0.2)';ctx.fillRect(0,sz*0.7,sz,sz*0.3);
-    },128);
-    var kGloveMat=new THREE.MeshStandardMaterial({map:gloveTex,roughness:0.5,metalness:0.05});
-    var kGloveL=new THREE.Mesh(new THREE.BoxGeometry(0.19,0.17,0.2),kGloveMat);kGloveL.position.set(-0.54,1.36,0);kg.add(kGloveL);
-    var kGloveR=new THREE.Mesh(new THREE.BoxGeometry(0.19,0.17,0.2),kGloveMat);kGloveR.position.set(0.54,1.36,0);kg.add(kGloveR);
+    // ── Kicker — Canvas Sprite (seen from behind) ──
+    var pCanvas=document.createElement('canvas');pCanvas.width=200;pCanvas.height=400;
+    var pCtx=pCanvas.getContext('2d');
+    (function(){
+      var c=pCtx;
+      // Hair (dark, back of head)
+      c.fillStyle='#2a1a08';c.beginPath();c.ellipse(100,38,48,38,0,0,Math.PI*2);c.fill();
+      c.fillStyle='rgba(80,45,12,0.5)';c.beginPath();c.ellipse(86,24,22,14,0.5,0,Math.PI*2);c.fill();
+      // Back of neck (skin)
+      c.fillStyle='#d4906a';c.fillRect(82,72,36,30);
+      // Jersey back — Spain red
+      var jg=c.createLinearGradient(15,75,185,75);
+      jg.addColorStop(0,'#b00000');jg.addColorStop(0.5,'#e00000');jg.addColorStop(1,'#b00000');
+      c.fillStyle=jg;
+      c.beginPath();c.moveTo(15,75);c.lineTo(185,75);c.lineTo(188,252);c.lineTo(12,252);c.closePath();c.fill();
+      c.fillStyle='rgba(255,255,255,0.05)';
+      for(var jl=0;jl<9;jl++){c.fillRect(15,82+jl*19,170,9);}
+      // Jersey number 10
+      c.fillStyle='rgba(255,255,255,0.96)';c.font='bold 68px Arial';
+      c.textAlign='center';c.textBaseline='middle';c.fillText('10',100,170);
+      // Player name
+      c.font='bold 14px Arial';c.fillText('RAMOS',100,118);
+      // Sleeve trim (navy)
+      c.fillStyle='#000a40';c.fillRect(15,75,20,58);c.fillRect(165,75,20,58);
+      // Shoulder highlights
+      c.fillStyle='rgba(255,200,200,0.13)';
+      c.beginPath();c.ellipse(52,88,32,14,0,0,Math.PI*2);c.fill();
+      c.beginPath();c.ellipse(148,88,32,14,0,0,Math.PI*2);c.fill();
+      // Left arm (sleeve)
+      var ag=c.createLinearGradient(0,75,0,205);
+      ag.addColorStop(0,'#c00000');ag.addColorStop(1,'#950000');
+      c.fillStyle=ag;
+      c.beginPath();c.moveTo(15,130);c.lineTo(-2,138);c.lineTo(-8,215);c.lineTo(16,215);c.closePath();c.fill();
+      // Right arm (sleeve — slightly bent for approach)
+      c.beginPath();c.moveTo(185,130);c.lineTo(202,138);c.lineTo(208,208);c.lineTo(184,208);c.closePath();c.fill();
+      // Left forearm (skin)
+      c.fillStyle='#d4906a';
+      c.beginPath();c.moveTo(-8,213);c.lineTo(16,213);c.lineTo(12,268);c.lineTo(-10,268);c.closePath();c.fill();
+      // Right forearm (skin)
+      c.beginPath();c.moveTo(184,206);c.lineTo(208,206);c.lineTo(212,258);c.lineTo(188,258);c.closePath();c.fill();
+      // Shorts (navy)
+      c.fillStyle='#0a1040';c.fillRect(15,250,170,56);
+      c.fillStyle='rgba(255,255,255,0.22)';c.fillRect(15,252,14,52);c.fillRect(171,252,14,52);
+      c.fillStyle='rgba(0,0,0,0.08)';c.fillRect(94,252,12,52);
+      // Thighs (skin)
+      c.fillStyle='#d4906a';c.fillRect(22,304,56,58);c.fillRect(122,304,56,58);
+      // White socks with red stripe
+      c.fillStyle='#f0f0f0';c.fillRect(22,358,56,30);c.fillRect(122,358,56,30);
+      c.fillStyle='#cc0000';c.fillRect(22,358,56,8);c.fillRect(122,358,56,8);
+      c.fillStyle='#f0f0f0';c.fillRect(22,366,56,22);c.fillRect(122,366,56,22);
+      // Boots (black)
+      c.fillStyle='#111';c.fillRect(14,386,68,14);c.fillRect(118,386,68,14);
+      c.fillStyle='rgba(255,255,255,0.22)';c.fillRect(18,388,26,6);c.fillRect(122,388,26,6);
+      // Adidas stripes on boots
+      c.fillStyle='rgba(255,255,255,0.55)';
+      for(var bs=0;bs<3;bs++){c.fillRect(44+bs*6,387,3,13);c.fillRect(148+bs*6,387,3,13);}
+    })();
+    var pTex=new THREE.CanvasTexture(pCanvas);
+    var pMesh=new THREE.Mesh(
+      new THREE.PlaneGeometry(1.1,2.2),
+      new THREE.MeshBasicMaterial({map:pTex,transparent:true,alphaTest:0.05,side:THREE.DoubleSide})
+    );
+    pMesh.position.set(0.2,1.1,3.9);
+    scene.add(pMesh);
 
         // ── Aim plane & crosshair ──
     var aimPlane=new THREE.Mesh(new THREE.PlaneGeometry(GW*2.6,GH*2.6),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
@@ -781,7 +833,7 @@ function PenaltyPitch(props){
 
     var thr={
       renderer,scene,camera,raycaster,aimPlane,markerGrp,
-      ball,ballShadow,kg,kGloveL,kGloveR,kArmL,kArmR,
+      ball,ballShadow,kSprite,kSpriteMesh,pMesh,
       GW,GH,GZ,BS,
       phase:'idle',aimPoint:null,keeperTarget:0,
       shotTarget:null,animFrame:0,totalFrames:58,
@@ -807,13 +859,10 @@ function PenaltyPitch(props){
         if(thr.power>=1)fireShot();
       }
 
-      // Keeper idle — realistic weight shift + anticipation sway
+      // Keeper idle — weight-shift sway on canvas sprite
       if(thr.phase==='idle'||thr.phase==='aim'||thr.phase==='charging'){
-        kg.position.x=Math.sin(now*0.92)*0.24+Math.sin(now*1.7)*0.06;
-        kg.rotation.y=Math.sin(now*0.6)*0.08;
-        kGloveL.position.x=-0.54+Math.sin(now*1.4)*0.08;kGloveR.position.x=0.54-Math.sin(now*1.4)*0.08;
-        kGloveL.position.y=1.36+Math.abs(Math.sin(now*0.85))*0.12;kGloveR.position.y=1.36+Math.abs(Math.sin(now*0.85+1.3))*0.12;
-        kArmL.rotation.z=Math.PI/5+Math.sin(now*1.4)*0.15;kArmR.rotation.z=-(Math.PI/5+Math.sin(now*1.4)*0.15);
+        kSpriteMesh.position.x=Math.sin(now*0.92)*0.24+Math.sin(now*1.7)*0.06;
+        kSpriteMesh.rotation.y=Math.sin(now*0.6)*0.08;
       }
 
       if(thr.phase==='animating'){
@@ -844,21 +893,16 @@ function PenaltyPitch(props){
         var ss=Math.max(0.08,1.12-ball.position.y*0.62);
         ballShadow.scale.set(ss,ss,1);ballShadow.material.opacity=0.28*ss;
 
-        // Keeper dive — smooth professional animation
+        // Keeper dive — canvas sprite mesh animation
         if(thr.animFrame>4&&thr.animFrame<52){
-          kg.position.x+=(thr.keeperTarget-kg.position.x)*0.11;
-          kg.rotation.y=0;
-          // Keeper ALWAYS dives dramatically (Higuita never stands still again!)
-          {
-            var ds=thr.keeperTarget>0?1:-1;
-            var dt2=Math.min(Math.max((thr.animFrame-5)/20,0),1);
-            var dts=dt2*dt2*(3-2*dt2); // smoothstep
-            kg.rotation.z=-ds*dts*1.05; // more dramatic lean
-            kg.position.y=Math.sin(dts*Math.PI)*0.52; // higher jump
-            kGloveL.position.x=-0.54-(ds<0?dts*1.25:0);kGloveR.position.x=0.54+(ds>0?dts*1.25:0);
-            kGloveL.position.y=1.36+(ds<0?dts*1.0:0);kGloveR.position.y=1.36+(ds>0?dts*1.0:0);
-            kArmL.rotation.z=Math.PI/5+(ds<0?dts*1.35:0);kArmR.rotation.z=-(Math.PI/5+(ds>0?dts*1.35:0));
-          }
+          kSpriteMesh.position.x+=(thr.keeperTarget-kSpriteMesh.position.x)*0.11;
+          kSpriteMesh.rotation.y=0;
+          var ds=thr.keeperTarget>0?1:-1;
+          var dt2=Math.min(Math.max((thr.animFrame-5)/20,0),1);
+          var dts=dt2*dt2*(3-2*dt2);
+          kSpriteMesh.rotation.z=-ds*dts*0.85;
+          kSpriteMesh.position.y=Math.sin(dts*Math.PI)*0.52;
+          if(thr.animFrame===5)kSprite.setDive(ds);
         }
 
 
@@ -866,9 +910,9 @@ function PenaltyPitch(props){
           thr.phase='result';
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
           var inGoal=Math.abs(tgt.x)<GW/2*0.97&&tgt.y>0.07&&tgt.y<GH*0.97;
-          var kw=0.52+Math.abs(kg.position.x)*0.05;
+          var kw=0.52+Math.abs(kSpriteMesh.position.x)*0.05;
           var dy=Math.abs(tgt.y-1.42);
-          var dx2=Math.abs(tgt.x+curveOff-kg.position.x);
+          var dx2=Math.abs(tgt.x+curveOff-kSpriteMesh.position.x);
           var saved=(dx2<kw&&dy<0.94)&&inGoal;
           thr.result=(saved||!inGoal)?'saved':'goal';
           trailMat.opacity=0;trailHistory=[];
@@ -883,9 +927,8 @@ function PenaltyPitch(props){
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kg.position.set(0,0,GZ+1.1);kg.rotation.z=0;kg.rotation.y=0;
-            kGloveL.position.set(-0.54,1.36,0);kGloveR.position.set(0.54,1.36,0);
-            kArmL.rotation.z=Math.PI/5;kArmR.rotation.z=-Math.PI/5;
+            kSpriteMesh.position.set(0,1.4,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
+            pMesh.visible=true;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
             setResult(null);setPhase('idle');
@@ -915,6 +958,7 @@ function PenaltyPitch(props){
       var correctSide=thr.aimPoint.x>0.1?0:thr.aimPoint.x<-0.1?1:Math.floor(Math.random()*2);
       thr.keeperTarget=Math.random()<reaction?dirs[correctSide]:dirs[1-correctSide];
       thr.phase='animating';thr.animFrame=0;
+      pMesh.visible=false;
       if(powerBarRef.current)powerBarRef.current.style.width='0%';
       playSound('kick');setPhase('animating');
     }
@@ -947,11 +991,7 @@ function PenaltyPitch(props){
     setPhase('idle');setResult(null);exitFullscreen();
     if(thr.ball){thr.ball.position.set(0,0.115,3.2);thr.ball.rotation.set(0,0,0);}
     if(thr.ballShadow){thr.ballShadow.position.set(0,0.011,3.2);thr.ballShadow.scale.set(1,1,1);}
-    if(thr.kg){thr.kg.position.set(0,0,thr.GZ+1.1);thr.kg.rotation.z=0;thr.kg.rotation.y=0;}
-    if(thr.kGloveL)thr.kGloveL.position.set(-0.54,1.36,0);
-    if(thr.kGloveR)thr.kGloveR.position.set(0.54,1.36,0);
-    if(thr.kArmL)thr.kArmL.rotation.z=Math.PI/5;
-    if(thr.kArmR)thr.kArmR.rotation.z=-Math.PI/5;
+    if(thr.kSprite){thr.kSprite.mesh.position.set(0,1.4,thr.GZ+0.6);thr.kSprite.mesh.rotation.z=0;thr.kSprite.mesh.rotation.y=0;thr.kSprite.setIdle();}
     if(thr.markerGrp)thr.markerGrp.visible=false;
     if(thr.confMat)thr.confMat.opacity=0;
     if(powerBarRef.current)powerBarRef.current.style.width='0%';
