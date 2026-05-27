@@ -344,7 +344,7 @@ function PenaltyPitch(props){
     scene.fog=new THREE.Fog(0x3366aa,26,68);
 
     var camera=new THREE.PerspectiveCamera(70,W/H,0.1,150);
-    camera.position.set(0,0.85,3.8);camera.lookAt(0,1.0,-12);
+    camera.position.set(0,0.85,3.8);camera.lookAt(0,1.1,-9.5);
 
     // ── Lighting ──
     scene.add(new THREE.AmbientLight(0xffeedd,0.5));
@@ -356,6 +356,13 @@ function PenaltyPitch(props){
     sun.shadow.bias=-0.001;scene.add(sun);
     var rim=new THREE.DirectionalLight(0x88aaff,0.35);rim.position.set(-8,6,-15);scene.add(rim);
     var fill=new THREE.DirectionalLight(0xffeedd,0.2);fill.position.set(4,4,10);scene.add(fill);
+    // Stadium spotlights (flicker in animate)
+    var spotL=new THREE.SpotLight(0xfff8e0,2.0,55,Math.PI/7,0.18,1.2);
+    spotL.position.set(-14,16,-8);spotL.target.position.set(0,0,GZ);
+    scene.add(spotL);scene.add(spotL.target);
+    var spotR=new THREE.SpotLight(0xfff8e0,2.0,55,Math.PI/7,0.18,1.2);
+    spotR.position.set(14,16,-8);spotR.target.position.set(0,0,GZ);
+    scene.add(spotR);scene.add(spotR.target);
 
     // ── Sky ──
     scene.add(new THREE.Mesh(new THREE.SphereGeometry(75,12,8),new THREE.MeshBasicMaterial({color:0x3399cc,side:THREE.BackSide})));
@@ -387,7 +394,7 @@ function PenaltyPitch(props){
     scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(arcPts),new THREE.LineBasicMaterial({color:0xffffff})));
 
     // ── Goal (PBR white metal) ──
-    var GW=3.66,GH=2.44,GZ=-13.2;
+    var GW=3.66,GH=2.44,GZ=-9.5;
     var postMat=new THREE.MeshStandardMaterial({color:0xffffff,metalness:0.5,roughness:0.15});
     function cyl(r,h){return new THREE.CylinderGeometry(r,r,h,16);}
     var lp=new THREE.Mesh(cyl(0.058,GH),postMat);lp.position.set(-GW/2,GH/2,GZ);lp.castShadow=true;scene.add(lp);
@@ -446,8 +453,11 @@ function PenaltyPitch(props){
     var trailGeo=new THREE.BufferGeometry();
     var trailPosAttr=new THREE.BufferAttribute(trailPos,3);
     trailGeo.setAttribute('position',trailPosAttr);
-    var trailMat=new THREE.LineBasicMaterial({color:0xffffff,opacity:0.0,transparent:true,vertexColors:false});
-    var trailLine=new THREE.Line(trailGeo,trailMat);
+    var trailColArr=new Float32Array(TRAIL_LEN*3);
+    for(var tci=0;tci<TRAIL_LEN;tci++){var tf=tci/TRAIL_LEN;trailColArr[tci*3]=1;trailColArr[tci*3+1]=tf*0.55;trailColArr[tci*3+2]=tf*0.1;}
+    trailGeo.setAttribute('color',new THREE.BufferAttribute(trailColArr,3));
+    var trailMat=new THREE.PointsMaterial({size:0.09,sizeAttenuation:true,vertexColors:true,transparent:true,opacity:0.0,depthWrite:false});
+    var trailLine=new THREE.Points(trailGeo,trailMat);
     scene.add(trailLine);
     var trailHistory=[];
 
@@ -625,15 +635,20 @@ function PenaltyPitch(props){
         var ss2=Math.max(0.12,1.1-ball.position.y*0.55);
         ballShadow.scale.set(ss2,ss2,1);ballShadow.material.opacity=0.28*ss2;
 
-        // Keeper dive
+        // Keeper dive (smoothstep + full-body jump)
         if(thr.animFrame>5&&thr.animFrame<46){
           kg.position.x+=(thr.keeperTarget-kg.position.x)*0.115;
           if(Math.abs(thr.keeperTarget)>0.4){
-            var ds=thr.keeperTarget>0?1:-1;var dt=Math.min(Math.max((thr.animFrame-10)/20,0),1);
-            kg.rotation.z=-ds*dt*0.5;
-            kGloveL.position.x=-0.52-(ds<0?dt*0.62:0);kGloveR.position.x=0.52+(ds>0?dt*0.62:0);
-            kGloveL.position.y=1.37+(ds<0?dt*0.5:0);kGloveR.position.y=1.37+(ds>0?dt*0.5:0);
-            kArmL.rotation.z=Math.PI/5+(ds<0?dt*0.7:0);kArmR.rotation.z=-(Math.PI/5+(ds>0?dt*0.7:0));
+            var ds=thr.keeperTarget>0?1:-1;
+            var dt=Math.min(Math.max((thr.animFrame-10)/20,0),1);
+            var dts=dt*dt*(3-2*dt); // smoothstep
+            // Body rotation + lateral jump arc
+            kg.rotation.z=-ds*dts*0.88;
+            kg.position.y=Math.sin(dts*Math.PI)*0.4;
+            // Arms fully extended
+            kGloveL.position.x=-0.52-(ds<0?dts*0.92:0);kGloveR.position.x=0.52+(ds>0?dts*0.92:0);
+            kGloveL.position.y=1.37+(ds<0?dts*0.78:0);kGloveR.position.y=1.37+(ds>0?dts*0.78:0);
+            kArmL.rotation.z=Math.PI/5+(ds<0?dts*1.1:0);kArmR.rotation.z=-(Math.PI/5+(ds>0?dts*1.1:0));
           }
         }
 
@@ -663,6 +678,7 @@ function PenaltyPitch(props){
             kg.position.x=0;kg.rotation.z=0;
             kGloveL.position.set(-0.52,1.37,0);kGloveR.position.set(0.52,1.37,0);
             kArmL.rotation.z=Math.PI/5;kArmR.rotation.z=-Math.PI/5;
+            kg.position.y=0;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
             setResult(null);setPhase('idle');
@@ -676,6 +692,10 @@ function PenaltyPitch(props){
         for(var cj=0;cj<CNUM;cj++){cPos[cj*3]+=cVel[cj].x;cPos[cj*3+1]+=cVel[cj].y;cVel[cj].y-=0.0036;cPos[cj*3+2]+=cVel[cj].z;}
         cPosAttr.needsUpdate=true;
       }
+
+      // Spot flicker (stadium ambiance)
+      var flicker=0.96+Math.sin(now*7.3)*0.025+Math.sin(now*13.1)*0.015;
+      spotL.intensity=2.0*flicker;spotR.intensity=2.0*flicker;
 
       renderer.render(scene,camera);
     }
