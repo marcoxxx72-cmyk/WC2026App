@@ -760,6 +760,64 @@ function PenaltyPitch(props){
     var kGloveL=new THREE.Mesh(new THREE.BoxGeometry(0.19,0.17,0.2),kGloveMat);kGloveL.position.set(-0.54,1.36,0);kg.add(kGloveL);
     var kGloveR=new THREE.Mesh(new THREE.BoxGeometry(0.19,0.17,0.2),kGloveMat);kGloveR.position.set(0.54,1.36,0);kg.add(kGloveR);
 
+    // ── Kicker (player seen from behind — classic penalty view) ──
+    var kickerJerseyTex=makeCanvasTex(function(ctx,sz){
+      // Red & green diagonal stripes (WC style)
+      for(var s=0;s<10;s++){ctx.fillStyle=s%2===0?'#c01010':'#197a19';ctx.fillRect(0,s*sz/10,sz,sz/10);}
+      ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fillRect(sz*0.28,0,sz*0.44,sz*0.1);// collar
+    },256);
+    var pSkinMat=new THREE.MeshStandardMaterial({color:0xd49060,roughness:0.78,metalness:0});
+    var pJerseyMat=new THREE.MeshStandardMaterial({map:kickerJerseyTex,roughness:0.82,metalness:0});
+    var pShortsMat=new THREE.MeshStandardMaterial({color:0xf0f0f0,roughness:0.88});
+    var pSockMat=new THREE.MeshStandardMaterial({color:0xcc1010,roughness:0.9});
+    var pBootKMat=new THREE.MeshStandardMaterial({color:0x060606,roughness:0.5,metalness:0.4});
+    var pHairKMat=new THREE.MeshStandardMaterial({color:0x2a1808,roughness:0.95});
+
+    var pg=new THREE.Group();
+    pg.position.set(-0.18,0,2.55); // between camera(z=4) and ball(z=3.2), slightly left
+    scene.add(pg);
+
+    // Torso
+    var pBodyGeo=THREE.CapsuleGeometry?new THREE.CapsuleGeometry(0.24,0.78,4,16):new THREE.BoxGeometry(0.48,1.02,0.26);
+    var pBody=new THREE.Mesh(pBodyGeo,pJerseyMat);pBody.position.set(0,1.42,0);pBody.castShadow=true;pg.add(pBody);
+    // Neck
+    pg.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.082,0.092,0.18,12),pSkinMat),{position:new THREE.Vector3(0,1.99,0)}));
+    // Head (only back visible to camera)
+    var pHead=new THREE.Mesh(new THREE.SphereGeometry(0.21,24,20),pSkinMat);
+    pHead.position.set(0,2.24,0);pHead.castShadow=true;pg.add(pHead);
+    // Hair — covers back of head (what camera sees)
+    var pHair=new THREE.Mesh(new THREE.SphereGeometry(0.218,18,10,0,Math.PI*2,0,Math.PI*0.65),pHairKMat);
+    pHair.position.set(0,2.22,0);pHair.rotation.x=-0.12;pg.add(pHair);
+    // Shorts
+    var pShorts=new THREE.Mesh(new THREE.BoxGeometry(0.54,0.38,0.28),pShortsMat);
+    pShorts.position.set(0,0.96,0);pg.add(pShorts);
+
+    // LEFT ARM (support, slightly raised for balance)
+    var pArmLGrp=new THREE.Group();pArmLGrp.position.set(-0.28,1.65,0);pg.add(pArmLGrp);
+    pArmLGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.062,0.62,12),pJerseyMat),{position:new THREE.Vector3(-0.08,-0.28,0),rotation:new THREE.Euler(0,0,Math.PI/8)}));
+    pArmLGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.056,0.048,0.38,12),pSkinMat),{position:new THREE.Vector3(-0.18,-0.68,0)}));
+
+    // RIGHT ARM (balance arm, out slightly)
+    var pArmRGrp=new THREE.Group();pArmRGrp.position.set(0.28,1.65,0);pg.add(pArmRGrp);
+    pArmRGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.062,0.62,12),pJerseyMat),{position:new THREE.Vector3(0.08,-0.28,0),rotation:new THREE.Euler(0,0,-Math.PI/8)}));
+    pArmRGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.056,0.048,0.38,12),pSkinMat),{position:new THREE.Vector3(0.18,-0.68,0)}));
+
+    // LEFT LEG — plant leg (stays grounded during kick)
+    var pLegLGrp=new THREE.Group();pLegLGrp.position.set(-0.16,0.96,0);pg.add(pLegLGrp);
+    pLegLGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.09,0.54,14),pSkinMat),{position:new THREE.Vector3(0,-0.27,0)}));
+    pLegLGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.075,0.5,14),pSockMat),{position:new THREE.Vector3(0,-0.72,0)}));
+    pLegLGrp.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(0.2,0.12,0.36),pBootKMat),{position:new THREE.Vector3(0,-1.02,0.02)}));
+
+    // RIGHT LEG — kicking leg (animated, pivot at hip)
+    var pLegRGrp=new THREE.Group();pLegRGrp.position.set(0.16,0.96,0);pg.add(pLegRGrp);
+    // Upper thigh (rotates at hip)
+    var pThighR=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.09,0.54,14),pSkinMat);
+    pThighR.position.set(0,-0.27,0);pLegRGrp.add(pThighR);
+    // Knee joint group (for shin/foot follow-through bend)
+    var pKneeRGrp=new THREE.Group();pKneeRGrp.position.set(0,-0.54,0);pLegRGrp.add(pKneeRGrp);
+    pKneeRGrp.add(Object.assign(new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.075,0.5,14),pSockMat),{position:new THREE.Vector3(0,-0.25,0)}));
+    pKneeRGrp.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(0.2,0.12,0.38),pBootKMat),{position:new THREE.Vector3(0,-0.52,0.04)}));
+
     // ── Aim plane & crosshair ──
     var aimPlane=new THREE.Mesh(new THREE.PlaneGeometry(GW*2.6,GH*2.6),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
     aimPlane.position.set(0,GH/2,GZ);scene.add(aimPlane);
@@ -789,6 +847,7 @@ function PenaltyPitch(props){
     var thr={
       renderer,scene,camera,raycaster,aimPlane,markerGrp,
       ball,ballShadow,kg,kGloveL,kGloveR,kArmL,kArmR,
+      pg,pLegRGrp,pKneeRGrp,pArmLGrp,pArmRGrp,
       GW,GH,GZ,BS,
       phase:'idle',aimPoint:null,keeperTarget:0,
       shotTarget:null,animFrame:0,totalFrames:58,
@@ -821,6 +880,10 @@ function PenaltyPitch(props){
         kGloveL.position.x=-0.54+Math.sin(now*1.4)*0.08;kGloveR.position.x=0.54-Math.sin(now*1.4)*0.08;
         kGloveL.position.y=1.36+Math.abs(Math.sin(now*0.85))*0.12;kGloveR.position.y=1.36+Math.abs(Math.sin(now*0.85+1.3))*0.12;
         kArmL.rotation.z=Math.PI/5+Math.sin(now*1.4)*0.15;kArmR.rotation.z=-(Math.PI/5+Math.sin(now*1.4)*0.15);
+        // Player idle: subtle weight-shift sway
+        pg.rotation.z=Math.sin(now*0.7)*0.025;
+        pg.position.y=Math.abs(Math.sin(now*1.1))*0.012;
+        pArmLGrp.rotation.x=Math.sin(now*0.9)*0.08;pArmRGrp.rotation.x=-Math.sin(now*0.9)*0.08;
       }
 
       if(thr.phase==='animating'){
@@ -868,6 +931,25 @@ function PenaltyPitch(props){
           }
         }
 
+        // ── Kicker animation ──
+        var kt=Math.min(t*2.8,1); // kick completes in first ~36% of ball flight
+        var ktSmooth=kt*kt*(3-2*kt);
+        if(kt<0.35){
+          // Wind-up: leg swings back, knee bends
+          var wu=kt/0.35;
+          pLegRGrp.rotation.x=-wu*0.85; // thigh swings back
+          pKneeRGrp.rotation.x=wu*0.9; // knee bends
+          pg.rotation.x=wu*0.08; // body rocks back slightly
+        } else {
+          // Power through-swing: explosive forward kick
+          var sw=(kt-0.35)/0.65;var swS=sw*sw*(3-2*sw);
+          pLegRGrp.rotation.x=-0.85+swS*2.0; // full forward swing
+          pKneeRGrp.rotation.x=0.9-swS*1.1; // knee extends through ball
+          pg.rotation.x=0.08+swS*0.3; // body follows through, leans forward
+          pArmLGrp.rotation.x=-swS*0.5; // left arm swings back for balance
+          pArmRGrp.rotation.x=swS*0.45; // right arm forward for balance
+        }
+
         if(t>=1){
           thr.phase='result';
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
@@ -893,6 +975,10 @@ function PenaltyPitch(props){
             kGloveL.position.set(-0.54,1.36,0);kGloveR.position.set(0.54,1.36,0);
             kArmL.rotation.z=Math.PI/5;kArmR.rotation.z=-Math.PI/5;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
+            // Reset kicker pose
+            pLegRGrp.rotation.x=0;pKneeRGrp.rotation.x=0;
+            pArmLGrp.rotation.x=0;pArmRGrp.rotation.x=0;
+            pg.rotation.x=0;pg.rotation.z=0;pg.position.y=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
             setResult(null);setPhase('idle');
             exitFullscreen();
@@ -958,6 +1044,7 @@ function PenaltyPitch(props){
     if(thr.kGloveR)thr.kGloveR.position.set(0.54,1.36,0);
     if(thr.kArmL)thr.kArmL.rotation.z=Math.PI/5;
     if(thr.kArmR)thr.kArmR.rotation.z=-Math.PI/5;
+    if(thr.pLegRGrp){thr.pLegRGrp.rotation.x=0;thr.pKneeRGrp.rotation.x=0;thr.pArmLGrp.rotation.x=0;thr.pArmRGrp.rotation.x=0;thr.pg.rotation.x=0;thr.pg.rotation.z=0;thr.pg.position.y=0;}
     if(thr.markerGrp)thr.markerGrp.visible=false;
     if(thr.confMat)thr.confMat.opacity=0;
     if(powerBarRef.current)powerBarRef.current.style.width='0%';
