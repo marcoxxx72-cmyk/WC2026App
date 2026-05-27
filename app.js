@@ -293,7 +293,15 @@ function PenaltyPitch(props){
   var _ps=useState('idle');var phase=_ps[0];var setPhase=_ps[1];
   var _pr=useState(null);var result=_pr[0];var setResult=_pr[1];
   var _pfs=useState(false);var fullscreen=_pfs[0];var setFullscreen=_pfs[1];
+  var _pvh=useState(window.innerHeight);var vph=_pvh[0];var setVph=_pvh[1];
   var lang=props.lang||'en';var G=props.G||'#d4af37';var roundIdx=props.roundIdx||0;
+
+  // Fix iOS 100vh + orientation change
+  useEffect(function(){
+    function onResize(){setVph(window.innerHeight);}
+    window.addEventListener('resize',onResize);
+    return function(){window.removeEventListener('resize',onResize);};
+  },[]);
 
   function playSound(type){
     try{
@@ -887,7 +895,7 @@ function PenaltyPitch(props){
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
             setResult(null);setPhase('idle');
-            document.body.style.overflow='';setFullscreen(false);
+            exitFullscreen();
           },2400);
         }
       }
@@ -918,8 +926,20 @@ function PenaltyPitch(props){
     }
     thr.fireShot=fireShot;
 
+    // Non-passive touch listeners — React synthetic onTouch* is passive by default
+    // which blocks preventDefault() and causes page scroll during gameplay on mobile
+    function onTS(ev){ev.preventDefault();var t=ev.touches[0];if(t)handleMouseDown({clientX:t.clientX,clientY:t.clientY});}
+    function onTM(ev){ev.preventDefault();var t=ev.touches[0];if(t)handleMouseMove({clientX:t.clientX,clientY:t.clientY});}
+    function onTE(ev){ev.preventDefault();handleMouseUp();}
+    container.addEventListener('touchstart',onTS,{passive:false});
+    container.addEventListener('touchmove',onTM,{passive:false});
+    container.addEventListener('touchend',onTE,{passive:false});
+
     return function(){
       ro.disconnect();
+      container.removeEventListener('touchstart',onTS);
+      container.removeEventListener('touchmove',onTM);
+      container.removeEventListener('touchend',onTE);
       if(thr.raf)cancelAnimationFrame(thr.raf);
       renderer.dispose();
       if(container.contains(renderer.domElement))container.removeChild(renderer.domElement);
@@ -930,7 +950,7 @@ function PenaltyPitch(props){
   useEffect(function(){
     var thr=threeRef.current;if(!thr)return;
     thr.phase='idle';thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
-    setPhase('idle');setResult(null);setFullscreen(false);document.body.style.overflow='';
+    setPhase('idle');setResult(null);exitFullscreen();
     if(thr.ball){thr.ball.position.set(0,0.115,3.2);thr.ball.rotation.set(0,0,0);}
     if(thr.ballShadow){thr.ballShadow.position.set(0,0.011,3.2);thr.ballShadow.scale.set(1,1,1);}
     if(thr.kg){thr.kg.position.set(0,0,thr.GZ+1.05);thr.kg.rotation.z=0;thr.kg.rotation.y=0;}
@@ -980,13 +1000,26 @@ function PenaltyPitch(props){
   function handleTouchEnd(ev){ev.preventDefault();handleMouseUp();}
 
   function enterFullscreenAndAim(){
-    document.body.style.overflow='hidden';setFullscreen(true);
-    setTimeout(function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');},130);
+    document.body.style.overflow='hidden';
+    // Native fullscreen API — hides browser chrome on Android Chrome, Firefox Mobile
+    var docEl=document.documentElement;
+    if(docEl.requestFullscreen)docEl.requestFullscreen().catch(function(){});
+    else if(docEl.webkitRequestFullscreen)docEl.webkitRequestFullscreen();
+    setFullscreen(true);
+    setTimeout(function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');},160);
+  }
+
+  function exitFullscreen(){
+    document.body.style.overflow='';
+    if(document.exitFullscreen)document.exitFullscreen().catch(function(){});
+    else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+    setFullscreen(false);
   }
 
   var ri8=props.roundIdx||0;
   var RL=[{n:'R16'},{n:'QF'},{n:'SF'},{n:'FINAL'}];
-  var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:'100vh',zIndex:9999,background:'#000',cursor:'crosshair'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer'};
+  // vph = window.innerHeight updated on resize — fixes iOS Safari 100vh bug
+  var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:vph+'px',zIndex:9999,background:'#000',cursor:'crosshair'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer'};
 
   return e('div',{style:{userSelect:'none'}},
     e('div',{style:{display:'flex',justifyContent:'center',gap:8,marginBottom:8}},
@@ -994,7 +1027,7 @@ function PenaltyPitch(props){
     ),
     e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd},
       fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
-        e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){document.body.style.overflow='';setFullscreen(false);var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
+        e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
         (phase==='aim'||phase==='charging')&&e('div',{style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.65)',color:'white',padding:'10px 24px',borderRadius:30,fontSize:14,backdropFilter:'blur(4px)',textAlign:'center',whiteSpace:'nowrap'}},
           phase==='aim'?(lang==='fr'?'👆 Visez le but — maintenez clic pour la puissance':lang==='es'?'👆 Apunta — mantén clic para potencia':'👆 Aim at goal — hold click to charge'):(lang==='fr'?'🔥 Relâchez pour tirer ! Bougez pour l\'effet !':lang==='es'?'🔥 ¡Suelta para tirar! ¡Mueve para efecto!':'🔥 Release to shoot! Move mouse for curve!')
         ),
