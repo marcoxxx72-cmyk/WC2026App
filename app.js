@@ -343,8 +343,8 @@ function PenaltyPitch(props){
     var scene=new THREE.Scene();scene.background=new THREE.Color(0x2255aa);
     scene.fog=new THREE.Fog(0x3366aa,26,68);
 
-    var camera=new THREE.PerspectiveCamera(64,W/H,0.1,150);
-    camera.position.set(0,1.35,6.0);camera.lookAt(0,1.05,-10);
+    var camera=new THREE.PerspectiveCamera(70,W/H,0.1,150);
+    camera.position.set(0,0.85,3.8);camera.lookAt(0,1.0,-12);
 
     // ── Lighting ──
     scene.add(new THREE.AmbientLight(0xffeedd,0.5));
@@ -382,7 +382,7 @@ function PenaltyPitch(props){
     addLine(-5.5,-12.8,5.5,-12.8);addLine(-5.5,-12.8,-5.5,-18.5);addLine(5.5,-12.8,5.5,-18.5);
     addLine(-1.83,-12.8,1.83,-12.8);addLine(-1.83,-12.8,-1.83,-14.2);addLine(1.83,-12.8,1.83,-14.2);
     var sM=new THREE.Mesh(new THREE.CircleGeometry(0.12,16),wMat.clone());
-    sM.rotation.x=-Math.PI/2;sM.position.set(0,0.013,5.5);scene.add(sM);
+    sM.rotation.x=-Math.PI/2;sM.position.set(0,0.013,3.2);scene.add(sM);
     var arcPts=[];for(var ai=0;ai<Math.PI+0.1;ai+=0.1)arcPts.push(new THREE.Vector3(Math.cos(ai-Math.PI/2)*2.35,0.013,-12.8+Math.sin(ai)*2.35));
     scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(arcPts),new THREE.LineBasicMaterial({color:0xffffff})));
 
@@ -434,11 +434,11 @@ function PenaltyPitch(props){
       new THREE.SphereGeometry(0.115,28,28),
       new THREE.MeshStandardMaterial({map:ballTex,roughness:0.35,metalness:0.1})
     );
-    ball.position.set(0,0.115,5.5);ball.castShadow=true;scene.add(ball);
+    ball.position.set(0,0.115,3.2);ball.castShadow=true;scene.add(ball);
 
     // Ball ground shadow
     var ballShadow=new THREE.Mesh(new THREE.CircleGeometry(0.13,14),new THREE.MeshBasicMaterial({color:0x000000,opacity:0.28,transparent:true}));
-    ballShadow.rotation.x=-Math.PI/2;ballShadow.position.set(0,0.009,5.5);scene.add(ballShadow);
+    ballShadow.rotation.x=-Math.PI/2;ballShadow.position.set(0,0.009,3.2);scene.add(ballShadow);
 
     // ── Ball trail (LineSegments of recent positions) ──
     var TRAIL_LEN=18;
@@ -513,7 +513,7 @@ function PenaltyPitch(props){
     var showConf=false,confTimer=0;
 
     var raycaster=new THREE.Raycaster();
-    var BS={x:0,y:0.115,z:5.5};
+    var BS={x:0,y:0.115,z:3.2};
 
     // ── Game state ──
     var thr={
@@ -693,8 +693,8 @@ function PenaltyPitch(props){
     var thr=threeRef.current;if(!thr)return;
     thr.phase='idle';thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
     setPhase('idle');setResult(null);
-    if(thr.ball){thr.ball.position.set(0,0.115,5.5);thr.ball.rotation.set(0,0,0);}
-    if(thr.ballShadow){thr.ballShadow.position.set(0,0.009,5.5);thr.ballShadow.scale.set(1,1,1);}
+    if(thr.ball){thr.ball.position.set(0,0.115,3.2);thr.ball.rotation.set(0,0,0);}
+    if(thr.ballShadow){thr.ballShadow.position.set(0,0.009,3.2);thr.ballShadow.scale.set(1,1,1);}
     if(thr.kg){thr.kg.position.x=0;thr.kg.rotation.z=0;}
     if(thr.kGloveL)thr.kGloveL.position.set(-0.52,1.37,0);
     if(thr.kGloveR)thr.kGloveR.position.set(0.52,1.37,0);
