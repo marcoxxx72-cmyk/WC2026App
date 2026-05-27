@@ -352,9 +352,10 @@ function PenaltyPitch(props){
     scene.background=new THREE.Color(0x0d1b3e);
     scene.fog=new THREE.FogExp2(0x0d1b3e,0.014);
 
+    var GZ=-10.5;
     // ── Camera — near-ground behind ball ──
-    var camera=new THREE.PerspectiveCamera(68,W/H,0.1,220);
-    camera.position.set(0,0.82,4.0);camera.lookAt(0,1.05,-9.5);
+    var camera=new THREE.PerspectiveCamera(58,W/H,0.1,220);
+    camera.position.set(0,0.65,5.5);camera.lookAt(0,1.4,GZ*1.05);
 
     // ── Photometric stadium lighting ──
     scene.add(new THREE.AmbientLight(0xd0d8ff,0.32));
@@ -435,7 +436,7 @@ function PenaltyPitch(props){
     scene.add(new THREE.Line(arcG,new THREE.LineBasicMaterial({color:0xffffff,opacity:0.88,transparent:true})));
 
     // ── Goal — aluminum/steel posts ──
-    var GW=3.66,GH=2.44,GZ=-9.5;
+    var GW=3.66,GH=2.44;
     var postTex=makeCanvasTex(function(ctx,sz){
       var g=ctx.createLinearGradient(0,0,sz,0);
       g.addColorStop(0,'#c0c8d0');g.addColorStop(0.35,'#f0f4f8');g.addColorStop(0.65,'#f0f4f8');g.addColorStop(1,'#8899aa');
@@ -528,18 +529,10 @@ function PenaltyPitch(props){
     rightStand.rotation.y=-Math.PI/2.1;rightStand.rotation.x=-Math.PI/10;
     rightStand.position.set(16,6.5,-12);scene.add(rightStand);
 
-    // Stadium structure — realistic concrete shell
+    // Stadium structure — lower walls only (no roof — it blocked the view from low camera)
     var concreteMat=new THREE.MeshStandardMaterial({color:0x3a3d4a,roughness:0.95,metalness:0.1});
-    // Lower concrete ring
     var lowerRing=new THREE.Mesh(new THREE.CylinderGeometry(20,22,2.5,32,1,true),concreteMat);
     lowerRing.position.set(0,1.5,-12);scene.add(lowerRing);
-    // Upper concrete ring
-    var upperRing=new THREE.Mesh(new THREE.CylinderGeometry(18,20,3,32,1,true),concreteMat);
-    upperRing.position.set(0,8,-12);scene.add(upperRing);
-    // Roof overhang (white)
-    var roofMat=new THREE.MeshStandardMaterial({color:0xe8eaf0,roughness:0.4,metalness:0.5});
-    var roof=new THREE.Mesh(new THREE.CylinderGeometry(19.5,21.5,0.5,32,1,true),roofMat);
-    roof.position.set(0,12,-12);scene.add(roof);
 
     // Advertising boards — modern digital-style
     var boardTex=makeCanvasTex(function(ctx,sw,sh){
@@ -636,7 +629,7 @@ function PenaltyPitch(props){
     var trailHistory=[];
 
     // ── Goalkeeper — realistic human proportions ──
-    var kg=new THREE.Group();kg.position.set(0,0,GZ+1.05);scene.add(kg);
+    var kg=new THREE.Group();kg.position.set(0,0,GZ+1.1);scene.add(kg);
 
     // Jersey texture — realistic football shirt with sponsor
     var jerseyTex=makeCanvasTex(function(ctx,sz){
@@ -784,7 +777,7 @@ function PenaltyPitch(props){
     var showConf=false,confTimer=0;
 
     var raycaster=new THREE.Raycaster();
-    var BS={x:0,y:0.115,z:3.2};
+    var BS={x:0,y:0.115,z:3.5};
 
     var thr={
       renderer,scene,camera,raycaster,aimPlane,markerGrp,
@@ -890,7 +883,7 @@ function PenaltyPitch(props){
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kg.position.set(0,0,GZ+1.05);kg.rotation.z=0;kg.rotation.y=0;
+            kg.position.set(0,0,GZ+1.1);kg.rotation.z=0;kg.rotation.y=0;
             kGloveL.position.set(-0.54,1.36,0);kGloveR.position.set(0.54,1.36,0);
             kArmL.rotation.z=Math.PI/5;kArmR.rotation.z=-Math.PI/5;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
@@ -954,7 +947,7 @@ function PenaltyPitch(props){
     setPhase('idle');setResult(null);exitFullscreen();
     if(thr.ball){thr.ball.position.set(0,0.115,3.2);thr.ball.rotation.set(0,0,0);}
     if(thr.ballShadow){thr.ballShadow.position.set(0,0.011,3.2);thr.ballShadow.scale.set(1,1,1);}
-    if(thr.kg){thr.kg.position.set(0,0,thr.GZ+1.05);thr.kg.rotation.z=0;thr.kg.rotation.y=0;}
+    if(thr.kg){thr.kg.position.set(0,0,thr.GZ+1.1);thr.kg.rotation.z=0;thr.kg.rotation.y=0;}
     if(thr.kGloveL)thr.kGloveL.position.set(-0.54,1.36,0);
     if(thr.kGloveR)thr.kGloveR.position.set(0.54,1.36,0);
     if(thr.kArmL)thr.kArmL.rotation.z=Math.PI/5;
