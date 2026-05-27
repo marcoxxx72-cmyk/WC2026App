@@ -282,7 +282,471 @@ var WC_WEATHER = {
 };
 var useState = React.useState;
 var useEffect = React.useEffect;
+var useRef = React.useRef;
 var e = React.createElement;
+
+// ── PENALTY 3D CANVAS GAME ────────────────────────────────────────────────────
+function PenaltyPitch(props){
+  // props: onShotDone(scored), roundIdx, shotsLeft, shotHistory, gameScore, gameMiss, lang, G
+  var canvasRef = useRef(null);
+  var stRef = useRef({phase:'idle',aimX:0,aimY:0.5,power:0,powerDir:1,frame:0,ballX:0,ballZ:0.12,ballH:0,keeperX:0,keeperTarget:0,keeperAnimating:false,result:null,shotFired:false,raf:null,mouseOnGoal:false,cursorX:0,cursorY:0});
+  var powerRef = useRef(0);
+  var powerDirRef = useRef(1);
+  var ROUNDS_GK = ['🧤','🥅','🧱','🌟'];
+
+  var CW=320, CH=230;
+  var HY=72, BY=222, CX=160;
+
+  function proj(wx,wz,wh){
+    wh=wh||0;
+    var sy=HY+(BY-HY)*(1-wz);
+    var hw=152*(1-wz*0.71);
+    var sx=CX+wx*hw;
+    var scale=(BY-HY)*(1-wz)/(BY-HY);
+    return {x:sx, y:sy-wh*scale*38};
+  }
+
+  function drawScene(ctx, st){
+    ctx.clearRect(0,0,CW,CH);
+
+    // Sky gradient
+    var sky=ctx.createLinearGradient(0,0,0,HY+10);
+    sky.addColorStop(0,'#1a3a6e'); sky.addColorStop(1,'#2d6db5');
+    ctx.fillStyle=sky; ctx.fillRect(0,0,CW,HY+10);
+
+    // Crowd (simplified colored blocks)
+    for(var ci=0;ci<32;ci++){
+      var colors=['#c0392b','#e74c3c','#3498db','#f39c12','#27ae60','#8e44ad','#e67e22','#1abc9c'];
+      ctx.fillStyle=colors[ci%8];
+      ctx.fillRect(ci*10,2,9,Math.random()*14+8); // This would flicker on redraw - use fixed seed instead
+    }
+    // Static crowd rows (deterministic)
+    var crowdColors=['#c0392b','#f39c12','#3498db','#27ae60','#8e44ad','#e74c3c','#1abc9c','#e67e22'];
+    for(var row=0;row<3;row++){
+      for(var col=0;col<CW/8;col++){
+        ctx.fillStyle=crowdColors[(row*7+col)%8];
+        var ch=row===0?16:row===1?12:8;
+        ctx.fillRect(col*8,4+row*14,7,ch);
+        // Head
+        ctx.beginPath();
+        ctx.arc(col*8+3,3+row*14,3,0,Math.PI*2);
+        ctx.fillStyle='#f5c5a3';
+        ctx.fill();
+      }
+    }
+
+    // Stadium banner
+    ctx.fillStyle='rgba(0,0,0,0.5)';
+    ctx.fillRect(0,HY-8,CW,10);
+    ctx.fillStyle='#d4af37';
+    ctx.font='bold 7px Arial'; ctx.textAlign='center';
+    ctx.fillText('⚽  WORLD CUP 2026  ⚽',CX,HY-1);
+
+    // Pitch stripes
+    var stripeColors=['#2d8a2d','#348a34'];
+    for(var s=0;s<6;s++){
+      var z1=s/6, z2=(s+1)/6;
+      var pBL=proj(-1,z1), pBR=proj(1,z1), pTR=proj(1,z2), pTL=proj(-1,z2);
+      ctx.beginPath();
+      ctx.moveTo(pBL.x,pBL.y); ctx.lineTo(pBR.x,pBR.y);
+      ctx.lineTo(pTR.x,pTR.y); ctx.lineTo(pTL.x,pTL.y);
+      ctx.fillStyle=stripeColors[s%2]; ctx.fill();
+    }
+
+    // Penalty area lines
+    var paZ=0.55;
+    var paL=proj(-0.55,paZ), paR=proj(0.55,paZ);
+    var paLN=proj(-0.55,0.12), paRN=proj(0.55,0.12);
+    ctx.strokeStyle='rgba(255,255,255,0.6)'; ctx.lineWidth=1.2;
+    ctx.beginPath();
+    ctx.moveTo(paL.x,paL.y); ctx.lineTo(paR.x,paR.y);
+    ctx.moveTo(paL.x,paL.y); ctx.lineTo(paLN.x,paLN.y);
+    ctx.moveTo(paR.x,paR.y); ctx.lineTo(paRN.x,paRN.y);
+    ctx.stroke();
+
+    // Center circle arc (penalty arc)
+    var arcC=proj(0,0.55);
+    ctx.beginPath();
+    ctx.arc(arcC.x,arcC.y,18,Math.PI,0);
+    ctx.strokeStyle='rgba(255,255,255,0.4)'; ctx.lineWidth=1;
+    ctx.stroke();
+
+    // Penalty spot
+    var spot=proj(0,0.14);
+    ctx.beginPath(); ctx.arc(spot.x,spot.y,2.5,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.fill();
+
+    // Goal: z=0.80
+    var GZ=0.80, GW=0.44, GH=0.52;
+    var gBL=proj(-GW,GZ), gBR=proj(GW,GZ);
+    var gTL=proj(-GW,GZ,GH), gTR=proj(GW,GZ,GH);
+    var gBLb=proj(-GW,GZ+0.04), gBRb=proj(GW,GZ+0.04);
+    var gTLb=proj(-GW,GZ+0.04,GH), gTRb=proj(GW,GZ+0.04,GH);
+
+    // Net (back wall)
+    ctx.fillStyle='rgba(200,200,200,0.12)';
+    ctx.beginPath();
+    ctx.moveTo(gTLb.x,gTLb.y); ctx.lineTo(gTRb.x,gTRb.y);
+    ctx.lineTo(gBRb.x,gBRb.y); ctx.lineTo(gBLb.x,gBLb.y);
+    ctx.fill();
+    // Net lines horizontal
+    ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=0.8;
+    for(var ni=0;ni<=4;ni++){
+      var nt=ni/4;
+      var nl=proj(-GW,GZ+(0.04*nt),GH*(1-nt)*0.1+GH*nt*0.0);
+      // simplified: just draw lines across
+      var nly=gTLb.y+(gBLb.y-gTLb.y)*nt;
+      var nry=gTRb.y+(gBRb.y-gTRb.y)*nt;
+      ctx.beginPath(); ctx.moveTo(gTLb.x,nly); ctx.lineTo(gTRb.x,nry); ctx.stroke();
+    }
+    // Net top and sides
+    ctx.beginPath();
+    ctx.moveTo(gTL.x,gTL.y); ctx.lineTo(gTLb.x,gTLb.y);
+    ctx.moveTo(gTR.x,gTR.y); ctx.lineTo(gTRb.x,gTRb.y);
+    ctx.moveTo(gTL.x,gTL.y); ctx.lineTo(gTR.x,gTR.y);
+    ctx.strokeStyle='rgba(255,255,255,0.15)'; ctx.lineWidth=1;
+    ctx.stroke();
+
+    // Goal posts shadow
+    ctx.strokeStyle='rgba(0,0,0,0.3)'; ctx.lineWidth=5;
+    ctx.beginPath();
+    ctx.moveTo(gBL.x+2,gBL.y+2); ctx.lineTo(gTL.x+2,gTL.y+2);
+    ctx.moveTo(gBR.x+2,gBR.y+2); ctx.lineTo(gTR.x+2,gTR.y+2);
+    ctx.moveTo(gTL.x+2,gTL.y+2); ctx.lineTo(gTR.x+2,gTR.y+2);
+    ctx.stroke();
+    // Goal posts white
+    ctx.strokeStyle='white'; ctx.lineWidth=3.5;
+    ctx.beginPath();
+    ctx.moveTo(gBL.x,gBL.y); ctx.lineTo(gTL.x,gTL.y);
+    ctx.moveTo(gBR.x,gBR.y); ctx.lineTo(gTR.x,gTR.y);
+    ctx.moveTo(gTL.x,gTL.y); ctx.lineTo(gTR.x,gTR.y);
+    ctx.stroke();
+
+    // Aim cursor (during aim phase)
+    if(st.phase==='aim'&&st.mouseOnGoal){
+      var gCX=gTL.x+(gTR.x-gTL.x)*((st.cursorX+1)/2);
+      var gCY=gTL.y+(gBL.y-gTL.y)*(1-st.cursorY);
+      ctx.strokeStyle='rgba(255,255,0,0.9)'; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(gCX-8,gCY); ctx.lineTo(gCX+8,gCY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(gCX,gCY-8); ctx.lineTo(gCX,gCY+8); ctx.stroke();
+      ctx.beginPath(); ctx.arc(gCX,gCY,5,0,Math.PI*2);
+      ctx.strokeStyle='rgba(255,200,0,0.7)'; ctx.stroke();
+    }
+    // Show selected aim point
+    if(st.phase==='aim'&&st.aimSet){
+      var aX=gTL.x+(gTR.x-gTL.x)*((st.aimX+1)/2);
+      var aY=gTL.y+(gBL.y-gTL.y)*(1-st.aimY);
+      ctx.fillStyle='rgba(255,220,0,0.9)';
+      ctx.beginPath(); ctx.arc(aX,aY,4,0,Math.PI*2); ctx.fill();
+    }
+
+    // Goalkeeper
+    var keepZ=GZ-0.01;
+    var kp=proj(st.keeperX,keepZ);
+    var ks=0.72; // scale
+    // Shadow
+    ctx.beginPath(); ctx.ellipse(kp.x,kp.y+1,10*ks,3*ks,0,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fill();
+    // Legs
+    ctx.fillStyle='#1a1a5e';
+    ctx.fillRect(kp.x-7*ks,kp.y-14*ks,5*ks,14*ks);
+    ctx.fillRect(kp.x+1*ks,kp.y-14*ks,5*ks,14*ks);
+    // Boots
+    ctx.fillStyle='#111';
+    ctx.fillRect(kp.x-8*ks,kp.y-3*ks,7*ks,5*ks);
+    ctx.fillRect(kp.x+1*ks,kp.y-3*ks,7*ks,5*ks);
+    // Jersey (bright yellow for GK)
+    ctx.fillStyle='#f0c020';
+    ctx.fillRect(kp.x-10*ks,kp.y-32*ks,20*ks,18*ks);
+    // Gloves
+    ctx.fillStyle='#ff4400';
+    var armAngle=st.keeperAnimating?Math.PI/3:0;
+    if(st.keeperTarget<0){
+      ctx.fillRect(kp.x-18*ks,kp.y-38*ks,8*ks,8*ks);
+      ctx.fillRect(kp.x+8*ks,kp.y-24*ks,8*ks,8*ks);
+    } else if(st.keeperTarget>0){
+      ctx.fillRect(kp.x+10*ks,kp.y-38*ks,8*ks,8*ks);
+      ctx.fillRect(kp.x-16*ks,kp.y-24*ks,8*ks,8*ks);
+    } else {
+      ctx.fillRect(kp.x-16*ks,kp.y-30*ks,8*ks,8*ks);
+      ctx.fillRect(kp.x+8*ks,kp.y-30*ks,8*ks,8*ks);
+    }
+    // Head
+    ctx.beginPath(); ctx.arc(kp.x,kp.y-36*ks,8*ks,0,Math.PI*2);
+    ctx.fillStyle='#f5c5a3'; ctx.fill();
+    // Hair
+    ctx.beginPath(); ctx.arc(kp.x,kp.y-40*ks,7*ks,Math.PI,0);
+    ctx.fillStyle='#2c1810'; ctx.fill();
+
+    // Ball
+    var bp=proj(st.ballX,st.ballZ,st.ballH);
+    var bSize=Math.max(4, 9*(1-st.ballZ*0.5));
+    // Shadow on ground
+    var bShadow=proj(st.ballX,st.ballZ);
+    var shadowAlpha=Math.max(0,0.4-st.ballH*0.3);
+    ctx.beginPath(); ctx.ellipse(bShadow.x,bShadow.y,bSize*0.9,bSize*0.3,0,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,0,0,'+shadowAlpha+')'; ctx.fill();
+    // Ball
+    ctx.beginPath(); ctx.arc(bp.x,bp.y,bSize,0,Math.PI*2);
+    var ballGrad=ctx.createRadialGradient(bp.x-bSize*0.3,bp.y-bSize*0.3,0,bp.x,bp.y,bSize);
+    ballGrad.addColorStop(0,'#ffffff'); ballGrad.addColorStop(0.4,'#dddddd'); ballGrad.addColorStop(1,'#888888');
+    ctx.fillStyle=ballGrad; ctx.fill();
+    ctx.strokeStyle='#333'; ctx.lineWidth=0.8; ctx.stroke();
+    // Ball seams (simple)
+    ctx.strokeStyle='rgba(50,50,50,0.4)'; ctx.lineWidth=0.6;
+    ctx.beginPath(); ctx.arc(bp.x,bp.y,bSize*0.6,0.3,2.5); ctx.stroke();
+    ctx.beginPath(); ctx.arc(bp.x,bp.y,bSize*0.6,Math.PI+0.3,Math.PI+2.5); ctx.stroke();
+
+    // Player (back, large at bottom)
+    var pp=proj(0,0.03);
+    var ps=1.0;
+    // Shadow
+    ctx.beginPath(); ctx.ellipse(pp.x,pp.y,22*ps,6*ps,0,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.fill();
+    // Left leg
+    ctx.fillStyle='#fff';
+    ctx.beginPath(); ctx.roundRect(pp.x-12*ps,pp.y-28*ps,10*ps,28*ps,3);
+    ctx.fill();
+    // Right leg
+    ctx.beginPath(); ctx.roundRect(pp.x+2*ps,pp.y-28*ps,10*ps,28*ps,3);
+    ctx.fill();
+    // Left boot
+    ctx.fillStyle='#111';
+    ctx.beginPath(); ctx.roundRect(pp.x-14*ps,pp.y-6*ps,13*ps,8*ps,2);
+    ctx.fill();
+    // Right boot
+    ctx.beginPath(); ctx.roundRect(pp.x+1*ps,pp.y-6*ps,13*ps,8*ps,2);
+    ctx.fill();
+    // Jersey body (gold/dark blue WC colors)
+    ctx.fillStyle='#0a1f5c';
+    ctx.beginPath(); ctx.roundRect(pp.x-16*ps,pp.y-62*ps,32*ps,34*ps,4);
+    ctx.fill();
+    // Jersey stripe
+    ctx.fillStyle='rgba(212,175,55,0.7)';
+    ctx.fillRect(pp.x-16*ps,pp.y-55*ps,32*ps,4*ps);
+    // Number on back
+    ctx.fillStyle='white'; ctx.font='bold '+(11*ps)+'px Arial'; ctx.textAlign='center';
+    ctx.fillText('10',pp.x,pp.y-40*ps);
+    // Left arm
+    ctx.strokeStyle='#0a1f5c'; ctx.lineWidth=9*ps; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(pp.x-15*ps,pp.y-56*ps); ctx.lineTo(pp.x-26*ps,pp.y-38*ps); ctx.stroke();
+    // Right arm
+    ctx.beginPath(); ctx.moveTo(pp.x+15*ps,pp.y-56*ps); ctx.lineTo(pp.x+26*ps,pp.y-38*ps); ctx.stroke();
+    // Head
+    ctx.beginPath(); ctx.arc(pp.x,pp.y-74*ps,13*ps,0,Math.PI*2);
+    ctx.fillStyle='#f0c090'; ctx.fill();
+    // Hair
+    ctx.beginPath(); ctx.arc(pp.x,pp.y-80*ps,12*ps,Math.PI+0.2,Math.PI*2-0.2);
+    ctx.fillStyle='#2c1810'; ctx.fill();
+
+    // Result overlay
+    if(st.result){
+      ctx.fillStyle=st.result==='goal'?'rgba(0,200,0,0.25)':'rgba(200,0,0,0.25)';
+      ctx.fillRect(0,HY,CW,CH-HY);
+      ctx.font='bold 28px Arial'; ctx.textAlign='center';
+      ctx.fillStyle=st.result==='goal'?'#ffff00':'#ff4444';
+      ctx.shadowColor=st.result==='goal'?'rgba(255,255,0,0.8)':'rgba(255,0,0,0.8)';
+      ctx.shadowBlur=15;
+      ctx.fillText(st.result==='goal'?'⚽ GOAL !!':'✋ SAVED !!',CX,CH/2+HY/2);
+      ctx.shadowBlur=0;
+    }
+  }
+
+  function startLoop(){
+    var st=stRef.current;
+    var canvas=canvasRef.current;
+    if(!canvas)return;
+    var ctx=canvas.getContext('2d');
+
+    function tick(){
+      var s=stRef.current;
+      if(s.phase==='animating'){
+        s.frame++;
+        var t=Math.min(s.frame/38, 1);
+        // Ball trajectory
+        s.ballX=s.shotAimX*t;
+        s.ballZ=0.12+(0.80-0.12)*t;
+        // Height arc: peaks at t=0.5
+        var peakH=s.shotAimY*0.9+0.2;
+        s.ballH=4*t*(1-t)*peakH;
+        // Keeper animation
+        if(s.frame>8&&s.frame<30){
+          var kSpeed=0.05;
+          if(s.keeperTarget<0) s.keeperX=Math.max(s.keeperTarget,s.keeperX-kSpeed);
+          else if(s.keeperTarget>0) s.keeperX=Math.min(s.keeperTarget,s.keeperX+kSpeed);
+          s.keeperAnimating=true;
+        }
+        if(t>=1){
+          s.phase='result';
+          s.frame=0;
+          s.keeperAnimating=false;
+          // Determine result
+          var ballSide=s.shotAimX>0.25?'right':s.shotAimX<-0.25?'left':'center';
+          var keepSide=s.keeperTarget>0.25?'right':s.keeperTarget<-0.25?'left':'center';
+          var blocked=ballSide===keepSide;
+          var isHighShot=s.shotAimY>0.6;
+          if(blocked&&!isHighShot) s.result='saved';
+          else s.result='goal';
+          // Callback
+          setTimeout(function(){
+            if(props.onShotDone) props.onShotDone(s.result==='goal');
+            s.phase='idle'; s.result=null;
+            s.ballX=0; s.ballZ=0.12; s.ballH=0;
+            s.keeperX=0; s.keeperTarget=0; s.aimSet=false;
+            stRef.current=s;
+          },1800);
+        }
+      }
+      // Oscillate power
+      if(s.phase==='aim'){
+        powerRef.current+=powerDirRef.current*0.022;
+        if(powerRef.current>=1){powerRef.current=1;powerDirRef.current=-1;}
+        if(powerRef.current<=0){powerRef.current=0;powerDirRef.current=1;}
+      }
+      drawScene(ctx,s);
+      s.raf=requestAnimationFrame(tick);
+    }
+    if(st.raf) cancelAnimationFrame(st.raf);
+    st.raf=requestAnimationFrame(tick);
+  }
+
+  useEffect(function(){
+    startLoop();
+    return function(){
+      var s=stRef.current;
+      if(s.raf) cancelAnimationFrame(s.raf);
+    };
+  },[]);
+
+  // Reset when round changes
+  useEffect(function(){
+    var s=stRef.current;
+    s.phase='idle'; s.result=null; s.ballX=0; s.ballZ=0.12; s.ballH=0;
+    s.keeperX=0; s.keeperTarget=0; s.aimSet=false; s.frame=0;
+    powerRef.current=0;
+  },[props.roundIdx]);
+
+  function getCanvasPos(canvas, clientX, clientY){
+    var rect=canvas.getBoundingClientRect();
+    var scaleX=CW/rect.width, scaleY=CH/rect.height;
+    return {x:(clientX-rect.left)*scaleX, y:(clientY-rect.top)*scaleY};
+  }
+
+  function isInGoalZone(cx,cy){
+    // Goal screen bounds approximate
+    var GZ=0.80, GW=0.44, GH=0.52;
+    function proj2(wx,wz,wh){
+      wh=wh||0;
+      var sy=HY+(BY-HY)*(1-wz);
+      var hw=152*(1-wz*0.71);
+      var sx=CX+wx*hw;
+      var scale=(BY-HY)*(1-wz)/(BY-HY);
+      return {x:sx,y:sy-wh*scale*38};
+    }
+    var gBL=proj2(-GW,GZ), gBR=proj2(GW,GZ);
+    var gTL=proj2(-GW,GZ,GH), gTR=proj2(GW,GZ,GH);
+    return cx>=gTL.x-10&&cx<=gTR.x+10&&cy>=gTL.y-6&&cy<=gBL.y+6;
+  }
+
+  function handleClick(ev){
+    ev.preventDefault();
+    var canvas=canvasRef.current; if(!canvas) return;
+    var pos=getCanvasPos(canvas,ev.clientX||ev.touches[0].clientX,ev.clientY||ev.touches[0].clientY);
+    var s=stRef.current;
+    if(s.phase==='idle'){s.phase='aim';stRef.current=s;return;}
+    if(s.phase==='aim'){
+      if(isInGoalZone(pos.x,pos.y)){
+        var GZ=0.80,GW=0.44,GH=0.52;
+        var gBL={x:CX-152*(1-GZ*0.71)*GW,y:HY+(BY-HY)*(1-GZ)};
+        var gTL={x:gBL.x,y:HY+(BY-HY)*(1-GZ)-(GH*((BY-HY)*(1-GZ)/(BY-HY))*38)};
+        var gBR={x:CX+152*(1-GZ*0.71)*GW,y:gBL.y};
+        s.aimX=((pos.x-gBL.x)/(gBR.x-gBL.x))*2-1;
+        s.aimY=1-(pos.y-gTL.y)/(gBL.y-gTL.y);
+        s.aimSet=true;
+        stRef.current=s;
+      }
+    }
+  }
+
+  function handleMouseMove(ev){
+    var canvas=canvasRef.current; if(!canvas) return;
+    var pos=getCanvasPos(canvas,ev.clientX,ev.clientY);
+    var s=stRef.current;
+    s.mouseOnGoal=isInGoalZone(pos.x,pos.y);
+    s.cursorX=((pos.x-CX)/152)*2;
+    s.cursorY=1-(pos.y-HY)/(BY-HY);
+    stRef.current=s;
+  }
+
+  function shoot(){
+    var s=stRef.current;
+    if(s.phase!=='aim'||!s.aimSet) return;
+    s.shotAimX=s.aimX;
+    s.shotAimY=s.aimY;
+    s.power=powerRef.current;
+    // Keeper decides: bias toward ball side but with chance to be wrong
+    var dirs=[-0.55,0,0.55];
+    var ballSide=s.aimX>0.3?2:s.aimX<-0.3?0:1;
+    var diffProb=[0.55,0.65,0.75,0.85][props.roundIdx||0];
+    var r=Math.random();
+    s.keeperTarget=r<diffProb?dirs[ballSide]:dirs[Math.floor(Math.random()*3)];
+    s.phase='animating'; s.frame=0;
+    stRef.current=s;
+  }
+
+  var lang=props.lang||'en';
+  var G=props.G||'#d4af37';
+  var ph=stRef.current.phase;
+
+  return e('div',{style:{userSelect:'none'}},
+    // Round indicator
+    e('div',{style:{display:'flex',justifyContent:'center',gap:8,marginBottom:8}},
+      [{n:'R16',c:'#90ee90'},{n:'QF',c:'#ffd700'},{n:'SF',c:'#ff9900'},{n:'FINAL',c:'#ff4444'}].map(function(r,i){
+        var ri=props.roundIdx||0;
+        return e('div',{key:i,style:{width:40,height:20,borderRadius:10,background:i<ri?'rgba(40,200,40,0.3)':i===ri?('rgba(212,175,55,0.3)'):'rgba(255,255,255,0.05)',border:'1px solid '+(i<ri?'#90ee90':i===ri?G:'rgba(255,255,255,0.1)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:'bold',color:i<ri?'#90ee90':i===ri?G:'#444'}},
+          i<ri?'✅':r.n
+        );
+      })
+    ),
+    // Canvas
+    e('canvas',{ref:canvasRef,width:CW,height:CH,
+      style:{width:'100%',maxWidth:CW,display:'block',margin:'0 auto',borderRadius:12,cursor:'crosshair',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 20px rgba(0,0,0,0.5)'},
+      onClick:handleClick,
+      onMouseMove:handleMouseMove,
+      onTouchStart:function(ev){handleClick({preventDefault:function(){ev.preventDefault();},clientX:ev.touches[0].clientX,clientY:ev.touches[0].clientY});}
+    }),
+    // Shot dots
+    e('div',{style:{display:'flex',justifyContent:'center',gap:6,margin:'8px 0'}},
+      [0,1,2,3,4].map(function(i){
+        var h=(props.shotHistory||[])[i];
+        return e('div',{key:i,style:{width:24,height:24,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)'):'rgba(255,255,255,0.08)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff6666'):'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h?(h.scored?'⚽':'✗'):'');
+      })
+    ),
+    // Power bar + controls
+    stRef.current.phase==='idle'&&props.shotsLeft>0&&e('button',{
+      onClick:function(){stRef.current.phase='aim';},
+      style:{width:'100%',background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)'}
+    },'⚽ '+(lang==='fr'?'PRENDRE LE PENALTY':lang==='es'?'TIRAR PENAL':lang==='pt'?'COBRAR PÊNALTI':'TAKE PENALTY')),
+    stRef.current.phase==='aim'&&e('div',null,
+      e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center',marginBottom:6}},
+        lang==='fr'?'👆 Cliquez dans le but pour viser — puis tirez !':lang==='es'?'👆 Haz clic en el arco para apuntar — ¡luego dispara!':lang==='pt'?'👆 Clique no gol para mirar — depois chute !':'👆 Click inside the goal to aim — then shoot!'
+      ),
+      // Power bar
+      e('div',{style:{background:'rgba(255,255,255,0.08)',borderRadius:6,height:14,marginBottom:8,overflow:'hidden',border:'1px solid rgba(255,255,255,0.15)'}},
+        e('div',{style:{width:(powerRef.current*100)+'%',height:'100%',background:'linear-gradient(90deg,#90ee90,#ffd700,#ff4444)',borderRadius:6,transition:'none'}})
+      ),
+      e('button',{
+        onClick:shoot,
+        disabled:!stRef.current.aimSet,
+        style:{width:'100%',background:stRef.current.aimSet?'linear-gradient(135deg,#ff4400,#cc2200)':'rgba(255,255,255,0.1)',border:'none',borderRadius:12,padding:'13px 0',fontSize:15,fontWeight:'bold',color:stRef.current.aimSet?'white':'#666',cursor:stRef.current.aimSet?'pointer':'default',boxShadow:stRef.current.aimSet?'0 4px 15px rgba(255,68,0,0.5)':'none'}
+      },stRef.current.aimSet?'🔥 '+(lang==='fr'?'TIRER !':lang==='es'?'¡DISPARAR!':lang==='pt'?'CHUTAR !':'SHOOT !'):'🎯 '+(lang==='fr'?'Cliquez dans le but...':lang==='es'?'Haz clic en el arco...':lang==='pt'?'Clique no gol...':'Click in the goal to aim...'))
+    ),
+    stRef.current.phase==='animating'&&e('div',{style:{textAlign:'center',padding:'10px 0',color:G,fontSize:14,fontWeight:'bold',letterSpacing:2}},'• • •'),
+    props.shotsLeft<=0&&stRef.current.phase==='idle'&&e('div',{style:{textAlign:'center',padding:'10px',color:G,fontSize:12}},'Round finished!')
+  );
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 var FDATA_KEY = '756b5806bcc542e2bd2d3a09de10d732';
 var WC2026_ID = 2000;
 var ONESIGNAL_APP_ID = '29a090bc-9893-46a1-87a3-e3f162e2271d';
@@ -2713,70 +3177,23 @@ function App(){
                 );
               })
             ),
-            // Animated pitch
-            e('div',{style:{position:'relative',width:'100%',maxWidth:300,margin:'0 auto 10px',height:190,background:'linear-gradient(180deg,#0d3b0d,#1a5c1a,#2d8a2d)',borderRadius:12,overflow:'hidden',border:'2px solid '+rd.color,boxShadow:'0 0 20px rgba(0,255,0,0.1)'}},
-              e('div',{style:{position:'absolute',top:0,left:0,right:0,bottom:0,background:'repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,255,255,0.03) 30px,rgba(255,255,255,0.03) 60px)'}}),
-              e('div',{style:{position:'absolute',top:15,left:'15%',right:'15%',height:95,border:'3px solid white',borderBottom:'none',background:'rgba(255,255,255,0.06)'}}),
-              e('div',{style:{position:'absolute',top:18,left:'16%',right:'16%',height:90,backgroundImage:'linear-gradient(rgba(255,255,255,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.08) 1px,transparent 1px)',backgroundSize:'20px 20px'}}),
-              e('div',{style:{position:'absolute',top:0,left:0,right:0,height:15,background:'linear-gradient(180deg,rgba(255,200,100,0.15),transparent)'}}),
-              // Round label on pitch
-              e('div',{style:{position:'absolute',top:2,left:0,right:0,textAlign:'center',fontSize:8,color:rd.color,fontWeight:'bold',letterSpacing:1}},(rd.name[lang]||rd.name.en)),
-              // Keeper
-              e('div',{style:{position:'absolute',top:shotResult==='saved'?8:keeperDir==='left'?12:keeperDir==='right'?12:22,left:keeperDir==='left'?'10%':keeperDir==='right'?'55%':'40%',fontSize:44,transition:'all 0.45s cubic-bezier(0.25,0.46,0.45,0.94)',transform:shotResult==='saved'?'rotate(25deg) scaleY(-0.8)':keeperDir==='left'?'rotate(-35deg) scaleX(-1)':keeperDir==='right'?'rotate(35deg)':'rotate(0deg)',filter:shotResult==='goal'?'grayscale(1) opacity(0.4)':shotResult==='saved'?'drop-shadow(0 0 15px gold)':'drop-shadow(0 4px 8px rgba(0,0,0,0.5))',lineHeight:1}},'🧤'),
-              shotResult==='saved'&&e('div',{style:{position:'absolute',top:4,left:keeperDir==='left'?'14%':keeperDir==='right'?'52%':'36%',fontSize:20}},'🦂'),
-              shotDir&&e('div',{style:{position:'absolute',bottom:shotResult?75:5,left:shotDir==='left'?'22%':shotDir==='right'?'64%':'40%',fontSize:shotResult?30:20,transition:'all 0.65s cubic-bezier(0.25,0.46,0.45,0.94)',filter:shotResult?'none':'blur(1px)',transform:shotResult==='goal'?'scale(1.3)':shotResult==='saved'?'scale(0.8)':'scale(1)'}},'⚽'),
-              shotResult==='goal'&&e('div',{style:{position:'absolute',top:0,left:0,right:0,bottom:0,background:'rgba(255,255,100,0.2)',borderRadius:10}}),
-              shotResult&&e('div',{style:{position:'absolute',top:'45%',left:'50%',transform:'translate(-50%,-50%)',fontSize:20,fontWeight:'bold',color:shotResult==='goal'?'#ffff00':'#ff4444',textShadow:'0 0 20px '+(shotResult==='goal'?'rgba(255,255,0,0.8)':'rgba(255,0,0,0.8)'),letterSpacing:2,whiteSpace:'nowrap'}},
-                shotResult==='goal'?'⚽ GOAL !!':(lang==='fr'?'✋ ARRÊTÉ !':lang==='es'?'✋ PARADO !':lang==='pt'?'✋ DEFENDIDO !':'✋ SAVED !!')),
-              shotResult==='goal'&&e('div',{style:{position:'absolute',bottom:3,left:0,right:0,textAlign:'center',fontSize:14}},'🎉🎊🎉'),
-              shotResult==='saved'&&e('div',{style:{position:'absolute',bottom:3,left:0,right:0,textAlign:'center',fontSize:14}},'👏🦂👏')
-            ),
-            // Scoreboard
-            e('div',{style:{display:'flex',justifyContent:'center',gap:8,marginBottom:8}},
-              e('div',{style:{textAlign:'center',background:'rgba(40,160,40,0.25)',border:'1px solid rgba(40,200,40,0.5)',borderRadius:10,padding:'7px 14px'}},
-                e('div',{style:{fontSize:20,fontWeight:'bold',color:'#90ee90'}},'⚽ ',gameScore),
-                e('div',{style:{fontSize:8,color:'#6a86a0'}},lang==='fr'?'BUTS':'GOALS')
-              ),
-              e('div',{style:{textAlign:'center',background:'rgba(212,175,55,0.15)',border:'1px solid '+G,borderRadius:10,padding:'7px 14px'}},
-                e('div',{style:{fontSize:20,fontWeight:'bold',color:G}},shotsLeft),
-                e('div',{style:{fontSize:8,color:'#6a86a0'}},lang==='fr'?'RESTANTS':'LEFT')
-              ),
-              e('div',{style:{textAlign:'center',background:'rgba(200,40,40,0.25)',border:'1px solid rgba(200,60,60,0.5)',borderRadius:10,padding:'7px 14px'}},
-                e('div',{style:{fontSize:20,fontWeight:'bold',color:'#ff8888'}},'✗ ',gameMiss),
-                e('div',{style:{fontSize:8,color:'#6a86a0'}},lang==='fr'?'ARRÊTÉS':'SAVED')
-              )
-            ),
-            // Shot dots
-            e('div',{style:{display:'flex',justifyContent:'center',gap:6,marginBottom:8}},
-              [0,1,2,3,4].map(function(i){
-                var h=shotHistory[i];
-                return e('div',{key:i,style:{width:26,height:26,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)'):'rgba(255,255,255,0.08)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff6666'):'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h?(h.scored?'⚽':'✗'):'');
-              })
-            ),
-            combo>=2&&e('div',{style:{textAlign:'center',marginBottom:6}},
-              e('div',{style:{background:'rgba(255,150,0,0.25)',border:'1px solid '+G,borderRadius:8,padding:'4px 14px',display:'inline-block',fontSize:12,fontWeight:'bold',color:G}},'🔥 COMBO x',combo,' !')
-            ),
-            // Controls
-            gamePhase==='shooting'&&e('div',null,
-              e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}},
-                e('div',{style:{display:'flex',alignItems:'center',gap:5}},
-                  e('div',{style:{width:32,height:32,borderRadius:'50%',background:timer<=1?'rgba(200,40,40,0.4)':timer===2?'rgba(255,165,0,0.3)':'rgba(40,200,40,0.2)',border:'2px solid '+(timer<=1?'#ff4444':timer===2?'orange':'#90ee90'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:'bold',color:timer<=1?'#ff4444':timer===2?'orange':'#90ee90'}},timer),
-                  e('div',{style:{fontSize:9,color:'#6a86a0'}},'sec')
-                ),
-                e('div',{style:{fontSize:11,color:'#9bb0c8',fontWeight:'bold'}},lang==='fr'?'🎯 Où tirez ?':lang==='es'?'🎯 ¿Dónde ?':lang==='pt'?'🎯 Para onde ?':'🎯 Where?')
-              ),
-              e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}},
-                ['left','center','right'].map(function(dir){
-                  var arrows={left:'⬅',center:'⬆',right:'➡'};
-                  var lbls={left:{en:'Left',fr:'Gauche',es:'Izq',pt:'Esq'},center:{en:'Center',fr:'Centre',es:'Centro',pt:'Centro'},right:{en:'Right',fr:'Droite',es:'Der',pt:'Dir'}};
-                  return e('button',{key:dir,onClick:function(){shootPenalty(dir);},style:{background:'linear-gradient(135deg,rgba(20,40,100,0.95),rgba(40,80,160,0.9))',border:'2px solid '+G,borderRadius:10,padding:'13px 4px',fontSize:11,fontWeight:'bold',color:G,cursor:'pointer',boxShadow:'0 4px 10px rgba(212,175,55,0.2)'}},
-                    e('div',{style:{fontSize:22,marginBottom:3}},arrows[dir]),
-                    e('div',{style:{fontSize:10}},lbls[dir][lang]||lbls[dir].en)
-                  );
-                })
-              )
-            ),
-            gamePhase==='animating'&&e('div',{style:{textAlign:'center',padding:'10px',color:G,fontSize:13,letterSpacing:2}},'• • •'),
+            // 3D Canvas Pitch
+            gamePhase!=='done'&&e(PenaltyPitch,{
+              key:'pitch-'+penTourRound,
+              roundIdx:penTourRound,
+              shotsLeft:shotsLeft,
+              shotHistory:shotHistory,
+              gameScore:gameScore,
+              gameMiss:gameMiss,
+              lang:lang,
+              G:G,
+              onShotDone:function(scored){
+                setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
+                if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
+                else{setGameMiss(function(m){return m+1;});setCombo(0);}
+                setShotsLeft(function(s){var ns=s-1;if(ns<=0)setGamePhase('done');return ns;});
+              }
+            }),
             // Round done
             gamePhase==='done'&&(function(){
               var qualified=gameScore>=rd.need;
