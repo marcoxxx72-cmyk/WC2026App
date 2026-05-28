@@ -686,7 +686,7 @@ function PenaltyPitch(props){
     sbMesh.position.set(0,GH+5.5,GZ-4);
     scene.add(sbMesh);
     updateScoreboard(0,0);
-    thr.sbMesh=sbMesh;thr.updateScoreboard=updateScoreboard;
+    // thr assigned below — sbMesh/updateScoreboard wired up after thr init
 
     // ── Soccer ball — realistic PBR with hexagonal texture ──
     var ballTex=makeCanvasTex(function(ctx,sz){
@@ -846,6 +846,7 @@ function PenaltyPitch(props){
       chargeStart:0,power:0,curveAccum:0,lastMouseX:0
     };
     threeRef.current=thr;
+    thr.sbMesh=sbMesh;thr.updateScoreboard=updateScoreboard;
 
     function animate(){
       thr.raf=requestAnimationFrame(animate);
