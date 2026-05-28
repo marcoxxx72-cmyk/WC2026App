@@ -513,7 +513,7 @@ function PenaltyPitch(props){
 
       // ── Arche verte courbée (polygone de segments droits) ──
       var archMidY=Math.round(skyH*1.62);
-      c.fillStyle='#0d3d05';
+      c.fillStyle='#061402';
       c.beginPath();
       c.moveTo(0,0);c.lineTo(0,Math.round(skyH*0.52));
       var steps=24;
@@ -538,7 +538,7 @@ function PenaltyPitch(props){
       // ── Stands background: dark green ──
       var standsTop=Math.round(skyH*0.48);
       var adBoardsTop=Math.round(BH*0.84);
-      c.fillStyle='#1a3d0e';
+      c.fillStyle='#0a1a06';
       c.fillRect(0,standsTop,BW,adBoardsTop-standsTop);
 
       // ── Spectateurs ronds colorés (Dola AI style) ──
@@ -546,10 +546,10 @@ function PenaltyPitch(props){
                    '#9f7aea','#f6e05e','#f56565','#4caf50','#00bcd4','#ffffff',
                    '#ff7043','#ab47bc','#2b6cb0','#ffb300','#26a69a','#e91e63'];
       var skins=['#f5cba7','#d4856b','#a0522d','#5d3a1a','#ffd5b5','#c68642'];
-      var rowH=44;
-      var numRows=Math.floor((adBoardsTop-standsTop-4)/rowH);
-      var personR=18; // radius — visible, like reference
-      var numCols=Math.ceil(BW/(personR*2+2))+2;
+      var rowH=40;
+      var numRows=Math.floor((adBoardsTop-standsTop-2)/rowH);
+      var personR=22; // bigger — clearly visible against dark bg
+      var numCols=Math.ceil(BW/(personR*2+1))+2;
       for(var row=0;row<numRows;row++){
         var rowCY=standsTop+row*rowH+personR+8;
         for(var col=0;col<numCols;col++){
@@ -611,7 +611,7 @@ function PenaltyPitch(props){
       ['L','R'].forEach(function(side){
         var sc=document.createElement('canvas');sc.width=768;sc.height=512;
         var sc2=sc.getContext('2d');
-        sc2.fillStyle='#1a3d0e';sc2.fillRect(0,0,768,512);
+        sc2.fillStyle='#0a1a06';sc2.fillRect(0,0,768,512);
         var sRows=8,sCols=24,sR=22;
         for(var sr=0;sr<sRows;sr++){
           for(var sc3=0;sc3<sCols;sc3++){
@@ -763,7 +763,7 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(1.4,2.8),
       new THREE.MeshBasicMaterial({transparent:true,alphaTest:0.08,side:THREE.DoubleSide,color:0xffffff})
     );
-    kSpriteMesh.position.set(0,1.1,GZ+0.6);
+    kSpriteMesh.position.set(0,0.65,GZ+0.6);
     scene.add(kSpriteMesh);
     // Async-load photo sprite, remove white background via pixel scan
     (function(){
@@ -793,7 +793,7 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(1.2,0.28),
       new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:0.32,depthWrite:false})
     );
-    kShadow.rotation.x=-Math.PI/2;kShadow.position.set(0,0.01,GZ+0.6);scene.add(kShadow);
+    kShadow.rotation.x=-Math.PI/2;kShadow.position.set(0,0.008,GZ+0.6);scene.add(kShadow);
     var kSprite={
       mesh:kSpriteMesh,
       setDive:function(dir){},
@@ -936,7 +936,7 @@ function PenaltyPitch(props){
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
           var inGoal=Math.abs(tgt.x)<GW/2*0.97&&tgt.y>0.07&&tgt.y<GH*0.97;
           var kw=0.68;
-          var keeperCY=1.1+kSpriteMesh.position.y;
+          var keeperCY=kSpriteMesh.position.y+0.55;
           var dy=Math.abs(tgt.y-keeperCY);
           var dx2=Math.abs(tgt.x-kSpriteMesh.position.x);
           var saved=(dx2<kw&&dy<0.80)&&inGoal;
@@ -953,7 +953,7 @@ function PenaltyPitch(props){
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kSpriteMesh.position.set(0,1.4,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
+            kSpriteMesh.position.set(0,0.65,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
             pMesh.visible=true;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
