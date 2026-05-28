@@ -669,8 +669,10 @@ function PenaltyPitch(props){
       sbCtx.fillStyle='#0a0a0a';sbCtx.fillRect(0,0,512,256);
       sbCtx.strokeStyle='#444';sbCtx.lineWidth=6;sbCtx.strokeRect(4,4,504,248);
       sbCtx.fillStyle='#1a1a2e';sbCtx.fillRect(0,0,512,48);
-      sbCtx.fillStyle='#f0c000';sbCtx.font='bold 22px monospace';
-      sbCtx.textAlign='center';sbCtx.fillText('FIFA WORLD CUP 2026',256,33);
+      sbCtx.fillStyle='#f0c000';sbCtx.font='bold 18px monospace';
+      sbCtx.textAlign='center';sbCtx.fillText('FIFA WORLD CUP 2026',256,20);
+      var pn=thr&&thr.playerName?thr.playerName.toUpperCase():'';
+      if(pn){sbCtx.fillStyle='#ffffff';sbCtx.font='bold 15px monospace';sbCtx.fillText('⚽ '+pn,256,40);}
       if(result){
         if(sbConf.length>0){sbConf.forEach(function(p){sbCtx.save();sbCtx.translate(p.x,p.y);sbCtx.rotate(p.rot);sbCtx.fillStyle=p.color;sbCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h);sbCtx.restore();});}
         sbCtx.fillStyle='rgba(0,0,0,0.3)';sbCtx.fillRect(0,52,512,204);
@@ -888,6 +890,7 @@ function PenaltyPitch(props){
     };
     threeRef.current=thr;
     thr.sbMesh=sbMesh;thr.updateScoreboard=updateScoreboard;
+    thr.playerName=props.playerName||'';
 
     function animate(){
       thr.raf=requestAnimationFrame(animate);
@@ -1109,6 +1112,12 @@ function PenaltyPitch(props){
     if(thr.confMat)thr.confMat.opacity=0;
     if(powerBarRef.current)powerBarRef.current.style.width='0%';
   },[props.roundIdx]);
+
+  useEffect(function(){
+    var thr=threeRef.current;if(!thr)return;
+    thr.playerName=props.playerName||'';
+    if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,thr.sbSaves||0);
+  },[props.playerName]);
 
   function doRaycast(clientX,clientY){
     var thr=threeRef.current;if(!thr||!thr.renderer)return null;
@@ -3663,6 +3672,7 @@ function App(){
               gameMiss:gameMiss,
               lang:lang,
               G:G,
+              playerName:penTourName,
               onShotDone:function(scored){
                 setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
