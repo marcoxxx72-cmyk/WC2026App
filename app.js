@@ -369,10 +369,10 @@ function PenaltyPitch(props){
 
     // ── Scene ──
     var scene=new THREE.Scene();
-    scene.background=new THREE.Color(0x3b82f6);
-    scene.fog=new THREE.FogExp2(0x93c5fd,0.003);
+    scene.background=new THREE.Color(0x9edd68);
+    scene.fog=new THREE.FogExp2(0xb5e878,0.003);
 
-    var GZ=-8.5;
+    var GZ=-7.0;
     // ── Camera — near-ground behind ball ──
     var camera=new THREE.PerspectiveCamera(58,W/H,0.1,220);
     camera.position.set(0,0.65,5.5);camera.lookAt(0,1.4,GZ*1.05);
@@ -478,188 +478,178 @@ function PenaltyPitch(props){
     var netMat=new THREE.LineBasicMaterial({color:0xffffff,opacity:0.5,transparent:true});
     scene.add(new THREE.LineSegments(netGeo,netMat));
 
-    // ── Stadium — HTML/CSS mockup style (blue sky, gray stands, pill spectators) ──
+    // ── Stadium — Dola AI flat illustration style ──
     var cloudPlanes=[];
     (function(){
-      // ─ Helper: pill-shaped spectator (border-radius: 45% 45% 0 0 like CSS) ─
-      function drawPill(c,x,y,w,h,color){
-        var r=w*0.45;
-        c.fillStyle=color;
-        c.beginPath();
-        c.moveTo(x,y+h);
-        c.lineTo(x,y+r);
-        c.arc(x+r,y+r,r,Math.PI,Math.PI*1.5);
-        c.lineTo(x+w-r,y);
-        c.arc(x+w-r,y+r,r,-Math.PI*0.5,0);
-        c.lineTo(x+w,y+h);
-        c.closePath();
-        c.fill();
+      // ─ Round spectator: body circle + head circle ─
+      function drawSpectator(c,cx,cy,r,jerseyColor,skinColor){
+        // Body (jersey color, slightly elliptical)
+        c.fillStyle=jerseyColor;
+        c.beginPath();c.ellipse(cx,cy+r*0.45,r*0.85,r,0,0,Math.PI*2);c.fill();
+        // Head (skin tone, sits above body)
+        c.fillStyle=skinColor;
+        c.beginPath();c.arc(cx,cy-r*0.25,r*0.55,0,Math.PI*2);c.fill();
       }
 
       var BW=2048,BH=1024;
       var bc=document.createElement('canvas');bc.width=BW;bc.height=BH;
       var c=bc.getContext('2d');
 
-      // ── Blue sky gradient (top 22%) ──
+      // ── Sky: vert clair / vert-jaune (Dola AI) ──
       var skyH=Math.round(BH*0.22);
-      var skyG=c.createLinearGradient(0,0,0,skyH);
-      skyG.addColorStop(0,'#3b82f6');skyG.addColorStop(1,'#93c5fd');
+      var skyG=c.createLinearGradient(0,0,BW,skyH*1.2);
+      skyG.addColorStop(0,'#c8f58e');skyG.addColorStop(0.4,'#9edd68');skyG.addColorStop(1,'#7dc83e');
       c.fillStyle=skyG;c.fillRect(0,0,BW,skyH);
 
-      // ── Stadium arch: very dark, flat top corners dipping in center ──
-      // Draw as a filled polygon (no curves for the arch shape)
-      var archMidY=Math.round(skyH*1.6);
-      c.fillStyle='#0d1f0a';
+      // ── Arche verte courbée (polygone de segments droits) ──
+      var archMidY=Math.round(skyH*1.62);
+      c.fillStyle='#0d3d05';
       c.beginPath();
-      c.moveTo(0,0);c.lineTo(0,Math.round(skyH*0.55));
-      // Arch outline — series of straight segments simulating a curve
-      var steps=20;
+      c.moveTo(0,0);c.lineTo(0,Math.round(skyH*0.52));
+      var steps=24;
       for(var si=0;si<=steps;si++){
         var t=si/steps;
         var ax=t*BW;
-        // Parabolic dip: 0 at edges, archMidY at center
-        var ay=Math.round(skyH*0.55)+Math.round((archMidY-skyH*0.55)*4*t*(1-t));
+        var ay=Math.round(skyH*0.52)+Math.round((archMidY-skyH*0.52)*4*t*(1-t));
         c.lineTo(ax,ay);
       }
       c.lineTo(BW,0);c.closePath();c.fill();
-      // White trim at inner arch edge
+      // White trim
       c.strokeStyle='#ffffff';c.lineWidth=7;
       c.beginPath();
       for(var si=0;si<=steps;si++){
         var t=si/steps;
         var ax=t*BW;
-        var ay=Math.round(skyH*0.55)+Math.round((archMidY-skyH*0.55)*4*t*(1-t));
+        var ay=Math.round(skyH*0.52)+Math.round((archMidY-skyH*0.52)*4*t*(1-t));
         if(si===0)c.moveTo(ax,ay);else c.lineTo(ax,ay);
       }
       c.stroke();
 
-      // ── Stands background — gray like the HTML mockup ──
-      var standsTop=Math.round(skyH*0.5);
-      var adBoardsTop=Math.round(BH*0.83);
-      var stGrad=c.createLinearGradient(0,standsTop,0,adBoardsTop);
-      stGrad.addColorStop(0,'#718096');stGrad.addColorStop(1,'#4a5568');
-      c.fillStyle=stGrad;c.fillRect(0,standsTop,BW,adBoardsTop-standsTop);
+      // ── Stands background: dark green ──
+      var standsTop=Math.round(skyH*0.48);
+      var adBoardsTop=Math.round(BH*0.84);
+      c.fillStyle='#1a3d0e';
+      c.fillRect(0,standsTop,BW,adBoardsTop-standsTop);
 
-      // ── Spectators — pill shapes, exactly like HTML CSS ──
-      // Colors from the HTML: c1-c9
-      var pillColors=['#ecc94b','#ed8936','#e53e3e','#3182ce','#38a169',
-                      '#9f7aea','#f6e05e','#f56565','#2b6cb0','#ffffff',
-                      '#dd6b20','#48bb78','#fc8181','#4299e1','#b794f4'];
-      var rowH=40;
-      var pW=14,pH=22; // pill width, height (matches 12px/18px CSS scaled up)
-      var gap=4;
-      var numRows=Math.floor((adBoardsTop-standsTop-6)/rowH);
-      var numCols=Math.ceil(BW/(pW+gap))+2;
+      // ── Spectateurs ronds colorés (Dola AI style) ──
+      var jerseys=['#c8102e','#e53e3e','#ed8936','#ecc94b','#38a169','#3182ce',
+                   '#9f7aea','#f6e05e','#f56565','#4caf50','#00bcd4','#ffffff',
+                   '#ff7043','#ab47bc','#2b6cb0','#ffb300','#26a69a','#e91e63'];
+      var skins=['#f5cba7','#d4856b','#a0522d','#5d3a1a','#ffd5b5','#c68642'];
+      var rowH=46;
+      var numRows=Math.floor((adBoardsTop-standsTop-10)/rowH);
+      var personR=16; // radius of each spectator
+      var numCols=Math.ceil(BW/(personR*2+2))+2;
       for(var row=0;row<numRows;row++){
-        var rowY=standsTop+row*rowH+8;
-        // Row shadow
-        c.fillStyle='rgba(0,0,0,0.07)';
-        c.fillRect(0,rowY+pH,BW,rowH-pH);
+        var rowCY=standsTop+row*rowH+personR+8;
         for(var col=0;col<numCols;col++){
           var seed=(row*97+col*53)>>>0;
-          // Offset every other row like HTML (stagger)
-          var offsetX=(row%2)*(pW+gap)*0.5;
-          var px=col*(pW+gap)-offsetX;
-          // Size variant (t1-t4 from HTML)
-          var scale=[0.85,0.95,1.05,1.1][seed%4];
-          var w2=Math.round(pW*scale),h2=Math.round(pH*scale);
-          // Vertical offset (d1-d4 from HTML)
-          var dy=[0,-4,3,-2][seed%4];
-          var color=pillColors[((seed*31)>>>0)%pillColors.length];
-          drawPill(c,px,rowY+dy,w2,h2,color);
+          var offset=(row%2)*(personR+1);
+          var cx2=col*(personR*2+2)-offset+personR;
+          var jc=jerseys[((seed*31)>>>0)%jerseys.length];
+          var sk=skins[((seed*13)>>>0)%skins.length];
+          // Slight size variation for natural look
+          var sc2=[0.85,0.92,1.0,1.08,1.15][seed%5];
+          drawSpectator(c,cx2,rowCY,Math.round(personR*sc2),jc,sk);
+          // Raised arm / scarf every ~7th person
+          if(seed%7===0){
+            c.fillStyle=jc;
+            c.fillRect(cx2-4,rowCY-personR*sc2*1.8,8,personR*sc2*1.2);
+          }
         }
       }
 
-      // ── Ad boards — red/orange/blue gradient like HTML ──
+      // ── Panneaux pub (bas) — rouge/jaune/vert/bleu/violet+Nike ──
       var adH=BH-adBoardsTop;
-      var adG=c.createLinearGradient(0,0,BW,0);
-      adG.addColorStop(0,'#e53e3e');
-      adG.addColorStop(0.33,'#e53e3e');
-      adG.addColorStop(0.34,'#dd6b20');
-      adG.addColorStop(0.66,'#dd6b20');
-      adG.addColorStop(0.67,'#3182ce');
-      adG.addColorStop(1,'#3182ce');
-      c.fillStyle=adG;c.fillRect(0,adBoardsTop,BW,adH);
-      // Text labels matching the HTML
-      var adLabels=[{t:'QATAR',x:BW*0.165},{t:'VISA',x:BW*0.5},{t:'FOOTBALL',x:BW*0.84}];
+      var panels=[
+        {color:'#c8102e',w:0.22},  // rouge
+        {color:'#f0c000',w:0.18},  // jaune
+        {color:'#7dc83e',w:0.18},  // vert clair
+        {color:'#3182ce',w:0.22},  // bleu
+        {color:'#5b21b6',w:0.20}   // violet (Nike)
+      ];
+      var xCursor=0;
+      panels.forEach(function(p){
+        var pw=Math.round(BW*p.w);
+        c.fillStyle=p.color;
+        c.fillRect(xCursor,adBoardsTop,pw,adH);
+        xCursor+=pw;
+      });
+      // White ball circle on red panel
       c.fillStyle='#ffffff';
-      c.font='bold '+(Math.round(adH*0.52))+'px Arial';
-      c.textBaseline='middle';c.textAlign='center';
-      adLabels.forEach(function(l){c.fillText(l.t,l.x,adBoardsTop+adH*0.5);});
+      c.beginPath();c.arc(Math.round(BW*0.11),adBoardsTop+Math.round(adH*0.5),Math.round(adH*0.35),0,Math.PI*2);c.fill();
+      // Nike swoosh on violet panel
+      (function(){
+        var bx=BW*0.905,by=adBoardsTop+adH*0.5,sw2=BW*0.075,sh2=adH*0.42;
+        c.fillStyle='#ffffff';
+        c.beginPath();
+        c.moveTo(bx-sw2*0.5,by+sh2*0.35);
+        c.quadraticCurveTo(bx+sw2*0.2,by-sh2*0.5,bx+sw2*0.5,by-sh2*0.35);
+        c.quadraticCurveTo(bx+sw2*0.1,by+sh2*0.1,bx-sw2*0.5,by+sh2*0.35);
+        c.fill();
+      })();
 
       var bgTex=new THREE.CanvasTexture(bc);
       var bgPlane=new THREE.Mesh(
-        new THREE.PlaneGeometry(90,36),
+        new THREE.PlaneGeometry(92,36),
         new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
       );
       bgPlane.position.set(0,12,GZ-20);
       scene.add(bgPlane);
 
-      // ── Side panels: same gray/pill style ──
+      // ── Side panels: dark green + round spectators ──
       ['L','R'].forEach(function(side){
         var sc=document.createElement('canvas');sc.width=768;sc.height=512;
         var sc2=sc.getContext('2d');
-        // Gray stands
-        var sGrad=sc2.createLinearGradient(0,0,0,512);
-        sGrad.addColorStop(0,'#718096');sGrad.addColorStop(1,'#4a5568');
-        sc2.fillStyle=sGrad;sc2.fillRect(0,0,768,512);
-        // Pill spectators
-        var sRowH=42,sPW=15,sPH=23,sGap=4;
-        var sRows=Math.floor(512/sRowH);
-        var sCols=Math.ceil(768/(sPW+sGap))+2;
+        sc2.fillStyle='#1a3d0e';sc2.fillRect(0,0,768,512);
+        var sRows=8,sCols=24,sR=22;
         for(var sr=0;sr<sRows;sr++){
           for(var sc3=0;sc3<sCols;sc3++){
             var sseed=(sr*83+sc3*61)>>>0;
-            var sOff=(sr%2)*(sPW+sGap)*0.5;
-            var spx=sc3*(sPW+sGap)-sOff;
-            var spy=sr*sRowH+8;
-            var sScale=[0.85,0.95,1.05,1.1][sseed%4];
-            var sDy=[0,-4,3,-2][sseed%4];
-            var sColor=pillColors[((sseed*31)>>>0)%pillColors.length];
-            drawPill(sc2,spx,spy+sDy,Math.round(sPW*sScale),Math.round(sPH*sScale),sColor);
+            var spx=sc3*(sR*2+3)+(sr%2)*(sR+1)+sR;
+            var spy=sr*62+sR+8;
+            var sjc=jerseys[((sseed*31)>>>0)%jerseys.length];
+            var ssk=skins[((sseed*13)>>>0)%skins.length];
+            var ssc=[0.85,0.92,1.0,1.08][sseed%4];
+            drawSpectator(sc2,spx,spy,Math.round(sR*ssc),sjc,ssk);
           }
         }
-        // Red ad strip bottom
-        sc2.fillStyle='#e53e3e';sc2.fillRect(0,490,768,22);
+        sc2.fillStyle='#c8102e';sc2.fillRect(0,490,768,22);
         var sTex=new THREE.CanvasTexture(sc);
         var sPlane=new THREE.Mesh(
           new THREE.PlaneGeometry(28,20),
           new THREE.MeshBasicMaterial({map:sTex})
         );
         sPlane.rotation.y=side==='L'?Math.PI/1.85:-Math.PI/1.85;
-        sPlane.position.set(side==='L'?-28:28,9,-11);
+        sPlane.position.set(side==='L'?-28:28,9,-10);
         scene.add(sPlane);
       });
 
-      // ── Animated clouds (3 planes like HTML nuage1/2/3) ──
-      function makeCloud(w,h){
+      // ── Nuages animés (3 plans canvas) ──
+      function makeCloud(){
         var cv=document.createElement('canvas');cv.width=256;cv.height=96;
         var ctx=cv.getContext('2d');
-        // Main body
-        ctx.fillStyle='rgba(255,255,255,0.92)';
-        ctx.beginPath();ctx.ellipse(128,68,110,32,0,0,Math.PI*2);ctx.fill();
-        // Puff left
-        ctx.beginPath();ctx.arc(70,52,30,0,Math.PI*2);ctx.fill();
-        // Puff right
-        ctx.beginPath();ctx.arc(180,48,36,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='rgba(255,255,255,0.9)';
+        ctx.beginPath();ctx.ellipse(128,68,108,30,0,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(72,50,28,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(178,46,34,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(128,44,26,0,Math.PI*2);ctx.fill();
         var tex=new THREE.CanvasTexture(cv);
-        tex.premultiplyAlpha=true;
         return new THREE.Mesh(
-          new THREE.PlaneGeometry(w,h),
+          new THREE.PlaneGeometry(1,1),
           new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false,alphaTest:0.02})
         );
       }
-      var cloudDefs=[
-        {w:22,h:7,x:-55,y:28,z:-45,speed:0.012},
-        {w:18,h:5,x:20,y:26,z:-50,speed:0.008},
-        {w:26,h:8,x:10,y:32,z:-55,speed:0.016}
-      ];
-      cloudDefs.forEach(function(d){
-        var m=makeCloud(d.w,d.h);
+      [{w:24,h:7,x:-55,y:28,z:-42,sp:0.013},
+       {w:18,h:5,x:15,y:25,z:-48,sp:0.009},
+       {w:28,h:8,x:5,y:32,z:-52,sp:0.017}
+      ].forEach(function(d){
+        var m=makeCloud();
+        m.scale.set(d.w,d.h,1);
         m.position.set(d.x,d.y,d.z);
-        m.userData.speed=d.speed;
-        m.userData.resetX=d.x-80;
-        m.userData.wrapX=d.x+80;
+        m.userData.speed=d.sp;
+        m.userData.resetX=d.x-85;
+        m.userData.wrapX=d.x+85;
         scene.add(m);
         cloudPlanes.push(m);
       });
@@ -679,16 +669,16 @@ function PenaltyPitch(props){
       }
     },1024,64);
     var adMesh=new THREE.Mesh(
-      new THREE.PlaneGeometry(44,1.1),
+      new THREE.PlaneGeometry(44,0.55),
       new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35})
     );
-    adMesh.position.set(0,0.45,GZ+0.5);scene.add(adMesh);
+    adMesh.position.set(0,0.2,GZ+0.5);scene.add(adMesh);
     // Side boards (facing toward camera)
     var sideBoardMat=new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35,side:THREE.DoubleSide});
     var adMeshL=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),sideBoardMat);
-    adMeshL.rotation.y=Math.PI/2;adMeshL.position.set(-14,0.55,-9);scene.add(adMeshL);
+    adMeshL.rotation.y=Math.PI/2;adMeshL.position.set(-14,0.22,-9);scene.add(adMeshL);
     var adMeshR=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),sideBoardMat);
-    adMeshR.rotation.y=-Math.PI/2;adMeshR.position.set(14,0.55,-9);scene.add(adMeshR);
+    adMeshR.rotation.y=-Math.PI/2;adMeshR.position.set(14,0.22,-9);scene.add(adMeshR);
 
     // Floodlight towers — realistic metal structure
     var towerMat=new THREE.MeshStandardMaterial({color:0x8899aa,roughness:0.6,metalness:0.7});
