@@ -658,24 +658,40 @@ function PenaltyPitch(props){
     // Functional scoreboard screen above goal
     var sbCanvas=document.createElement('canvas');sbCanvas.width=512;sbCanvas.height=256;
     var sbCtx=sbCanvas.getContext('2d');
-    function updateScoreboard(goals,saves){
+    var sbConf=[];
+    function initSbConf(){
+      sbConf=[];
+      var colors=['#ffe500','#ff2255','#00ddff','#00ff88','#ff8800','#ffffff','#cc44ff'];
+      for(var i=0;i<55;i++){sbConf.push({x:Math.random()*512,y:Math.random()*60-80,vx:(Math.random()-0.5)*4,vy:Math.random()*3+2,w:Math.random()*10+5,h:Math.random()*6+3,rot:Math.random()*Math.PI*2,vr:(Math.random()-0.5)*0.25,color:colors[Math.floor(Math.random()*colors.length)]});}
+    }
+    function stepSbConf(){sbConf.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;if(p.y>280){p.y=-10;p.x=Math.random()*512;}});}
+    function updateScoreboard(goals,saves,result){
       sbCtx.fillStyle='#0a0a0a';sbCtx.fillRect(0,0,512,256);
-      // Border
       sbCtx.strokeStyle='#444';sbCtx.lineWidth=6;sbCtx.strokeRect(4,4,504,248);
-      // FIFA WC logo band
       sbCtx.fillStyle='#1a1a2e';sbCtx.fillRect(0,0,512,48);
       sbCtx.fillStyle='#f0c000';sbCtx.font='bold 22px monospace';
       sbCtx.textAlign='center';sbCtx.fillText('FIFA WORLD CUP 2026',256,33);
-      // Score
-      sbCtx.fillStyle='#ffffff';sbCtx.font='bold 88px monospace';
-      sbCtx.fillText(goals,140,175);
-      sbCtx.fillStyle='#888';sbCtx.font='bold 60px monospace';
-      sbCtx.fillText('-',256,170);
-      sbCtx.fillStyle='#ff4444';sbCtx.font='bold 88px monospace';
-      sbCtx.fillText(saves,372,175);
-      // Labels
-      sbCtx.fillStyle='#aaa';sbCtx.font='14px monospace';
-      sbCtx.fillText('GOALS',140,215);sbCtx.fillText('SAVES',372,215);
+      if(result){
+        if(sbConf.length>0){sbConf.forEach(function(p){sbCtx.save();sbCtx.translate(p.x,p.y);sbCtx.rotate(p.rot);sbCtx.fillStyle=p.color;sbCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h);sbCtx.restore();});}
+        sbCtx.fillStyle='rgba(0,0,0,0.3)';sbCtx.fillRect(0,52,512,204);
+        sbCtx.font='bold 76px sans-serif';
+        sbCtx.fillStyle=result==='goal'?'#ffe500':'#ff4466';
+        sbCtx.shadowColor=result==='goal'?'rgba(255,229,0,0.9)':'rgba(255,60,80,0.9)';
+        sbCtx.shadowBlur=28;
+        sbCtx.fillText(result==='goal'?'⚽ GOAL!':'✋ SAVED!',256,155);
+        sbCtx.shadowBlur=0;
+        sbCtx.fillStyle='rgba(255,255,255,0.55)';sbCtx.font='bold 22px monospace';
+        sbCtx.fillText(goals+' — '+saves,256,210);
+      } else {
+        sbCtx.fillStyle='#ffffff';sbCtx.font='bold 88px monospace';
+        sbCtx.fillText(goals,140,175);
+        sbCtx.fillStyle='#888';sbCtx.font='bold 60px monospace';
+        sbCtx.fillText('-',256,170);
+        sbCtx.fillStyle='#ff4444';sbCtx.font='bold 88px monospace';
+        sbCtx.fillText(saves,372,175);
+        sbCtx.fillStyle='#aaa';sbCtx.font='14px monospace';
+        sbCtx.fillText('GOALS',140,215);sbCtx.fillText('SAVES',372,215);
+      }
       sbTex.needsUpdate=true;
     }
     var sbTex=new THREE.CanvasTexture(sbCanvas);
@@ -978,14 +994,22 @@ function PenaltyPitch(props){
           trailMat.opacity=0;trailHistory=[];
           if(thr.result==='goal'){
             showConf=true;confTimer=0;confMat.opacity=1;
-            if(thr.updateScoreboard){var gs=(thr.sbGoals||0)+1;thr.sbGoals=gs;thr.updateScoreboard(gs,thr.sbSaves||0);}
+            var gs=(thr.sbGoals||0)+1;thr.sbGoals=gs;
+            initSbConf();thr.sbResultActive='goal';
+            if(thr.updateScoreboard)thr.updateScoreboard(gs,thr.sbSaves||0,'goal');
             for(var ri7=0;ri7<CNUM;ri7++){cPos[ri7*3]=tgt.x+(Math.random()-0.5)*GW*1.1;cPos[ri7*3+1]=GH*0.35+Math.random()*GH*1.5;cPos[ri7*3+2]=GZ+(Math.random()-0.5)*0.8;cVel[ri7]={x:(Math.random()-0.5)*0.28,y:Math.random()*0.14+0.05,z:(Math.random()-0.5)*0.1};}
             cPosAttr.needsUpdate=true;playSound('goal');
-          } else {playSound('save');}
+          } else {
+            var sv=(thr.sbSaves||0)+1;thr.sbSaves=sv;
+            initSbConf();thr.sbResultActive='saved';
+            if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,sv,'saved');
+            playSound('save');
+          }
           setResult(thr.result);
           setTimeout(function(){
             if(props.onShotDone)props.onShotDone(thr.result==='goal');
-            if(thr.updateScoreboard){var ss=(thr.sbSaves||0)+1;thr.sbSaves=ss;thr.updateScoreboard(thr.sbGoals||0,ss);}
+            thr.sbResultActive=null;
+            if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,thr.sbSaves||0);
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
@@ -1026,6 +1050,9 @@ function PenaltyPitch(props){
         m.position.x+=m.userData.speed;
         if(m.position.x>m.userData.wrapX)m.position.x=m.userData.resetX;
       });
+
+      // Animate scoreboard confetti when result active
+      if(thr.sbResultActive){stepSbConf();updateScoreboard(thr.sbGoals||0,thr.sbSaves||0,thr.sbResultActive);}
 
       renderer.render(scene,camera);
     }
