@@ -481,24 +481,17 @@ function PenaltyPitch(props){
     // ── Stadium — Dola AI flat illustration style ──
     var cloudPlanes=[];
     (function(){
-      // ─ Spectator: person silhouette (head circle + dome body) ─
+      // ─ Spectator: 2 overlapping circles (head + body) = Dola AI person icon ─
       function drawSpectator(c,cx,cy,r,jerseyColor,skinColor){
         c.fillStyle=jerseyColor;
-        var hR=r*0.38;        // head radius
-        var bR=r*0.54;        // body dome radius
-        var headCY=cy-r*0.52; // head center
-        var bodyCY=cy-r*0.04; // body dome center
-        // Body dome (top arc = shoulders, flat base)
-        c.beginPath();
-        c.arc(cx,bodyCY,bR,Math.PI,0);
-        c.lineTo(cx+bR*0.75,cy+r*0.72);
-        c.arc(cx,cy+r*0.72,bR*0.75,0,Math.PI);
-        c.closePath();c.fill();
-        // Head
-        c.beginPath();c.arc(cx,headCY,hR,0,Math.PI*2);c.fill();
-        // Light sheen on head
-        c.fillStyle='rgba(255,255,255,0.15)';
-        c.beginPath();c.arc(cx-hR*0.3,headCY-hR*0.3,hR*0.35,0,Math.PI*2);c.fill();
+        var headR=r*0.40;
+        var bodyR=r*0.58;
+        var headCY=cy-r*0.42;
+        var bodyCY=cy+r*0.18;
+        // Body circle (larger, lower)
+        c.beginPath();c.arc(cx,bodyCY,bodyR,0,Math.PI*2);c.fill();
+        // Head circle (smaller, upper) — overlaps body → seamless silhouette
+        c.beginPath();c.arc(cx,headCY,headR,0,Math.PI*2);c.fill();
       }
 
       var BW=2048,BH=1024;
@@ -763,7 +756,7 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(1.4,2.8),
       new THREE.MeshBasicMaterial({transparent:true,alphaTest:0.08,side:THREE.DoubleSide,color:0xffffff})
     );
-    kSpriteMesh.position.set(0,0.65,GZ+0.6);
+    kSpriteMesh.position.set(0,0.9,GZ+0.6);
     scene.add(kSpriteMesh);
     // Async-load photo sprite, remove white background via pixel scan
     (function(){
@@ -953,7 +946,7 @@ function PenaltyPitch(props){
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kSpriteMesh.position.set(0,0.65,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
+            kSpriteMesh.position.set(0,0.9,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
             pMesh.visible=true;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
