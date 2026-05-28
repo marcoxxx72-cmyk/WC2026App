@@ -372,10 +372,10 @@ function PenaltyPitch(props){
     scene.background=new THREE.Color(0x9edd68);
     scene.fog=new THREE.FogExp2(0xb5e878,0.003);
 
-    var GZ=-7.0;
+    var GZ=-5.0;
     // ── Camera — near-ground behind ball ──
-    var camera=new THREE.PerspectiveCamera(58,W/H,0.1,220);
-    camera.position.set(0,0.65,5.5);camera.lookAt(0,1.4,GZ*1.05);
+    var camera=new THREE.PerspectiveCamera(68,W/H,0.1,220);
+    camera.position.set(0,0.5,5.5);camera.lookAt(0,1.2,GZ);
 
     // ── Photometric stadium lighting ──
     scene.add(new THREE.AmbientLight(0xe8f0ff,0.55));
@@ -481,14 +481,13 @@ function PenaltyPitch(props){
     // ── Stadium — Dola AI flat illustration style ──
     var cloudPlanes=[];
     (function(){
-      // ─ Round spectator: body circle + head circle ─
+      // ─ Spectator: single solid circle (Dola AI style mosaic) ─
       function drawSpectator(c,cx,cy,r,jerseyColor,skinColor){
-        // Body (jersey color, slightly elliptical)
         c.fillStyle=jerseyColor;
-        c.beginPath();c.ellipse(cx,cy+r*0.45,r*0.85,r,0,0,Math.PI*2);c.fill();
-        // Head (skin tone, sits above body)
-        c.fillStyle=skinColor;
-        c.beginPath();c.arc(cx,cy-r*0.25,r*0.55,0,Math.PI*2);c.fill();
+        c.beginPath();c.arc(cx,cy,r,0,Math.PI*2);c.fill();
+        // Tiny highlight dot for depth
+        c.fillStyle='rgba(255,255,255,0.18)';
+        c.beginPath();c.arc(cx-r*0.28,cy-r*0.28,r*0.32,0,Math.PI*2);c.fill();
       }
 
       var BW=2048,BH=1024;
@@ -536,10 +535,10 @@ function PenaltyPitch(props){
                    '#9f7aea','#f6e05e','#f56565','#4caf50','#00bcd4','#ffffff',
                    '#ff7043','#ab47bc','#2b6cb0','#ffb300','#26a69a','#e91e63'];
       var skins=['#f5cba7','#d4856b','#a0522d','#5d3a1a','#ffd5b5','#c68642'];
-      var rowH=46;
-      var numRows=Math.floor((adBoardsTop-standsTop-10)/rowH);
-      var personR=16; // radius of each spectator
-      var numCols=Math.ceil(BW/(personR*2+2))+2;
+      var rowH=38;
+      var numRows=Math.floor((adBoardsTop-standsTop-6)/rowH);
+      var personR=15; // radius — packed tighter
+      var numCols=Math.ceil(BW/(personR*2+1))+2;
       for(var row=0;row<numRows;row++){
         var rowCY=standsTop+row*rowH+personR+8;
         for(var col=0;col<numCols;col++){
@@ -549,12 +548,12 @@ function PenaltyPitch(props){
           var jc=jerseys[((seed*31)>>>0)%jerseys.length];
           var sk=skins[((seed*13)>>>0)%skins.length];
           // Slight size variation for natural look
-          var sc2=[0.85,0.92,1.0,1.08,1.15][seed%5];
+          var sc2=[0.82,0.9,1.0,1.1,1.18][seed%5];
           drawSpectator(c,cx2,rowCY,Math.round(personR*sc2),jc,sk);
-          // Raised arm / scarf every ~7th person
-          if(seed%7===0){
-            c.fillStyle=jc;
-            c.fillRect(cx2-4,rowCY-personR*sc2*1.8,8,personR*sc2*1.2);
+          // Raised scarf (vertical colored bar above head)
+          if(seed%8===0){
+            c.fillStyle=jerseys[((seed*7)>>>0)%jerseys.length];
+            c.fillRect(cx2-3,rowCY-Math.round(personR*sc2)*1.6,6,Math.round(personR*sc2)*1.0);
           }
         }
       }
@@ -610,7 +609,7 @@ function PenaltyPitch(props){
             var spy=sr*62+sR+8;
             var sjc=jerseys[((sseed*31)>>>0)%jerseys.length];
             var ssk=skins[((sseed*13)>>>0)%skins.length];
-            var ssc=[0.85,0.92,1.0,1.08][sseed%4];
+            var ssc=[0.85,0.92,1.0,1.08,1.15][sseed%4];
             drawSpectator(sc2,spx,spy,Math.round(sR*ssc),sjc,ssk);
           }
         }
@@ -668,11 +667,7 @@ function PenaltyPitch(props){
         ctx.fillText(boards[b],bx+bw/2,sh/2);
       }
     },1024,64);
-    var adMesh=new THREE.Mesh(
-      new THREE.PlaneGeometry(44,0.55),
-      new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35})
-    );
-    adMesh.position.set(0,0.2,GZ+0.5);scene.add(adMesh);
+    // No front board — ad boards are in the background canvas only
     // Side boards (facing toward camera)
     var sideBoardMat=new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35,side:THREE.DoubleSide});
     var adMeshL=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),sideBoardMat);
@@ -969,7 +964,7 @@ function PenaltyPitch(props){
       // Camera smooth follow during shot (subtle horizontal pan)
       var camTX=(thr.phase==='animating'||thr.phase==='result')?ball.position.x*0.16:0;
       camLookX+=(camTX-camLookX)*0.07;
-      camera.lookAt(camLookX,1.4,GZ*1.05);
+      camera.lookAt(camLookX,1.2,GZ);
 
       // Kicker kick animation — lean forward then hide
       if(thr.phase==='animating'&&pMesh.visible){
