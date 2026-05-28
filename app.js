@@ -317,8 +317,28 @@ function PenaltyPitch(props){
         o.start(ctx.currentTime+t0);o.stop(ctx.currentTime+t0+dur+0.01);
       }
       if(type==='kick'){tone(200,0,0.05,0.8,'sine',60);tone(80,0,0.28,0.55,'triangle',40);}
-      else if(type==='goal'){[0,0.1,0.22,0.34].forEach(function(t,i){tone([440,554,660,880][i],t,0.85,0.3,'triangle');});tone(220,0,1.6,0.2,'sawtooth');}
-      else if(type==='save'){tone(300,0,0.06,0.55,'sawtooth',100);tone(130,0.05,0.32,0.38,'triangle',65);}
+      else if(type==='goal'){
+        // Crowd roar (filtered white noise)
+        var buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*2.8),ctx.sampleRate);
+        var bd=buf.getChannelData(0);for(var ri=0;ri<bd.length;ri++)bd[ri]=(Math.random()*2-1);
+        var ns=ctx.createBufferSource();ns.buffer=buf;
+        var bpf=ctx.createBiquadFilter();bpf.type='bandpass';bpf.frequency.value=900;bpf.Q.value=0.4;
+        var ng=ctx.createGain();ng.gain.setValueAtTime(0,ctx.currentTime);ng.gain.linearRampToValueAtTime(0.28,ctx.currentTime+0.25);ng.gain.setValueAtTime(0.28,ctx.currentTime+1.8);ng.gain.linearRampToValueAtTime(0,ctx.currentTime+2.8);
+        ns.connect(bpf);bpf.connect(ng);ng.connect(ctx.destination);ns.start();
+        // Musical fanfare
+        [0,0.08,0.18,0.3].forEach(function(t,i){tone([440,554,660,880][i],t,0.95,0.28,'triangle');});
+        tone(220,0,2.0,0.18,'sawtooth');
+      }
+      else if(type==='save'){
+        tone(300,0,0.06,0.55,'sawtooth',100);tone(130,0.05,0.32,0.38,'triangle',65);
+        // Crowd "oooh" groan (filtered noise)
+        var buf2=ctx.createBuffer(1,Math.floor(ctx.sampleRate*1.2),ctx.sampleRate);
+        var bd2=buf2.getChannelData(0);for(var ri2=0;ri2<bd2.length;ri2++)bd2[ri2]=(Math.random()*2-1);
+        var ns2=ctx.createBufferSource();ns2.buffer=buf2;
+        var bpf2=ctx.createBiquadFilter();bpf2.type='bandpass';bpf2.frequency.value=400;bpf2.Q.value=0.6;
+        var ng2=ctx.createGain();ng2.gain.setValueAtTime(0,ctx.currentTime);ng2.gain.linearRampToValueAtTime(0.15,ctx.currentTime+0.15);ng2.gain.linearRampToValueAtTime(0,ctx.currentTime+1.2);
+        ns2.connect(bpf2);bpf2.connect(ng2);ng2.connect(ctx.destination);ns2.start();
+      }
     }catch(ex){}
   }
 
@@ -413,6 +433,11 @@ function PenaltyPitch(props){
       new THREE.MeshStandardMaterial({map:grassTex,roughness:0.88,metalness:0.0,envMapIntensity:0.1})
     );
     ground.rotation.x=-Math.PI/2;ground.position.z=-16;ground.receiveShadow=true;scene.add(ground);
+
+    // Spotlight pool — bright ellipse under floodlights in penalty area
+    var spMat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.06,depthWrite:false,blending:THREE.AdditiveBlending});
+    var spMesh=new THREE.Mesh(new THREE.CircleGeometry(11,32),spMat);
+    spMesh.rotation.x=-Math.PI/2;spMesh.position.set(0,0.025,-10);scene.add(spMesh);
 
     // ── Pitch markings ──
     var wM=new THREE.MeshBasicMaterial({color:0xffffff,opacity:0.88,transparent:true});
@@ -548,13 +573,14 @@ function PenaltyPitch(props){
       }
     },1024,64);
     var adMesh=new THREE.Mesh(
-      new THREE.PlaneGeometry(42,0.9),
-      new THREE.MeshStandardMaterial({map:boardTex,emissive:0x222222,emissiveIntensity:0.4,roughness:0.4})
+      new THREE.PlaneGeometry(44,1.1),
+      new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35})
     );
-    adMesh.position.set(0,0.45,GZ-1.3);scene.add(adMesh);
-    // Side boards
-    var adMeshL=adMesh.clone();adMeshL.rotation.y=Math.PI/2;adMeshL.position.set(-13,0.45,-12);scene.add(adMeshL);
-    var adMeshR=adMeshL.clone();adMeshR.position.set(13,0.45,-12);scene.add(adMeshR);
+    adMesh.position.set(0,0.55,GZ+0.45);scene.add(adMesh);
+    // Side boards (facing toward camera)
+    var adMeshL=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35}));
+    adMeshL.rotation.y=Math.PI/2;adMeshL.position.set(-14,0.55,-9);scene.add(adMeshL);
+    var adMeshR=adMeshL.clone();adMeshR.position.set(14,0.55,-9);scene.add(adMeshR);
 
     // Floodlight towers — realistic metal structure
     var towerMat=new THREE.MeshStandardMaterial({color:0x8899aa,roughness:0.6,metalness:0.7});
@@ -811,10 +837,10 @@ function PenaltyPitch(props){
     var confGeo=new THREE.BufferGeometry();confGeo.setAttribute('position',cPosAttr);confGeo.setAttribute('color',new THREE.BufferAttribute(cColArr,3));
     var confMat=new THREE.PointsMaterial({size:0.2,vertexColors:true,transparent:true,opacity:0,depthWrite:false});
     scene.add(new THREE.Points(confGeo,confMat));
-    var showConf=false,confTimer=0;
+    var showConf=false,confTimer=0;var camLookX=0;
 
     var raycaster=new THREE.Raycaster();
-    var BS={x:0,y:0.115,z:3.5};
+    var BS={x:0,y:0.115,z:3.2};// matches penalty spot position
 
     var thr={
       renderer,scene,camera,raycaster,aimPlane,markerGrp,
@@ -917,7 +943,6 @@ function PenaltyPitch(props){
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
             setResult(null);setPhase('idle');
-            exitFullscreen();
           },2400);
         }
       }
@@ -927,6 +952,18 @@ function PenaltyPitch(props){
         for(var cj=0;cj<CNUM;cj++){cPos[cj*3]+=cVel[cj].x;cPos[cj*3+1]+=cVel[cj].y;cVel[cj].y-=0.003;cPos[cj*3+2]+=cVel[cj].z;}
         cPosAttr.needsUpdate=true;
       }
+      // Camera smooth follow during shot (subtle horizontal pan)
+      var camTX=(thr.phase==='animating'||thr.phase==='result')?ball.position.x*0.16:0;
+      camLookX+=(camTX-camLookX)*0.07;
+      camera.lookAt(camLookX,1.4,GZ*1.05);
+
+      // Kicker kick animation — lean forward then hide
+      if(thr.phase==='animating'&&pMesh.visible){
+        var kf=thr.animFrame;
+        if(kf<10){pMesh.rotation.x=-(kf/9)*0.4;pMesh.position.z=4.2+kf*0.04;}
+        else{pMesh.visible=false;pMesh.rotation.x=0;pMesh.position.z=4.2;}
+      }
+
       renderer.render(scene,camera);
     }
     animate();
@@ -942,8 +979,7 @@ function PenaltyPitch(props){
       // React correctly to shot side, or guess the other side
       var correctSide=thr.aimPoint.x>0.1?0:thr.aimPoint.x<-0.1?1:Math.floor(Math.random()*2);
       thr.keeperTarget=Math.random()<reaction?dirs[correctSide]:dirs[1-correctSide];
-      thr.phase='animating';thr.animFrame=0;
-      pMesh.visible=false;
+      thr.phase='animating';thr.animFrame=0;pMesh.rotation.x=0;
       if(powerBarRef.current)powerBarRef.current.style.width='0%';
       playSound('kick');setPhase('animating');
     }
@@ -973,7 +1009,7 @@ function PenaltyPitch(props){
   useEffect(function(){
     var thr=threeRef.current;if(!thr)return;
     thr.phase='idle';thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
-    setPhase('idle');setResult(null);exitFullscreen();
+    setPhase('idle');setResult(null);
     if(thr.ball){thr.ball.position.set(0,0.115,3.2);thr.ball.rotation.set(0,0,0);}
     if(thr.ballShadow){thr.ballShadow.position.set(0,0.011,3.2);thr.ballShadow.scale.set(1,1,1);}
     if(thr.kSprite){thr.kSprite.mesh.position.set(0,1.4,thr.GZ+0.6);thr.kSprite.mesh.rotation.z=0;thr.kSprite.mesh.rotation.y=0;thr.kSprite.setIdle();}
