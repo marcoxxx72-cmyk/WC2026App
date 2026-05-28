@@ -450,7 +450,7 @@ function PenaltyPitch(props){
     scene.add(new THREE.Line(arcG,new THREE.LineBasicMaterial({color:0xffffff,opacity:0.88,transparent:true})));
 
     // ── Goal — aluminum/steel posts ──
-    var GW=5.5,GH=3.4;
+    var GW=4.2,GH=2.8;
     var postTex=makeCanvasTex(function(ctx,sz){
       var g=ctx.createLinearGradient(0,0,sz,0);
       g.addColorStop(0,'#c0c8d0');g.addColorStop(0.35,'#f0f4f8');g.addColorStop(0.65,'#f0f4f8');g.addColorStop(1,'#8899aa');
@@ -593,43 +593,19 @@ function PenaltyPitch(props){
       })();
 
       // ── Higgsfield-generated stadium image as background ──
+      // Image cropped to top 62% (sky+arch+crowd only, no goal)
+      // Ratio: 2048x714 = 2.87:1 → PlaneGeometry(100, 34.8)
       new THREE.TextureLoader().load('/stadium_bg.png',function(bgTex){
-        bgTex.colorSpace=THREE.SRGBColorSpace||THREE.LinearEncoding;
         var bgPlane=new THREE.Mesh(
-          new THREE.PlaneGeometry(108,61),
+          new THREE.PlaneGeometry(100,35),
           new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
         );
-        bgPlane.position.set(0,19,GZ-23);
+        // Bottom of plane at y≈0 (ground), top at y≈35
+        bgPlane.position.set(0,17.5,GZ-22);
         scene.add(bgPlane);
       });
 
-      // ── Side panels: dark green + round spectators ──
-      ['L','R'].forEach(function(side){
-        var sc=document.createElement('canvas');sc.width=768;sc.height=512;
-        var sc2=sc.getContext('2d');
-        sc2.fillStyle='#0a1a06';sc2.fillRect(0,0,768,512);
-        var sRows=8,sCols=24,sR=22;
-        for(var sr=0;sr<sRows;sr++){
-          for(var sc3=0;sc3<sCols;sc3++){
-            var sseed=(sr*83+sc3*61)>>>0;
-            var spx=sc3*(sR*2+3)+(sr%2)*(sR+1)+sR;
-            var spy=sr*62+sR+8;
-            var sjc=jerseys[((sseed*31)>>>0)%jerseys.length];
-            var ssk=skins[((sseed*13)>>>0)%skins.length];
-            var ssc=[0.85,0.92,1.0,1.08,1.15][sseed%4];
-            drawSpectator(sc2,spx,spy,Math.round(sR*ssc),sjc,ssk);
-          }
-        }
-        sc2.fillStyle='#c8102e';sc2.fillRect(0,490,768,22);
-        var sTex=new THREE.CanvasTexture(sc);
-        var sPlane=new THREE.Mesh(
-          new THREE.PlaneGeometry(28,20),
-          new THREE.MeshBasicMaterial({map:sTex})
-        );
-        sPlane.rotation.y=side==='L'?Math.PI/1.8:-Math.PI/1.8;
-        sPlane.position.set(side==='L'?-24:24,10,-8);
-        scene.add(sPlane);
-      });
+      // Side panels removed — background image covers full width
 
       // ── Nuages animés (3 plans canvas) ──
       function makeCloud(){
@@ -759,7 +735,7 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(1.4,2.8),
       new THREE.MeshBasicMaterial({transparent:true,alphaTest:0.08,side:THREE.DoubleSide,color:0xffffff})
     );
-    kSpriteMesh.position.set(0,0.9,GZ+0.6);
+    kSpriteMesh.position.set(0,1.4,GZ+0.6);
     scene.add(kSpriteMesh);
     // Async-load photo sprite, remove white background via pixel scan
     (function(){
@@ -922,7 +898,7 @@ function PenaltyPitch(props){
           var dt2=Math.min(Math.max((thr.animFrame-5)/20,0),1);
           var dts=dt2*dt2*(3-2*dt2);
           kSpriteMesh.rotation.z=-ds*dts*0.85;
-          kSpriteMesh.position.y=Math.sin(dts*Math.PI)*0.52;
+          kSpriteMesh.position.y=1.4+Math.sin(dts*Math.PI)*0.42;
           if(thr.animFrame===5)kSprite.setDive(ds);
         }
 
@@ -932,7 +908,7 @@ function PenaltyPitch(props){
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
           var inGoal=Math.abs(tgt.x)<GW/2*0.97&&tgt.y>0.07&&tgt.y<GH*0.97;
           var kw=0.68;
-          var keeperCY=kSpriteMesh.position.y+0.55;
+          var keeperCY=kSpriteMesh.position.y+0.35;
           var dy=Math.abs(tgt.y-keeperCY);
           var dx2=Math.abs(tgt.x-kSpriteMesh.position.x);
           var saved=(dx2<kw&&dy<0.80)&&inGoal;
@@ -949,7 +925,7 @@ function PenaltyPitch(props){
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kSpriteMesh.position.set(0,0.9,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
+            kSpriteMesh.position.set(0,1.4,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
             pMesh.visible=true;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
