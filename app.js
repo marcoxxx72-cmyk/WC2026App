@@ -589,14 +589,14 @@ function PenaltyPitch(props){
         c.fill();
       })();
 
-      // ── Higgsfield-generated stadium image as background ──
-      // Image 2048x714 ratio 2.87:1 → PlaneGeometry(100,34.8) ──
+      // ── Higgsfield Nano Banana 2 — Dola AI style stadium ──
+      // 2752x890, ratio 3.09:1 → PlaneGeometry(100,32.3)
       new THREE.TextureLoader().load('/stadium_bg.png',function(bgTex){
         var bgPlane=new THREE.Mesh(
-          new THREE.PlaneGeometry(100,35),
+          new THREE.PlaneGeometry(100,32.3),
           new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
         );
-        bgPlane.position.set(0,17.5,GZ-22);
+        bgPlane.position.set(0,16.15,GZ-22);
         scene.add(bgPlane);
       });
 
