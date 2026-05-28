@@ -372,10 +372,10 @@ function PenaltyPitch(props){
     scene.background=new THREE.Color(0x1a90d9);
     scene.fog=new THREE.FogExp2(0x3a9fd5,0.003);
 
-    var GZ=-5.0;
+    var GZ=-3.5;
     // ── Camera — near-ground behind ball ──
-    var camera=new THREE.PerspectiveCamera(68,W/H,0.1,220);
-    camera.position.set(0,0.5,5.5);camera.lookAt(0,1.2,GZ);
+    var camera=new THREE.PerspectiveCamera(72,W/H,0.1,220);
+    camera.position.set(0,0.4,4.8);camera.lookAt(0,1.1,GZ);
 
     // ── Photometric stadium lighting ──
     scene.add(new THREE.AmbientLight(0xe8f0ff,0.55));
@@ -447,7 +447,7 @@ function PenaltyPitch(props){
     scene.add(new THREE.Line(arcG,new THREE.LineBasicMaterial({color:0xffffff,opacity:0.88,transparent:true})));
 
     // ── Goal — aluminum/steel posts ──
-    var GW=5.5,GH=3.4;
+    var GW=7.32,GH=2.44;
     var postTex=makeCanvasTex(function(ctx,sz){
       var g=ctx.createLinearGradient(0,0,sz,0);
       g.addColorStop(0,'#c0c8d0');g.addColorStop(0.35,'#f0f4f8');g.addColorStop(0.65,'#f0f4f8');g.addColorStop(1,'#8899aa');
@@ -866,8 +866,8 @@ function PenaltyPitch(props){
 
       // Keeper idle — weight-shift sway on canvas sprite
       if(thr.phase==='idle'||thr.phase==='aim'||thr.phase==='charging'){
-        kSpriteMesh.position.x=Math.sin(now*0.92)*0.24+Math.sin(now*1.7)*0.06;
-        kSpriteMesh.rotation.y=Math.sin(now*0.6)*0.08;
+        kSpriteMesh.position.x=Math.sin(now*0.55)*0.14+Math.sin(now*0.9)*0.04;
+        kSpriteMesh.rotation.y=Math.sin(now*0.4)*0.04;
       }
       // Keeper shadow follows keeper x, slightly stretched during dive
       kShadow.position.x=kSpriteMesh.position.x;
@@ -903,13 +903,15 @@ function PenaltyPitch(props){
 
         // Keeper dive — canvas sprite mesh animation
         if(thr.animFrame>4&&thr.animFrame<52){
-          kSpriteMesh.position.x+=(thr.keeperTarget-kSpriteMesh.position.x)*0.11;
+          kSpriteMesh.position.x+=(thr.keeperTarget-kSpriteMesh.position.x)*0.13;
           kSpriteMesh.rotation.y=0;
           var ds=thr.keeperTarget>0?1:-1;
           var dt2=Math.min(Math.max((thr.animFrame-5)/20,0),1);
           var dts=dt2*dt2*(3-2*dt2);
-          kSpriteMesh.rotation.z=-ds*dts*0.85;
-          kSpriteMesh.position.y=0.88+Math.sin(dts*Math.PI)*0.28;
+          kSpriteMesh.rotation.z=-ds*dts*0.9;
+          // Keeper also jumps up for high shots
+          var shotHi=Math.max(0,(thr.shotTarget.y-1.0)*0.35);
+          kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*0.35;
           if(thr.animFrame===5)kSprite.setDive(ds);
         }
 
@@ -918,11 +920,11 @@ function PenaltyPitch(props){
           thr.phase='result';
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
           var inGoal=Math.abs(tgt.x)<GW/2*0.97&&tgt.y>0.07&&tgt.y<GH*0.97;
-          var kw=0.88;
+          var kw=0.95;
           var keeperCY=kSpriteMesh.position.y;
           var dy=Math.abs(tgt.y-keeperCY);
           var dx2=Math.abs(tgt.x-kSpriteMesh.position.x);
-          var saved=(dx2<kw&&dy<1.1)&&inGoal;
+          var saved=(dx2<kw&&dy<1.6)&&inGoal;
           thr.result=(saved||!inGoal)?'saved':'goal';
           trailMat.opacity=0;trailHistory=[];
           if(thr.result==='goal'){
@@ -960,7 +962,7 @@ function PenaltyPitch(props){
       // Camera smooth follow during shot (subtle horizontal pan)
       var camTX=(thr.phase==='animating'||thr.phase==='result')?ball.position.x*0.16:0;
       camLookX+=(camTX-camLookX)*0.07;
-      camera.lookAt(camLookX,1.2,GZ);
+      camera.lookAt(camLookX,1.1,GZ);
 
       // Kicker kick animation — lean forward then hide
       if(thr.phase==='animating'&&pMesh.visible){
@@ -983,7 +985,7 @@ function PenaltyPitch(props){
       if(!thr.aimPoint)return;
       thr.shotTarget={x:thr.aimPoint.x,y:thr.aimPoint.y,curve:Math.max(-0.5,Math.min(0.5,thr.curveAccum))};
       // Higuita ALWAYS dives — no more standing still! keeper picks left or right
-      var dirs=[-1.72,1.72];
+      var dirs=[-2.2,2.2];
       var side=thr.aimPoint.x>=0?0:1; // mirror of shot side (keeper guesses opposite to mix things up)
       var diff=[0.52,0.62,0.74,0.85][roundIdx]||0.52;
       var reaction=Math.max(0.28,Math.min(0.94,diff+(thr.power-0.5)*0.12));
@@ -1042,7 +1044,7 @@ function PenaltyPitch(props){
       gy,
       thr.GZ
     );
-    thr.markerGrp.position.copy(pt);thr.markerGrp.visible=true;
+    if(thr.phase==='aim'||thr.phase==='charging'){thr.markerGrp.position.copy(pt);thr.markerGrp.visible=true;}
     thr.aimPoint=pt.clone();return pt;
   }
 
