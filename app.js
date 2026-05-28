@@ -486,7 +486,8 @@ function PenaltyPitch(props){
     for(var nd=0;nd<=10;nd++){var ndz=GZ-nd/10*ND;
       nv(-GW/2,0.02,ndz,-GW/2,GH,ndz);nv(GW/2,0.02,ndz,GW/2,GH,ndz);nv(-GW/2,GH,ndz,GW/2,GH,ndz);}
     var netGeo=new THREE.BufferGeometry();netGeo.setAttribute('position',new THREE.Float32BufferAttribute(nV,3));
-    scene.add(new THREE.LineSegments(netGeo,new THREE.LineBasicMaterial({color:0xffffff,opacity:0.5,transparent:true})));
+    var netMat=new THREE.LineBasicMaterial({color:0xffffff,opacity:0.5,transparent:true});
+    scene.add(new THREE.LineSegments(netGeo,netMat));
 
     // ── Stadium — realistic concrete stands with canvas crowd texture ──
     // Generate a realistic crowd texture using canvas
@@ -578,9 +579,11 @@ function PenaltyPitch(props){
     );
     adMesh.position.set(0,0.55,GZ+0.45);scene.add(adMesh);
     // Side boards (facing toward camera)
-    var adMeshL=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35}));
+    var sideBoardMat=new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35,side:THREE.DoubleSide});
+    var adMeshL=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),sideBoardMat);
     adMeshL.rotation.y=Math.PI/2;adMeshL.position.set(-14,0.55,-9);scene.add(adMeshL);
-    var adMeshR=adMeshL.clone();adMeshR.position.set(14,0.55,-9);scene.add(adMeshR);
+    var adMeshR=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),sideBoardMat);
+    adMeshR.rotation.y=-Math.PI/2;adMeshR.position.set(14,0.55,-9);scene.add(adMeshR);
 
     // Floodlight towers — realistic metal structure
     var towerMat=new THREE.MeshStandardMaterial({color:0x8899aa,roughness:0.6,metalness:0.7});
@@ -760,6 +763,12 @@ function PenaltyPitch(props){
     );
     kSpriteMesh.position.set(0,1.4,GZ+0.6);
     scene.add(kSpriteMesh);
+    // Keeper ground shadow
+    var kShadow=new THREE.Mesh(
+      new THREE.PlaneGeometry(1.2,0.28),
+      new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:0.32,depthWrite:false})
+    );
+    kShadow.rotation.x=-Math.PI/2;kShadow.position.set(0,0.018,GZ+0.6);scene.add(kShadow);
     var kSprite={
       mesh:kSpriteMesh,tex:kTex,
       setDive:function(dir){drawGoalkeeperBody(kCtx,dir);kTex.needsUpdate=true;},
@@ -875,6 +884,9 @@ function PenaltyPitch(props){
         kSpriteMesh.position.x=Math.sin(now*0.92)*0.24+Math.sin(now*1.7)*0.06;
         kSpriteMesh.rotation.y=Math.sin(now*0.6)*0.08;
       }
+      // Keeper shadow follows keeper x, slightly stretched during dive
+      kShadow.position.x=kSpriteMesh.position.x;
+      kShadow.scale.set(1+Math.abs(kSpriteMesh.rotation.z)*0.5,1,1);
 
       if(thr.phase==='animating'){
         thr.animFrame++;
@@ -951,6 +963,11 @@ function PenaltyPitch(props){
         confTimer++;if(confTimer>90)confMat.opacity=Math.max(0,1-(confTimer-90)/65);if(confTimer>155)showConf=false;
         for(var cj=0;cj<CNUM;cj++){cPos[cj*3]+=cVel[cj].x;cPos[cj*3+1]+=cVel[cj].y;cVel[cj].y-=0.003;cPos[cj*3+2]+=cVel[cj].z;}
         cPosAttr.needsUpdate=true;
+        // Net flash on goal — brief bright pulse
+        if(confTimer<24)netMat.opacity=0.5+Math.abs(Math.sin(confTimer*0.52))*0.48;
+        else netMat.opacity=0.5;
+      } else {
+        netMat.opacity=0.5;
       }
       // Camera smooth follow during shot (subtle horizontal pan)
       var camTX=(thr.phase==='animating'||thr.phase==='result')?ball.position.x*0.16:0;
@@ -1089,7 +1106,11 @@ function PenaltyPitch(props){
         (phase==='aim'||phase==='charging')&&e('div',{style:{position:'absolute',bottom:40,left:'50%',transform:'translateX(-50%)',width:270,height:22,background:'rgba(255,255,255,0.12)',borderRadius:11,overflow:'hidden',border:'1px solid rgba(255,255,255,0.28)'}},
           e('div',{ref:powerBarRef,style:{width:'0%',height:'100%',background:'linear-gradient(90deg,#00dd55,#ffd700,#ff2200)',borderRadius:11,transition:'none'}})
         ),
-        result&&e('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',fontSize:66,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 50px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 6px 18px rgba(0,0,0,1)',textAlign:'center'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !')
+        result&&e('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',fontSize:66,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 50px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 6px 18px rgba(0,0,0,1)',textAlign:'center'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
+        (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
+          style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
+          onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
+        },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':'SHOOT'))
       ),
       
     ),
