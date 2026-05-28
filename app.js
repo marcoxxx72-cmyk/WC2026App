@@ -698,10 +698,10 @@ function PenaltyPitch(props){
     }
     var sbTex=new THREE.CanvasTexture(sbCanvas);
     var sbMesh=new THREE.Mesh(
-      new THREE.PlaneGeometry(11,5.5),
+      new THREE.PlaneGeometry(20,8),
       new THREE.MeshBasicMaterial({map:sbTex,depthWrite:false})
     );
-    sbMesh.position.set(0,GH+5.5,GZ-4);
+    sbMesh.position.set(0,24,GZ-21.5);
     scene.add(sbMesh);
     updateScoreboard(0,0);
     // thr assigned below — sbMesh/updateScoreboard wired up after thr init
