@@ -369,17 +369,17 @@ function PenaltyPitch(props){
 
     // ── Scene ──
     var scene=new THREE.Scene();
-    scene.background=new THREE.Color(0x0d1b3e);
-    scene.fog=new THREE.FogExp2(0x0d1b3e,0.014);
+    scene.background=new THREE.Color(0x5ab8f5);
+    scene.fog=new THREE.FogExp2(0x87ceeb,0.006);
 
-    var GZ=-10.5;
+    var GZ=-8.5;
     // ── Camera — near-ground behind ball ──
     var camera=new THREE.PerspectiveCamera(58,W/H,0.1,220);
     camera.position.set(0,0.65,5.5);camera.lookAt(0,1.4,GZ*1.05);
 
     // ── Photometric stadium lighting ──
-    scene.add(new THREE.AmbientLight(0xd0d8ff,0.32));
-    var sun=new THREE.DirectionalLight(0xfff6e8,0.9);
+    scene.add(new THREE.AmbientLight(0xe8f0ff,0.55));
+    var sun=new THREE.DirectionalLight(0xfff8f0,1.15);
     sun.position.set(8,24,12);sun.castShadow=true;
     sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-25;sun.shadow.camera.right=25;
     sun.shadow.camera.top=25;sun.shadow.camera.bottom=-25;sun.shadow.bias=-0.0008;
@@ -393,18 +393,34 @@ function PenaltyPitch(props){
     }
     var spots=[makeSpot(-19,20,-2,2.8),makeSpot(19,20,-2,2.8),makeSpot(-19,20,-20,2.4),makeSpot(19,20,-20,2.4)];
 
-    // ── Sky dome — dusk gradient ──
+    // ── Sky dome — bright daytime blue ──
     var skyGeo=new THREE.SphereGeometry(90,24,12);
     var skyVerts=skyGeo.attributes.position;
     var skyC=new Float32Array(skyVerts.count*3);
     for(var vi=0;vi<skyVerts.count;vi++){
-      var yy=skyVerts.getY(vi);var tf=Math.max(0,Math.min(1,(yy+20)/110));
-      // horizon: deep amber→blue sky
-      var r=0.55*(1-tf)+0.04*tf; var g2=0.25*(1-tf)+0.12*tf; var b=0.06*(1-tf)+0.52*tf;
+      var yy=skyVerts.getY(vi);var tf=Math.max(0,Math.min(1,(yy+15)/105));
+      // horizon: white-blue → deep azure zenith
+      var r=0.82*(1-tf)+0.18*tf; var g2=0.91*(1-tf)+0.55*tf; var b=0.97*(1-tf)+0.92*tf;
       skyC[vi*3]=r;skyC[vi*3+1]=g2;skyC[vi*3+2]=b;
     }
     skyGeo.setAttribute('color',new THREE.Float32BufferAttribute(skyC,3));
     scene.add(new THREE.Mesh(skyGeo,new THREE.MeshBasicMaterial({side:THREE.BackSide,vertexColors:true})));
+    // ── Clouds ──
+    (function(){
+      var cv=document.createElement('canvas');cv.width=512;cv.height=200;
+      var ctx=cv.getContext('2d');ctx.clearRect(0,0,512,200);
+      [{x:120,y:100,rx:115,ry:55},{x:256,y:80,rx:150,ry:65},{x:390,y:95,rx:110,ry:50},{x:200,y:120,rx:85,ry:38},{x:320,y:115,rx:95,ry:42}].forEach(function(c){
+        var g=ctx.createRadialGradient(c.x,c.y,0,c.x,c.y,Math.max(c.rx,c.ry));
+        g.addColorStop(0,'rgba(255,255,255,0.92)');g.addColorStop(0.55,'rgba(240,248,255,0.65)');g.addColorStop(1,'rgba(255,255,255,0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(c.x,c.y,c.rx,c.ry,0,0,Math.PI*2);ctx.fill();
+      });
+      var cTex=new THREE.CanvasTexture(cv);
+      var cMat=new THREE.MeshBasicMaterial({map:cTex,transparent:true,depthWrite:false,side:THREE.DoubleSide});
+      [{x:-35,y:26,z:-62,w:48,h:14,ry:0.25},{x:30,y:24,z:-58,w:40,h:12,ry:-0.18},{x:-5,y:32,z:-75,w:58,h:18,ry:0.08},{x:55,y:20,z:-50,w:35,h:10,ry:-0.3}].forEach(function(c){
+        var m=new THREE.Mesh(new THREE.PlaneGeometry(c.w,c.h),cMat.clone());
+        m.position.set(c.x,c.y,c.z);m.rotation.y=c.ry;scene.add(m);
+      });
+    })();
 
     // ── Grass — professional pitch with mowing stripes ──
     var grassTex=makeCanvasTex(function(ctx,sw,sh){
@@ -528,37 +544,41 @@ function PenaltyPitch(props){
       return new THREE.CanvasTexture(cv);
     }
 
-    // Back stand (behind goal)
-    var backCrowdTex=makeCrowdTexture(1024,512,18);
+    // ── Stadium stands — proper angled seating, no ceiling effect ──
+    // Back stand: steep angle so it rises UP behind goal, not horizontal
+    var backCrowdTex=makeCrowdTexture(1024,512,22);
     var backStand=new THREE.Mesh(
-      new THREE.PlaneGeometry(44,16),
+      new THREE.PlaneGeometry(50,20),
       new THREE.MeshStandardMaterial({map:backCrowdTex,roughness:0.85,metalness:0})
     );
-    backStand.rotation.x=-Math.PI/2.7;
-    backStand.position.set(0,7.5,GZ-8.5);scene.add(backStand);
+    backStand.rotation.x=-Math.PI/5;   // 36° tilt — looks like rising seats not ceiling
+    backStand.position.set(0,10,GZ-14);scene.add(backStand);
 
-    // Left stand
-    var sideCrowdTexL=makeCrowdTexture(1024,512,16);
+    // Left stand — angled upward, wide view
+    var sideCrowdTexL=makeCrowdTexture(1024,512,18);
     var leftStand=new THREE.Mesh(
-      new THREE.PlaneGeometry(34,13),
+      new THREE.PlaneGeometry(38,18),
       new THREE.MeshStandardMaterial({map:sideCrowdTexL,roughness:0.85,metalness:0})
     );
-    leftStand.rotation.y=Math.PI/2.1;leftStand.rotation.x=-Math.PI/10;
-    leftStand.position.set(-16,6.5,-12);scene.add(leftStand);
+    leftStand.rotation.y=Math.PI/1.9;leftStand.rotation.x=-Math.PI/6;
+    leftStand.position.set(-22,9,-10);scene.add(leftStand);
 
     // Right stand
-    var sideCrowdTexR=makeCrowdTexture(1024,512,16);
+    var sideCrowdTexR=makeCrowdTexture(1024,512,18);
     var rightStand=new THREE.Mesh(
-      new THREE.PlaneGeometry(34,13),
+      new THREE.PlaneGeometry(38,18),
       new THREE.MeshStandardMaterial({map:sideCrowdTexR,roughness:0.85,metalness:0})
     );
-    rightStand.rotation.y=-Math.PI/2.1;rightStand.rotation.x=-Math.PI/10;
-    rightStand.position.set(16,6.5,-12);scene.add(rightStand);
+    rightStand.rotation.y=-Math.PI/1.9;rightStand.rotation.x=-Math.PI/6;
+    rightStand.position.set(22,9,-10);scene.add(rightStand);
 
-    // Stadium structure — lower walls only (no roof — it blocked the view from low camera)
-    var concreteMat=new THREE.MeshStandardMaterial({color:0x3a3d4a,roughness:0.95,metalness:0.1});
-    var lowerRing=new THREE.Mesh(new THREE.CylinderGeometry(20,22,2.5,32,1,true),concreteMat);
-    lowerRing.position.set(0,1.5,-12);scene.add(lowerRing);
+    // Front stands (behind camera — gives immersion)
+    var frontCrowdTex=makeCrowdTexture(1024,256,10);
+    var frontStand=new THREE.Mesh(
+      new THREE.PlaneGeometry(50,10),
+      new THREE.MeshStandardMaterial({map:frontCrowdTex,roughness:0.85,metalness:0})
+    );
+    frontStand.rotation.x=Math.PI/5;frontStand.position.set(0,6,12);scene.add(frontStand);
 
     // Advertising boards — modern digital-style
     var boardTex=makeCanvasTex(function(ctx,sw,sh){
@@ -577,7 +597,7 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(44,1.1),
       new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35})
     );
-    adMesh.position.set(0,0.55,GZ+0.45);scene.add(adMesh);
+    adMesh.position.set(0,0.45,GZ+0.5);scene.add(adMesh);
     // Side boards (facing toward camera)
     var sideBoardMat=new THREE.MeshStandardMaterial({map:boardTex,emissive:0x333333,emissiveIntensity:0.55,roughness:0.35,side:THREE.DoubleSide});
     var adMeshL=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),sideBoardMat);
@@ -834,10 +854,11 @@ function PenaltyPitch(props){
           thr.phase='result';
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
           var inGoal=Math.abs(tgt.x)<GW/2*0.97&&tgt.y>0.07&&tgt.y<GH*0.97;
-          var kw=0.52+Math.abs(kSpriteMesh.position.x)*0.05;
-          var dy=Math.abs(tgt.y-1.42);
-          var dx2=Math.abs(tgt.x+curveOff-kSpriteMesh.position.x);
-          var saved=(dx2<kw&&dy<0.94)&&inGoal;
+          var kw=0.46;
+          var keeperCY=1.1+kSpriteMesh.position.y;
+          var dy=Math.abs(tgt.y-keeperCY);
+          var dx2=Math.abs(tgt.x-kSpriteMesh.position.x);
+          var saved=(dx2<kw&&dy<0.80)&&inGoal;
           thr.result=(saved||!inGoal)?'saved':'goal';
           trailMat.opacity=0;trailHistory=[];
           if(thr.result==='goal'){
