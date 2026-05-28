@@ -369,8 +369,8 @@ function PenaltyPitch(props){
 
     // ── Scene ──
     var scene=new THREE.Scene();
-    scene.background=new THREE.Color(0x5ab8f5);
-    scene.fog=new THREE.FogExp2(0x87ceeb,0.006);
+    scene.background=new THREE.Color(0x6dc43e);
+    scene.fog=new THREE.FogExp2(0x5ab030,0.004);
 
     var GZ=-8.5;
     // ── Camera — near-ground behind ball ──
@@ -393,34 +393,7 @@ function PenaltyPitch(props){
     }
     var spots=[makeSpot(-19,20,-2,2.8),makeSpot(19,20,-2,2.8),makeSpot(-19,20,-20,2.4),makeSpot(19,20,-20,2.4)];
 
-    // ── Sky dome — bright daytime blue ──
-    var skyGeo=new THREE.SphereGeometry(90,24,12);
-    var skyVerts=skyGeo.attributes.position;
-    var skyC=new Float32Array(skyVerts.count*3);
-    for(var vi=0;vi<skyVerts.count;vi++){
-      var yy=skyVerts.getY(vi);var tf=Math.max(0,Math.min(1,(yy+15)/105));
-      // horizon: white-blue → deep azure zenith
-      var r=0.82*(1-tf)+0.18*tf; var g2=0.91*(1-tf)+0.55*tf; var b=0.97*(1-tf)+0.92*tf;
-      skyC[vi*3]=r;skyC[vi*3+1]=g2;skyC[vi*3+2]=b;
-    }
-    skyGeo.setAttribute('color',new THREE.Float32BufferAttribute(skyC,3));
-    scene.add(new THREE.Mesh(skyGeo,new THREE.MeshBasicMaterial({side:THREE.BackSide,vertexColors:true})));
-    // ── Clouds ──
-    (function(){
-      var cv=document.createElement('canvas');cv.width=512;cv.height=200;
-      var ctx=cv.getContext('2d');ctx.clearRect(0,0,512,200);
-      [{x:120,y:100,rx:115,ry:55},{x:256,y:80,rx:150,ry:65},{x:390,y:95,rx:110,ry:50},{x:200,y:120,rx:85,ry:38},{x:320,y:115,rx:95,ry:42}].forEach(function(c){
-        var g=ctx.createRadialGradient(c.x,c.y,0,c.x,c.y,Math.max(c.rx,c.ry));
-        g.addColorStop(0,'rgba(255,255,255,0.92)');g.addColorStop(0.55,'rgba(240,248,255,0.65)');g.addColorStop(1,'rgba(255,255,255,0)');
-        ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(c.x,c.y,c.rx,c.ry,0,0,Math.PI*2);ctx.fill();
-      });
-      var cTex=new THREE.CanvasTexture(cv);
-      var cMat=new THREE.MeshBasicMaterial({map:cTex,transparent:true,depthWrite:false,side:THREE.DoubleSide});
-      [{x:-35,y:26,z:-62,w:48,h:14,ry:0.25},{x:30,y:24,z:-58,w:40,h:12,ry:-0.18},{x:-5,y:32,z:-75,w:58,h:18,ry:0.08},{x:55,y:20,z:-50,w:35,h:10,ry:-0.3}].forEach(function(c){
-        var m=new THREE.Mesh(new THREE.PlaneGeometry(c.w,c.h),cMat.clone());
-        m.position.set(c.x,c.y,c.z);m.rotation.y=c.ry;scene.add(m);
-      });
-    })();
+    // Sky handled by scene.background color
 
     // ── Grass — professional pitch with mowing stripes ──
     var grassTex=makeCanvasTex(function(ctx,sw,sh){
@@ -505,80 +478,168 @@ function PenaltyPitch(props){
     var netMat=new THREE.LineBasicMaterial({color:0xffffff,opacity:0.5,transparent:true});
     scene.add(new THREE.LineSegments(netGeo,netMat));
 
-    // ── Stadium — realistic concrete stands with canvas crowd texture ──
-    // Generate a realistic crowd texture using canvas
-    function makeCrowdTexture(sw,sh,rowCount){
-      var cv=document.createElement('canvas');cv.width=sw;cv.height=sh;
-      var ctx=cv.getContext('2d');
-      // Stadium concrete background
-      ctx.fillStyle='#2a2e3e';ctx.fillRect(0,0,sw,sh);
-      var rowH=sh/rowCount;
-      var colCount=Math.floor(sw/18);
-      var seatCols=['#c62828','#1565c0','#558b2f','#f57f17','#4a148c','#00695c','#e65100','#37474f'];
-      var skinTones=['#f5cba7','#d4856b','#a0522d','#5d3a1a','#f1c27d'];
-      for(var row=0;row<rowCount;row++){
-        var rowY=row*rowH;
-        // Seat row background (slightly lighter concrete for seats)
-        ctx.fillStyle=row%2===0?'#23283a':'#1e2236';
-        ctx.fillRect(0,rowY,sw,rowH);
-        for(var col=0;col<colCount;col++){
-          var px=col*(sw/colCount);
-          var seat_col=seatCols[(row*13+col*7+row*col)%8];
-          // Person body/jersey
-          var bodyW=sw/colCount*0.72;var bodyH=rowH*0.62;
-          ctx.fillStyle=seat_col;
-          ctx.fillRect(px+(sw/colCount-bodyW)/2,rowY+rowH*0.36,bodyW,bodyH);
-          // Head (skin tone)
-          var skin=skinTones[(row*5+col*3)%5];
-          ctx.fillStyle=skin;
-          ctx.beginPath();
-          ctx.arc(px+sw/colCount/2,rowY+rowH*0.26,rowH*0.19,0,Math.PI*2);
-          ctx.fill();
-          // Random arm raised
-          if((row*17+col*11)%7===0){
-            ctx.fillStyle=seat_col;
-            ctx.fillRect(px+sw/colCount*0.1,rowY+rowH*0.1,bodyW*0.28,rowH*0.28);
+    // ── Stadium — flat illustration style (like Dola AI reference) ──
+    (function(){
+      var BW=2048,BH=1024;
+      var bc=document.createElement('canvas');bc.width=BW;bc.height=BH;
+      var c=bc.getContext('2d');
+
+      // ── Sky: bright lime-green gradient (top portion) ──
+      var skyH=Math.round(BH*0.20);
+      var skyG=c.createLinearGradient(0,0,BW,skyH*1.4);
+      skyG.addColorStop(0,'#8ddd3e');skyG.addColorStop(0.5,'#6dc43e');skyG.addColorStop(1,'#4aaa20');
+      c.fillStyle=skyG;c.fillRect(0,0,BW,skyH);
+
+      // ── Stadium arch: dark green curved roof with white trim edge ──
+      var archDip=skyH*1.55; // how far the arch dips down at center
+      c.fillStyle='#122808';
+      c.beginPath();
+      c.moveTo(0,0);
+      c.lineTo(0,skyH*0.65);
+      c.quadraticCurveTo(BW/2,archDip,BW,skyH*0.65);
+      c.lineTo(BW,0);
+      c.closePath();
+      c.fill();
+      // White trim on inner edge of arch
+      c.strokeStyle='#ffffff';c.lineWidth=8;
+      c.beginPath();
+      c.moveTo(0,skyH*0.65);
+      c.quadraticCurveTo(BW/2,archDip,BW,skyH*0.65);
+      c.stroke();
+
+      // ── Stands background (dark green) ──
+      var standsTop=skyH*0.55;
+      var adBoardsTop=Math.round(BH*0.83);
+      c.fillStyle='#193510';
+      c.fillRect(0,standsTop,BW,adBoardsTop-standsTop);
+
+      // ── Crowd: rows of colorful people (circle head + trapezoid body) ──
+      var jerseys=['#c62828','#e53935','#ff7043','#ffa726','#ffee58','#66bb6a',
+                   '#26c6da','#42a5f5','#7e57c2','#ab47bc','#ffffff','#00897b',
+                   '#f06292','#4caf50','#00bcd4','#ef6c00','#5c6bc0','#8d6e63',
+                   '#26a69a','#78909c','#aed581','#ff8a65'];
+      var skins=['#f5cba7','#d4856b','#a0522d','#5d3a1a','#ffd5b5','#c68642','#8d5524'];
+      var rowH=42;
+      var numRows=Math.floor((adBoardsTop-standsTop-8)/rowH);
+      var personW=28;
+      var numCols=Math.ceil(BW/personW)+1;
+      for(var row=0;row<numRows;row++){
+        var rowY=standsTop+row*rowH+4;
+        // subtle alternating row shade
+        c.fillStyle=row%2===0?'rgba(0,0,0,0.08)':'rgba(0,0,0,0)';
+        c.fillRect(0,rowY,BW,rowH);
+        for(var col=0;col<numCols;col++){
+          var seed=row*97+col*53;
+          var offset=(row%2)*personW*0.5;
+          var px=col*personW-offset;
+          var jc=jerseys[((seed*31)>>>0)%jerseys.length];
+          var sk=skins[((seed*13)>>>0)%skins.length];
+          var cx2=px+personW*0.5;
+          var headR=rowH*0.22;
+          var headCY=rowY+rowH*0.31;
+          // Head
+          c.fillStyle=sk;
+          c.beginPath();c.arc(cx2,headCY,headR,0,Math.PI*2);c.fill();
+          // Body (trapezoid: wider at bottom)
+          var bTop=headCY+headR*0.9;
+          var bBot=rowY+rowH*0.98;
+          var bHalf=personW*0.38;
+          c.fillStyle=jc;
+          c.beginPath();
+          c.moveTo(cx2-bHalf*0.65,bTop);
+          c.lineTo(cx2-bHalf,bBot);
+          c.lineTo(cx2+bHalf,bBot);
+          c.lineTo(cx2+bHalf*0.65,bTop);
+          c.closePath();c.fill();
+          // Raised arm / scarf (every 6th person)
+          if(seed%6===0){
+            c.fillStyle=jc;
+            c.fillRect(cx2-personW*0.42,rowY-rowH*0.12,personW*0.22,rowH*0.44);
+          }
+          if(seed%8===3){
+            c.fillStyle=jerseys[((seed*7)>>>0)%jerseys.length];
+            c.fillRect(cx2+personW*0.2,rowY-rowH*0.12,personW*0.22,rowH*0.44);
           }
         }
       }
-      return new THREE.CanvasTexture(cv);
-    }
 
-    // ── Stadium stands — proper angled seating, no ceiling effect ──
-    // Back stand: steep angle so it rises UP behind goal, not horizontal
-    var backCrowdTex=makeCrowdTexture(1024,512,22);
-    var backStand=new THREE.Mesh(
-      new THREE.PlaneGeometry(50,20),
-      new THREE.MeshStandardMaterial({map:backCrowdTex,roughness:0.85,metalness:0})
-    );
-    backStand.rotation.x=-Math.PI/5;   // 36° tilt — looks like rising seats not ceiling
-    backStand.position.set(0,10,GZ-14);scene.add(backStand);
+      // ── Advertising boards (3 bars like the reference) ──
+      var boards=[
+        {color:'#c8102e',text:'FIFA WORLD CUP 2026'},
+        {color:'#f0a800',text:'OFFICIAL MATCH'},
+        {color:'#3a0080',text:''}
+      ];
+      var boardH=Math.round((BH-adBoardsTop)/3);
+      boards.forEach(function(b,i){
+        c.fillStyle=b.color;
+        c.fillRect(0,adBoardsTop+i*boardH,BW,boardH+1);
+        if(b.text){
+          c.fillStyle='#ffffff';
+          c.font='bold '+(boardH*0.55)+'px Arial';
+          c.textAlign='center';c.textBaseline='middle';
+          c.fillText(b.text,BW/2,adBoardsTop+i*boardH+boardH*0.5);
+        }
+      });
+      // Nike-style swoosh on right ad board (bottom)
+      (function(){
+        var bx=BW*0.82,by=adBoardsTop+2*boardH+boardH*0.5,sw2=BW*0.14,sh2=boardH*0.55;
+        c.fillStyle='#ffffff';
+        c.beginPath();
+        c.moveTo(bx-sw2*0.5,by+sh2*0.35);
+        c.quadraticCurveTo(bx+sw2*0.2,by-sh2*0.5,bx+sw2*0.5,by-sh2*0.35);
+        c.quadraticCurveTo(bx+sw2*0.1,by+sh2*0.1,bx-sw2*0.5,by+sh2*0.35);
+        c.fill();
+      })();
 
-    // Left stand — angled upward, wide view
-    var sideCrowdTexL=makeCrowdTexture(1024,512,18);
-    var leftStand=new THREE.Mesh(
-      new THREE.PlaneGeometry(38,18),
-      new THREE.MeshStandardMaterial({map:sideCrowdTexL,roughness:0.85,metalness:0})
-    );
-    leftStand.rotation.y=Math.PI/1.9;leftStand.rotation.x=-Math.PI/6;
-    leftStand.position.set(-22,9,-10);scene.add(leftStand);
+      var bgTex=new THREE.CanvasTexture(bc);
 
-    // Right stand
-    var sideCrowdTexR=makeCrowdTexture(1024,512,18);
-    var rightStand=new THREE.Mesh(
-      new THREE.PlaneGeometry(38,18),
-      new THREE.MeshStandardMaterial({map:sideCrowdTexR,roughness:0.85,metalness:0})
-    );
-    rightStand.rotation.y=-Math.PI/1.9;rightStand.rotation.x=-Math.PI/6;
-    rightStand.position.set(22,9,-10);scene.add(rightStand);
+      // ── Large flat background plane (fills entire view behind goal) ──
+      var bgPlane=new THREE.Mesh(
+        new THREE.PlaneGeometry(88,38),
+        new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
+      );
+      bgPlane.position.set(0,13.5,GZ-19);
+      scene.add(bgPlane);
 
-    // Front stands (behind camera — gives immersion)
-    var frontCrowdTex=makeCrowdTexture(1024,256,10);
-    var frontStand=new THREE.Mesh(
-      new THREE.PlaneGeometry(50,10),
-      new THREE.MeshStandardMaterial({map:frontCrowdTex,roughness:0.85,metalness:0})
-    );
-    frontStand.rotation.x=Math.PI/5;frontStand.position.set(0,6,12);scene.add(frontStand);
+      // ── Side panels (left + right wings, same crowd style) ──
+      ['L','R'].forEach(function(side){
+        var sc=document.createElement('canvas');sc.width=1024;sc.height=512;
+        var sc2=sc.getContext('2d');
+        sc2.fillStyle='#193510';sc2.fillRect(0,0,1024,512);
+        var sRowH=48,sPersonW=30;
+        var sRows=Math.floor(512/sRowH);
+        var sCols=Math.ceil(1024/sPersonW)+1;
+        for(var sr=0;sr<sRows;sr++){
+          for(var sc3=0;sc3<sCols;sc3++){
+            var sseed=sr*83+sc3*61;
+            var spx=sc3*sPersonW+(sr%2)*sPersonW*0.5;
+            var sjc=jerseys[((sseed*31)>>>0)%jerseys.length];
+            var ssk=skins[((sseed*13)>>>0)%skins.length];
+            var scx=spx+sPersonW*0.5;
+            var scy=sr*sRowH+sRowH*0.32;
+            var shr=sRowH*0.22;
+            sc2.fillStyle=ssk;
+            sc2.beginPath();sc2.arc(scx,scy,shr,0,Math.PI*2);sc2.fill();
+            var sbTop=scy+shr*0.9,sbBot=sr*sRowH+sRowH*0.98,sbH=sPersonW*0.4;
+            sc2.fillStyle=sjc;
+            sc2.beginPath();
+            sc2.moveTo(scx-sbH*0.65,sbTop);sc2.lineTo(scx-sbH,sbBot);
+            sc2.lineTo(scx+sbH,sbBot);sc2.lineTo(scx+sbH*0.65,sbTop);
+            sc2.closePath();sc2.fill();
+          }
+        }
+        // Red ad board strip at bottom
+        sc2.fillStyle='#c8102e';sc2.fillRect(0,490,1024,22);
+        var sTex=new THREE.CanvasTexture(sc);
+        var sPlane=new THREE.Mesh(
+          new THREE.PlaneGeometry(30,22),
+          new THREE.MeshBasicMaterial({map:sTex})
+        );
+        sPlane.rotation.y=side==='L'?Math.PI/1.85:-Math.PI/1.85;
+        sPlane.position.set(side==='L'?-30:30,10,-12);
+        scene.add(sPlane);
+      });
+    })();
 
     // Advertising boards — modern digital-style
     var boardTex=makeCanvasTex(function(ctx,sw,sh){
