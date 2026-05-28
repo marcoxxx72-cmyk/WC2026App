@@ -397,19 +397,19 @@ function PenaltyPitch(props){
 
     // ── Grass — professional pitch with mowing stripes ──
     var grassTex=makeCanvasTex(function(ctx,sw,sh){
-      // Mowed stripes (alternating dark/light green — realistic football pitch)
-      var numStripes=22;
+      // Mowed stripes — vivid green, no lighting washout (MeshBasicMaterial)
+      var numStripes=24;
       for(var s=0;s<numStripes;s++){
         var light=s%2===0;
         var gradient=ctx.createLinearGradient(0,s*sh/numStripes,0,(s+1)*sh/numStripes);
-        if(light){gradient.addColorStop(0,'#36c436');gradient.addColorStop(1,'#4de84d');}
-        else{gradient.addColorStop(0,'#28a028');gradient.addColorStop(1,'#32ba32');}
+        if(light){gradient.addColorStop(0,'#2db82d');gradient.addColorStop(1,'#35d435');}
+        else{gradient.addColorStop(0,'#1e8c1e');gradient.addColorStop(1,'#249424');}
         ctx.fillStyle=gradient;ctx.fillRect(0,s*sh/numStripes,sw,(sh/numStripes)+1);
       }
-      // Subtle noise for texture
-      ctx.globalAlpha=0.07;
-      for(var ni=0;ni<1200;ni++){
-        ctx.fillStyle=Math.random()<0.5?'#0a2d0a':'#3a9c3a';
+      // Subtle texture grain
+      ctx.globalAlpha=0.06;
+      for(var ni=0;ni<1400;ni++){
+        ctx.fillStyle=Math.random()<0.5?'#0a2d0a':'#44bb44';
         ctx.fillRect(Math.random()*sw,Math.random()*sh,1+Math.random()*2,1+Math.random()*2);
       }
       ctx.globalAlpha=1;
@@ -419,7 +419,7 @@ function PenaltyPitch(props){
     grassTex.anisotropy=maxAniso;
     var ground=new THREE.Mesh(
       new THREE.PlaneGeometry(56,88),
-      new THREE.MeshStandardMaterial({map:grassTex,roughness:0.88,metalness:0.0,envMapIntensity:0.1})
+      new THREE.MeshBasicMaterial({map:grassTex})  // BasicMaterial: no lighting washout
     );
     ground.rotation.x=-Math.PI/2;ground.position.z=-16;ground.receiveShadow=true;scene.add(ground);
 
@@ -776,8 +776,33 @@ function PenaltyPitch(props){
       new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:0.32,depthWrite:false})
     );
     kShadow.rotation.x=-Math.PI/2;kShadow.position.set(0,0.008,GZ+0.6);scene.add(kShadow);
+
+    // ── Keeper gloves — extend toward ball during dive ──
+    function makeGlove(){
+      var cv=document.createElement('canvas');cv.width=64;cv.height=48;
+      var ctx=cv.getContext('2d');
+      // Lime-green goalkeeper glove shape
+      ctx.fillStyle='#78e000';
+      ctx.beginPath();ctx.roundRect(4,4,56,40,10);ctx.fill();
+      // Finger ridges
+      ctx.fillStyle='#5ab800';
+      for(var fi=0;fi<4;fi++){ctx.fillRect(10+fi*13,6,9,18);}
+      // Palm highlight
+      ctx.fillStyle='rgba(255,255,255,0.25)';
+      ctx.beginPath();ctx.ellipse(32,32,18,8,0,0,Math.PI*2);ctx.fill();
+      var tex=new THREE.CanvasTexture(cv);
+      return new THREE.Mesh(
+        new THREE.PlaneGeometry(0.55,0.38),
+        new THREE.MeshBasicMaterial({map:tex,transparent:true,alphaTest:0.05,side:THREE.DoubleSide,depthWrite:false})
+      );
+    }
+    var gloveL=makeGlove();var gloveR=makeGlove();
+    gloveL.visible=false;gloveR.visible=false;
+    scene.add(gloveL);scene.add(gloveR);
+
     var kSprite={
       mesh:kSpriteMesh,
+      gloveL:gloveL,gloveR:gloveR,
       setDive:function(dir){},
       setIdle:function(){}
     };
@@ -903,23 +928,41 @@ function PenaltyPitch(props){
 
         // Keeper dive — dramatic sideways plunge
         if(thr.animFrame>4&&thr.animFrame<56){
-          // Fast initial burst then slow finish
           kSpriteMesh.position.x+=(thr.keeperTarget-kSpriteMesh.position.x)*0.22;
           var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
           var dt2=Math.min(Math.max((thr.animFrame-5)/18,0),1);
-          var dts=dt2*dt2*(3-2*dt2); // smoothstep
-          // Rotate sprite sideways — nearly horizontal at peak (1.25 rad ≈ 72°)
-          kSpriteMesh.rotation.z= ds===0?0:-ds*dts*1.25;
+          var dts=dt2*dt2*(3-2*dt2);
+          kSpriteMesh.rotation.z=ds===0?0:-ds*dts*1.25;
           kSpriteMesh.rotation.y=0;
-          // Stretch horizontally as keeper extends arms
-          kSpriteMesh.scale.set(1+dts*0.5, 1-dts*0.12, 1);
-          // Jump arc + height tracking
+          kSpriteMesh.scale.set(1+dts*0.45,1-dts*0.1,1);
           var shotHi=Math.max(0,(thr.shotTarget.y-1.1)*0.4);
           kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*(0.55+shotHi*0.4);
           if(thr.animFrame===5&&ds!==0)kSprite.setDive(ds);
+
+          // ── Gloves: extend leading hand toward ball ──
+          if(ds!==0){
+            var activeG=ds>0?gloveR:gloveL;
+            var restG=ds>0?gloveL:gloveR;
+            restG.visible=false;
+            activeG.visible=true;
+            // Leading glove shoots out from keeper body toward ball
+            var armReach=dts*1.1;
+            var gloveX=kSpriteMesh.position.x+ds*(0.45+armReach);
+            var gloveY=kSpriteMesh.position.y+0.1+Math.sin(dts*Math.PI)*0.25;
+            activeG.position.set(gloveX,gloveY,kSpriteMesh.position.z+0.05);
+            // Tilt glove in dive direction
+            activeG.rotation.z=-ds*dts*0.9;
+            activeG.rotation.y=ds*0.35;
+            activeG.scale.set(1+dts*0.4,1+dts*0.3,1);
+          } else {
+            gloveL.visible=false;gloveR.visible=false;
+          }
         }
-        // Reset scale after dive
-        if(thr.animFrame>=56){kSpriteMesh.scale.set(1,1,1);}
+        // Reset scale + hide gloves after dive
+        if(thr.animFrame>=56){
+          kSpriteMesh.scale.set(1,1,1);
+          gloveL.visible=false;gloveR.visible=false;
+        }
 
 
         if(t>=1){
@@ -946,7 +989,8 @@ function PenaltyPitch(props){
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSpriteMesh.scale.set(1,1,1);kSprite.setIdle();
+            kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSpriteMesh.scale.set(1,1,1);
+            gloveL.visible=false;gloveR.visible=false;kSprite.setIdle();
             pMesh.visible=true;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
