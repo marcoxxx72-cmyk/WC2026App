@@ -1118,7 +1118,22 @@ function PenaltyPitch(props){
   function handleTouchMove(ev){ev.preventDefault();var t=ev.touches[0];handleMouseMove({clientX:t.clientX,clientY:t.clientY});}
   function handleTouchEnd(ev){ev.preventDefault();handleMouseUp();}
 
-  function enterFullscreenAndAim(){
+  function shootDir(dir){
+    var thr=threeRef.current;if(!thr||thr.phase!=='aim')return;
+    var GW=thr.GW,GH=thr.GH,GZ=thr.GZ;
+    var r=Math.random;
+    // Each direction maps to a distinct zone with some randomness
+    var targets={
+      'L':{x:-(GW*0.30+r()*GW*0.12), y:GH*(0.20+r()*0.50)},
+      'C':{x:(r()-0.5)*GW*0.12,       y:GH*(0.62+r()*0.28)},
+      'R':{x:  GW*0.30+r()*GW*0.12,  y:GH*(0.20+r()*0.50)}
+    };
+    var t=targets[dir];
+    thr.aimPoint=new window.THREE.Vector3(t.x,t.y,GZ);
+    thr.fireShot();
+  }
+
+    function enterFullscreenAndAim(){
     document.body.style.overflow='hidden';
     // Native fullscreen API — hides browser chrome on Android Chrome, Firefox Mobile
     var docEl=document.documentElement;
@@ -1138,7 +1153,7 @@ function PenaltyPitch(props){
   var ri8=props.roundIdx||0;
   var RL=[{n:'R16'},{n:'QF'},{n:'SF'},{n:'FINAL'}];
   // vph = window.innerHeight updated on resize — fixes iOS Safari 100vh bug
-  var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:vph+'px',zIndex:9999,background:'#000',cursor:'crosshair'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer'};
+  var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:vph+'px',zIndex:9999,background:'#000',cursor:'default'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer'};
 
   return e('div',{style:{userSelect:'none'}},
     e('div',{style:{display:'flex',justifyContent:'center',gap:8,marginBottom:8}},
@@ -1147,12 +1162,21 @@ function PenaltyPitch(props){
     e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd},
       fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
         e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
-        (phase==='aim'||phase==='charging')&&e('div',{style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.65)',color:'white',padding:'10px 24px',borderRadius:30,fontSize:14,backdropFilter:'blur(4px)',textAlign:'center',whiteSpace:'nowrap'}},
-          phase==='aim'?(lang==='fr'?'👆 Visez le but — maintenez clic pour la puissance':lang==='es'?'👆 Apunta — mantén clic para potencia':'👆 Aim at goal — hold click to charge'):(lang==='fr'?'🔥 Relâchez pour tirer ! Bougez pour l\'effet !':lang==='es'?'🔥 ¡Suelta para tirar! ¡Mueve para efecto!':'🔥 Release to shoot! Move mouse for curve!')
+        (phase==='aim')&&e('div',{style:{position:'absolute',bottom:28,left:'50%',transform:'translateX(-50%)',display:'flex',gap:'20px',alignItems:'center',pointerEvents:'auto'}},
+          e('button',{
+            onClick:function(){shootDir('L');},
+            style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#e74c3c,#c0392b)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(231,76,60,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
+          },'⬅'),
+          e('button',{
+            onClick:function(){shootDir('C');},
+            style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#f39c12,#e67e22)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(243,156,18,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
+          },'⬆'),
+          e('button',{
+            onClick:function(){shootDir('R');},
+            style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#27ae60,#2ecc71)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(39,174,96,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
+          },'➡')
         ),
-        (phase==='aim'||phase==='charging')&&e('div',{style:{position:'absolute',bottom:40,left:'50%',transform:'translateX(-50%)',width:270,height:22,background:'rgba(255,255,255,0.12)',borderRadius:11,overflow:'hidden',border:'1px solid rgba(255,255,255,0.28)'}},
-          e('div',{ref:powerBarRef,style:{width:'0%',height:'100%',background:'linear-gradient(90deg,#00dd55,#ffd700,#ff2200)',borderRadius:11,transition:'none'}})
-        ),
+        (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':'WHERE DO YOU SHOOT?')),
         result&&e('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',fontSize:66,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 50px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 6px 18px rgba(0,0,0,1)',textAlign:'center'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
         (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
           style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
