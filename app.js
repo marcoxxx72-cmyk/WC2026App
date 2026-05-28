@@ -662,7 +662,7 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(1.4,2.8),
       new THREE.MeshBasicMaterial({transparent:true,alphaTest:0.08,side:THREE.DoubleSide,color:0xffffff})
     );
-    kSpriteMesh.position.set(0,1.4,GZ+0.6);
+    kSpriteMesh.position.set(0,1.1,GZ+0.6);
     scene.add(kSpriteMesh);
     // Async-load photo sprite, remove white background via pixel scan
     (function(){
@@ -692,7 +692,7 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(1.2,0.28),
       new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:0.32,depthWrite:false})
     );
-    kShadow.rotation.x=-Math.PI/2;kShadow.position.set(0,0.018,GZ+0.6);scene.add(kShadow);
+    kShadow.rotation.x=-Math.PI/2;kShadow.position.set(0,0.01,GZ+0.6);scene.add(kShadow);
     var kSprite={
       mesh:kSpriteMesh,
       setDive:function(dir){},
@@ -700,53 +700,102 @@ function PenaltyPitch(props){
     };
 
     // ── Kicker — Lower-body Canvas Sprite (FIFA low-camera angle) ──
-    // Shows only legs/shorts/boots in foreground; goal + goalkeeper visible above
-    var pCanvas=document.createElement('canvas');pCanvas.width=160;pCanvas.height=200;
+    // ── Kicker — Full body from behind (bezier curves, no rectangles) ──
+    var pCanvas=document.createElement('canvas');pCanvas.width=256;pCanvas.height=640;
     var pCtx=pCanvas.getContext('2d');
     (function(){
-      var c=pCtx;
-      // Shorts (Spain navy with white side stripes)
-      c.fillStyle='#0a1040';c.fillRect(8,0,144,46);
-      c.fillStyle='rgba(255,255,255,0.28)';c.fillRect(8,2,13,42);c.fillRect(139,2,13,42);
-      c.fillStyle='rgba(0,0,0,0.08)';c.fillRect(74,2,12,42);
-      // LEFT thigh (kicking leg — angled slightly for approach)
-      c.fillStyle='#d4906a';
-      c.beginPath();c.moveTo(10,44);c.lineTo(70,44);c.lineTo(66,100);c.lineTo(6,96);c.closePath();c.fill();
-      // LEFT shin (white sock)
-      c.fillStyle='#f0f0f0';c.fillRect(6,96,62,54);
-      // Red stripe (Spain colours)
-      c.fillStyle='#cc0000';c.fillRect(6,96,62,9);c.fillRect(6,128,62,6);
-      c.fillStyle='#f0f0f0';c.fillRect(6,105,62,23);c.fillRect(6,134,62,16);
-      // LEFT boot
-      c.fillStyle='#1a1a1a';
-      c.beginPath();c.moveTo(2,148);c.lineTo(70,148);c.lineTo(76,200);c.lineTo(-2,200);c.closePath();c.fill();
-      c.fillStyle='rgba(255,255,255,0.2)';c.fillRect(8,152,28,8);
-      c.fillStyle='rgba(255,255,255,0.52)';
-      c.fillRect(38,150,3,48);c.fillRect(44,150,3,48);c.fillRect(50,150,3,48);
-      // LEFT boot sole
-      c.fillStyle='#333';c.fillRect(-2,196,80,4);
-
-      // RIGHT thigh (plant leg — straight)
-      c.fillStyle='#d4906a';c.fillRect(90,44,62,58);
-      // RIGHT shin + sock
-      c.fillStyle='#f0f0f0';c.fillRect(90,100,62,54);
-      c.fillStyle='#cc0000';c.fillRect(90,100,62,9);c.fillRect(90,130,62,6);
-      c.fillStyle='#f0f0f0';c.fillRect(90,109,62,21);c.fillRect(90,136,62,18);
-      // RIGHT boot
-      c.fillStyle='#1a1a1a';
-      c.beginPath();c.moveTo(86,150);c.lineTo(158,150);c.lineTo(162,200);c.lineTo(82,200);c.closePath();c.fill();
-      c.fillStyle='rgba(255,255,255,0.2)';c.fillRect(92,154,28,8);
-      c.fillStyle='rgba(255,255,255,0.52)';
-      c.fillRect(118,152,3,46);c.fillRect(124,152,3,46);c.fillRect(130,152,3,46);
-      c.fillStyle='#333';c.fillRect(82,196,82,4);
+      var c=pCtx,cx=128;
+      // HEAD (from behind — dark skin, close-cropped hair)
+      var hg=c.createRadialGradient(cx,62,8,cx,62,50);hg.addColorStop(0,'#1a1008');hg.addColorStop(0.7,'#0e0a04');hg.addColorStop(1,'#040200');
+      c.fillStyle=hg;c.beginPath();c.ellipse(cx,60,46,50,0,0,Math.PI*2);c.fill();
+      // Subtle hair highlight
+      c.fillStyle='rgba(80,50,20,0.3)';c.beginPath();c.ellipse(cx-18,42,22,16,-0.3,0,Math.PI*2);c.fill();
+      // Ears
+      c.fillStyle='#7a4a2a';
+      c.beginPath();c.ellipse(cx-44,76,9,12,0.3,0,Math.PI*2);c.fill();
+      c.beginPath();c.ellipse(cx+44,76,9,12,-0.3,0,Math.PI*2);c.fill();
+      // NECK
+      var nkg=c.createLinearGradient(cx-14,108,cx+14,108);nkg.addColorStop(0,'#7a4a2a');nkg.addColorStop(0.5,'#9a6040');nkg.addColorStop(1,'#7a4a2a');
+      c.fillStyle=nkg;c.beginPath();c.moveTo(cx-14,108);c.bezierCurveTo(cx-16,120,cx-13,132,cx-11,138);c.lineTo(cx+11,138);c.bezierCurveTo(cx+13,132,cx+16,120,cx+14,108);c.closePath();c.fill();
+      // JERSEY BACK (red)
+      var jg=c.createLinearGradient(cx-100,135,cx+100,385);jg.addColorStop(0,'#c80000');jg.addColorStop(0.35,'#ee1a1a');jg.addColorStop(0.7,'#cc0000');jg.addColorStop(1,'#a80000');
+      c.fillStyle=jg;
+      c.beginPath();c.moveTo(cx-92,138);
+      c.bezierCurveTo(cx-105,150,cx-102,168,cx-88,175);
+      c.lineTo(cx-66,388);c.lineTo(cx+66,388);
+      c.lineTo(cx+88,175);
+      c.bezierCurveTo(cx+102,168,cx+105,150,cx+92,138);
+      c.bezierCurveTo(cx+58,122,cx-58,122,cx-92,138);
+      c.closePath();c.fill();
+      // Jersey side shading (depth)
+      c.fillStyle='rgba(0,0,0,0.16)';
+      c.beginPath();c.moveTo(cx-92,138);c.bezierCurveTo(cx-105,150,cx-102,168,cx-88,175);c.lineTo(cx-66,388);c.lineTo(cx-30,388);c.lineTo(cx-30,260);c.bezierCurveTo(cx-55,228,cx-75,195,cx-85,172);c.closePath();c.fill();
+      c.beginPath();c.moveTo(cx+92,138);c.bezierCurveTo(cx+105,150,cx+102,168,cx+88,175);c.lineTo(cx+66,388);c.lineTo(cx+30,388);c.lineTo(cx+30,260);c.bezierCurveTo(cx+55,228,cx+75,195,cx+85,172);c.closePath();c.fill();
+      // Shoulder blade suggestion (subtle shading)
+      c.fillStyle='rgba(0,0,0,0.1)';
+      c.beginPath();c.ellipse(cx-36,205,24,42,0.15,0,Math.PI*2);c.fill();
+      c.beginPath();c.ellipse(cx+36,205,24,42,-0.15,0,Math.PI*2);c.fill();
+      // Center spine highlight
+      c.fillStyle='rgba(255,255,255,0.06)';c.fillRect(cx-4,148,8,230);
+      // Jersey number 10
+      c.fillStyle='rgba(255,255,255,0.94)';c.font='bold 72px Arial';c.textAlign='center';c.textBaseline='middle';c.fillText('10',cx,282);
+      // Collar back
+      c.strokeStyle='rgba(255,255,255,0.65)';c.lineWidth=5;c.lineCap='round';
+      c.beginPath();c.moveTo(cx-20,122);c.bezierCurveTo(cx-8,114,cx+8,114,cx+20,122);c.stroke();
+      // LEFT SLEEVE (red upper arm)
+      var lasg=c.createLinearGradient(cx-90,140,cx-118,238);lasg.addColorStop(0,'#cc0000');lasg.addColorStop(1,'#a00000');
+      c.fillStyle=lasg;c.beginPath();c.moveTo(cx-85,142);c.bezierCurveTo(cx-105,158,cx-118,200,cx-112,238);c.lineTo(cx-94,234);c.bezierCurveTo(cx-96,198,cx-84,162,cx-72,150);c.closePath();c.fill();
+      // Left forearm (dark skin)
+      var lafg=c.createLinearGradient(cx-112,238,cx-108,340);lafg.addColorStop(0,'#8b5a3a');lafg.addColorStop(0.5,'#a06a44');lafg.addColorStop(1,'#7a4a28');
+      c.fillStyle=lafg;c.beginPath();c.moveTo(cx-112,238);c.bezierCurveTo(cx-116,272,cx-114,312,cx-110,338);c.lineTo(cx-92,334);c.bezierCurveTo(cx-90,308,cx-92,268,cx-94,234);c.closePath();c.fill();
+      // Left hand
+      c.fillStyle='#8b5a3a';c.beginPath();c.ellipse(cx-103,348,13,10,0.2,0,Math.PI*2);c.fill();
+      // RIGHT SLEEVE
+      var rasg=c.createLinearGradient(cx+90,140,cx+118,238);rasg.addColorStop(0,'#cc0000');rasg.addColorStop(1,'#a00000');
+      c.fillStyle=rasg;c.beginPath();c.moveTo(cx+85,142);c.bezierCurveTo(cx+105,158,cx+118,200,cx+112,238);c.lineTo(cx+94,234);c.bezierCurveTo(cx+96,198,cx+84,162,cx+72,150);c.closePath();c.fill();
+      // Right forearm (dark skin)
+      var rafg=c.createLinearGradient(cx+112,238,cx+108,340);rafg.addColorStop(0,'#8b5a3a');rafg.addColorStop(0.5,'#a06a44');rafg.addColorStop(1,'#7a4a28');
+      c.fillStyle=rafg;c.beginPath();c.moveTo(cx+112,238);c.bezierCurveTo(cx+116,272,cx+114,312,cx+110,338);c.lineTo(cx+92,334);c.bezierCurveTo(cx+90,308,cx+92,268,cx+94,234);c.closePath();c.fill();
+      // Right hand
+      c.fillStyle='#8b5a3a';c.beginPath();c.ellipse(cx+103,348,13,10,-0.2,0,Math.PI*2);c.fill();
+      // SHORTS (orange, athletic)
+      var shg=c.createLinearGradient(cx-70,385,cx+70,385);shg.addColorStop(0,'#b85200');shg.addColorStop(0.3,'#ee6800');shg.addColorStop(0.5,'#ff7800');shg.addColorStop(0.7,'#ee6800');shg.addColorStop(1,'#b85200');
+      c.fillStyle=shg;
+      c.beginPath();c.moveTo(cx-70,385);c.lineTo(cx+70,385);
+      c.bezierCurveTo(cx+75,428,cx+54,470,cx+46,480);c.lineTo(cx+10,480);c.lineTo(cx+10,428);c.lineTo(cx-10,428);c.lineTo(cx-10,480);c.lineTo(cx-46,480);
+      c.bezierCurveTo(cx-54,470,cx-75,428,cx-70,385);c.closePath();c.fill();
+      c.fillStyle='rgba(0,0,0,0.13)';c.fillRect(cx-72,387,14,90);c.fillRect(cx+58,387,14,90);
+      c.fillStyle='rgba(0,0,0,0.08)';c.fillRect(cx-10,387,20,88);
+      // THIGHS (dark skin, two legs)
+      var lx=cx-34,rx=cx+34;
+      [[lx,480],[rx,480]].forEach(function(l){
+        var tg=c.createLinearGradient(l[0]-26,l[1],l[0]+26,l[1]);tg.addColorStop(0,'#7a4a28');tg.addColorStop(0.35,'#a86a40');tg.addColorStop(0.65,'#9e6038');tg.addColorStop(1,'#7a4a28');
+        c.fillStyle=tg;c.beginPath();c.moveTo(l[0]-28,l[1]);c.lineTo(l[0]-26,l[1]+52);c.lineTo(l[0]+26,l[1]+52);c.lineTo(l[0]+28,l[1]);c.closePath();c.fill();
+      });
+      // SOCKS (white with red band)
+      [[lx,533],[rx,533]].forEach(function(s){
+        var sg2=c.createLinearGradient(s[0]-22,s[1],s[0]+22,s[1]);sg2.addColorStop(0,'#c5c5c5');sg2.addColorStop(0.4,'#f0f0f0');sg2.addColorStop(0.6,'#ebebeb');sg2.addColorStop(1,'#c0c0c0');
+        c.fillStyle=sg2;c.fillRect(s[0]-24,s[1],48,68);
+        c.fillStyle='#cc0000';c.fillRect(s[0]-24,s[1],48,11);
+        c.fillStyle='rgba(0,0,0,0.05)';
+        for(var si=0;si<4;si++){c.fillRect(s[0]-22,s[1]+15+si*13,44,7);}
+      });
+      // BOOTS (black, Adidas stripes)
+      function drawBoot(bx,by){
+        var bg=c.createLinearGradient(bx-28,by,bx+28,by);bg.addColorStop(0,'#111');bg.addColorStop(0.4,'#282828');bg.addColorStop(1,'#0a0a0a');
+        c.fillStyle=bg;c.beginPath();c.moveTo(bx-26,by);c.bezierCurveTo(bx-30,by+16,bx-28,by+36,bx-16,by+40);c.lineTo(bx+28,by+40);c.bezierCurveTo(bx+36,by+32,bx+34,by+14,bx+26,by);c.closePath();c.fill();
+        c.fillStyle='rgba(255,255,255,0.36)';[bx+4,bx+10,bx+16].forEach(function(sx){c.fillRect(sx,by+5,3,32);});
+        c.fillStyle='rgba(255,255,255,0.15)';c.fillRect(bx-20,by+6,30,8);
+        c.fillStyle='#333';c.fillRect(bx-30,by+38,68,6);
+      }
+      drawBoot(lx,602);drawBoot(rx,602);
     })();
     var pTex=new THREE.CanvasTexture(pCanvas);
     var pMesh=new THREE.Mesh(
-      new THREE.PlaneGeometry(0.9,1.12),
+      new THREE.PlaneGeometry(0.62,1.3),
       new THREE.MeshBasicMaterial({map:pTex,transparent:true,alphaTest:0.05,side:THREE.DoubleSide})
     );
-    // Low foreground position: goal visible in upper screen, legs in lower screen
-    pMesh.position.set(0.0,0.56,4.2);
+    pMesh.position.set(0.0,0.65,3.2);
     scene.add(pMesh);
 
         // ── Aim plane & crosshair ──
@@ -901,8 +950,8 @@ function PenaltyPitch(props){
       // Kicker kick animation — lean forward then hide
       if(thr.phase==='animating'&&pMesh.visible){
         var kf=thr.animFrame;
-        if(kf<10){pMesh.rotation.x=-(kf/9)*0.4;pMesh.position.z=4.2+kf*0.04;}
-        else{pMesh.visible=false;pMesh.rotation.x=0;pMesh.position.z=4.2;}
+        if(kf<10){pMesh.rotation.x=-(kf/9)*0.4;pMesh.position.z=3.2+kf*0.04;}
+        else{pMesh.visible=false;pMesh.rotation.x=0;pMesh.position.z=3.2;}
       }
 
       renderer.render(scene,camera);
