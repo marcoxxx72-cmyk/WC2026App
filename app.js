@@ -984,14 +984,16 @@ function PenaltyPitch(props){
     function fireShot(){
       if(!thr.aimPoint)return;
       thr.shotTarget={x:thr.aimPoint.x,y:thr.aimPoint.y,curve:Math.max(-0.5,Math.min(0.5,thr.curveAccum))};
-      // Higuita ALWAYS dives — no more standing still! keeper picks left or right
-      var dirs=[-2.2,2.2];
-      var side=thr.aimPoint.x>=0?0:1; // mirror of shot side (keeper guesses opposite to mix things up)
-      var diff=[0.52,0.62,0.74,0.85][roundIdx]||0.52;
-      var reaction=Math.max(0.28,Math.min(0.94,diff+(thr.power-0.5)*0.12));
-      // React correctly to shot side, or guess the other side
-      var correctSide=thr.aimPoint.x>0.1?1:thr.aimPoint.x<-0.1?0:Math.floor(Math.random()*2);
-      thr.keeperTarget=Math.random()<reaction?dirs[correctSide]:dirs[1-correctSide];
+      // Keeper AI: 3 options — left(-2.2), center(0), right(+2.2)
+      var dirs=[-2.2,0,2.2];
+      var cx=GW*0.13; // center threshold ±0.95 units
+      var diff=[0.45,0.58,0.70,0.82][roundIdx]||0.45;
+      var reaction=Math.max(0.28,Math.min(0.88,diff+(thr.power-0.5)*0.10));
+      // correctSide: 0=left 1=center 2=right — matches where the shot goes
+      var correctSide=thr.aimPoint.x>cx?2:thr.aimPoint.x<-cx?0:1;
+      // wrongSide: keeper guesses the opposite side
+      var wrongSide=correctSide===1?(Math.random()<0.5?0:2):(correctSide===2?0:2);
+      thr.keeperTarget=Math.random()<reaction?dirs[correctSide]:dirs[wrongSide];
       thr.phase='animating';thr.animFrame=0;pMesh.rotation.x=0;
       if(powerBarRef.current)powerBarRef.current.style.width='0%';
       playSound('kick');setPhase('animating');
