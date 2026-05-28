@@ -901,19 +901,25 @@ function PenaltyPitch(props){
         var ss=Math.max(0.08,1.12-ball.position.y*0.62);
         ballShadow.scale.set(ss,ss,1);ballShadow.material.opacity=0.28*ss;
 
-        // Keeper dive — canvas sprite mesh animation
-        if(thr.animFrame>4&&thr.animFrame<52){
-          kSpriteMesh.position.x+=(thr.keeperTarget-kSpriteMesh.position.x)*0.13;
+        // Keeper dive — dramatic sideways plunge
+        if(thr.animFrame>4&&thr.animFrame<56){
+          // Fast initial burst then slow finish
+          kSpriteMesh.position.x+=(thr.keeperTarget-kSpriteMesh.position.x)*0.22;
+          var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
+          var dt2=Math.min(Math.max((thr.animFrame-5)/18,0),1);
+          var dts=dt2*dt2*(3-2*dt2); // smoothstep
+          // Rotate sprite sideways — nearly horizontal at peak (1.25 rad ≈ 72°)
+          kSpriteMesh.rotation.z= ds===0?0:-ds*dts*1.25;
           kSpriteMesh.rotation.y=0;
-          var ds=thr.keeperTarget>0?1:-1;
-          var dt2=Math.min(Math.max((thr.animFrame-5)/20,0),1);
-          var dts=dt2*dt2*(3-2*dt2);
-          kSpriteMesh.rotation.z=-ds*dts*0.9;
-          // Keeper also jumps up for high shots
-          var shotHi=Math.max(0,(thr.shotTarget.y-1.0)*0.35);
-          kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*0.35;
-          if(thr.animFrame===5)kSprite.setDive(ds);
+          // Stretch horizontally as keeper extends arms
+          kSpriteMesh.scale.set(1+dts*0.5, 1-dts*0.12, 1);
+          // Jump arc + height tracking
+          var shotHi=Math.max(0,(thr.shotTarget.y-1.1)*0.4);
+          kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*(0.55+shotHi*0.4);
+          if(thr.animFrame===5&&ds!==0)kSprite.setDive(ds);
         }
+        // Reset scale after dive
+        if(thr.animFrame>=56){kSpriteMesh.scale.set(1,1,1);}
 
 
         if(t>=1){
@@ -940,7 +946,7 @@ function PenaltyPitch(props){
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
+            kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSpriteMesh.scale.set(1,1,1);kSprite.setIdle();
             pMesh.visible=true;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
