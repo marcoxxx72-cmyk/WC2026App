@@ -369,8 +369,8 @@ function PenaltyPitch(props){
 
     // ── Scene ──
     var scene=new THREE.Scene();
-    scene.background=new THREE.Color(0x4fb3e8);
-    scene.fog=new THREE.FogExp2(0x7ecbef,0.003);
+    scene.background=new THREE.Color(0x1a90d9);
+    scene.fog=new THREE.FogExp2(0x3a9fd5,0.003);
 
     var GZ=-5.0;
     // ── Camera — near-ground behind ball ──
@@ -402,8 +402,8 @@ function PenaltyPitch(props){
       for(var s=0;s<numStripes;s++){
         var light=s%2===0;
         var gradient=ctx.createLinearGradient(0,s*sh/numStripes,0,(s+1)*sh/numStripes);
-        if(light){gradient.addColorStop(0,'#2d9e2d');gradient.addColorStop(1,'#38b838');}
-        else{gradient.addColorStop(0,'#228022');gradient.addColorStop(1,'#279427');}
+        if(light){gradient.addColorStop(0,'#36c436');gradient.addColorStop(1,'#4de84d');}
+        else{gradient.addColorStop(0,'#28a028');gradient.addColorStop(1,'#32ba32');}
         ctx.fillStyle=gradient;ctx.fillRect(0,s*sh/numStripes,sw,(sh/numStripes)+1);
       }
       // Subtle noise for texture
@@ -447,7 +447,7 @@ function PenaltyPitch(props){
     scene.add(new THREE.Line(arcG,new THREE.LineBasicMaterial({color:0xffffff,opacity:0.88,transparent:true})));
 
     // ── Goal — aluminum/steel posts ──
-    var GW=5.0,GH=3.2;
+    var GW=5.5,GH=3.4;
     var postTex=makeCanvasTex(function(ctx,sz){
       var g=ctx.createLinearGradient(0,0,sz,0);
       g.addColorStop(0,'#c0c8d0');g.addColorStop(0.35,'#f0f4f8');g.addColorStop(0.65,'#f0f4f8');g.addColorStop(1,'#8899aa');
@@ -594,7 +594,7 @@ function PenaltyPitch(props){
       new THREE.TextureLoader().load('/stadium_bg.png',function(bgTex){
         var bgPlane=new THREE.Mesh(
           new THREE.PlaneGeometry(100,32.3),
-          new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
+          new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true,color:0xbbbbbb})
         );
         bgPlane.position.set(0,16.15,GZ-22);
         scene.add(bgPlane);
@@ -655,6 +655,39 @@ function PenaltyPitch(props){
 
     // Floodlight towers removed
 
+    // Functional scoreboard screen above goal
+    var sbCanvas=document.createElement('canvas');sbCanvas.width=512;sbCanvas.height=256;
+    var sbCtx=sbCanvas.getContext('2d');
+    function updateScoreboard(goals,saves){
+      sbCtx.fillStyle='#0a0a0a';sbCtx.fillRect(0,0,512,256);
+      // Border
+      sbCtx.strokeStyle='#444';sbCtx.lineWidth=6;sbCtx.strokeRect(4,4,504,248);
+      // FIFA WC logo band
+      sbCtx.fillStyle='#1a1a2e';sbCtx.fillRect(0,0,512,48);
+      sbCtx.fillStyle='#f0c000';sbCtx.font='bold 22px monospace';
+      sbCtx.textAlign='center';sbCtx.fillText('FIFA WORLD CUP 2026',256,33);
+      // Score
+      sbCtx.fillStyle='#ffffff';sbCtx.font='bold 88px monospace';
+      sbCtx.fillText(goals,140,175);
+      sbCtx.fillStyle='#888';sbCtx.font='bold 60px monospace';
+      sbCtx.fillText('-',256,170);
+      sbCtx.fillStyle='#ff4444';sbCtx.font='bold 88px monospace';
+      sbCtx.fillText(saves,372,175);
+      // Labels
+      sbCtx.fillStyle='#aaa';sbCtx.font='14px monospace';
+      sbCtx.fillText('GOALS',140,215);sbCtx.fillText('SAVES',372,215);
+      sbTex.needsUpdate=true;
+    }
+    var sbTex=new THREE.CanvasTexture(sbCanvas);
+    var sbMesh=new THREE.Mesh(
+      new THREE.PlaneGeometry(11,5.5),
+      new THREE.MeshBasicMaterial({map:sbTex,depthWrite:false})
+    );
+    sbMesh.position.set(0,GH+5.5,GZ-4);
+    scene.add(sbMesh);
+    updateScoreboard(0,0);
+    thr.sbMesh=sbMesh;thr.updateScoreboard=updateScoreboard;
+
     // ── Soccer ball — realistic PBR with hexagonal texture ──
     var ballTex=makeCanvasTex(function(ctx,sz){
       // White base
@@ -709,10 +742,10 @@ function PenaltyPitch(props){
 
     // ── Goalkeeper — Higgsfield Photo Sprite ──
     var kSpriteMesh=new THREE.Mesh(
-      new THREE.PlaneGeometry(1.4,2.8),
+      new THREE.PlaneGeometry(1.4,2.1),
       new THREE.MeshBasicMaterial({transparent:true,alphaTest:0.08,side:THREE.DoubleSide,color:0xffffff})
     );
-    kSpriteMesh.position.set(0,1.2,GZ+0.6);
+    kSpriteMesh.position.set(0,0.88,GZ+0.6);
     scene.add(kSpriteMesh);
     // Async-load photo sprite, remove white background via pixel scan
     (function(){
@@ -875,7 +908,7 @@ function PenaltyPitch(props){
           var dt2=Math.min(Math.max((thr.animFrame-5)/20,0),1);
           var dts=dt2*dt2*(3-2*dt2);
           kSpriteMesh.rotation.z=-ds*dts*0.85;
-          kSpriteMesh.position.y=1.2+Math.sin(dts*Math.PI)*0.35;
+          kSpriteMesh.position.y=0.88+Math.sin(dts*Math.PI)*0.28;
           if(thr.animFrame===5)kSprite.setDive(ds);
         }
 
@@ -884,25 +917,27 @@ function PenaltyPitch(props){
           thr.phase='result';
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
           var inGoal=Math.abs(tgt.x)<GW/2*0.97&&tgt.y>0.07&&tgt.y<GH*0.97;
-          var kw=0.68;
-          var keeperCY=kSpriteMesh.position.y-0.05;
+          var kw=0.88;
+          var keeperCY=kSpriteMesh.position.y;
           var dy=Math.abs(tgt.y-keeperCY);
           var dx2=Math.abs(tgt.x-kSpriteMesh.position.x);
-          var saved=(dx2<kw&&dy<0.80)&&inGoal;
+          var saved=(dx2<kw&&dy<1.1)&&inGoal;
           thr.result=(saved||!inGoal)?'saved':'goal';
           trailMat.opacity=0;trailHistory=[];
           if(thr.result==='goal'){
             showConf=true;confTimer=0;confMat.opacity=1;
+            if(thr.updateScoreboard){var gs=(thr.sbGoals||0)+1;thr.sbGoals=gs;thr.updateScoreboard(gs,thr.sbSaves||0);}
             for(var ri7=0;ri7<CNUM;ri7++){cPos[ri7*3]=tgt.x+(Math.random()-0.5)*GW*1.1;cPos[ri7*3+1]=GH*0.35+Math.random()*GH*1.5;cPos[ri7*3+2]=GZ+(Math.random()-0.5)*0.8;cVel[ri7]={x:(Math.random()-0.5)*0.28,y:Math.random()*0.14+0.05,z:(Math.random()-0.5)*0.1};}
             cPosAttr.needsUpdate=true;playSound('goal');
           } else {playSound('save');}
           setResult(thr.result);
           setTimeout(function(){
             if(props.onShotDone)props.onShotDone(thr.result==='goal');
+            if(thr.updateScoreboard){var ss=(thr.sbSaves||0)+1;thr.sbSaves=ss;thr.updateScoreboard(thr.sbGoals||0,ss);}
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kSpriteMesh.position.set(0,1.2,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
+            kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
             pMesh.visible=true;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
@@ -952,7 +987,7 @@ function PenaltyPitch(props){
       var diff=[0.52,0.62,0.74,0.85][roundIdx]||0.52;
       var reaction=Math.max(0.28,Math.min(0.94,diff+(thr.power-0.5)*0.12));
       // React correctly to shot side, or guess the other side
-      var correctSide=thr.aimPoint.x>0.1?0:thr.aimPoint.x<-0.1?1:Math.floor(Math.random()*2);
+      var correctSide=thr.aimPoint.x>0.1?1:thr.aimPoint.x<-0.1?0:Math.floor(Math.random()*2);
       thr.keeperTarget=Math.random()<reaction?dirs[correctSide]:dirs[1-correctSide];
       thr.phase='animating';thr.animFrame=0;pMesh.rotation.x=0;
       if(powerBarRef.current)powerBarRef.current.style.width='0%';
@@ -987,7 +1022,7 @@ function PenaltyPitch(props){
     setPhase('idle');setResult(null);
     if(thr.ball){thr.ball.position.set(0,0.115,3.2);thr.ball.rotation.set(0,0,0);}
     if(thr.ballShadow){thr.ballShadow.position.set(0,0.011,3.2);thr.ballShadow.scale.set(1,1,1);}
-    if(thr.kSprite){thr.kSprite.mesh.position.set(0,1.4,thr.GZ+0.6);thr.kSprite.mesh.rotation.z=0;thr.kSprite.mesh.rotation.y=0;thr.kSprite.setIdle();}
+    if(thr.kSprite){thr.kSprite.mesh.position.set(0,0.88,thr.GZ+0.6);thr.kSprite.mesh.rotation.z=0;thr.kSprite.mesh.rotation.y=0;thr.kSprite.setIdle();}
     if(thr.markerGrp)thr.markerGrp.visible=false;
     if(thr.confMat)thr.confMat.opacity=0;
     if(powerBarRef.current)powerBarRef.current.style.width='0%';
@@ -995,20 +1030,19 @@ function PenaltyPitch(props){
 
   function doRaycast(clientX,clientY){
     var thr=threeRef.current;if(!thr||!thr.renderer)return null;
-    var THREE=window.THREE;
     var rect=thr.renderer.domElement.getBoundingClientRect();
-    var mx=((clientX-rect.left)/rect.width)*2-1;
-    var my=-((clientY-rect.top)/rect.height)*2+1;
-    thr.raycaster.setFromCamera(new THREE.Vector2(mx,my),thr.camera);
-    var hits=thr.raycaster.intersectObject(thr.aimPlane);
-    if(hits.length>0){
-      var pt=hits[0].point;
-      if(Math.abs(pt.x)<=thr.GW/2*0.92&&pt.y>=0.07&&pt.y<=thr.GH*0.94){
-        thr.markerGrp.position.copy(pt);thr.markerGrp.visible=true;
-        thr.aimPoint=pt.clone();return pt;
-      }
-    }
-    return null;
+    // Mobile-friendly: map full screen → goal coordinates (no need to tap inside cage)
+    var nx=(clientX-rect.left)/rect.width;   // 0=left edge, 1=right edge
+    var ny=1-(clientY-rect.top)/rect.height; // 0=bottom, 1=top
+    var gx=(nx-0.5)*thr.GW*0.92;
+    var gy=Math.max(0.12,Math.min(thr.GH*0.93, ny*thr.GH*1.4+0.05));
+    var pt=new window.THREE.Vector3(
+      Math.max(-thr.GW/2*0.92,Math.min(thr.GW/2*0.92,gx)),
+      gy,
+      thr.GZ
+    );
+    thr.markerGrp.position.copy(pt);thr.markerGrp.visible=true;
+    thr.aimPoint=pt.clone();return pt;
   }
 
   function handleMouseMove(ev){
