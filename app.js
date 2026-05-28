@@ -369,8 +369,8 @@ function PenaltyPitch(props){
 
     // ── Scene ──
     var scene=new THREE.Scene();
-    scene.background=new THREE.Color(0x9edd68);
-    scene.fog=new THREE.FogExp2(0xb5e878,0.003);
+    scene.background=new THREE.Color(0x4fb3e8);
+    scene.fog=new THREE.FogExp2(0x7ecbef,0.003);
 
     var GZ=-5.0;
     // ── Camera — near-ground behind ball ──
@@ -402,8 +402,8 @@ function PenaltyPitch(props){
       for(var s=0;s<numStripes;s++){
         var light=s%2===0;
         var gradient=ctx.createLinearGradient(0,s*sh/numStripes,0,(s+1)*sh/numStripes);
-        if(light){gradient.addColorStop(0,'#267326');gradient.addColorStop(1,'#2e8a2e');}
-        else{gradient.addColorStop(0,'#1e5c1e');gradient.addColorStop(1,'#225c22');}
+        if(light){gradient.addColorStop(0,'#2d9e2d');gradient.addColorStop(1,'#38b838');}
+        else{gradient.addColorStop(0,'#228022');gradient.addColorStop(1,'#279427');}
         ctx.fillStyle=gradient;ctx.fillRect(0,s*sh/numStripes,sw,(sh/numStripes)+1);
       }
       // Subtle noise for texture
@@ -423,10 +423,7 @@ function PenaltyPitch(props){
     );
     ground.rotation.x=-Math.PI/2;ground.position.z=-16;ground.receiveShadow=true;scene.add(ground);
 
-    // Spotlight pool — bright ellipse under floodlights in penalty area
-    var spMat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.06,depthWrite:false,blending:THREE.AdditiveBlending});
-    var spMesh=new THREE.Mesh(new THREE.CircleGeometry(11,32),spMat);
-    spMesh.rotation.x=-Math.PI/2;spMesh.position.set(0,0.025,-10);scene.add(spMesh);
+    // Spotlight pool removed with floodlights
 
     // ── Pitch markings ──
     var wM=new THREE.MeshBasicMaterial({color:0xffffff,opacity:0.88,transparent:true});
@@ -498,10 +495,10 @@ function PenaltyPitch(props){
       var bc=document.createElement('canvas');bc.width=BW;bc.height=BH;
       var c=bc.getContext('2d');
 
-      // ── Sky: vert clair / vert-jaune (Dola AI) ──
+      // ── Sky: blue (matching scene.background) ──
       var skyH=Math.round(BH*0.22);
-      var skyG=c.createLinearGradient(0,0,BW,skyH*1.2);
-      skyG.addColorStop(0,'#c8f58e');skyG.addColorStop(0.4,'#9edd68');skyG.addColorStop(1,'#7dc83e');
+      var skyG=c.createLinearGradient(0,0,0,skyH);
+      skyG.addColorStop(0,'#2d8fd5');skyG.addColorStop(1,'#6ec6f0');
       c.fillStyle=skyG;c.fillRect(0,0,BW,skyH);
 
       // ── Arche verte courbée (polygone de segments droits) ──
@@ -593,15 +590,12 @@ function PenaltyPitch(props){
       })();
 
       // ── Higgsfield-generated stadium image as background ──
-      // Image cropped to top 62% (sky+arch+crowd only, no goal)
-      // Ratio: 2048x714 = 2.87:1 → PlaneGeometry(100, 34.8)
       new THREE.TextureLoader().load('/stadium_bg.png',function(bgTex){
         var bgPlane=new THREE.Mesh(
-          new THREE.PlaneGeometry(100,35),
+          new THREE.PlaneGeometry(100,21.6),
           new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
         );
-        // Bottom of plane at y≈0 (ground), top at y≈35
-        bgPlane.position.set(0,17.5,GZ-22);
+        bgPlane.position.set(0,10.8,GZ-22);
         scene.add(bgPlane);
       });
 
@@ -658,25 +652,7 @@ function PenaltyPitch(props){
     var adMeshR=new THREE.Mesh(new THREE.PlaneGeometry(24,1.1),sideBoardMat);
     adMeshR.rotation.y=-Math.PI/2;adMeshR.position.set(14,0.22,-9);scene.add(adMeshR);
 
-    // Floodlight towers — realistic metal structure
-    var towerMat=new THREE.MeshStandardMaterial({color:0x8899aa,roughness:0.6,metalness:0.7});
-    var lightHeadMat=new THREE.MeshStandardMaterial({color:0xffffee,emissive:0xffffcc,emissiveIntensity:1.2,roughness:0.4,metalness:0.6});
-    [[-20,0,-2],[20,0,-2],[-20,0,-22],[20,0,-22]].forEach(function(p){
-      var tower=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.22,22,10),towerMat);
-      tower.position.set(p[0],11,p[2]);scene.add(tower);
-      // Cross beams
-      var beam1=new THREE.Mesh(new THREE.BoxGeometry(3,0.15,0.15),towerMat);
-      beam1.position.set(p[0],22,p[2]);scene.add(beam1);
-      // Light head
-      var head=new THREE.Mesh(new THREE.BoxGeometry(3.8,0.5,1.8),lightHeadMat);
-      head.position.set(p[0],22.4,p[2]);scene.add(head);
-      // Light lens details
-      for(var li=0;li<5;li++){
-        var lens=new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.22,0.12,12),lightHeadMat);
-        lens.rotation.x=Math.PI/2;
-        lens.position.set(p[0]-1.5+li*0.76,22.4,p[2]-0.95);scene.add(lens);
-      }
-    });
+    // Floodlight towers removed
 
     // ── Soccer ball — realistic PBR with hexagonal texture ──
     var ballTex=makeCanvasTex(function(ctx,sz){
