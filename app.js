@@ -712,22 +712,13 @@ function PenaltyPitch(props){
         loader.setDRACOLoader(dracoLoader);
         loader.load('/kicker.glb',function(gltf){
           var model=gltf.scene;
-          // Scale: Mixamo in cm, target ~1.80m in world units
-          model.scale.set(0.0108,0.0108,0.0108);
-          // Rotate so back faces camera (camera at z=5.5, goal at z=-10)
+          // Scale: bbox height=177cm → 1.8 world units
+          model.scale.set(0.0101,0.0101,0.0101);
+          // Back faces camera (camera z=5.5, goal z=-10)
           model.rotation.y=Math.PI;
-          // Ensure feet at ground level y=0
+          // Feet at ground: compute world bbox after scale, offset up
           var box=new THREE.Box3().setFromObject(model);
-          model.position.y=-box.min.y*0.0108;
-          // Override materials: red jersey, orange shorts
-          model.traverse(function(child){
-            if(!child.isMesh)return;
-            var n=(child.name||'').toLowerCase();
-            if(n.indexOf('hair')>=0){child.material=new THREE.MeshStandardMaterial({color:0x0a0604,roughness:0.7});}
-            else if(n.indexOf('shoe')>=0||n.indexOf('boot')>=0||n.indexOf('foot')>=0){child.material=new THREE.MeshStandardMaterial({color:0x111111,roughness:0.6,metalness:0.1});}
-            else if(n.indexOf('pant')>=0||n.indexOf('short')>=0||n.indexOf('leg')>=0){child.material=new THREE.MeshStandardMaterial({color:0xff7800,roughness:0.6});}
-            else if(n.indexOf('shirt')>=0||n.indexOf('top')>=0||n.indexOf('torso')>=0||n.indexOf('body')>=0){child.material=new THREE.MeshStandardMaterial({color:0xdd0000,roughness:0.55});}
-          });
+          model.position.y=-box.min.y;
           pMesh.add(model);
         },undefined,function(e){console.warn('kicker.glb error',e);});
       }
