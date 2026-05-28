@@ -447,7 +447,7 @@ function PenaltyPitch(props){
     scene.add(new THREE.Line(arcG,new THREE.LineBasicMaterial({color:0xffffff,opacity:0.88,transparent:true})));
 
     // ── Goal — aluminum/steel posts ──
-    var GW=4.2,GH=2.8;
+    var GW=5.0,GH=3.2;
     var postTex=makeCanvasTex(function(ctx,sz){
       var g=ctx.createLinearGradient(0,0,sz,0);
       g.addColorStop(0,'#c0c8d0');g.addColorStop(0.35,'#f0f4f8');g.addColorStop(0.65,'#f0f4f8');g.addColorStop(1,'#8899aa');
@@ -590,12 +590,13 @@ function PenaltyPitch(props){
       })();
 
       // ── Higgsfield-generated stadium image as background ──
+      // Image 2048x714 ratio 2.87:1 → PlaneGeometry(100,34.8) ──
       new THREE.TextureLoader().load('/stadium_bg.png',function(bgTex){
         var bgPlane=new THREE.Mesh(
-          new THREE.PlaneGeometry(100,21.6),
+          new THREE.PlaneGeometry(100,35),
           new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
         );
-        bgPlane.position.set(0,10.8,GZ-22);
+        bgPlane.position.set(0,17.5,GZ-22);
         scene.add(bgPlane);
       });
 
@@ -711,7 +712,7 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(1.4,2.8),
       new THREE.MeshBasicMaterial({transparent:true,alphaTest:0.08,side:THREE.DoubleSide,color:0xffffff})
     );
-    kSpriteMesh.position.set(0,1.4,GZ+0.6);
+    kSpriteMesh.position.set(0,1.2,GZ+0.6);
     scene.add(kSpriteMesh);
     // Async-load photo sprite, remove white background via pixel scan
     (function(){
@@ -874,7 +875,7 @@ function PenaltyPitch(props){
           var dt2=Math.min(Math.max((thr.animFrame-5)/20,0),1);
           var dts=dt2*dt2*(3-2*dt2);
           kSpriteMesh.rotation.z=-ds*dts*0.85;
-          kSpriteMesh.position.y=1.4+Math.sin(dts*Math.PI)*0.42;
+          kSpriteMesh.position.y=1.2+Math.sin(dts*Math.PI)*0.35;
           if(thr.animFrame===5)kSprite.setDive(ds);
         }
 
@@ -884,7 +885,7 @@ function PenaltyPitch(props){
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
           var inGoal=Math.abs(tgt.x)<GW/2*0.97&&tgt.y>0.07&&tgt.y<GH*0.97;
           var kw=0.68;
-          var keeperCY=kSpriteMesh.position.y+0.35;
+          var keeperCY=kSpriteMesh.position.y-0.05;
           var dy=Math.abs(tgt.y-keeperCY);
           var dx2=Math.abs(tgt.x-kSpriteMesh.position.x);
           var saved=(dx2<kw&&dy<0.80)&&inGoal;
@@ -901,7 +902,7 @@ function PenaltyPitch(props){
             thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
             ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
             ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kSpriteMesh.position.set(0,1.4,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
+            kSpriteMesh.position.set(0,1.2,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSprite.setIdle();
             pMesh.visible=true;
             markerGrp.visible=false;showConf=false;confMat.opacity=0;
             if(powerBarRef.current)powerBarRef.current.style.width='0%';
