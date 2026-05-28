@@ -592,13 +592,16 @@ function PenaltyPitch(props){
         c.fill();
       })();
 
-      var bgTex=new THREE.CanvasTexture(bc);
-      var bgPlane=new THREE.Mesh(
-        new THREE.PlaneGeometry(100,42),
-        new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
-      );
-      bgPlane.position.set(0,14,GZ-20);
-      scene.add(bgPlane);
+      // ── Higgsfield-generated stadium image as background ──
+      new THREE.TextureLoader().load('/stadium_bg.png',function(bgTex){
+        bgTex.colorSpace=THREE.SRGBColorSpace||THREE.LinearEncoding;
+        var bgPlane=new THREE.Mesh(
+          new THREE.PlaneGeometry(108,61),
+          new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
+        );
+        bgPlane.position.set(0,19,GZ-23);
+        scene.add(bgPlane);
+      });
 
       // ── Side panels: dark green + round spectators ──
       ['L','R'].forEach(function(side){
