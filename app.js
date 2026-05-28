@@ -369,8 +369,8 @@ function PenaltyPitch(props){
 
     // ── Scene ──
     var scene=new THREE.Scene();
-    scene.background=new THREE.Color(0x6dc43e);
-    scene.fog=new THREE.FogExp2(0x5ab030,0.004);
+    scene.background=new THREE.Color(0x3b82f6);
+    scene.fog=new THREE.FogExp2(0x93c5fd,0.003);
 
     var GZ=-8.5;
     // ── Camera — near-ground behind ball ──
@@ -478,166 +478,190 @@ function PenaltyPitch(props){
     var netMat=new THREE.LineBasicMaterial({color:0xffffff,opacity:0.5,transparent:true});
     scene.add(new THREE.LineSegments(netGeo,netMat));
 
-    // ── Stadium — flat illustration style (like Dola AI reference) ──
+    // ── Stadium — HTML/CSS mockup style (blue sky, gray stands, pill spectators) ──
+    var cloudPlanes=[];
     (function(){
+      // ─ Helper: pill-shaped spectator (border-radius: 45% 45% 0 0 like CSS) ─
+      function drawPill(c,x,y,w,h,color){
+        var r=w*0.45;
+        c.fillStyle=color;
+        c.beginPath();
+        c.moveTo(x,y+h);
+        c.lineTo(x,y+r);
+        c.arc(x+r,y+r,r,Math.PI,Math.PI*1.5);
+        c.lineTo(x+w-r,y);
+        c.arc(x+w-r,y+r,r,-Math.PI*0.5,0);
+        c.lineTo(x+w,y+h);
+        c.closePath();
+        c.fill();
+      }
+
       var BW=2048,BH=1024;
       var bc=document.createElement('canvas');bc.width=BW;bc.height=BH;
       var c=bc.getContext('2d');
 
-      // ── Sky: bright lime-green gradient (top portion) ──
-      var skyH=Math.round(BH*0.20);
-      var skyG=c.createLinearGradient(0,0,BW,skyH*1.4);
-      skyG.addColorStop(0,'#8ddd3e');skyG.addColorStop(0.5,'#6dc43e');skyG.addColorStop(1,'#4aaa20');
+      // ── Blue sky gradient (top 22%) ──
+      var skyH=Math.round(BH*0.22);
+      var skyG=c.createLinearGradient(0,0,0,skyH);
+      skyG.addColorStop(0,'#3b82f6');skyG.addColorStop(1,'#93c5fd');
       c.fillStyle=skyG;c.fillRect(0,0,BW,skyH);
 
-      // ── Stadium arch: dark green curved roof with white trim edge ──
-      var archDip=skyH*1.55; // how far the arch dips down at center
-      c.fillStyle='#122808';
+      // ── Stadium arch: very dark, flat top corners dipping in center ──
+      // Draw as a filled polygon (no curves for the arch shape)
+      var archMidY=Math.round(skyH*1.6);
+      c.fillStyle='#0d1f0a';
       c.beginPath();
-      c.moveTo(0,0);
-      c.lineTo(0,skyH*0.65);
-      c.quadraticCurveTo(BW/2,archDip,BW,skyH*0.65);
-      c.lineTo(BW,0);
-      c.closePath();
-      c.fill();
-      // White trim on inner edge of arch
-      c.strokeStyle='#ffffff';c.lineWidth=8;
+      c.moveTo(0,0);c.lineTo(0,Math.round(skyH*0.55));
+      // Arch outline — series of straight segments simulating a curve
+      var steps=20;
+      for(var si=0;si<=steps;si++){
+        var t=si/steps;
+        var ax=t*BW;
+        // Parabolic dip: 0 at edges, archMidY at center
+        var ay=Math.round(skyH*0.55)+Math.round((archMidY-skyH*0.55)*4*t*(1-t));
+        c.lineTo(ax,ay);
+      }
+      c.lineTo(BW,0);c.closePath();c.fill();
+      // White trim at inner arch edge
+      c.strokeStyle='#ffffff';c.lineWidth=7;
       c.beginPath();
-      c.moveTo(0,skyH*0.65);
-      c.quadraticCurveTo(BW/2,archDip,BW,skyH*0.65);
+      for(var si=0;si<=steps;si++){
+        var t=si/steps;
+        var ax=t*BW;
+        var ay=Math.round(skyH*0.55)+Math.round((archMidY-skyH*0.55)*4*t*(1-t));
+        if(si===0)c.moveTo(ax,ay);else c.lineTo(ax,ay);
+      }
       c.stroke();
 
-      // ── Stands background (dark green) ──
-      var standsTop=skyH*0.55;
+      // ── Stands background — gray like the HTML mockup ──
+      var standsTop=Math.round(skyH*0.5);
       var adBoardsTop=Math.round(BH*0.83);
-      c.fillStyle='#193510';
-      c.fillRect(0,standsTop,BW,adBoardsTop-standsTop);
+      var stGrad=c.createLinearGradient(0,standsTop,0,adBoardsTop);
+      stGrad.addColorStop(0,'#718096');stGrad.addColorStop(1,'#4a5568');
+      c.fillStyle=stGrad;c.fillRect(0,standsTop,BW,adBoardsTop-standsTop);
 
-      // ── Crowd: rows of colorful people (circle head + trapezoid body) ──
-      var jerseys=['#c62828','#e53935','#ff7043','#ffa726','#ffee58','#66bb6a',
-                   '#26c6da','#42a5f5','#7e57c2','#ab47bc','#ffffff','#00897b',
-                   '#f06292','#4caf50','#00bcd4','#ef6c00','#5c6bc0','#8d6e63',
-                   '#26a69a','#78909c','#aed581','#ff8a65'];
-      var skins=['#f5cba7','#d4856b','#a0522d','#5d3a1a','#ffd5b5','#c68642','#8d5524'];
-      var rowH=42;
-      var numRows=Math.floor((adBoardsTop-standsTop-8)/rowH);
-      var personW=28;
-      var numCols=Math.ceil(BW/personW)+1;
+      // ── Spectators — pill shapes, exactly like HTML CSS ──
+      // Colors from the HTML: c1-c9
+      var pillColors=['#ecc94b','#ed8936','#e53e3e','#3182ce','#38a169',
+                      '#9f7aea','#f6e05e','#f56565','#2b6cb0','#ffffff',
+                      '#dd6b20','#48bb78','#fc8181','#4299e1','#b794f4'];
+      var rowH=40;
+      var pW=14,pH=22; // pill width, height (matches 12px/18px CSS scaled up)
+      var gap=4;
+      var numRows=Math.floor((adBoardsTop-standsTop-6)/rowH);
+      var numCols=Math.ceil(BW/(pW+gap))+2;
       for(var row=0;row<numRows;row++){
-        var rowY=standsTop+row*rowH+4;
-        // subtle alternating row shade
-        c.fillStyle=row%2===0?'rgba(0,0,0,0.08)':'rgba(0,0,0,0)';
-        c.fillRect(0,rowY,BW,rowH);
+        var rowY=standsTop+row*rowH+8;
+        // Row shadow
+        c.fillStyle='rgba(0,0,0,0.07)';
+        c.fillRect(0,rowY+pH,BW,rowH-pH);
         for(var col=0;col<numCols;col++){
-          var seed=row*97+col*53;
-          var offset=(row%2)*personW*0.5;
-          var px=col*personW-offset;
-          var jc=jerseys[((seed*31)>>>0)%jerseys.length];
-          var sk=skins[((seed*13)>>>0)%skins.length];
-          var cx2=px+personW*0.5;
-          var headR=rowH*0.22;
-          var headCY=rowY+rowH*0.31;
-          // Head
-          c.fillStyle=sk;
-          c.beginPath();c.arc(cx2,headCY,headR,0,Math.PI*2);c.fill();
-          // Body (trapezoid: wider at bottom)
-          var bTop=headCY+headR*0.9;
-          var bBot=rowY+rowH*0.98;
-          var bHalf=personW*0.38;
-          c.fillStyle=jc;
-          c.beginPath();
-          c.moveTo(cx2-bHalf*0.65,bTop);
-          c.lineTo(cx2-bHalf,bBot);
-          c.lineTo(cx2+bHalf,bBot);
-          c.lineTo(cx2+bHalf*0.65,bTop);
-          c.closePath();c.fill();
-          // Raised arm / scarf (every 6th person)
-          if(seed%6===0){
-            c.fillStyle=jc;
-            c.fillRect(cx2-personW*0.42,rowY-rowH*0.12,personW*0.22,rowH*0.44);
-          }
-          if(seed%8===3){
-            c.fillStyle=jerseys[((seed*7)>>>0)%jerseys.length];
-            c.fillRect(cx2+personW*0.2,rowY-rowH*0.12,personW*0.22,rowH*0.44);
-          }
+          var seed=(row*97+col*53)>>>0;
+          // Offset every other row like HTML (stagger)
+          var offsetX=(row%2)*(pW+gap)*0.5;
+          var px=col*(pW+gap)-offsetX;
+          // Size variant (t1-t4 from HTML)
+          var scale=[0.85,0.95,1.05,1.1][seed%4];
+          var w2=Math.round(pW*scale),h2=Math.round(pH*scale);
+          // Vertical offset (d1-d4 from HTML)
+          var dy=[0,-4,3,-2][seed%4];
+          var color=pillColors[((seed*31)>>>0)%pillColors.length];
+          drawPill(c,px,rowY+dy,w2,h2,color);
         }
       }
 
-      // ── Advertising boards (3 bars like the reference) ──
-      var boards=[
-        {color:'#c8102e',text:'FIFA WORLD CUP 2026'},
-        {color:'#f0a800',text:'OFFICIAL MATCH'},
-        {color:'#3a0080',text:''}
-      ];
-      var boardH=Math.round((BH-adBoardsTop)/3);
-      boards.forEach(function(b,i){
-        c.fillStyle=b.color;
-        c.fillRect(0,adBoardsTop+i*boardH,BW,boardH+1);
-        if(b.text){
-          c.fillStyle='#ffffff';
-          c.font='bold '+(boardH*0.55)+'px Arial';
-          c.textAlign='center';c.textBaseline='middle';
-          c.fillText(b.text,BW/2,adBoardsTop+i*boardH+boardH*0.5);
-        }
-      });
-      // Nike-style swoosh on right ad board (bottom)
-      (function(){
-        var bx=BW*0.82,by=adBoardsTop+2*boardH+boardH*0.5,sw2=BW*0.14,sh2=boardH*0.55;
-        c.fillStyle='#ffffff';
-        c.beginPath();
-        c.moveTo(bx-sw2*0.5,by+sh2*0.35);
-        c.quadraticCurveTo(bx+sw2*0.2,by-sh2*0.5,bx+sw2*0.5,by-sh2*0.35);
-        c.quadraticCurveTo(bx+sw2*0.1,by+sh2*0.1,bx-sw2*0.5,by+sh2*0.35);
-        c.fill();
-      })();
+      // ── Ad boards — red/orange/blue gradient like HTML ──
+      var adH=BH-adBoardsTop;
+      var adG=c.createLinearGradient(0,0,BW,0);
+      adG.addColorStop(0,'#e53e3e');
+      adG.addColorStop(0.33,'#e53e3e');
+      adG.addColorStop(0.34,'#dd6b20');
+      adG.addColorStop(0.66,'#dd6b20');
+      adG.addColorStop(0.67,'#3182ce');
+      adG.addColorStop(1,'#3182ce');
+      c.fillStyle=adG;c.fillRect(0,adBoardsTop,BW,adH);
+      // Text labels matching the HTML
+      var adLabels=[{t:'QATAR',x:BW*0.165},{t:'VISA',x:BW*0.5},{t:'FOOTBALL',x:BW*0.84}];
+      c.fillStyle='#ffffff';
+      c.font='bold '+(Math.round(adH*0.52))+'px Arial';
+      c.textBaseline='middle';c.textAlign='center';
+      adLabels.forEach(function(l){c.fillText(l.t,l.x,adBoardsTop+adH*0.5);});
 
       var bgTex=new THREE.CanvasTexture(bc);
-
-      // ── Large flat background plane (fills entire view behind goal) ──
       var bgPlane=new THREE.Mesh(
-        new THREE.PlaneGeometry(88,38),
+        new THREE.PlaneGeometry(90,36),
         new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
       );
-      bgPlane.position.set(0,13.5,GZ-19);
+      bgPlane.position.set(0,12,GZ-20);
       scene.add(bgPlane);
 
-      // ── Side panels (left + right wings, same crowd style) ──
+      // ── Side panels: same gray/pill style ──
       ['L','R'].forEach(function(side){
-        var sc=document.createElement('canvas');sc.width=1024;sc.height=512;
+        var sc=document.createElement('canvas');sc.width=768;sc.height=512;
         var sc2=sc.getContext('2d');
-        sc2.fillStyle='#193510';sc2.fillRect(0,0,1024,512);
-        var sRowH=48,sPersonW=30;
+        // Gray stands
+        var sGrad=sc2.createLinearGradient(0,0,0,512);
+        sGrad.addColorStop(0,'#718096');sGrad.addColorStop(1,'#4a5568');
+        sc2.fillStyle=sGrad;sc2.fillRect(0,0,768,512);
+        // Pill spectators
+        var sRowH=42,sPW=15,sPH=23,sGap=4;
         var sRows=Math.floor(512/sRowH);
-        var sCols=Math.ceil(1024/sPersonW)+1;
+        var sCols=Math.ceil(768/(sPW+sGap))+2;
         for(var sr=0;sr<sRows;sr++){
           for(var sc3=0;sc3<sCols;sc3++){
-            var sseed=sr*83+sc3*61;
-            var spx=sc3*sPersonW+(sr%2)*sPersonW*0.5;
-            var sjc=jerseys[((sseed*31)>>>0)%jerseys.length];
-            var ssk=skins[((sseed*13)>>>0)%skins.length];
-            var scx=spx+sPersonW*0.5;
-            var scy=sr*sRowH+sRowH*0.32;
-            var shr=sRowH*0.22;
-            sc2.fillStyle=ssk;
-            sc2.beginPath();sc2.arc(scx,scy,shr,0,Math.PI*2);sc2.fill();
-            var sbTop=scy+shr*0.9,sbBot=sr*sRowH+sRowH*0.98,sbH=sPersonW*0.4;
-            sc2.fillStyle=sjc;
-            sc2.beginPath();
-            sc2.moveTo(scx-sbH*0.65,sbTop);sc2.lineTo(scx-sbH,sbBot);
-            sc2.lineTo(scx+sbH,sbBot);sc2.lineTo(scx+sbH*0.65,sbTop);
-            sc2.closePath();sc2.fill();
+            var sseed=(sr*83+sc3*61)>>>0;
+            var sOff=(sr%2)*(sPW+sGap)*0.5;
+            var spx=sc3*(sPW+sGap)-sOff;
+            var spy=sr*sRowH+8;
+            var sScale=[0.85,0.95,1.05,1.1][sseed%4];
+            var sDy=[0,-4,3,-2][sseed%4];
+            var sColor=pillColors[((sseed*31)>>>0)%pillColors.length];
+            drawPill(sc2,spx,spy+sDy,Math.round(sPW*sScale),Math.round(sPH*sScale),sColor);
           }
         }
-        // Red ad board strip at bottom
-        sc2.fillStyle='#c8102e';sc2.fillRect(0,490,1024,22);
+        // Red ad strip bottom
+        sc2.fillStyle='#e53e3e';sc2.fillRect(0,490,768,22);
         var sTex=new THREE.CanvasTexture(sc);
         var sPlane=new THREE.Mesh(
-          new THREE.PlaneGeometry(30,22),
+          new THREE.PlaneGeometry(28,20),
           new THREE.MeshBasicMaterial({map:sTex})
         );
         sPlane.rotation.y=side==='L'?Math.PI/1.85:-Math.PI/1.85;
-        sPlane.position.set(side==='L'?-30:30,10,-12);
+        sPlane.position.set(side==='L'?-28:28,9,-11);
         scene.add(sPlane);
+      });
+
+      // ── Animated clouds (3 planes like HTML nuage1/2/3) ──
+      function makeCloud(w,h){
+        var cv=document.createElement('canvas');cv.width=256;cv.height=96;
+        var ctx=cv.getContext('2d');
+        // Main body
+        ctx.fillStyle='rgba(255,255,255,0.92)';
+        ctx.beginPath();ctx.ellipse(128,68,110,32,0,0,Math.PI*2);ctx.fill();
+        // Puff left
+        ctx.beginPath();ctx.arc(70,52,30,0,Math.PI*2);ctx.fill();
+        // Puff right
+        ctx.beginPath();ctx.arc(180,48,36,0,Math.PI*2);ctx.fill();
+        var tex=new THREE.CanvasTexture(cv);
+        tex.premultiplyAlpha=true;
+        return new THREE.Mesh(
+          new THREE.PlaneGeometry(w,h),
+          new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false,alphaTest:0.02})
+        );
+      }
+      var cloudDefs=[
+        {w:22,h:7,x:-55,y:28,z:-45,speed:0.012},
+        {w:18,h:5,x:20,y:26,z:-50,speed:0.008},
+        {w:26,h:8,x:10,y:32,z:-55,speed:0.016}
+      ];
+      cloudDefs.forEach(function(d){
+        var m=makeCloud(d.w,d.h);
+        m.position.set(d.x,d.y,d.z);
+        m.userData.speed=d.speed;
+        m.userData.resetX=d.x-80;
+        m.userData.wrapX=d.x+80;
+        scene.add(m);
+        cloudPlanes.push(m);
       });
     })();
 
@@ -963,6 +987,12 @@ function PenaltyPitch(props){
         if(kf<10){pMesh.rotation.x=-(kf/9)*0.4;pMesh.position.z=3.2+kf*0.04;}
         else{pMesh.visible=false;pMesh.rotation.x=0;pMesh.position.z=3.2;}
       }
+
+      // Animate clouds (drift left→right like HTML nuage animation)
+      cloudPlanes.forEach(function(m){
+        m.position.x+=m.userData.speed;
+        if(m.position.x>m.userData.wrapX)m.position.x=m.userData.resetX;
+      });
 
       renderer.render(scene,camera);
     }
