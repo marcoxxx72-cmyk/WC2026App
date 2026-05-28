@@ -437,9 +437,9 @@ function PenaltyPitch(props){
       m.position.set((x1+x2)/2,0.016,(z1+z2)/2);scene.add(m);
     }
     // Penalty area
-    addLine(-9.15,-9.5,9.15,-9.5);addLine(-9.15,-9.5,-9.15,-19.5);addLine(9.15,-9.5,9.15,-19.5);
+    addLine(-10.5,-9.5,10.5,-9.5);addLine(-10.5,-9.5,-10.5,-19.5);addLine(10.5,-9.5,10.5,-19.5);
     // 6-yard box
-    addLine(-3.0,-9.5,-3.0,-12.8);addLine(3.0,-9.5,3.0,-12.8);addLine(-3.0,-12.8,3.0,-12.8);
+    addLine(-4.0,-9.5,-4.0,-12.8);addLine(4.0,-9.5,4.0,-12.8);addLine(-4.0,-12.8,4.0,-12.8);
     // Penalty spot
     var sM=new THREE.Mesh(new THREE.CircleGeometry(0.11,20),wM.clone());
     sM.rotation.x=-Math.PI/2;sM.position.set(0,0.017,3.2);scene.add(sM);
@@ -450,7 +450,7 @@ function PenaltyPitch(props){
     scene.add(new THREE.Line(arcG,new THREE.LineBasicMaterial({color:0xffffff,opacity:0.88,transparent:true})));
 
     // ── Goal — aluminum/steel posts ──
-    var GW=3.66,GH=2.44;
+    var GW=5.5,GH=3.4;
     var postTex=makeCanvasTex(function(ctx,sz){
       var g=ctx.createLinearGradient(0,0,sz,0);
       g.addColorStop(0,'#c0c8d0');g.addColorStop(0.35,'#f0f4f8');g.addColorStop(0.65,'#f0f4f8');g.addColorStop(1,'#8899aa');
@@ -481,13 +481,24 @@ function PenaltyPitch(props){
     // ── Stadium — Dola AI flat illustration style ──
     var cloudPlanes=[];
     (function(){
-      // ─ Spectator: single solid circle (Dola AI style mosaic) ─
+      // ─ Spectator: person silhouette (head circle + dome body) ─
       function drawSpectator(c,cx,cy,r,jerseyColor,skinColor){
         c.fillStyle=jerseyColor;
-        c.beginPath();c.arc(cx,cy,r,0,Math.PI*2);c.fill();
-        // Tiny highlight dot for depth
-        c.fillStyle='rgba(255,255,255,0.18)';
-        c.beginPath();c.arc(cx-r*0.28,cy-r*0.28,r*0.32,0,Math.PI*2);c.fill();
+        var hR=r*0.38;        // head radius
+        var bR=r*0.54;        // body dome radius
+        var headCY=cy-r*0.52; // head center
+        var bodyCY=cy-r*0.04; // body dome center
+        // Body dome (top arc = shoulders, flat base)
+        c.beginPath();
+        c.arc(cx,bodyCY,bR,Math.PI,0);
+        c.lineTo(cx+bR*0.75,cy+r*0.72);
+        c.arc(cx,cy+r*0.72,bR*0.75,0,Math.PI);
+        c.closePath();c.fill();
+        // Head
+        c.beginPath();c.arc(cx,headCY,hR,0,Math.PI*2);c.fill();
+        // Light sheen on head
+        c.fillStyle='rgba(255,255,255,0.15)';
+        c.beginPath();c.arc(cx-hR*0.3,headCY-hR*0.3,hR*0.35,0,Math.PI*2);c.fill();
       }
 
       var BW=2048,BH=1024;
@@ -535,10 +546,10 @@ function PenaltyPitch(props){
                    '#9f7aea','#f6e05e','#f56565','#4caf50','#00bcd4','#ffffff',
                    '#ff7043','#ab47bc','#2b6cb0','#ffb300','#26a69a','#e91e63'];
       var skins=['#f5cba7','#d4856b','#a0522d','#5d3a1a','#ffd5b5','#c68642'];
-      var rowH=38;
-      var numRows=Math.floor((adBoardsTop-standsTop-6)/rowH);
-      var personR=15; // radius — packed tighter
-      var numCols=Math.ceil(BW/(personR*2+1))+2;
+      var rowH=44;
+      var numRows=Math.floor((adBoardsTop-standsTop-4)/rowH);
+      var personR=18; // radius — visible, like reference
+      var numCols=Math.ceil(BW/(personR*2+2))+2;
       for(var row=0;row<numRows;row++){
         var rowCY=standsTop+row*rowH+personR+8;
         for(var col=0;col<numCols;col++){
@@ -590,10 +601,10 @@ function PenaltyPitch(props){
 
       var bgTex=new THREE.CanvasTexture(bc);
       var bgPlane=new THREE.Mesh(
-        new THREE.PlaneGeometry(92,36),
+        new THREE.PlaneGeometry(100,42),
         new THREE.MeshBasicMaterial({map:bgTex,depthWrite:true})
       );
-      bgPlane.position.set(0,12,GZ-20);
+      bgPlane.position.set(0,14,GZ-20);
       scene.add(bgPlane);
 
       // ── Side panels: dark green + round spectators ──
@@ -619,8 +630,8 @@ function PenaltyPitch(props){
           new THREE.PlaneGeometry(28,20),
           new THREE.MeshBasicMaterial({map:sTex})
         );
-        sPlane.rotation.y=side==='L'?Math.PI/1.85:-Math.PI/1.85;
-        sPlane.position.set(side==='L'?-28:28,9,-10);
+        sPlane.rotation.y=side==='L'?Math.PI/1.8:-Math.PI/1.8;
+        sPlane.position.set(side==='L'?-24:24,10,-8);
         scene.add(sPlane);
       });
 
@@ -924,7 +935,7 @@ function PenaltyPitch(props){
           thr.phase='result';
           var curveOff=(tgt.curve||0)*Math.sin(Math.PI)*2.2;
           var inGoal=Math.abs(tgt.x)<GW/2*0.97&&tgt.y>0.07&&tgt.y<GH*0.97;
-          var kw=0.46;
+          var kw=0.68;
           var keeperCY=1.1+kSpriteMesh.position.y;
           var dy=Math.abs(tgt.y-keeperCY);
           var dx2=Math.abs(tgt.x-kSpriteMesh.position.x);
