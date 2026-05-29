@@ -186,6 +186,12 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
   </div>
 
   <div id="ball"></div>
+  <!-- Ballon sécurisé — visible en phase 3 catch -->
+  <svg id="catch-ball" style="display:none;position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);pointer-events:none;overflow:visible" viewBox="-14 -14 28 28" width="28" height="28">
+    <circle cx="0" cy="0" r="13" fill="rgba(120,224,0,.2)" stroke="#78e000" stroke-width="2.5"/>
+    <line x1="-13" y1="0" x2="13" y2="0" stroke="rgba(120,224,0,.35)" stroke-width="1"/>
+    <line x1="0" y1="-13" x2="0" y2="13" stroke="rgba(120,224,0,.35)" stroke-width="1"/>
+  </svg>
   <div id="flash"></div>
 </div>
 
@@ -283,14 +289,39 @@ function updateSVG(s){
     aR2.setAttribute('x1','20');aR2.setAttribute('y1','-135');aR2.setAttribute('x2','28');aR2.setAttribute('y2','-152');
     glR.setAttribute('cx','28');glR.setAttribute('cy','-152');
   } else if(s==='catchC'){
-    /* Les deux bras descendent vers le bas-centre */
-    aL1.setAttribute('x2','-16');aL1.setAttribute('y2','-85');
-    aL2.setAttribute('x1','-16');aL2.setAttribute('y1','-85');aL2.setAttribute('x2','-12');aL2.setAttribute('y2','-55');
-    glL.setAttribute('cx','-12');glL.setAttribute('cy','-55');
-    aR1.setAttribute('x2','16');aR1.setAttribute('y2','-85');
-    aR2.setAttribute('x1','16');aR2.setAttribute('y1','-85');aR2.setAttribute('x2','12');aR2.setAttribute('y2','-55');
-    glR.setAttribute('cx','12');glR.setAttribute('cy','-55');
+    /* Phase 1 — Bras en V ouverts (prêt à recevoir) */
+    aL1.setAttribute('x2','-28');aL1.setAttribute('y2','-112');
+    aL2.setAttribute('x1','-28');aL2.setAttribute('y1','-112');aL2.setAttribute('x2','-38');aL2.setAttribute('y2','-95');
+    glL.setAttribute('cx','-38');glL.setAttribute('cy','-95');
+    aR1.setAttribute('x2','28');aR1.setAttribute('y2','-112');
+    aR2.setAttribute('x1','28');aR2.setAttribute('y1','-112');aR2.setAttribute('x2','38');aR2.setAttribute('y2','-95');
+    glR.setAttribute('cx','38');glR.setAttribute('cy','-95');
   }
+}
+
+/* Phase 2 catch — bras se referment sur le ballon (contact) */
+function setCatchPhase2(){
+  const aL1=document.getElementById('gk-armL1'),aL2=document.getElementById('gk-armL2'),glL=document.getElementById('gk-gloveL');
+  const aR1=document.getElementById('gk-armR1'),aR2=document.getElementById('gk-armR2'),glR=document.getElementById('gk-gloveR');
+  aL1.setAttribute('x2','-18');aL1.setAttribute('y2','-108');
+  aL2.setAttribute('x1','-18');aL2.setAttribute('y1','-108');aL2.setAttribute('x2','-10');aL2.setAttribute('y2','-102');
+  glL.setAttribute('cx','-10');glL.setAttribute('cy','-102');
+  aR1.setAttribute('x2','18');aR1.setAttribute('y2','-108');
+  aR2.setAttribute('x1','18');aR2.setAttribute('y1','-108');aR2.setAttribute('x2','10');aR2.setAttribute('y2','-102');
+  glR.setAttribute('cx','10');glR.setAttribute('cy','-102');
+}
+/* Phase 3 catch — ballon sécurisé aux pectoraux */
+function setCatchPhase3(){
+  const aL1=document.getElementById('gk-armL1'),aL2=document.getElementById('gk-armL2'),glL=document.getElementById('gk-gloveL');
+  const aR1=document.getElementById('gk-armR1'),aR2=document.getElementById('gk-armR2'),glR=document.getElementById('gk-gloveR');
+  aL1.setAttribute('x2','-22');aL1.setAttribute('y2','-105');
+  aL2.setAttribute('x1','-22');aL2.setAttribute('y1','-105');aL2.setAttribute('x2','-6');aL2.setAttribute('y2','-98');
+  glL.setAttribute('cx','-6');glL.setAttribute('cy','-98');glL.setAttribute('r','9');glL.setAttribute('fill','rgba(120,224,0,.5)');glL.setAttribute('stroke','#78e000');
+  aR1.setAttribute('x2','22');aR1.setAttribute('y2','-105');
+  aR2.setAttribute('x1','22');aR2.setAttribute('y1','-105');aR2.setAttribute('x2','6');aR2.setAttribute('y2','-98');
+  glR.setAttribute('cx','6');glR.setAttribute('cy','-98');glR.setAttribute('r','9');glR.setAttribute('fill','rgba(120,224,0,.5)');glR.setAttribute('stroke','#78e000');
+  /* Afficher ballon sécurisé */
+  document.getElementById('catch-ball').style.display='block';
 }
 
 function spawnConfetti(){
@@ -345,6 +376,12 @@ function shoot(dir){
 
   setState(kAnim);
 
+  /* Catch 3 phases — seulement si catchC */
+  if(kAnim==='catchC'){
+    setTimeout(setCatchPhase2, 280);   // Phase 2 — contact
+    setTimeout(setCatchPhase3, 560);   // Phase 3 — sécurisé
+  }
+
   /* Résultat */
   setTimeout(()=>{
     const saved=(dir===kDir)||
@@ -369,6 +406,10 @@ function shoot(dir){
     void wrap.offsetWidth;
     setState('idle');
     ball.style.display='none';
+    document.getElementById('catch-ball').style.display='none';
+    /* Reset gants taille normale */
+    document.getElementById('gk-gloveL').setAttribute('r','8');
+    document.getElementById('gk-gloveR').setAttribute('r','8');
     busy=false;
     btns.forEach(b=>b.disabled=false);
     updateSVG('idle');
