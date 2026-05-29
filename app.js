@@ -806,25 +806,33 @@ function PenaltyPitch(props){
     // Async-load photo sprite, remove white background via pixel scan
     (function(){
       var img=new Image();
+      img.crossOrigin='anonymous';
       img.onload=function(){
-        var cv=document.createElement('canvas');cv.width=img.width;cv.height=img.height;
-        var cx2=cv.getContext('2d');cx2.drawImage(img,0,0);
-        var id=cx2.getImageData(0,0,cv.width,cv.height),d=id.data;
-        for(var i=0;i<d.length;i+=4){
-          var r=d[i],g=d[i+1],b=d[i+2];
-          var lum=r*0.299+g*0.587+b*0.114;
-          var sat=Math.max(r,g,b)-Math.min(r,g,b);
-          if(lum>238&&sat<22){d[i+3]=0;}
-          else if(lum>215&&sat<28){d[i+3]=Math.round((255-lum)/(255-215)*255*0.6);}
+        try{
+          var cv=document.createElement('canvas');cv.width=img.width;cv.height=img.height;
+          var cx2=cv.getContext('2d');cx2.drawImage(img,0,0);
+          var id=cx2.getImageData(0,0,cv.width,cv.height),d=id.data;
+          for(var i=0;i<d.length;i+=4){
+            var r=d[i],g=d[i+1],b=d[i+2];
+            var lum=r*0.299+g*0.587+b*0.114;
+            var sat=Math.max(r,g,b)-Math.min(r,g,b);
+            if(lum>238&&sat<22){d[i+3]=0;}
+            else if(lum>215&&sat<28){d[i+3]=Math.round((255-lum)/(255-215)*255*0.6);}
+          }
+          cx2.putImageData(id,0,0);
+          var newTex=new THREE.CanvasTexture(cv);
+          newTex.needsUpdate=true;
+          kSpriteMesh.material.map=newTex;
+          kSpriteMesh.material.needsUpdate=true;
+        }catch(e){
+          // iOS security fallback — use texture directly without bg removal
+          var newTex2=new THREE.TextureLoader().load('/goalkeeper.png');
+          kSpriteMesh.material.map=newTex2;
+          kSpriteMesh.material.needsUpdate=true;
         }
-        cx2.putImageData(id,0,0);
-        var newTex=new THREE.CanvasTexture(cv);
-        newTex.needsUpdate=true;
-        kSpriteMesh.material.map=newTex;
-        kSpriteMesh.material.needsUpdate=true;
       };
       img.onerror=function(){console.warn('goalkeeper.png not found');};
-      img.src='/goalkeeper.png';
+      img.src='/goalkeeper.png?t='+Date.now();
     })();
     // Keeper ground shadow
     var kShadow=new THREE.Mesh(
@@ -903,7 +911,7 @@ function PenaltyPitch(props){
     markerGrp.add(new THREE.Line(rG,new THREE.LineBasicMaterial({color:0xffee00,opacity:0.65,transparent:true})));
 
     // ── Confetti ──
-    var CNUM=320;
+    var CNUM=isMobile?80:320;
     var cPos=new Float32Array(CNUM*3);var cVel=[];var cColArr=new Float32Array(CNUM*3);
     var cPal=[[1,0.9,0.1],[0.25,0.92,0.3],[0.92,0.22,0.22],[0.6,0.65,1],[1,0.5,0.1],[0.92,0.25,0.92],[0.3,0.95,0.95]];
     for(var ci=0;ci<CNUM;ci++){cPos.set([0,GH/2,GZ],ci*3);cVel.push({x:(Math.random()-0.5)*0.28,y:Math.random()*0.18+0.05,z:(Math.random()-0.5)*0.14});cColArr.set(cPal[ci%7],ci*3);}
@@ -934,9 +942,8 @@ function PenaltyPitch(props){
       thr.raf=requestAnimationFrame(animate);
       var now=Date.now()*0.001;
 
-      // Realistic spot flicker
-      var flicker=0.96+Math.sin(now*7.1)*0.022+Math.sin(now*13.3)*0.012+Math.sin(now*31)*0.006;
-      spots.forEach(function(s){s.intensity=2.6*flicker;});
+      // Realistic spot flicker (skip on mobile to save GPU)
+      if(!isMobile){var flicker=0.96+Math.sin(now*7.1)*0.022+Math.sin(now*13.3)*0.012+Math.sin(now*31)*0.006;spots.forEach(function(s){s.intensity=2.6*flicker;});}
 
       // Power bar update
       if(thr.phase==='charging'&&powerBarRef.current){
