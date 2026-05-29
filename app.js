@@ -3665,8 +3665,9 @@ function App(){
                 );
               })
             ),
-            // 3D Canvas Pitch
-            gamePhase!=='done'&&e(PenaltyPitch,{
+            // 3D Canvas Pitch — always mounted to avoid WebGL context loss on iOS
+            e('div',{style:{display:gamePhase==='done'?'none':'block'}},
+            e(PenaltyPitch,{
               key:'pitch-'+penTourRound,
               roundIdx:penTourRound,
               shotsLeft:shotsLeft,
@@ -3682,7 +3683,7 @@ function App(){
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
                 setShotsLeft(function(s){var ns=s-1;if(ns<=0)setGamePhase('done');return ns;});
               }
-            }),
+            })),
             // Round done
             gamePhase==='done'&&(function(){
               var qualified=gameScore>=rd.need;
