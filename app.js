@@ -1104,7 +1104,7 @@ function PenaltyPitch(props){
       // Animate scoreboard confetti when result active
       if(thr.sbResultActive){stepSbConf();updateScoreboard(thr.sbGoals||0,thr.sbSaves||0,thr.sbResultActive);}
 
-      renderer.render(scene,camera);
+      try{renderer.render(scene,camera);}catch(ex){console.warn('render error',ex);}
     }
     animate();
 
