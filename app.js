@@ -353,9 +353,10 @@ function PenaltyPitch(props){
     }
 
     // ── Renderer ──
-    var renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
-    renderer.setSize(W,H);renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-    renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+    var isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    var renderer=new THREE.WebGLRenderer({antialias:!isMobile,powerPreference:isMobile?'default':'high-performance'});
+    renderer.setSize(W,H);renderer.setPixelRatio(isMobile?1:Math.min(window.devicePixelRatio||1,2));
+    renderer.shadowMap.enabled=!isMobile;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
     renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.22;
     renderer.domElement.style.cssText='display:block;width:100%;height:100%';
     container.appendChild(renderer.domElement);
@@ -701,7 +702,8 @@ function PenaltyPitch(props){
       new THREE.PlaneGeometry(20,8),
       new THREE.MeshBasicMaterial({map:sbTex,depthWrite:false})
     );
-    sbMesh.position.set(0,24,GZ-21.5);
+    sbMesh.position.set(0,13,GZ-20.5);
+    sbMesh.renderOrder=1;
     scene.add(sbMesh);
     updateScoreboard(0,0);
     // thr assigned below — sbMesh/updateScoreboard wired up after thr init
@@ -1166,6 +1168,7 @@ function PenaltyPitch(props){
     };
     var t=targets[dir];
     thr.aimPoint=new window.THREE.Vector3(t.x,t.y,GZ);
+    thr.power=0.75;
     thr.fireShot();
   }
 
