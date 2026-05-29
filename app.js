@@ -309,7 +309,7 @@ function PenaltyPitch(props){
     var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
     var ctx=getAC();if(!ctx)return;
     var isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    [['goal','/crowd_goal.mp3'],['save',isSafari?'/crowd_save.ogg':'/crowd_save.ogg']].forEach(function(pair){
+    [['goal','/crowd_goal.mp3'],['save','/crowd_save.mp3']].forEach(function(pair){
       fetch(pair[1]).then(function(r){return r.arrayBuffer();}).then(function(ab){
         ctx.decodeAudioData(ab,function(buf){_audioBuffers[pair[0]]=buf;});
       }).catch(function(){});
