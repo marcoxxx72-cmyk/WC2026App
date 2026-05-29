@@ -1054,7 +1054,9 @@ function PenaltyPitch(props){
             playSound('save');
           }
           setResult(thr.result);
+          thr.shotId=(thr.shotId||0)+1;var _sid=thr.shotId;
           setTimeout(function(){
+            if(thr.shotId!==_sid)return; // shot was superseded — ignore
             if(props.onShotDone)props.onShotDone(thr.result==='goal');
             thr.sbResultActive=null;
             if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,thr.sbSaves||0);
