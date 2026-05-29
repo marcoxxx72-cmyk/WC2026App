@@ -303,41 +303,84 @@ function PenaltyPitch(props){
     return function(){window.removeEventListener('resize',onResize);};
   },[]);
 
+  var _audioCtx=null;
+  function getAC(){
+    try{
+      if(!_audioCtx||_audioCtx.state==='closed'){
+        var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
+        _audioCtx=new AC();
+      }
+      if(_audioCtx.state==='suspended')_audioCtx.resume();
+      return _audioCtx;
+    }catch(ex){return null;}
+  }
   function playSound(type){
     try{
-      var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
-      var ctx=new AC();
+      var ctx=getAC();if(!ctx)return;
+      var now=ctx.currentTime;
       function tone(freq,t0,dur,vol,shape,f2){
         var o=ctx.createOscillator();var g=ctx.createGain();
         o.connect(g);g.connect(ctx.destination);o.type=shape||'sine';
-        o.frequency.setValueAtTime(freq,ctx.currentTime+t0);
-        if(f2)o.frequency.exponentialRampToValueAtTime(f2,ctx.currentTime+t0+dur);
-        g.gain.setValueAtTime(vol||0.3,ctx.currentTime+t0);
-        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t0+dur);
-        o.start(ctx.currentTime+t0);o.stop(ctx.currentTime+t0+dur+0.01);
+        o.frequency.setValueAtTime(freq,now+t0);
+        if(f2)o.frequency.exponentialRampToValueAtTime(f2,now+t0+dur);
+        g.gain.setValueAtTime(vol||0.3,now+t0);
+        g.gain.exponentialRampToValueAtTime(0.001,now+t0+dur);
+        o.start(now+t0);o.stop(now+t0+dur+0.01);
       }
-      if(type==='kick'){tone(200,0,0.05,0.8,'sine',60);tone(80,0,0.28,0.55,'triangle',40);}
-      else if(type==='goal'){
-        // Crowd roar (filtered white noise)
-        var buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*2.8),ctx.sampleRate);
-        var bd=buf.getChannelData(0);for(var ri=0;ri<bd.length;ri++)bd[ri]=(Math.random()*2-1);
+      function noise(dur,freq,Q,vol,attack,decay){
+        var buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*dur),ctx.sampleRate);
+        var bd=buf.getChannelData(0);for(var i=0;i<bd.length;i++)bd[i]=(Math.random()*2-1);
         var ns=ctx.createBufferSource();ns.buffer=buf;
-        var bpf=ctx.createBiquadFilter();bpf.type='bandpass';bpf.frequency.value=900;bpf.Q.value=0.4;
-        var ng=ctx.createGain();ng.gain.setValueAtTime(0,ctx.currentTime);ng.gain.linearRampToValueAtTime(0.28,ctx.currentTime+0.25);ng.gain.setValueAtTime(0.28,ctx.currentTime+1.8);ng.gain.linearRampToValueAtTime(0,ctx.currentTime+2.8);
-        ns.connect(bpf);bpf.connect(ng);ng.connect(ctx.destination);ns.start();
-        // Musical fanfare
-        [0,0.08,0.18,0.3].forEach(function(t,i){tone([440,554,660,880][i],t,0.95,0.28,'triangle');});
-        tone(220,0,2.0,0.18,'sawtooth');
+        var f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;f.Q.value=Q||1;
+        var g=ctx.createGain();
+        g.gain.setValueAtTime(0,now);
+        g.gain.linearRampToValueAtTime(vol,now+attack);
+        g.gain.setValueAtTime(vol,now+dur-decay);
+        g.gain.linearRampToValueAtTime(0,now+dur);
+        ns.connect(f);f.connect(g);g.connect(ctx.destination);ns.start();
+      }
+      if(type==='kick'){
+        tone(180,0,0.06,0.9,'sine',55);
+        tone(75,0,0.3,0.6,'triangle',38);
+      }
+      else if(type==='goal'){
+        // Crowd WOOAAA — rising roar
+        noise(3.2,500,0.3,0.35,0.15,0.6);
+        noise(3.2,1200,0.5,0.2,0.3,0.5);
+        noise(3.2,250,0.4,0.25,0.1,0.8);
+        // Clapping rhythm — 8 claps
+        for(var ci=0;ci<8;ci++){
+          var ct=0.1+ci*0.18;
+          noise(0.08,2000,3,0.22,0.005,0.04);
+          (function(t){
+            var buf3=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.07),ctx.sampleRate);
+            var bd3=buf3.getChannelData(0);for(var i=0;i<bd3.length;i++)bd3[i]=(Math.random()*2-1)*(1-i/bd3.length);
+            var ns3=ctx.createBufferSource();ns3.buffer=buf3;
+            var f3=ctx.createBiquadFilter();f3.type='highpass';f3.frequency.value=1800;
+            var g3=ctx.createGain();g3.gain.setValueAtTime(0.18,now+t);g3.gain.exponentialRampToValueAtTime(0.001,now+t+0.07);
+            ns3.connect(f3);f3.connect(g3);g3.connect(ctx.destination);ns3.start(now+t);
+          })(ct);
+        }
+        // Fanfare
+        [0,0.1,0.22,0.36].forEach(function(t,i){tone([392,494,587,784][i],t,0.9,0.22,'triangle');});
       }
       else if(type==='save'){
-        tone(300,0,0.06,0.55,'sawtooth',100);tone(130,0.05,0.32,0.38,'triangle',65);
-        // Crowd "oooh" groan (filtered noise)
-        var buf2=ctx.createBuffer(1,Math.floor(ctx.sampleRate*1.2),ctx.sampleRate);
-        var bd2=buf2.getChannelData(0);for(var ri2=0;ri2<bd2.length;ri2++)bd2[ri2]=(Math.random()*2-1);
-        var ns2=ctx.createBufferSource();ns2.buffer=buf2;
-        var bpf2=ctx.createBiquadFilter();bpf2.type='bandpass';bpf2.frequency.value=400;bpf2.Q.value=0.6;
-        var ng2=ctx.createGain();ng2.gain.setValueAtTime(0,ctx.currentTime);ng2.gain.linearRampToValueAtTime(0.15,ctx.currentTime+0.15);ng2.gain.linearRampToValueAtTime(0,ctx.currentTime+1.2);
-        ns2.connect(bpf2);bpf2.connect(ng2);ng2.connect(ctx.destination);ns2.start();
+        tone(280,0,0.07,0.5,'sawtooth',90);
+        tone(120,0.05,0.35,0.35,'triangle',60);
+        // Crowd "OOOH" — descending groan
+        noise(1.8,600,0.5,0.2,0.1,0.5);
+        noise(1.8,300,0.6,0.15,0.2,0.4);
+        // Few claps (polite)
+        for(var si=0;si<4;si++){
+          (function(t){
+            var buf4=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.06),ctx.sampleRate);
+            var bd4=buf4.getChannelData(0);for(var i=0;i<bd4.length;i++)bd4[i]=(Math.random()*2-1)*(1-i/bd4.length);
+            var ns4=ctx.createBufferSource();ns4.buffer=buf4;
+            var f4=ctx.createBiquadFilter();f4.type='highpass';f4.frequency.value=1500;
+            var g4=ctx.createGain();g4.gain.setValueAtTime(0.1,now+t);g4.gain.exponentialRampToValueAtTime(0.001,now+t+0.06);
+            ns4.connect(f4);f4.connect(g4);g4.connect(ctx.destination);ns4.start(now+t);
+          })(0.2+si*0.25);
+        }
       }
     }catch(ex){}
   }
