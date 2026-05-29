@@ -304,6 +304,17 @@ function PenaltyPitch(props){
   },[]);
 
   var _audioCtx=null;
+  var _audioBuffers={};
+  function loadAudioBuffers(){
+    var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+    var ctx=getAC();if(!ctx)return;
+    [['goal','/crowd_goal.wav'],['save','/crowd_save.wav']].forEach(function(pair){
+      fetch(pair[1]).then(function(r){return r.arrayBuffer();}).then(function(ab){
+        ctx.decodeAudioData(ab,function(buf){_audioBuffers[pair[0]]=buf;});
+      }).catch(function(){});
+    });
+  }
+  loadAudioBuffers();
   function getAC(){
     try{
       if(!_audioCtx||_audioCtx.state==='closed'){
@@ -344,42 +355,23 @@ function PenaltyPitch(props){
         tone(75,0,0.3,0.6,'triangle',38);
       }
       else if(type==='goal'){
-        // Crowd WOOAAA — rising roar
-        noise(3.2,500,0.3,0.35,0.15,0.6);
-        noise(3.2,1200,0.5,0.2,0.3,0.5);
-        noise(3.2,250,0.4,0.25,0.1,0.8);
-        // Clapping rhythm — 8 claps
-        for(var ci=0;ci<8;ci++){
-          var ct=0.1+ci*0.18;
-          noise(0.08,2000,3,0.22,0.005,0.04);
-          (function(t){
-            var buf3=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.07),ctx.sampleRate);
-            var bd3=buf3.getChannelData(0);for(var i=0;i<bd3.length;i++)bd3[i]=(Math.random()*2-1)*(1-i/bd3.length);
-            var ns3=ctx.createBufferSource();ns3.buffer=buf3;
-            var f3=ctx.createBiquadFilter();f3.type='highpass';f3.frequency.value=1800;
-            var g3=ctx.createGain();g3.gain.setValueAtTime(0.18,now+t);g3.gain.exponentialRampToValueAtTime(0.001,now+t+0.07);
-            ns3.connect(f3);f3.connect(g3);g3.connect(ctx.destination);ns3.start(now+t);
-          })(ct);
+        if(_audioBuffers.goal){
+          var src=ctx.createBufferSource();src.buffer=_audioBuffers.goal;
+          var gv=ctx.createGain();gv.gain.value=0.9;
+          src.connect(gv);gv.connect(ctx.destination);src.start(now);
+        } else {
+          noise(3.2,500,0.3,0.35,0.15,0.6);noise(3.2,1200,0.5,0.2,0.3,0.5);
+          [0,0.1,0.22,0.36].forEach(function(t,i){tone([392,494,587,784][i],t,0.9,0.22,'triangle');});
         }
-        // Fanfare
-        [0,0.1,0.22,0.36].forEach(function(t,i){tone([392,494,587,784][i],t,0.9,0.22,'triangle');});
       }
       else if(type==='save'){
-        tone(280,0,0.07,0.5,'sawtooth',90);
-        tone(120,0.05,0.35,0.35,'triangle',60);
-        // Crowd "OOOH" — descending groan
-        noise(1.8,600,0.5,0.2,0.1,0.5);
-        noise(1.8,300,0.6,0.15,0.2,0.4);
-        // Few claps (polite)
-        for(var si=0;si<4;si++){
-          (function(t){
-            var buf4=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.06),ctx.sampleRate);
-            var bd4=buf4.getChannelData(0);for(var i=0;i<bd4.length;i++)bd4[i]=(Math.random()*2-1)*(1-i/bd4.length);
-            var ns4=ctx.createBufferSource();ns4.buffer=buf4;
-            var f4=ctx.createBiquadFilter();f4.type='highpass';f4.frequency.value=1500;
-            var g4=ctx.createGain();g4.gain.setValueAtTime(0.1,now+t);g4.gain.exponentialRampToValueAtTime(0.001,now+t+0.06);
-            ns4.connect(f4);f4.connect(g4);g4.connect(ctx.destination);ns4.start(now+t);
-          })(0.2+si*0.25);
+        if(_audioBuffers.save){
+          var src2=ctx.createBufferSource();src2.buffer=_audioBuffers.save;
+          var gv2=ctx.createGain();gv2.gain.value=0.85;
+          src2.connect(gv2);gv2.connect(ctx.destination);src2.start(now);
+        } else {
+          tone(280,0,0.07,0.5,'sawtooth',90);tone(120,0.05,0.35,0.35,'triangle',60);
+          noise(1.8,600,0.5,0.2,0.1,0.5);noise(1.8,300,0.6,0.15,0.2,0.4);
         }
       }
     }catch(ex){}
@@ -1134,8 +1126,28 @@ function PenaltyPitch(props){
     container.addEventListener('touchmove',onTM,{passive:false});
     container.addEventListener('touchend',onTE,{passive:false});
 
+    // iOS: pause RAF when page hidden, resume when visible
+    function onVis(){
+      if(document.hidden){
+        if(thr.raf){cancelAnimationFrame(thr.raf);thr.raf=null;}
+      } else {
+        if(!thr.raf)thr.raf=requestAnimationFrame(animate);
+      }
+    }
+    document.addEventListener('visibilitychange',onVis);
+
+    // iOS: recover from WebGL context loss
+    renderer.domElement.addEventListener('webglcontextlost',function(ev){
+      ev.preventDefault();
+      if(thr.raf){cancelAnimationFrame(thr.raf);thr.raf=null;}
+    },false);
+    renderer.domElement.addEventListener('webglcontextrestored',function(){
+      thr.raf=requestAnimationFrame(animate);
+    },false);
+
     return function(){
       ro.disconnect();
+      document.removeEventListener('visibilitychange',onVis);
       container.removeEventListener('touchstart',onTS);
       container.removeEventListener('touchmove',onTM);
       container.removeEventListener('touchend',onTE);
