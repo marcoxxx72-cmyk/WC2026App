@@ -1106,6 +1106,7 @@ function PenaltyPitch(props){
 
       try{renderer.render(scene,camera);}catch(ex){console.warn('render error',ex);}
     }
+    thr.animate=animate;
     animate();
 
     function fireShot(){
@@ -1224,7 +1225,10 @@ function PenaltyPitch(props){
   function wakeAudio(){try{var ctx=getAC();if(ctx&&ctx.state==='suspended')ctx.resume();if(!_audioBuffers.goal)loadAudioBuffers();}catch(ex){}}
   function shootDir(dir){
     wakeAudio();
-    var thr=threeRef.current;if(!thr||thr.phase!=='aim')return;
+    var thr=threeRef.current;if(!thr)return;
+    // Force aim phase + restart RAF if dead (iOS recovery)
+    if(thr.phase!=='aim'){thr.phase='aim';}
+    if(!thr.raf&&thr.animate){thr.animate();}
     var GW=thr.GW,GH=thr.GH,GZ=thr.GZ;
     var r=Math.random;
     // Each direction maps to a distinct zone with some randomness
