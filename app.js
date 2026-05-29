@@ -1212,7 +1212,9 @@ function PenaltyPitch(props){
   function handleTouchMove(ev){ev.preventDefault();var t=ev.touches[0];handleMouseMove({clientX:t.clientX,clientY:t.clientY});}
   function handleTouchEnd(ev){ev.preventDefault();handleMouseUp();}
 
+  function wakeAudio(){try{var ctx=getAC();if(ctx&&ctx.state==='suspended')ctx.resume();if(!_audioBuffers.goal)loadAudioBuffers();}catch(ex){}}
   function shootDir(dir){
+    wakeAudio();
     var thr=threeRef.current;if(!thr||thr.phase!=='aim')return;
     var GW=thr.GW,GH=thr.GH,GZ=thr.GZ;
     var r=Math.random;
@@ -1229,6 +1231,7 @@ function PenaltyPitch(props){
   }
 
     function enterFullscreenAndAim(){
+    wakeAudio();
     document.body.style.overflow='hidden';
     // Native fullscreen API — hides browser chrome on Android Chrome, Firefox Mobile
     var docEl=document.documentElement;
