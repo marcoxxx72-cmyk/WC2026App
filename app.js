@@ -285,8 +285,12 @@ var useEffect = React.useEffect;
 var useRef = React.useRef;
 var e = React.createElement;
 
-// Précharger l'image gardien dès le démarrage
-(function(){var img=new Image();img.src='/goalkeeper.png';})();
+// Précharger les images du jeu penalty dès le démarrage
+(function(){
+  ['/goalkeeper.png','/stadium_bg.png'].forEach(function(src){
+    var img=new Image();img.src=src;
+  });
+})();
 
 // ── PENALTY CSS GAME — version image gardien + CSS animations ────────────────
 (function(){
@@ -398,6 +402,7 @@ function PenaltyPitch(props){
   var _pr=useState(null);var result=_pr[0];var setResult=_pr[1];
   var _pfs=useState(false);var fullscreen=_pfs[0];var setFullscreen=_pfs[1];
   var _pvh=useState(window.innerHeight);var vph=_pvh[0];var setVph=_pvh[1];
+  var _pready=useState(false);var ready=_pready[0];var setReady=_pready[1];
   var lang=props.lang||'en';var G=props.G||'#d4af37';var roundIdx=props.roundIdx||0;
 
   // Fix iOS 100vh + orientation change
@@ -1221,6 +1226,8 @@ function PenaltyPitch(props){
     }
     thr.animate=animate;
     animate();
+    // Révéler le canvas après 1 frame rendu — cache le flash d'initialisation
+    requestAnimationFrame(function(){setReady(true);});
     // Watchdog — redémarre RAF si mort (fix Android/iOS)
     thr.watchdog=setInterval(function(){
       if(threeRef.current&&!threeRef.current.raf){
@@ -1376,7 +1383,7 @@ function PenaltyPitch(props){
   var ri8=props.roundIdx||0;
   var RL=[{n:'R16'},{n:'QF'},{n:'SF'},{n:'FINAL'}];
   // vph = window.innerHeight updated on resize — fixes iOS Safari 100vh bug
-  var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:vph+'px',zIndex:9999,background:'#000',cursor:'default'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer'};
+  var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:vph+'px',zIndex:9999,background:'#000',cursor:'default',opacity:ready?1:0,transition:'opacity .3s'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer',opacity:ready?1:0,transition:'opacity .4s'};
 
   return e('div',{style:{userSelect:'none'}},
     e('div',{style:{display:'flex',justifyContent:'center',gap:8,marginBottom:8}},
