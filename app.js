@@ -1379,31 +1379,30 @@ function PenaltyPitch(props){
     e('div',{style:{display:'flex',justifyContent:'center',gap:8,marginBottom:8}},
       RL.map(function(r,i){return e('div',{key:i,style:{width:40,height:20,borderRadius:10,background:i<ri8?'rgba(40,200,40,0.3)':i===ri8?'rgba(212,175,55,0.3)':'rgba(255,255,255,0.05)',border:'1px solid '+(i<ri8?'#90ee90':i===ri8?G:'rgba(255,255,255,0.1)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:'bold',color:i<ri8?'#90ee90':i===ri8?G:'#444'}},i<ri8?'✅':r.n);})
     ),
-    e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd},
-      fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
-        e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
-        (phase==='aim')&&e('div',{style:{position:'absolute',bottom:28,left:'50%',transform:'translateX(-50%)',display:'flex',gap:'20px',alignItems:'center',pointerEvents:'auto'}},
-          e('button',{
-            onClick:function(){shootDir('L');},
-            style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#e74c3c,#c0392b)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(231,76,60,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
-          },'⬅'),
-          e('button',{
-            onClick:function(){shootDir('C');},
-            style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#f39c12,#e67e22)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(243,156,18,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
-          },'⬆'),
-          e('button',{
-            onClick:function(){shootDir('R');},
-            style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#27ae60,#2ecc71)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(39,174,96,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
-          },'➡')
-        ),
-        (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':'WHERE DO YOU SHOOT?')),
-        result&&e('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',fontSize:66,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 50px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 6px 18px rgba(0,0,0,1)',textAlign:'center'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
-        (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
-          style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
-          onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
-        },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':'SHOOT'))
+    e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd}),
+    // Overlay HORS du container — évite que preventDefault() tue les clics sur mobile
+    fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
+      e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
+      (phase==='aim')&&e('div',{style:{position:'absolute',bottom:28,left:'50%',transform:'translateX(-50%)',display:'flex',gap:'20px',alignItems:'center',pointerEvents:'auto'}},
+        e('button',{
+          onClick:function(){shootDir('L');},
+          style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#e74c3c,#c0392b)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(231,76,60,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
+        },'⬅'),
+        e('button',{
+          onClick:function(){shootDir('C');},
+          style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#f39c12,#e67e22)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(243,156,18,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
+        },'⬆'),
+        e('button',{
+          onClick:function(){shootDir('R');},
+          style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#27ae60,#2ecc71)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(39,174,96,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
+        },'➡')
       ),
-      
+      (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':'WHERE DO YOU SHOOT?')),
+      result&&e('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',fontSize:66,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 50px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 6px 18px rgba(0,0,0,1)',textAlign:'center'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
+      (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
+        style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
+        onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
+      },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':'SHOOT'))
     ),
     e('div',{style:{display:'flex',justifyContent:'center',gap:6,margin:'6px 0'}},
       [0,1,2,3,4].map(function(i){var h=(props.shotHistory||[])[i];return e('div',{key:i,style:{width:24,height:24,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)'):'rgba(255,255,255,0.08)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff6666'):'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h?(h.scored?'⚽':'✗'):'');})
