@@ -376,7 +376,7 @@ function PenaltyCSSGame(props){
       e('div',{ref:flashRef,style:flashStyle})
     ),
     e('p',{style:{color:'rgba(255,255,255,.5)',fontSize:11,letterSpacing:2,textTransform:'uppercase',margin:'16px 0 10px',textAlign:'center'}},
-      lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE CHUTAR?':'WHERE DO YOU SHOOT?'
+      lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE CHUTAR?':lang==='it'?'DOVE TIRI?':lang==='de'?'WOHIN SCHIESST DU?':'WHERE DO YOU SHOOT?'
     ),
     e('div',{style:{display:'flex',gap:14,justifyContent:'center'}},
       e('button',{onClick:function(){shoot('L');},style:{width:70,height:70,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#e74c3c,#c0392b)',fontSize:26,cursor:'pointer',WebkitTapHighlightColor:'transparent',color:'white'}},'⬅'),
@@ -1397,17 +1397,17 @@ function PenaltyPitch(props){
           style:{width:80,height:80,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#27ae60,#2ecc71)',fontSize:32,cursor:'pointer',boxShadow:'0 6px 20px rgba(39,174,96,0.6)',WebkitTapHighlightColor:'transparent',color:'white',display:'flex',alignItems:'center',justifyContent:'center'}
         },'➡')
       ),
-      (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':'WHERE DO YOU SHOOT?')),
+      (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':lang==='it'?'DOVE TIRI?':lang==='de'?'WOHIN SCHIESST DU?':'WHERE DO YOU SHOOT?')),
       result&&e('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',fontSize:66,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 50px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 6px 18px rgba(0,0,0,1)',textAlign:'center'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
       (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
         style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
         onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
-      },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':'SHOOT'))
+      },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':lang==='it'?'TIRARE':lang==='de'?'SCHIESSEN':'SHOOT'))
     ),
     e('div',{style:{display:'flex',justifyContent:'center',gap:6,margin:'6px 0'}},
       [0,1,2,3,4].map(function(i){var h=(props.shotHistory||[])[i];return e('div',{key:i,style:{width:24,height:24,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)'):'rgba(255,255,255,0.08)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff6666'):'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h?(h.scored?'⚽':'✗'):'');})
     ),
-    (phase==='idle'&&props.shotsLeft>0)&&e('button',{onClick:enterFullscreenAndAim,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 0',fontSize:15,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 20px rgba(212,175,55,0.55)',letterSpacing:0.5}},'⚽ '+(lang==='fr'?'PRENDRE LE PENALTY — PLEIN ÉCRAN':lang==='es'?'TIRAR PENAL — PANTALLA COMPLETA':lang==='pt'?'COBRAR PÊNALTI — TELA CHEIA':'TAKE PENALTY — FULL SCREEN')),
+    (phase==='idle'&&props.shotsLeft>0)&&e('button',{onClick:enterFullscreenAndAim,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 0',fontSize:15,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 20px rgba(212,175,55,0.55)',letterSpacing:0.5}},'⚽ '+(lang==='fr'?'PRENDRE LE PENALTY — PLEIN ÉCRAN':lang==='es'?'TIRAR PENAL — PANTALLA COMPLETA':lang==='pt'?'COBRAR PÊNALTI — TELA CHEIA':lang==='it'?'TIRARE IL RIGORE — SCHERMO INTERO':lang==='de'?'ELFMETER SCHIESSEN — VOLLBILD':'TAKE PENALTY — FULL SCREEN')),
     (phase==='animating')&&!fullscreen&&e('div',{style:{textAlign:'center',padding:'10px 0',color:G,fontSize:14,fontWeight:'bold',letterSpacing:3}},'• • •'),
     (props.shotsLeft<=0&&phase==='idle')&&e('div',{style:{textAlign:'center',padding:'10px',color:G,fontSize:12}},'Round finished!')
   );
@@ -3774,7 +3774,7 @@ function App(){
           // ── MENU ────────────────────────────────────────────────
           if(penTourPhase==='menu')return e('div',null,
             e('div',{style:{textAlign:'center',marginBottom:14}},
-              e('div',{style:{fontSize:16,fontWeight:'bold',color:G,letterSpacing:1}},'🏆 '+(lang==='fr'?'TOURNOI DE PENALTIES':lang==='es'?'TORNEO DE PENALES':lang==='pt'?'TORNEIO DE PENALTIS':'PENALTY TOURNAMENT')),
+              e('div',{style:{fontSize:16,fontWeight:'bold',color:G,letterSpacing:1}},'🏆 '+(lang==='fr'?'TOURNOI DE PENALTIES':lang==='es'?'TORNEO DE PENALES':lang==='pt'?'TORNEIO DE PENALTIS':lang==='it'?'TORNEO DI RIGORI':lang==='de'?'ELFMETER-TURNIER':'PENALTY TOURNAMENT')),
               e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:4}},lang==='fr'?'4 rounds • Gardiens légendaires • Classement mondial':lang==='es'?'4 rondas • Porteros legendarios • Ranking mundial':lang==='pt'?'4 rodadas • Goleiros lendários • Ranking mundial':'4 rounds • Legendary keepers • World ranking')
             ),
             // Round preview
@@ -3874,7 +3874,7 @@ function App(){
                 e('div',{style:{background:qualified?'rgba(40,160,40,0.2)':'rgba(200,40,40,0.15)',border:'2px solid '+(qualified?'#90ee90':'#ff4444'),borderRadius:16,padding:'16px',marginBottom:10}},
                   e('div',{style:{fontSize:44,marginBottom:6}},isChampion?'🏆':qualified?'✅':'❌'),
                   e('div',{style:{fontSize:16,fontWeight:'bold',color:qualified?'#90ee90':'#ff4444',marginBottom:4}},
-                    isChampion?(lang==='fr'?'CHAMPION DU MONDE !':lang==='es'?'¡CAMPEÓN DEL MUNDO!':lang==='pt'?'CAMPEÃO DO MUNDO !':'WORLD CHAMPION !'):
+                    isChampion?(lang==='fr'?'CHAMPION DU MONDE !':lang==='es'?'¡CAMPEÓN DEL MUNDO!':lang==='pt'?'CAMPEÃO DO MUNDO !':lang==='it'?'CAMPIONE DEL MONDO !':lang==='de'?'WELTMEISTER !':'WORLD CHAMPION !'):
                     qualified?(lang==='fr'?'QUALIFIÉ !':lang==='es'?'¡CLASIFICADO!':lang==='pt'?'CLASSIFICADO !':'QUALIFIED !'):
                     (lang==='fr'?'ÉLIMINÉ':lang==='es'?'ELIMINADO':lang==='pt'?'ELIMINADO':'ELIMINATED')
                   ),
