@@ -934,14 +934,15 @@ function PenaltyPitch(props){
           kSpriteMesh.material.map=newTex;
           kSpriteMesh.material.needsUpdate=true;
         }catch(e){
-          // iOS security fallback — use texture directly without bg removal
           var newTex2=new THREE.TextureLoader().load('/goalkeeper.png');
           kSpriteMesh.material.map=newTex2;
           kSpriteMesh.material.needsUpdate=true;
         }
+        // Révéler le canvas une fois le gardien chargé
+        setReady(true);
       };
-      img.onerror=function(){console.warn('goalkeeper.png not found');};
-      img.src='/goalkeeper.png?t='+Date.now();
+      img.onerror=function(){setReady(true);};
+      img.src='/goalkeeper.png';
     })();
     // Keeper ground shadow
     var kShadow=new THREE.Mesh(
@@ -1226,8 +1227,6 @@ function PenaltyPitch(props){
     }
     thr.animate=animate;
     animate();
-    // Révéler le canvas après 1 frame rendu — cache le flash d'initialisation
-    requestAnimationFrame(function(){setReady(true);});
     // Watchdog — redémarre RAF si mort (fix Android/iOS)
     thr.watchdog=setInterval(function(){
       if(threeRef.current&&!threeRef.current.raf){
