@@ -375,7 +375,7 @@ function PenaltyCSSGame(props){
     background:'linear-gradient(180deg,#0d3b0d 0%,#1a6b1a 60%,#2d8a2d 100%)',
     overflow:'hidden',
     boxShadow:'0 0 30px rgba(0,0,0,0.6)'};
-  var wrapStyle={position:'absolute',bottom:0,left:'50%',transform:'translateX(-50%)',width:160,display:'flex',flexDirection:'column',alignItems:'center'};
+  var wrapStyle={position:'absolute',bottom:-8,left:'50%',transform:'translateX(-50%)',width:160,display:'flex',flexDirection:'column',alignItems:'center'};
   var armsStyle={position:'absolute',bottom:72,width:170,height:44,pointerEvents:'none'};
   var armBase={position:'absolute',width:58,height:14,background:'linear-gradient(90deg,#5bc8e8,#3aa8cc)',borderRadius:7,top:'50%'};
   var ballStyle={position:'absolute',width:34,height:34,borderRadius:'50%',background:'radial-gradient(circle at 35% 35%,#fff,#222)',bottom:-50,left:'50%',transform:'translateX(-50%)',display:'none',boxShadow:'0 4px 12px rgba(0,0,0,.5)'};
@@ -3586,6 +3586,7 @@ function App(){
 
       // ── TAB 8 - PENALTY GAME ──────────────────────────────────
       tab===8?e('div',{style:{paddingBottom:16}},
+        e('div',{style:{display:penTourPhase==='playing'?'none':'block'}},
         e('div',{style:{textAlign:'center',marginBottom:10}},
           e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:1}},(lang==='fr'?'⚽ JEU DE PENALTY':lang==='es'?'⚽ JUEGO DE PENALES':lang==='pt'?'⚽ JOGO DE PENALTIS':lang==='it'?'⚽ RIGORI':lang==='de'?'⚽ ELFMETERSCHIESSEN':'⚽ PENALTY GAME')),
           e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
@@ -3774,6 +3775,7 @@ function App(){
           e('button',{onClick:resetGame,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
             lang==='fr'?'🔄 Rejouer':lang==='es'?'🔄 Jugar':lang==='pt'?'🔄 Jogar':lang==='it'?'🔄 Rigioca':lang==='de'?'🔄 Nochmal':'🔄 Play Again'
           )
+        ),
         ),
         e('div',{style:{height:1,background:'rgba(212,175,55,0.2)',margin:'16px 0'}}),
         !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.06))',border:'1px solid '+G,borderRadius:12,padding:'16px',textAlign:'center'}},
