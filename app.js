@@ -1181,13 +1181,13 @@ function PenaltyPitch(props){
         else{pMesh.visible=false;pMesh.rotation.x=0;pMesh.position.z=3.2;}
       }
 
-      // Reset après résultat — dans animate (RAF garanti) au lieu de setTimeout throttlé
+      // Reset après résultat — RAF garanti, React updates différés hors RAF
       if(thr.phase==='result'&&thr.resultTime&&Date.now()-thr.resultTime>2400){
         thr.resultTime=null;
         var scored=thr.result==='goal';
-        if(props.onShotDone)props.onShotDone(scored);
         thr.sbResultActive=null;
         if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,thr.sbSaves||0);
+        // Reset Three.js immédiatement
         thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
         ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
         ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
@@ -1196,7 +1196,13 @@ function PenaltyPitch(props){
         pMesh.visible=true;
         markerGrp.visible=false;showConf=false;confMat.opacity=0;
         if(powerBarRef.current)powerBarRef.current.style.width='0%';
-        setResult(null);setPhase('idle');
+        // Différer les mises à jour React hors du contexte RAF (fix Android)
+        var _scored=scored;
+        window.setTimeout(function(){
+          if(props.onShotDone)props.onShotDone(_scored);
+          setResult(null);
+          setPhase('idle');
+        },0);
       }
 
       // Animate clouds (drift left→right like HTML nuage animation)
