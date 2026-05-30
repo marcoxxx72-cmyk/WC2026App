@@ -285,6 +285,9 @@ var useEffect = React.useEffect;
 var useRef = React.useRef;
 var e = React.createElement;
 
+// Précharger l'image gardien dès le démarrage
+(function(){var img=new Image();img.src='/goalkeeper.png';})();
+
 // ── PENALTY CSS GAME — version image gardien + CSS animations ────────────────
 (function(){
   var s=document.createElement('style');
