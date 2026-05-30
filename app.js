@@ -459,7 +459,7 @@ function PenaltyPitch(props){
       else if(type==='goal'){
         if(_audioBuffers.goal){
           var src=ctx.createBufferSource();src.buffer=_audioBuffers.goal;
-          var gv=ctx.createGain();gv.gain.value=0.9;
+          var gv=ctx.createGain();gv.gain.value=0.35;
           src.connect(gv);gv.connect(ctx.destination);src.start(now);
         } else {
           noise(3.2,500,0.3,0.35,0.15,0.6);noise(3.2,1200,0.5,0.2,0.3,0.5);
