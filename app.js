@@ -1054,22 +1054,7 @@ function PenaltyPitch(props){
             playSound('save');
           }
           setResult(thr.result);
-          thr.shotId=(thr.shotId||0)+1;var _sid=thr.shotId;
-          setTimeout(function(){
-            if(thr.shotId!==_sid)return; // shot was superseded — ignore
-            if(props.onShotDone)props.onShotDone(thr.result==='goal');
-            thr.sbResultActive=null;
-            if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,thr.sbSaves||0);
-            thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
-            ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
-            ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
-            kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSpriteMesh.scale.set(1,1,1);
-            gloveL.visible=false;gloveR.visible=false;kSprite.setIdle();
-            pMesh.visible=true;
-            markerGrp.visible=false;showConf=false;confMat.opacity=0;
-            if(powerBarRef.current)powerBarRef.current.style.width='0%';
-            setResult(null);setPhase('idle');
-          },2400);
+          thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
         }
       }
 
@@ -1093,6 +1078,24 @@ function PenaltyPitch(props){
         var kf=thr.animFrame;
         if(kf<10){pMesh.rotation.x=-(kf/9)*0.4;pMesh.position.z=3.2+kf*0.04;}
         else{pMesh.visible=false;pMesh.rotation.x=0;pMesh.position.z=3.2;}
+      }
+
+      // Reset après résultat — dans animate (RAF garanti) au lieu de setTimeout throttlé
+      if(thr.phase==='result'&&thr.resultTime&&Date.now()-thr.resultTime>2400){
+        thr.resultTime=null;
+        var scored=thr.result==='goal';
+        if(props.onShotDone)props.onShotDone(scored);
+        thr.sbResultActive=null;
+        if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,thr.sbSaves||0);
+        thr.phase='idle';thr.result=null;thr.aimPoint=null;thr.animFrame=0;thr.power=0;thr.curveAccum=0;
+        ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
+        ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
+        kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSpriteMesh.scale.set(1,1,1);
+        gloveL.visible=false;gloveR.visible=false;kSprite.setIdle();
+        pMesh.visible=true;
+        markerGrp.visible=false;showConf=false;confMat.opacity=0;
+        if(powerBarRef.current)powerBarRef.current.style.width='0%';
+        setResult(null);setPhase('idle');
       }
 
       // Animate clouds (drift left→right like HTML nuage animation)
