@@ -1108,6 +1108,12 @@ function PenaltyPitch(props){
     }
     thr.animate=animate;
     animate();
+    // Watchdog — redémarre RAF si mort (fix Android/iOS)
+    thr.watchdog=setInterval(function(){
+      if(threeRef.current&&!threeRef.current.raf){
+        threeRef.current.raf=requestAnimationFrame(animate);
+      }
+    },500);
 
     function fireShot(){
       if(!thr.aimPoint)return;
@@ -1137,15 +1143,8 @@ function PenaltyPitch(props){
     container.addEventListener('touchmove',onTM,{passive:false});
     container.addEventListener('touchend',onTE,{passive:false});
 
-    // iOS: pause RAF when page hidden, resume when visible
-    function onVis(){
-      if(document.hidden){
-        if(thr.raf){cancelAnimationFrame(thr.raf);thr.raf=null;}
-      } else {
-        if(!thr.raf)thr.raf=requestAnimationFrame(animate);
-      }
-    }
-    document.addEventListener('visibilitychange',onVis);
+    // visibilitychange désactivé — tuait le RAF sur Android au tap bouton
+    function onVis(){}
 
     // iOS: recover from WebGL context loss
     renderer.domElement.addEventListener('webglcontextlost',function(ev){
@@ -1158,7 +1157,7 @@ function PenaltyPitch(props){
 
     return function(){
       ro.disconnect();
-      document.removeEventListener('visibilitychange',onVis);
+      if(thr.watchdog)clearInterval(thr.watchdog);
       container.removeEventListener('touchstart',onTS);
       container.removeEventListener('touchmove',onTM);
       container.removeEventListener('touchend',onTE);
