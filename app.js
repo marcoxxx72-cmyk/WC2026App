@@ -3840,20 +3840,25 @@ function App(){
                 );
               })
             ),
-            // CSS Penalty Game — image gardien + animations CSS (compatible mobile)
-            gamePhase!=='done'&&e(PenaltyCSSGame,{
+            // 3D Canvas Pitch — always mounted to avoid WebGL context loss on iOS
+            e('div',{style:{display:gamePhase==='done'?'none':'block'}},
+            e(PenaltyPitch,{
               key:'pitch-'+penTourRound,
               roundIdx:penTourRound,
+              shotsLeft:shotsLeft,
+              shotHistory:shotHistory,
+              gameScore:gameScore,
+              gameMiss:gameMiss,
               lang:lang,
               G:G,
               playerName:penTourName,
               onShotDone:function(scored){
-                setShotHistory(function(hist){return hist.concat([{dir:'css',scored:scored}]);});
+                setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
                 setShotsLeft(function(s){var ns=s-1;if(ns<=0)setGamePhase('done');return ns;});
               }
-            }),
+            })),
             // Round done
             gamePhase==='done'&&(function(){
               var qualified=gameScore>=rd.need;
