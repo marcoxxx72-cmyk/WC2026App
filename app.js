@@ -306,12 +306,12 @@ function PenaltyCSSGame(props){
 
   var POSES={
     idle:['','translateY(-50%) rotate(20deg)','translateY(-50%) rotate(-20deg)'],
-    diveLA:['translateX(-150px) translateY(-40px) rotate(-18deg)','translateY(-50%) rotate(120deg) scaleX(1.4)','translateY(-50%) rotate(-40deg) scaleX(1.1)'],
-    diveLB:['translateX(-130px) translateY(8px) rotate(-12deg)','translateY(-50%) rotate(-55deg) scaleX(1.35)','translateY(-50%) rotate(-15deg) scaleX(1.05)'],
-    diveRA:['translateX(150px) translateY(-40px) rotate(18deg)','translateY(-50%) rotate(40deg) scaleX(1.1)','translateY(-50%) rotate(-120deg) scaleX(1.4)'],
-    diveRB:['translateX(130px) translateY(8px) rotate(12deg)','translateY(-50%) rotate(15deg) scaleX(1.05)','translateY(-50%) rotate(55deg) scaleX(1.35)'],
-    jump:['translateY(-72px) scaleX(1.15)','translateY(-50%) rotate(-90deg) scaleX(1.2)','translateY(-50%) rotate(90deg) scaleX(1.2)'],
-    catch:['translateY(10px) rotate(-18deg) scaleY(0.88)','translateY(-50%) rotate(85deg) scaleX(1.4)','translateY(-50%) rotate(-85deg) scaleX(1.4)']
+    diveLA:['translateX(-145px) translateY(-55px) rotate(-62deg)','translateY(-50%) rotate(120deg) scaleX(1.5)','translateY(-50%) rotate(-35deg) scaleX(1.1)'],
+    diveLB:['translateX(-135px) translateY(6px) rotate(-48deg)','translateY(-50%) rotate(-65deg) scaleX(1.4)','translateY(-50%) rotate(-18deg) scaleX(1.05)'],
+    diveRA:['translateX(145px) translateY(-55px) rotate(62deg)','translateY(-50%) rotate(35deg) scaleX(1.1)','translateY(-50%) rotate(-120deg) scaleX(1.5)'],
+    diveRB:['translateX(135px) translateY(6px) rotate(48deg)','translateY(-50%) rotate(18deg) scaleX(1.05)','translateY(-50%) rotate(65deg) scaleX(1.4)'],
+    jump:['translateY(-85px) scaleX(1.2)','translateY(-50%) rotate(-92deg) scaleX(1.25)','translateY(-50%) rotate(92deg) scaleX(1.25)'],
+    catch:['translateY(12px) rotate(-22deg) scaleY(0.85)','translateY(-50%) rotate(85deg) scaleX(1.4)','translateY(-50%) rotate(-85deg) scaleX(1.4)']
   };
   function setState(s){
     var gk=gkRef.current;var armL=armLRef.current;var armR=armRRef.current;
