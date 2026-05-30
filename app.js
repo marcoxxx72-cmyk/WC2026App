@@ -295,7 +295,7 @@ var e = React.createElement;
 // ── PENALTY CSS GAME — version image gardien + CSS animations ────────────────
 (function(){
   var s=document.createElement('style');
-  s.textContent='@keyframes gk-idle{0%,100%{transform:rotate(-2deg) scaleY(1) translateY(0)}25%{transform:rotate(0) scaleY(0.97) translateY(3px)}50%{transform:rotate(2deg) scaleY(1) translateY(0)}75%{transform:rotate(0) scaleY(0.97) translateY(3px)}}@keyframes gk-flyL{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:185px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45)}}@keyframes gk-flyC{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:205px;left:50%;opacity:.4;transform:translateX(-50%) scale(.4)}}@keyframes gk-flyClow{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:12px;left:50%;opacity:.7;transform:translateX(-50%) scale(.82)}}@keyframes gk-flyR{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:185px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45)}}';
+  s.textContent='@keyframes gk-idle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}@keyframes gk-diveLA{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(-50px) translateY(-60px) rotate(-40deg)}65%{transform:translateX(-110px) translateY(-40px) rotate(-70deg)}100%{transform:translateX(-160px) translateY(-10px) rotate(-78deg)}}@keyframes gk-diveLB{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(-40px) translateY(-20px) rotate(-25deg)}65%{transform:translateX(-90px) translateY(-5px) rotate(-45deg)}100%{transform:translateX(-135px) translateY(5px) rotate(-55deg)}}@keyframes gk-diveRA{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(50px) translateY(-60px) rotate(40deg)}65%{transform:translateX(110px) translateY(-40px) rotate(70deg)}100%{transform:translateX(160px) translateY(-10px) rotate(78deg)}}@keyframes gk-diveRB{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(40px) translateY(-20px) rotate(25deg)}65%{transform:translateX(90px) translateY(-5px) rotate(45deg)}100%{transform:translateX(135px) translateY(5px) rotate(55deg)}}@keyframes gk-jump{0%{transform:translateY(0) scaleX(1) scaleY(1)}12%{transform:translateY(4px) scaleX(1.05) scaleY(0.92)}45%{transform:translateY(-75px) scaleX(1.2) scaleY(1)}70%{transform:translateY(-65px) scaleX(1.25) scaleY(1)}100%{transform:translateY(0) scaleX(1) scaleY(1)}}@keyframes gk-catch{0%{transform:translateY(0) rotate(0) scaleY(1)}50%{transform:translateY(6px) rotate(-15deg) scaleY(0.93)}100%{transform:translateY(10px) rotate(-25deg) scaleY(0.87)}}@keyframes gk-armL-idle{0%,100%{transform:translateY(-50%) rotate(20deg)}50%{transform:translateY(-50%) rotate(8deg)}}@keyframes gk-armR-idle{0%,100%{transform:translateY(-50%) rotate(-20deg)}50%{transform:translateY(-50%) rotate(-8deg)}}@keyframes gk-armL-diveA{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(70deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(120deg) scaleX(1.45)}}@keyframes gk-armL-diveB{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-20deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(-60deg) scaleX(1.45)}}@keyframes gk-armR-diveA{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-70deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(-120deg) scaleX(1.45)}}@keyframes gk-armR-diveB{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(20deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(60deg) scaleX(1.45)}}@keyframes gk-armR-trailA{0%{transform:translateY(-50%) rotate(-20deg)}100%{transform:translateY(-50%) rotate(-50deg)}}@keyframes gk-armR-trailB{0%{transform:translateY(-50%) rotate(-20deg)}100%{transform:translateY(-50%) rotate(-35deg)}}@keyframes gk-armL-trailA{0%{transform:translateY(-50%) rotate(20deg)}100%{transform:translateY(-50%) rotate(50deg)}}@keyframes gk-armL-trailB{0%{transform:translateY(-50%) rotate(20deg)}100%{transform:translateY(-50%) rotate(35deg)}}@keyframes gk-armL-jump{0%,100%{transform:translateY(-50%) rotate(20deg)}50%{transform:translateY(-50%) rotate(-90deg)}}@keyframes gk-armR-jump{0%,100%{transform:translateY(-50%) rotate(-20deg)}50%{transform:translateY(-50%) rotate(90deg)}}@keyframes gk-armL-catch{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(65deg) scaleX(1.25)}100%{transform:translateY(-50%) rotate(90deg) scaleX(1.45)}}@keyframes gk-armR-catch{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-65deg) scaleX(1.25)}100%{transform:translateY(-50%) rotate(-90deg) scaleX(1.45)}}@keyframes gk-flyL{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:185px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45)}}@keyframes gk-flyC{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:205px;left:50%;opacity:.4;transform:translateX(-50%) scale(.4)}}@keyframes gk-flyClow{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:12px;left:50%;opacity:.7;transform:translateX(-50%) scale(.82)}}@keyframes gk-flyR{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:185px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45)}}';
   document.head.appendChild(s);
 })();
 
@@ -304,34 +304,23 @@ function PenaltyCSSGame(props){
   var ballRef=useRef(null);var flashRef=useRef(null);var busyRef=useRef(false);
   var lang=props.lang||'en';var G=props.G||'#d4af37';
 
-  var POSES={
-    idle:['','translateY(-50%) rotate(20deg)','translateY(-50%) rotate(-20deg)'],
-    diveLA:['translateX(-145px) translateY(-55px) rotate(-62deg)','translateY(-50%) rotate(120deg) scaleX(1.5)','translateY(-50%) rotate(-35deg) scaleX(1.1)'],
-    diveLB:['translateX(-135px) translateY(6px) rotate(-48deg)','translateY(-50%) rotate(-65deg) scaleX(1.4)','translateY(-50%) rotate(-18deg) scaleX(1.05)'],
-    diveRA:['translateX(145px) translateY(-55px) rotate(62deg)','translateY(-50%) rotate(35deg) scaleX(1.1)','translateY(-50%) rotate(-120deg) scaleX(1.5)'],
-    diveRB:['translateX(135px) translateY(6px) rotate(48deg)','translateY(-50%) rotate(18deg) scaleX(1.05)','translateY(-50%) rotate(65deg) scaleX(1.4)'],
-    jump:['translateY(-85px) scaleX(1.2)','translateY(-50%) rotate(-92deg) scaleX(1.25)','translateY(-50%) rotate(92deg) scaleX(1.25)'],
-    catch:['translateY(12px) rotate(-22deg) scaleY(0.85)','translateY(-50%) rotate(85deg) scaleX(1.4)','translateY(-50%) rotate(-85deg) scaleX(1.4)']
-  };
   function setState(s){
     var gk=gkRef.current;var armL=armLRef.current;var armR=armRRef.current;
     if(!gk)return;
-    var pose=POSES[s];if(!pose)return;
-    if(s==='idle'){
-      gk.style.transition='transform 0.35s ease-out';
-      armL.style.transition='transform 0.3s ease-out';
-      armR.style.transition='transform 0.3s ease-out';
-      gk.style.transform='';armL.style.transform=pose[1];armR.style.transform=pose[2];
-      setTimeout(function(){gk.style.transition='none';gk.style.animation='gk-idle 1.6s ease-in-out infinite';},380);
-    }else{
-      gk.style.animation='none';
-      gk.style.transition='transform 0.38s cubic-bezier(.2,0,.4,1)';
-      armL.style.transition='transform 0.32s cubic-bezier(.2,0,.4,1)';
-      armR.style.transition='transform 0.32s cubic-bezier(.2,0,.4,1)';
-      requestAnimationFrame(function(){
-        gk.style.transform=pose[0];armL.style.transform=pose[1];armR.style.transform=pose[2];
-      });
-    }
+    var dur={idle:'1.6s',jump:'.5s',catch:'.4s',diveLA:'.42s',diveLB:'.42s',diveRA:'.42s',diveRB:'.42s'}[s]||'.42s';
+    var fill=s==='idle'?'none':'forwards';
+    var rep=s==='idle'?'infinite':'1';
+    var ease=s==='idle'?'ease-in-out':s==='jump'?'ease-out':'cubic-bezier(.2,0,.4,1)';
+    var body={idle:'gk-idle',diveLA:'gk-diveLA',diveLB:'gk-diveLB',diveRA:'gk-diveRA',diveRB:'gk-diveRB',jump:'gk-jump',catch:'gk-catch'};
+    var al={idle:'gk-armL-idle',diveLA:'gk-armL-diveA',diveLB:'gk-armL-diveB',diveRA:'gk-armL-trailA',diveRB:'gk-armL-trailB',jump:'gk-armL-jump',catch:'gk-armL-catch'};
+    var ar={idle:'gk-armR-idle',diveLA:'gk-armR-trailA',diveLB:'gk-armR-trailB',diveRA:'gk-armR-diveA',diveRB:'gk-armR-diveB',jump:'gk-armR-jump',catch:'gk-armR-catch'};
+    // iOS + Android fix
+    gk.style.animation='none';armL.style.animation='none';armR.style.animation='none';
+    gk.style.transform='';armL.style.transform='';armR.style.transform='';
+    gk.getBoundingClientRect();
+    gk.style.animation=(body[s]||'')+' '+dur+' '+ease+' '+fill+' '+rep;
+    armL.style.animation=(al[s]||'')+' '+dur+' ease-out '+fill+' '+rep;
+    armR.style.animation=(ar[s]||'')+' '+dur+' ease-out '+fill+' '+rep;
   }
 
   function shoot(dir){
@@ -355,7 +344,7 @@ function PenaltyCSSGame(props){
     setState(kAnim);
     var scored=(dir!==kDir);
     setTimeout(function(){
-      flash.textContent=scored?'⚽ BUT !':(lang==='fr'?'ARRÊTÉ ! 🧤':lang==='es'?'PARADO ! 🧤':lang==='pt'?'DEFENDIDO ! 🧤':lang==='it'?'PARATO ! 🧤':lang==='de'?'GEHALTEN ! 🧤':'SAVED ! 🧤');
+      flash.textContent=scored?'⚽ BUT !':(lang==='fr'?'ARRÊTÉ ! 🧤':lang==='es'?'PARADO ! 🧤':'SAVED ! 🧤');
       flash.style.color=scored?'#ff4444':'#ffd700';
       flash.style.transform='translate(-50%,-50%) scale(1)';
       setTimeout(function(){flash.style.transform='translate(-50%,-50%) scale(0)';},900);
@@ -372,10 +361,10 @@ function PenaltyCSSGame(props){
 
   var goalStyle={position:'relative',width:'100%',maxWidth:360,height:260,margin:'0 auto',
     border:'4px solid #fff',borderBottom:'none',borderRadius:'4px 4px 0 0',
-    background:'repeating-linear-gradient(0deg,transparent,transparent 19px,rgba(0,0,0,.07) 19px,rgba(0,0,0,.07) 20px),repeating-linear-gradient(90deg,transparent,transparent 19px,rgba(0,0,0,.07) 19px,rgba(0,0,0,.07) 20px),linear-gradient(180deg,#1a7a1a 0%,#2d9a2d 60%,#3aaa3a 100%)',
+    background:'linear-gradient(180deg,#0d3b0d 0%,#1a6b1a 60%,#2d8a2d 100%)',
     overflow:'hidden',
     boxShadow:'0 0 30px rgba(0,0,0,0.6)'};
-  var wrapStyle={position:'absolute',bottom:-8,left:'50%',transform:'translateX(-50%)',width:160,display:'flex',flexDirection:'column',alignItems:'center'};
+  var wrapStyle={position:'absolute',bottom:0,left:'50%',transform:'translateX(-50%)',width:160,display:'flex',flexDirection:'column',alignItems:'center'};
   var armsStyle={position:'absolute',bottom:72,width:170,height:44,pointerEvents:'none'};
   var armBase={position:'absolute',width:58,height:14,background:'linear-gradient(90deg,#5bc8e8,#3aa8cc)',borderRadius:7,top:'50%'};
   var ballStyle={position:'absolute',width:34,height:34,borderRadius:'50%',background:'radial-gradient(circle at 35% 35%,#fff,#222)',bottom:-50,left:'50%',transform:'translateX(-50%)',display:'none',boxShadow:'0 4px 12px rgba(0,0,0,.5)'};
@@ -388,7 +377,7 @@ function PenaltyCSSGame(props){
           e('div',{ref:armLRef,style:Object.assign({},armBase,{right:'50%',transformOrigin:'right center'})}),
           e('div',{ref:armRRef,style:Object.assign({},armBase,{left:'50%',transformOrigin:'left center'})})
         ),
-        e('img',{ref:gkRef,src:'/goalkeeper.png',alt:'Gardien',style:{width:150,height:'auto',display:'block',filter:'drop-shadow(0 8px 20px rgba(0,0,0,.7))',transformOrigin:'center 65%'}})
+        e('img',{ref:gkRef,src:'/goalkeeper.png',alt:'Gardien',style:{width:150,height:'auto',display:'block',filter:'drop-shadow(0 8px 20px rgba(0,0,0,.7))',transformOrigin:'bottom center'}})
       ),
       e('div',{ref:ballRef,style:ballStyle}),
       e('div',{ref:flashRef,style:flashStyle})
@@ -396,7 +385,7 @@ function PenaltyCSSGame(props){
     e('p',{style:{color:'rgba(255,255,255,.5)',fontSize:11,letterSpacing:2,textTransform:'uppercase',margin:'16px 0 10px',textAlign:'center'}},
       lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE CHUTAR?':lang==='it'?'DOVE TIRI?':lang==='de'?'WOHIN SCHIESST DU?':'WHERE DO YOU SHOOT?'
     ),
-    e('div',{style:{display:'flex',gap:14,justifyContent:'center',opacity:props.disabled?0.4:1,pointerEvents:props.disabled?'none':'auto'}},
+    e('div',{style:{display:'flex',gap:14,justifyContent:'center'}},
       e('button',{onClick:function(){shoot('L');},style:{width:70,height:70,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#e74c3c,#c0392b)',fontSize:26,cursor:'pointer',WebkitTapHighlightColor:'transparent',color:'white'}},'⬅'),
       e('button',{onClick:function(){shoot('C');},style:{width:70,height:70,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#f39c12,#e67e22)',fontSize:26,cursor:'pointer',WebkitTapHighlightColor:'transparent',color:'white'}},'⬆'),
       e('button',{onClick:function(){shoot('R');},style:{width:70,height:70,borderRadius:'50%',border:'none',background:'linear-gradient(135deg,#27ae60,#2ecc71)',fontSize:26,cursor:'pointer',WebkitTapHighlightColor:'transparent',color:'white'}},'➡')
@@ -3586,7 +3575,6 @@ function App(){
 
       // ── TAB 8 - PENALTY GAME ──────────────────────────────────
       tab===8?e('div',{style:{paddingBottom:16}},
-        e('div',{style:{display:penTourPhase==='playing'?'none':'block'}},
         e('div',{style:{textAlign:'center',marginBottom:10}},
           e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:1}},(lang==='fr'?'⚽ JEU DE PENALTY':lang==='es'?'⚽ JUEGO DE PENALES':lang==='pt'?'⚽ JOGO DE PENALTIS':lang==='it'?'⚽ RIGORI':lang==='de'?'⚽ ELFMETERSCHIESSEN':'⚽ PENALTY GAME')),
           e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
@@ -3776,7 +3764,6 @@ function App(){
             lang==='fr'?'🔄 Rejouer':lang==='es'?'🔄 Jugar':lang==='pt'?'🔄 Jogar':lang==='it'?'🔄 Rigioca':lang==='de'?'🔄 Nochmal':'🔄 Play Again'
           )
         ),
-        ),
         e('div',{style:{height:1,background:'rgba(212,175,55,0.2)',margin:'16px 0'}}),
         !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.06))',border:'1px solid '+G,borderRadius:12,padding:'16px',textAlign:'center'}},
           e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:8}},'🏆 PENALTY SHOOTOUT TOURNAMENT — PRO'),
@@ -3867,19 +3854,25 @@ function App(){
                 );
               })
             ),
-            // CSS Goalkeeper — real photo with CSS transitions
-            gamePhase!=='done'&&e(PenaltyCSSGame,{
-              key:'css-gk-'+penTourRound,
+            // 3D Canvas Pitch — always mounted to avoid WebGL context loss on iOS
+            e('div',{style:{display:gamePhase==='done'?'none':'block'}},
+            e(PenaltyPitch,{
+              key:'pitch-'+penTourRound,
               roundIdx:penTourRound,
+              shotsLeft:shotsLeft,
+              shotHistory:shotHistory,
+              gameScore:gameScore,
+              gameMiss:gameMiss,
               lang:lang,
               G:G,
+              playerName:penTourName,
               onShotDone:function(scored){
-                setShotHistory(function(hist){return hist.concat([{dir:'css',scored:scored}]);});
+                setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
                 setShotsLeft(function(s){var ns=s-1;if(ns<=0)setGamePhase('done');return ns;});
               }
-            }),
+            })),
             // Round done
             gamePhase==='done'&&(function(){
               var qualified=gameScore>=rd.need;
