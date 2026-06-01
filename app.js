@@ -1028,11 +1028,17 @@ function PenaltyPitch(props){
     gloveL.visible=false;gloveR.visible=false;
     scene.add(gloveL);scene.add(gloveR);
 
+    kSpriteMesh.visible=false;
     var kSprite={
       mesh:kSpriteMesh,
       gloveL:gloveL,gloveR:gloveR,
-      setDive:function(dir){},
-      setIdle:function(){}
+      setDive:function(dir){
+        var anim=thr.kAnim||'idle';
+        if(gkAnimRef.current)gkAnimRef.current(anim);
+      },
+      setIdle:function(){
+        if(gkAnimRef.current)gkAnimRef.current('idle');
+      }
     };
 
     // ── Kicker — Lower-body Canvas Sprite (FIFA low-camera angle) ──
@@ -1301,6 +1307,11 @@ function PenaltyPitch(props){
       // wrongSide: keeper guesses the opposite side
       var wrongSide=correctSide===1?(Math.random()<0.5?0:2):(correctSide===2?0:2);
       thr.keeperTarget=Math.random()<reaction?dirs[correctSide]:dirs[wrongSide];
+      var kDir=thr.keeperTarget<0?'L':thr.keeperTarget>0?'R':'C';
+      var variant=Math.random()<0.5?'A':'B';
+      var stateMap={L:variant==='A'?'diveLA':'diveLB',C:Math.random()<0.5?'jump':'catch',R:variant==='A'?'diveRA':'diveRB'};
+      var kAnim=stateMap[kDir];
+      thr.kAnim=kAnim;
       thr.phase='animating';thr.animFrame=0;pMesh.rotation.x=0;
       if(powerBarRef.current)powerBarRef.current.style.width='0%';
       playSound('kick');setPhase('animating');
