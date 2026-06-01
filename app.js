@@ -1923,8 +1923,8 @@ var SPONSORS = {
   de:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'ARD Sport',icon:'📺',url:'https://www.sportschau.de'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}]
 }
 
-var STRIPE_EUR = 'https://buy.stripe.com/aFacN53uBdi18Mr8xvcjS00';
-var STRIPE_GBP = 'https://buy.stripe.com/fZu6oH6GNcdX7In8xvcjS01';
+var STRIPE_EUR = 'https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02';
+var STRIPE_GBP = 'https://buy.stripe.com/bJeeVdaX3di1bYD3dbcjS03';
 function getPrice(lang){return lang==='en'?'2.49 GBP':'2,99 EUR';}
 function getStripeLink(lang){return lang==='en'?STRIPE_GBP:STRIPE_EUR;}
 
