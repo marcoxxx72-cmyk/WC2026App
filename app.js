@@ -403,12 +403,6 @@ function PenaltyPitch(props){
   var _pfs=useState(false);var fullscreen=_pfs[0];var setFullscreen=_pfs[1];
   var _pvh=useState(window.innerHeight);var vph=_pvh[0];var setVph=_pvh[1];
   var _pready=useState(false);var ready=_pready[0];var setReady=_pready[1];
-  var _pgk=useState('idle');var gkAnim=_pgk[0];var setGkAnim=_pgk[1];
-  var gkAnimRef=useRef(setGkAnim);
-  gkAnimRef.current=setGkAnim;
-  var gkWrapRef=useRef(null);
-  var fullscreenRef=useRef(false);
-  fullscreenRef.current=fullscreen;
   var lang=props.lang||'en';var G=props.G||'#d4af37';var roundIdx=props.roundIdx||0;
 
   // Fix iOS 100vh + orientation change
@@ -492,65 +486,6 @@ function PenaltyPitch(props){
       }
     }catch(ex){}
   }
-
-  useEffect(function(){
-    var id='gkpro-styles';
-    if(document.getElementById(id))return;
-    var s=document.createElement('style');
-    s.id=id;
-    s.textContent=[
-      // ── Conteneur wrapper ──
-      '.gkpro-wrap{position:fixed;pointer-events:none;z-index:10001;width:100px;height:151px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.7));transform:translateX(-50%);}',
-      '.gkpro-upper,.gkpro-lower{position:absolute;bottom:0;left:0;width:100px;will-change:transform;}',
-      '.gkpro-upper img,.gkpro-lower img{width:100px;height:auto;display:block;}',
-      '.gkpro-upper{clip-path:inset(0 0 42% 0);transform-origin:50% 58%;}',
-      '.gkpro-lower{clip-path:inset(58% 0 0 0);transform-origin:50% 58%;}',
-      // idle: reset children + sway sur wrap
-      '.gkpro-wrap.gkpro-idle .gkpro-upper,.gkpro-wrap.gkpro-idle .gkpro-lower{animation:none;}',
-      '@keyframes gkpro-idle{0%,100%{transform:translateX(calc(-50% - 9px))}50%{transform:translateX(calc(-50% + 9px))}}',
-      '.gkpro-wrap.gkpro-idle{animation:gkpro-idle 11.4s ease-in-out infinite;}',
-      // diveLA
-      '@keyframes gkpro-wrap-diveLA{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% - 65px))}}',
-      '@keyframes gkpro-upper-diveLA{0%{transform:rotate(0)}100%{transform:rotate(-63deg) translateY(-10px)}}',
-      '@keyframes gkpro-lower-diveLA{0%{transform:rotate(0)}100%{transform:rotate(6deg)}}',
-      '.gkpro-wrap.gkpro-diveLA{animation:gkpro-wrap-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-diveLA .gkpro-upper{animation:gkpro-upper-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-diveLA .gkpro-lower{animation:gkpro-lower-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // diveLB
-      '@keyframes gkpro-wrap-diveLB{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% - 75px))}}',
-      '@keyframes gkpro-upper-diveLB{0%{transform:rotate(0)}100%{transform:rotate(-68deg)}}',
-      '@keyframes gkpro-lower-diveLB{0%{transform:rotate(0)}100%{transform:rotate(5deg)}}',
-      '.gkpro-wrap.gkpro-diveLB{animation:gkpro-wrap-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-diveLB .gkpro-upper{animation:gkpro-upper-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-diveLB .gkpro-lower{animation:gkpro-lower-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // diveRA
-      '@keyframes gkpro-wrap-diveRA{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% + 65px))}}',
-      '@keyframes gkpro-upper-diveRA{0%{transform:rotate(0)}100%{transform:rotate(63deg) translateY(-10px)}}',
-      '@keyframes gkpro-lower-diveRA{0%{transform:rotate(0)}100%{transform:rotate(-6deg)}}',
-      '.gkpro-wrap.gkpro-diveRA{animation:gkpro-wrap-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-diveRA .gkpro-upper{animation:gkpro-upper-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-diveRA .gkpro-lower{animation:gkpro-lower-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // diveRB
-      '@keyframes gkpro-wrap-diveRB{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% + 75px))}}',
-      '@keyframes gkpro-upper-diveRB{0%{transform:rotate(0)}100%{transform:rotate(68deg)}}',
-      '@keyframes gkpro-lower-diveRB{0%{transform:rotate(0)}100%{transform:rotate(-5deg)}}',
-      '.gkpro-wrap.gkpro-diveRB{animation:gkpro-wrap-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-diveRB .gkpro-upper{animation:gkpro-upper-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-diveRB .gkpro-lower{animation:gkpro-lower-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // jump
-      '@keyframes gkpro-upper-jump{0%{transform:translateY(0) scaleX(1)}45%{transform:translateY(-42px) scaleX(1.1)}100%{transform:translateY(-36px) scaleX(1.12)}}',
-      '@keyframes gkpro-lower-jump{0%{transform:scaleY(1)}100%{transform:scaleY(0.85)}}',
-      '.gkpro-wrap.gkpro-jump .gkpro-upper{animation:gkpro-upper-jump .5s ease-out forwards;}',
-      '.gkpro-wrap.gkpro-jump .gkpro-lower{animation:gkpro-lower-jump .5s ease-out forwards;}',
-      // catch
-      '@keyframes gkpro-upper-catch{0%{transform:rotate(0) translateY(0)}100%{transform:rotate(-20deg) translateY(7px)}}',
-      '@keyframes gkpro-lower-catch{0%{transform:rotate(0)}100%{transform:rotate(10deg)}}',
-      '.gkpro-wrap.gkpro-catch .gkpro-upper{animation:gkpro-upper-catch .4s cubic-bezier(.2,0,.4,1) forwards;}',
-      '.gkpro-wrap.gkpro-catch .gkpro-lower{animation:gkpro-lower-catch .4s cubic-bezier(.2,0,.4,1) forwards;}',
-    ].join('');
-    document.head.appendChild(s);
-    return function(){var el=document.getElementById(id);if(el)el.remove();};
-  },[]);
 
   useEffect(function(){
     var THREE=window.THREE;if(!THREE)return;
@@ -1039,24 +974,11 @@ function PenaltyPitch(props){
     gloveL.visible=false;gloveR.visible=false;
     scene.add(gloveL);scene.add(gloveR);
 
-    kSpriteMesh.visible=true; // mini-view: Three.js keeper visible; fullscreen: CSS overlay takes over
     var kSprite={
       mesh:kSpriteMesh,
       gloveL:gloveL,gloveR:gloveR,
-      setDive:function(dir){
-        var anim=thr.kAnim||'idle';
-        if(gkAnimRef.current)gkAnimRef.current(anim);
-      },
-      setIdle:function(){
-        if(gkAnimRef.current)gkAnimRef.current('idle');
-        // Reset DOM transforms explicitly — CSS forwards fill-mode can stick
-        if(gkWrapRef.current){
-          var u=gkWrapRef.current.querySelector('.gkpro-upper');
-          var l=gkWrapRef.current.querySelector('.gkpro-lower');
-          if(u){u.style.animation='none';u.style.transform='';}
-          if(l){l.style.animation='none';l.style.transform='';}
-        }
-      }
+      setDive:function(dir){},
+      setIdle:function(){}
     };
 
     // ── Kicker — Lower-body Canvas Sprite (FIFA low-camera angle) ──
@@ -1189,7 +1111,7 @@ function PenaltyPitch(props){
           kSpriteMesh.scale.set(1+dts*0.45,1-dts*0.1,1);
           var shotHi=Math.max(0,(thr.shotTarget.y-1.1)*0.4);
           kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*(0.55+shotHi*0.4);
-          if(thr.animFrame===5)kSprite.setDive(ds);
+          if(thr.animFrame===5&&ds!==0)kSprite.setDive(ds);
 
           // ── Gloves: extend leading hand toward ball ──
           if(ds!==0){
@@ -1301,31 +1223,6 @@ function PenaltyPitch(props){
       // Animate scoreboard confetti when result active
       if(thr.sbResultActive){stepSbConf();updateScoreboard(thr.sbGoals||0,thr.sbSaves||0,thr.sbResultActive);}
 
-      // Mini vs fullscreen keeper visibility
-      kSpriteMesh.visible=!fullscreenRef.current;
-      // Sync CSS keeper: position + size from Three.js projection (fullscreen only)
-      if(gkWrapRef.current&&fullscreenRef.current&&thr.phase==='idle'){
-        var fp=new THREE.Vector3(kSpriteMesh.position.x,0,kSpriteMesh.position.z);
-        fp.project(camera);
-        var bPct=Math.round((1+fp.y)/2*100);
-        if(bPct>5&&bPct<90)gkWrapRef.current.style.bottom=bPct+'%';
-        // Scale 1.6× — projection gives exact sprite size, 1.6× makes keeper fill goal better
-        var le=new THREE.Vector3(-1.1,0.88,kSpriteMesh.position.z);
-        var re=new THREE.Vector3(1.1,0.88,kSpriteMesh.position.z);
-        le.project(camera);re.project(camera);
-        var cw=container.clientWidth||W;
-        var pw=Math.round((re.x-le.x)*cw/2*1.6);
-        if(pw>40&&pw<500&&gkWrapRef.current.dataset.pw!==String(pw)){
-          var ph=Math.round(pw*1024/680);
-          gkWrapRef.current.style.width=pw+'px';
-          gkWrapRef.current.style.height=ph+'px';
-          gkWrapRef.current.dataset.pw=pw;
-          var imgs=gkWrapRef.current.querySelectorAll('img');
-          [].forEach.call(imgs,function(img){img.style.width=pw+'px';img.style.height=ph+'px';});
-          var kids=gkWrapRef.current.querySelectorAll('.gkpro-upper,.gkpro-lower');
-          [].forEach.call(kids,function(d){d.style.width=pw+'px';});
-        }
-      }
       try{renderer.render(scene,camera);}catch(ex){console.warn('render error',ex);}
     }
     thr.animate=animate;
@@ -1350,11 +1247,6 @@ function PenaltyPitch(props){
       // wrongSide: keeper guesses the opposite side
       var wrongSide=correctSide===1?(Math.random()<0.5?0:2):(correctSide===2?0:2);
       thr.keeperTarget=Math.random()<reaction?dirs[correctSide]:dirs[wrongSide];
-      var kDir=thr.keeperTarget<0?'L':thr.keeperTarget>0?'R':'C';
-      var variant=Math.random()<0.5?'A':'B';
-      var stateMap={L:variant==='A'?'diveLA':'diveLB',C:Math.random()<0.5?'jump':'catch',R:variant==='A'?'diveRA':'diveRB'};
-      var kAnim=stateMap[kDir];
-      thr.kAnim=kAnim;
       thr.phase='animating';thr.animFrame=0;pMesh.rotation.x=0;
       if(powerBarRef.current)powerBarRef.current.style.width='0%';
       playSound('kick');setPhase('animating');
@@ -1500,18 +1392,6 @@ function PenaltyPitch(props){
     // Overlay HORS du container — évite que preventDefault() tue les clics sur mobile
     fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
       e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
-      e('div',{
-        ref:gkWrapRef,
-        className:'gkpro-wrap gkpro-'+gkAnim,
-        style:{bottom:'40%',left:'50%'}
-      },
-        e('div',{className:'gkpro-upper'},
-          e('img',{src:'/goalkeeper.png',width:100,alt:''})
-        ),
-        e('div',{className:'gkpro-lower'},
-          e('img',{src:'/goalkeeper.png',width:100,alt:''})
-        )
-      ),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:28,left:'50%',transform:'translateX(-50%)',display:'flex',gap:'20px',alignItems:'center',pointerEvents:'auto'}},
         e('button',{
           onClick:function(){shootDir('L');},
@@ -2198,7 +2078,6 @@ var STARS = [
   {name:'Edin Dzeko',flag:'🇧🇦',club:'Fenerbahce',pos:'FW',age:38,stat:'Bosnia legend',rating:80,pac:78,sho:80,pas:70,dri:76,def_:40,phy:60},
   {name:'Loic Mbe Soh',flag:'🇨🇲',club:'Nottm Forest',pos:'FW',age:23,stat:'Cameroon rising star',rating:80,pac:78,sho:80,pas:70,dri:76,def_:40,phy:60},
 ];
-STARS.sort(function(a,b){return b.rating-a.rating;});
 // - FIFA CARD STYLE - World Cup 2026 -
 function PlayerAvatar(props){
   var s=props.star;
