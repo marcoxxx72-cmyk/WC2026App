@@ -2154,6 +2154,7 @@ var STARS = [
   {name:'Edin Dzeko',flag:'🇧🇦',club:'Fenerbahce',pos:'FW',age:38,stat:'Bosnia legend',rating:80,pac:78,sho:80,pas:70,dri:76,def_:40,phy:60},
   {name:'Loic Mbe Soh',flag:'🇨🇲',club:'Nottm Forest',pos:'FW',age:23,stat:'Cameroon rising star',rating:80,pac:78,sho:80,pas:70,dri:76,def_:40,phy:60},
 ];
+STARS.sort(function(a,b){return b.rating-a.rating;});
 // - FIFA CARD STYLE - World Cup 2026 -
 function PlayerAvatar(props){
   var s=props.star;
