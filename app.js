@@ -1446,6 +1446,17 @@ function PenaltyPitch(props){
     // Overlay HORS du container — évite que preventDefault() tue les clics sur mobile
     fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
       e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
+      e('div',{
+        className:'gkpro-wrap gkpro-'+gkAnim,
+        style:{bottom:'20%',left:'50%'}
+      },
+        e('div',{className:'gkpro-upper'},
+          e('img',{src:'/goalkeeper.png',width:150,alt:''})
+        ),
+        e('div',{className:'gkpro-lower'},
+          e('img',{src:'/goalkeeper.png',width:150,alt:''})
+        )
+      ),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:28,left:'50%',transform:'translateX(-50%)',display:'flex',gap:'20px',alignItems:'center',pointerEvents:'auto'}},
         e('button',{
           onClick:function(){shootDir('L');},
