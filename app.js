@@ -506,24 +506,32 @@ function PenaltyPitch(props){
       // ── Idle sway (11.4s = 2π/0.55) ──
       '@keyframes gkpro-idle{0%,100%{transform:translateX(-50%) translateX(-14px)}25%{transform:translateX(-50%) translateX(-4px)}50%{transform:translateX(-50%) translateX(14px)}75%{transform:translateX(-50%) translateX(4px)}}',
       '.gkpro-wrap.gkpro-idle{animation:gkpro-idle 11.4s ease-in-out infinite;}',
-      // ── diveLA (lucarne gauche) ──
-      '@keyframes gkpro-upper-diveLA{0%{transform:rotate(0) translateY(0)}100%{transform:translateX(-90px) rotate(-65deg) translateY(-30px)}}',
-      '@keyframes gkpro-lower-diveLA{0%{transform:rotate(0)}100%{transform:rotate(15deg)}}',
+      // ── diveLA — tout le corps glisse gauche, torse quasi horizontal ──
+      '@keyframes gkpro-wrap-diveLA{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% - 110px))}}',
+      '@keyframes gkpro-upper-diveLA{0%{transform:rotate(0)}100%{transform:rotate(-82deg) translateY(-20px)}}',
+      '@keyframes gkpro-lower-diveLA{0%{transform:rotate(0)}100%{transform:rotate(8deg)}}',
+      '.gkpro-wrap.gkpro-diveLA{animation:gkpro-wrap-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveLA .gkpro-upper{animation:gkpro-upper-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveLA .gkpro-lower{animation:gkpro-lower-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // ── diveLB (bas gauche) ──
-      '@keyframes gkpro-upper-diveLB{0%{transform:rotate(0)}100%{transform:translateX(-120px) rotate(-75deg)}}',
-      '@keyframes gkpro-lower-diveLB{0%{transform:rotate(0)}100%{transform:rotate(20deg)}}',
+      // ── diveLB — plongeon bas gauche ──
+      '@keyframes gkpro-wrap-diveLB{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% - 130px))}}',
+      '@keyframes gkpro-upper-diveLB{0%{transform:rotate(0)}100%{transform:rotate(-86deg)}}',
+      '@keyframes gkpro-lower-diveLB{0%{transform:rotate(0)}100%{transform:rotate(6deg)}}',
+      '.gkpro-wrap.gkpro-diveLB{animation:gkpro-wrap-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveLB .gkpro-upper{animation:gkpro-upper-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveLB .gkpro-lower{animation:gkpro-lower-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // ── diveRA (lucarne droite) ──
-      '@keyframes gkpro-upper-diveRA{0%{transform:rotate(0) translateY(0)}100%{transform:translateX(90px) rotate(65deg) translateY(-30px)}}',
-      '@keyframes gkpro-lower-diveRA{0%{transform:rotate(0)}100%{transform:rotate(-15deg)}}',
+      // ── diveRA — tout le corps glisse droite, torse quasi horizontal ──
+      '@keyframes gkpro-wrap-diveRA{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% + 110px))}}',
+      '@keyframes gkpro-upper-diveRA{0%{transform:rotate(0)}100%{transform:rotate(82deg) translateY(-20px)}}',
+      '@keyframes gkpro-lower-diveRA{0%{transform:rotate(0)}100%{transform:rotate(-8deg)}}',
+      '.gkpro-wrap.gkpro-diveRA{animation:gkpro-wrap-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveRA .gkpro-upper{animation:gkpro-upper-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveRA .gkpro-lower{animation:gkpro-lower-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // ── diveRB (bas droite) ──
-      '@keyframes gkpro-upper-diveRB{0%{transform:rotate(0)}100%{transform:translateX(120px) rotate(75deg)}}',
-      '@keyframes gkpro-lower-diveRB{0%{transform:rotate(0)}100%{transform:rotate(-20deg)}}',
+      // ── diveRB — plongeon bas droite ──
+      '@keyframes gkpro-wrap-diveRB{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% + 130px))}}',
+      '@keyframes gkpro-upper-diveRB{0%{transform:rotate(0)}100%{transform:rotate(86deg)}}',
+      '@keyframes gkpro-lower-diveRB{0%{transform:rotate(0)}100%{transform:rotate(-6deg)}}',
+      '.gkpro-wrap.gkpro-diveRB{animation:gkpro-wrap-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveRB .gkpro-upper{animation:gkpro-upper-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveRB .gkpro-lower{animation:gkpro-lower-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       // ── jump ──
@@ -1171,7 +1179,7 @@ function PenaltyPitch(props){
           kSpriteMesh.scale.set(1+dts*0.45,1-dts*0.1,1);
           var shotHi=Math.max(0,(thr.shotTarget.y-1.1)*0.4);
           kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*(0.55+shotHi*0.4);
-          if(thr.animFrame===5&&ds!==0)kSprite.setDive(ds);
+          if(thr.animFrame===5)kSprite.setDive(ds);
 
           // ── Gloves: extend leading hand toward ball ──
           if(ds!==0){
