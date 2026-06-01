@@ -1931,6 +1931,18 @@ function getStripeLink(lang){return lang==='en'?STRIPE_GBP:STRIPE_EUR;}
 
 var STARS = [
   {name:'Kylian Mbappe',role:'LW',flag:'🇫🇷',club:'Real Madrid',pos:'FW',age:26,stat:'47 intl goals',rating:97,pac:98,sho:92,pas:87,dri:97,def_:49,phy:75},
+  {name:'Ousmane Dembele',role:'RW',flag:'🇫🇷',club:'PSG',pos:'FW',age:28,stat:'France WC 2026',rating:87,pac:95,sho:82,pas:78,dri:90,def_:38,phy:68},
+  {name:'Julian Alvarez',role:'CF',flag:'🇦🇷',club:'Atletico Madrid',pos:'FW',age:25,stat:'WC 2022 champion',rating:87,pac:84,sho:86,pas:80,dri:84,def_:50,phy:76},
+  {name:'Joshua Kimmich',flag:'🇩🇪',club:'Bayern Munich',pos:'MF',age:31,stat:'Germany captain 2026',rating:88,pac:78,sho:70,pas:90,dri:82,def_:80,phy:76},
+  {name:'Dani Olmo',flag:'🇪🇸',club:'FC Barcelona',pos:'MF',age:27,stat:'Euro 2024 champion',rating:86,pac:80,sho:76,pas:86,dri:84,def_:65,phy:72},
+  {name:'Son Heung-min',role:'LW',flag:'🇰🇷',club:'LAFC',pos:'FW',age:34,stat:'South Korea captain',rating:86,pac:88,sho:84,pas:78,dri:86,def_:42,phy:70},
+  {name:'Lee Kang-in',flag:'🇰🇷',club:'PSG',pos:'MF',age:24,stat:'South Korea star',rating:85,pac:78,sho:74,pas:86,dri:84,def_:56,phy:68},
+  {name:'Marcus Rashford',role:'LW',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',club:'FC Barcelona',pos:'FW',age:28,stat:'England WC 2026',rating:85,pac:90,sho:82,pas:76,dri:87,def_:38,phy:74},
+  {name:'Bradley Barcola',role:'LW',flag:'🇫🇷',club:'PSG',pos:'FW',age:23,stat:'France WC 2026',rating:84,pac:93,sho:78,pas:74,dri:86,def_:36,phy:66},
+  {name:'Gabriel Magalhaes',flag:'🇧🇷',club:'Arsenal',pos:'DF',age:28,stat:'Brazil WC 2026',rating:85,pac:77,sho:48,pas:72,dri:62,def_:87,phy:82},
+  {name:'Casemiro',flag:'🇧🇷',club:'Man. Utd',pos:'MF',age:34,stat:'5x UCL winner',rating:84,pac:72,sho:65,pas:80,dri:72,def_:85,phy:85},
+  {name:'Matheus Cunha',role:'CF',flag:'🇧🇷',club:'Man. Utd',pos:'FW',age:26,stat:'Brazil WC 2026',rating:84,pac:84,sho:80,pas:76,dri:83,def_:42,phy:72},
+  {name:'Anthony Gordon',role:'LW',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',club:'Newcastle',pos:'FW',age:24,stat:'England WC 2026',rating:83,pac:88,sho:76,pas:74,dri:84,def_:40,phy:68},
   {name:'Erling Haaland',role:'CF',flag:'🇳🇴',club:'Man. City',pos:'FW',age:24,stat:'44 intl goals',rating:95,pac:92,sho:96,pas:83,dri:90,def_:50,phy:77},
   {name:'Vinicius Jr.',flag:'🇧🇷',club:'Real Madrid',pos:'FW',age:24,stat:'Ballon dOr nominee 2024',rating:94,pac:92,sho:94,pas:84,dri:90,def_:48,phy:74},
   {name:'Lionel Messi',flag:'🇦🇷',club:'Inter Miami',pos:'FW',age:37,stat:'8x Ballon dOr',rating:94,pac:92,sho:94,pas:84,dri:90,def_:48,phy:74},
