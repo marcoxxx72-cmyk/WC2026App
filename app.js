@@ -1467,7 +1467,7 @@ function PenaltyPitch(props){
       e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
       e('div',{
         className:'gkpro-wrap gkpro-'+gkAnim,
-        style:{bottom:'20%',left:'50%'}
+        style:{bottom:'38%',left:'50%'}
       },
         e('div',{className:'gkpro-upper'},
           e('img',{src:'/goalkeeper.png',width:150,alt:''})
