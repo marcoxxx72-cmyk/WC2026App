@@ -497,51 +497,51 @@ function PenaltyPitch(props){
     s.id=id;
     s.textContent=[
       // ── Conteneur wrapper ──
-      '.gkpro-wrap{position:fixed;pointer-events:none;z-index:10001;width:150px;height:226px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.7));transform:translateX(-50%);}',
-      '.gkpro-upper,.gkpro-lower{position:absolute;bottom:0;left:0;width:150px;will-change:transform;}',
-      '.gkpro-upper img,.gkpro-lower img{width:150px;height:auto;display:block;}',
-      // ── Clip-path : coupure à la taille ──
+      '.gkpro-wrap{position:fixed;pointer-events:none;z-index:10001;width:100px;height:151px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.7));transform:translateX(-50%);}',
+      '.gkpro-upper,.gkpro-lower{position:absolute;bottom:0;left:0;width:100px;will-change:transform;}',
+      '.gkpro-upper img,.gkpro-lower img{width:100px;height:auto;display:block;}',
       '.gkpro-upper{clip-path:inset(0 0 42% 0);transform-origin:50% 58%;}',
       '.gkpro-lower{clip-path:inset(58% 0 0 0);transform-origin:50% 58%;}',
-      // ── Idle sway (11.4s = 2π/0.55) ──
-      '@keyframes gkpro-idle{0%,100%{transform:translateX(-50%) translateX(-14px)}25%{transform:translateX(-50%) translateX(-4px)}50%{transform:translateX(-50%) translateX(14px)}75%{transform:translateX(-50%) translateX(4px)}}',
+      // idle: reset children + sway sur wrap
+      '.gkpro-wrap.gkpro-idle .gkpro-upper,.gkpro-wrap.gkpro-idle .gkpro-lower{animation:none;}',
+      '@keyframes gkpro-idle{0%,100%{transform:translateX(calc(-50% - 9px))}50%{transform:translateX(calc(-50% + 9px))}}',
       '.gkpro-wrap.gkpro-idle{animation:gkpro-idle 11.4s ease-in-out infinite;}',
-      // ── diveLA — tout le corps glisse gauche, torse quasi horizontal ──
-      '@keyframes gkpro-wrap-diveLA{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% - 110px))}}',
-      '@keyframes gkpro-upper-diveLA{0%{transform:rotate(0)}100%{transform:rotate(-82deg) translateY(-20px)}}',
-      '@keyframes gkpro-lower-diveLA{0%{transform:rotate(0)}100%{transform:rotate(8deg)}}',
+      // diveLA
+      '@keyframes gkpro-wrap-diveLA{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% - 65px))}}',
+      '@keyframes gkpro-upper-diveLA{0%{transform:rotate(0)}100%{transform:rotate(-63deg) translateY(-10px)}}',
+      '@keyframes gkpro-lower-diveLA{0%{transform:rotate(0)}100%{transform:rotate(6deg)}}',
       '.gkpro-wrap.gkpro-diveLA{animation:gkpro-wrap-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveLA .gkpro-upper{animation:gkpro-upper-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveLA .gkpro-lower{animation:gkpro-lower-diveLA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // ── diveLB — plongeon bas gauche ──
-      '@keyframes gkpro-wrap-diveLB{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% - 130px))}}',
-      '@keyframes gkpro-upper-diveLB{0%{transform:rotate(0)}100%{transform:rotate(-86deg)}}',
-      '@keyframes gkpro-lower-diveLB{0%{transform:rotate(0)}100%{transform:rotate(6deg)}}',
+      // diveLB
+      '@keyframes gkpro-wrap-diveLB{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% - 75px))}}',
+      '@keyframes gkpro-upper-diveLB{0%{transform:rotate(0)}100%{transform:rotate(-68deg)}}',
+      '@keyframes gkpro-lower-diveLB{0%{transform:rotate(0)}100%{transform:rotate(5deg)}}',
       '.gkpro-wrap.gkpro-diveLB{animation:gkpro-wrap-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveLB .gkpro-upper{animation:gkpro-upper-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveLB .gkpro-lower{animation:gkpro-lower-diveLB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // ── diveRA — tout le corps glisse droite, torse quasi horizontal ──
-      '@keyframes gkpro-wrap-diveRA{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% + 110px))}}',
-      '@keyframes gkpro-upper-diveRA{0%{transform:rotate(0)}100%{transform:rotate(82deg) translateY(-20px)}}',
-      '@keyframes gkpro-lower-diveRA{0%{transform:rotate(0)}100%{transform:rotate(-8deg)}}',
+      // diveRA
+      '@keyframes gkpro-wrap-diveRA{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% + 65px))}}',
+      '@keyframes gkpro-upper-diveRA{0%{transform:rotate(0)}100%{transform:rotate(63deg) translateY(-10px)}}',
+      '@keyframes gkpro-lower-diveRA{0%{transform:rotate(0)}100%{transform:rotate(-6deg)}}',
       '.gkpro-wrap.gkpro-diveRA{animation:gkpro-wrap-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveRA .gkpro-upper{animation:gkpro-upper-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveRA .gkpro-lower{animation:gkpro-lower-diveRA .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // ── diveRB — plongeon bas droite ──
-      '@keyframes gkpro-wrap-diveRB{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% + 130px))}}',
-      '@keyframes gkpro-upper-diveRB{0%{transform:rotate(0)}100%{transform:rotate(86deg)}}',
-      '@keyframes gkpro-lower-diveRB{0%{transform:rotate(0)}100%{transform:rotate(-6deg)}}',
+      // diveRB
+      '@keyframes gkpro-wrap-diveRB{0%{transform:translateX(-50%)}100%{transform:translateX(calc(-50% + 75px))}}',
+      '@keyframes gkpro-upper-diveRB{0%{transform:rotate(0)}100%{transform:rotate(68deg)}}',
+      '@keyframes gkpro-lower-diveRB{0%{transform:rotate(0)}100%{transform:rotate(-5deg)}}',
       '.gkpro-wrap.gkpro-diveRB{animation:gkpro-wrap-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveRB .gkpro-upper{animation:gkpro-upper-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-diveRB .gkpro-lower{animation:gkpro-lower-diveRB .42s cubic-bezier(.2,0,.4,1) forwards;}',
-      // ── jump ──
-      '@keyframes gkpro-upper-jump{0%{transform:translateY(0) scaleX(1)}45%{transform:translateY(-75px) scaleX(1.15)}100%{transform:translateY(-65px) scaleX(1.2)}}',
-      '@keyframes gkpro-lower-jump{0%{transform:scaleY(1)}100%{transform:scaleY(0.82)}}',
+      // jump
+      '@keyframes gkpro-upper-jump{0%{transform:translateY(0) scaleX(1)}45%{transform:translateY(-42px) scaleX(1.1)}100%{transform:translateY(-36px) scaleX(1.12)}}',
+      '@keyframes gkpro-lower-jump{0%{transform:scaleY(1)}100%{transform:scaleY(0.85)}}',
       '.gkpro-wrap.gkpro-jump .gkpro-upper{animation:gkpro-upper-jump .5s ease-out forwards;}',
       '.gkpro-wrap.gkpro-jump .gkpro-lower{animation:gkpro-lower-jump .5s ease-out forwards;}',
-      // ── catch ──
-      '@keyframes gkpro-upper-catch{0%{transform:rotate(0) translateY(0) scaleY(1)}100%{transform:rotate(-25deg) translateY(10px) scaleY(0.9)}}',
-      '@keyframes gkpro-lower-catch{0%{transform:rotate(0)}100%{transform:rotate(12deg)}}',
+      // catch
+      '@keyframes gkpro-upper-catch{0%{transform:rotate(0) translateY(0)}100%{transform:rotate(-20deg) translateY(7px)}}',
+      '@keyframes gkpro-lower-catch{0%{transform:rotate(0)}100%{transform:rotate(10deg)}}',
       '.gkpro-wrap.gkpro-catch .gkpro-upper{animation:gkpro-upper-catch .4s cubic-bezier(.2,0,.4,1) forwards;}',
       '.gkpro-wrap.gkpro-catch .gkpro-lower{animation:gkpro-lower-catch .4s cubic-bezier(.2,0,.4,1) forwards;}',
     ].join('');
@@ -1470,10 +1470,10 @@ function PenaltyPitch(props){
         style:{bottom:'38%',left:'50%'}
       },
         e('div',{className:'gkpro-upper'},
-          e('img',{src:'/goalkeeper.png',width:150,alt:''})
+          e('img',{src:'/goalkeeper.png',width:100,alt:''})
         ),
         e('div',{className:'gkpro-lower'},
-          e('img',{src:'/goalkeeper.png',width:150,alt:''})
+          e('img',{src:'/goalkeeper.png',width:100,alt:''})
         )
       ),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:28,left:'50%',transform:'translateX(-50%)',display:'flex',gap:'20px',alignItems:'center',pointerEvents:'auto'}},
