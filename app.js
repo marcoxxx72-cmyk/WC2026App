@@ -407,6 +407,8 @@ function PenaltyPitch(props){
   var gkAnimRef=useRef(setGkAnim);
   gkAnimRef.current=setGkAnim;
   var gkWrapRef=useRef(null);
+  var fullscreenRef=useRef(false);
+  fullscreenRef.current=fullscreen;
   var lang=props.lang||'en';var G=props.G||'#d4af37';var roundIdx=props.roundIdx||0;
 
   // Fix iOS 100vh + orientation change
@@ -1037,7 +1039,7 @@ function PenaltyPitch(props){
     gloveL.visible=false;gloveR.visible=false;
     scene.add(gloveL);scene.add(gloveR);
 
-    kSpriteMesh.visible=false;
+    kSpriteMesh.visible=true; // mini-view: Three.js keeper visible; fullscreen: CSS overlay takes over
     var kSprite={
       mesh:kSpriteMesh,
       gloveL:gloveL,gloveR:gloveR,
@@ -1299,19 +1301,21 @@ function PenaltyPitch(props){
       // Animate scoreboard confetti when result active
       if(thr.sbResultActive){stepSbConf();updateScoreboard(thr.sbGoals||0,thr.sbSaves||0,thr.sbResultActive);}
 
-      // Sync CSS keeper: position + size from Three.js projection
-      if(gkWrapRef.current&&thr.phase==='idle'){
+      // Mini vs fullscreen keeper visibility
+      kSpriteMesh.visible=!fullscreenRef.current;
+      // Sync CSS keeper: position + size from Three.js projection (fullscreen only)
+      if(gkWrapRef.current&&fullscreenRef.current&&thr.phase==='idle'){
         var fp=new THREE.Vector3(kSpriteMesh.position.x,0,kSpriteMesh.position.z);
         fp.project(camera);
         var bPct=Math.round((1+fp.y)/2*100);
         if(bPct>5&&bPct<90)gkWrapRef.current.style.bottom=bPct+'%';
-        // Calc pixel width from keeper world width (2.2 units)
+        // Scale 1.6× — projection gives exact sprite size, 1.6× makes keeper fill goal better
         var le=new THREE.Vector3(-1.1,0.88,kSpriteMesh.position.z);
         var re=new THREE.Vector3(1.1,0.88,kSpriteMesh.position.z);
         le.project(camera);re.project(camera);
         var cw=container.clientWidth||W;
-        var pw=Math.round((re.x-le.x)*cw/2);
-        if(pw>40&&pw<350&&gkWrapRef.current.dataset.pw!==String(pw)){
+        var pw=Math.round((re.x-le.x)*cw/2*1.6);
+        if(pw>40&&pw<500&&gkWrapRef.current.dataset.pw!==String(pw)){
           var ph=Math.round(pw*1024/680);
           gkWrapRef.current.style.width=pw+'px';
           gkWrapRef.current.style.height=ph+'px';
