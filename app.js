@@ -1925,7 +1925,7 @@ var SPONSORS = {
 
 var STRIPE_EUR = 'https://buy.stripe.com/aFacN53uBdi18Mr8xvcjS00';
 var STRIPE_GBP = 'https://buy.stripe.com/fZu6oH6GNcdX7In8xvcjS01';
-function getPrice(lang){return lang==='en'?'1.99 GBP':'1,99 EUR';}
+function getPrice(lang){return lang==='en'?'2.49 GBP':'2,99 EUR';}
 function getStripeLink(lang){return lang==='en'?STRIPE_GBP:STRIPE_EUR;}
 
 
