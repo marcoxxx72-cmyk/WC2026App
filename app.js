@@ -406,6 +406,7 @@ function PenaltyPitch(props){
   var _pgk=useState('idle');var gkAnim=_pgk[0];var setGkAnim=_pgk[1];
   var gkAnimRef=useRef(setGkAnim);
   gkAnimRef.current=setGkAnim;
+  var gkWrapRef=useRef(null);
   var lang=props.lang||'en';var G=props.G||'#d4af37';var roundIdx=props.roundIdx||0;
 
   // Fix iOS 100vh + orientation change
@@ -1046,6 +1047,13 @@ function PenaltyPitch(props){
       },
       setIdle:function(){
         if(gkAnimRef.current)gkAnimRef.current('idle');
+        // Reset DOM transforms explicitly — CSS forwards fill-mode can stick
+        if(gkWrapRef.current){
+          var u=gkWrapRef.current.querySelector('.gkpro-upper');
+          var l=gkWrapRef.current.querySelector('.gkpro-lower');
+          if(u){u.style.animation='none';u.style.transform='';}
+          if(l){l.style.animation='none';l.style.transform='';}
+        }
       }
     };
 
@@ -1291,6 +1299,29 @@ function PenaltyPitch(props){
       // Animate scoreboard confetti when result active
       if(thr.sbResultActive){stepSbConf();updateScoreboard(thr.sbGoals||0,thr.sbSaves||0,thr.sbResultActive);}
 
+      // Sync CSS keeper: position + size from Three.js projection
+      if(gkWrapRef.current&&thr.phase==='idle'){
+        var fp=new THREE.Vector3(kSpriteMesh.position.x,0,kSpriteMesh.position.z);
+        fp.project(camera);
+        var bPct=Math.round((1+fp.y)/2*100);
+        if(bPct>5&&bPct<90)gkWrapRef.current.style.bottom=bPct+'%';
+        // Calc pixel width from keeper world width (2.2 units)
+        var le=new THREE.Vector3(-1.1,0.88,kSpriteMesh.position.z);
+        var re=new THREE.Vector3(1.1,0.88,kSpriteMesh.position.z);
+        le.project(camera);re.project(camera);
+        var cw=container.clientWidth||W;
+        var pw=Math.round((re.x-le.x)*cw/2);
+        if(pw>40&&pw<350&&gkWrapRef.current.dataset.pw!==String(pw)){
+          var ph=Math.round(pw*1024/680);
+          gkWrapRef.current.style.width=pw+'px';
+          gkWrapRef.current.style.height=ph+'px';
+          gkWrapRef.current.dataset.pw=pw;
+          var imgs=gkWrapRef.current.querySelectorAll('img');
+          [].forEach.call(imgs,function(img){img.style.width=pw+'px';img.style.height=ph+'px';});
+          var kids=gkWrapRef.current.querySelectorAll('.gkpro-upper,.gkpro-lower');
+          [].forEach.call(kids,function(d){d.style.width=pw+'px';});
+        }
+      }
       try{renderer.render(scene,camera);}catch(ex){console.warn('render error',ex);}
     }
     thr.animate=animate;
@@ -1466,8 +1497,9 @@ function PenaltyPitch(props){
     fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
       e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
       e('div',{
+        ref:gkWrapRef,
         className:'gkpro-wrap gkpro-'+gkAnim,
-        style:{bottom:'38%',left:'50%'}
+        style:{bottom:'40%',left:'50%'}
       },
         e('div',{className:'gkpro-upper'},
           e('img',{src:'/goalkeeper.png',width:100,alt:''})
