@@ -1,4 +1,4 @@
-// OneSignal Service Worker
+// OneSignal Service Worker — v2 2026-06-01
 importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
 
 // Clear caches
