@@ -1151,11 +1151,12 @@ function PenaltyPitch(props){
           kSpriteMesh.rotation.y=0;
           kSpriteMesh.scale.set(1+dts*0.35,1,1);
           var shotHi=Math.max(0,(thr.shotTarget.y-1.1)*0.4);
-          // Plongeon bas → descend vers le sol. Plongeon haut → arc vers le haut
           if(shotHi>0.15){
-            kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*(0.4+shotHi*0.4);
+            // Haut → saut dramatique avec pic au milieu
+            kSpriteMesh.position.y=0.88+shotHi*dts*0.8+Math.sin(dts*Math.PI)*(0.5+shotHi*0.5);
           } else {
-            kSpriteMesh.position.y=0.88-dts*0.55;
+            // Bas → descente rapide vers le sol
+            kSpriteMesh.position.y=Math.max(0.15,0.88-dts*0.75);
           }
           // Sprite swap désactivé — goalkeeper.png + rotation suffit
 
@@ -1165,12 +1166,13 @@ function PenaltyPitch(props){
             var restG=ds>0?gloveL:gloveR;
             restG.visible=false;
             activeG.visible=true;
-            // Leading glove shoots out from keeper body toward ball
             var armReach=dts*1.1;
             var gloveX=kSpriteMesh.position.x+ds*(0.45+armReach);
-            var gloveY=kSpriteMesh.position.y+0.1+Math.sin(dts*Math.PI)*0.25;
+            // Plongeon bas → gant descend aussi, pas d'arc vers le haut
+            var gloveY=shotHi>0.15
+              ? kSpriteMesh.position.y+0.15+Math.sin(dts*Math.PI)*0.3
+              : kSpriteMesh.position.y+0.1;
             activeG.position.set(gloveX,gloveY,kSpriteMesh.position.z+0.05);
-            // Tilt glove in dive direction
             activeG.rotation.z=-ds*dts*0.9;
             activeG.rotation.y=ds*0.35;
             activeG.scale.set(1+dts*0.4,1+dts*0.3,1);
@@ -1181,7 +1183,13 @@ function PenaltyPitch(props){
         // Reset scale + hide gloves after dive
         if(thr.animFrame>=56){
           kSpriteMesh.scale.set(1,1,1);
+          kSpriteMesh.rotation.z*=0.85; // smooth rotation reset
           gloveL.visible=false;gloveR.visible=false;
+          // Smooth return to center after result
+          if(thr.phase==='result'){
+            kSpriteMesh.position.x+=(0-kSpriteMesh.position.x)*0.04;
+            kSpriteMesh.position.y+=(0.88-kSpriteMesh.position.y)*0.04;
+          }
         }
 
 
