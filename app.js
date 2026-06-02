@@ -3435,8 +3435,8 @@ function App(){
                 poll.opts.map(function(opt,i){
                   var isOther=poll.hasOther&&i===poll.opts.length-1;
                   if(isOther){
-                    var filtered=pollOtherActive===poll.id&&pollOtherInput.trim().length>0
-                      ?ALL_TEAMS.filter(function(tm){return tm.toLowerCase().startsWith(pollOtherInput.toLowerCase());})
+                    var filtered=pollOtherActive===poll.id
+                      ?ALL_TEAMS.filter(function(tm){return pollOtherInput.trim().length===0||tm.toLowerCase().startsWith(pollOtherInput.toLowerCase());})
                       :[];
                     return e('div',{key:i},
                       pollOtherActive===poll.id
@@ -3444,7 +3444,7 @@ function App(){
                             e('div',{style:{display:'flex',gap:6}},
                               e('input',{type:'text',value:pollOtherInput,onChange:function(ev){setPollOtherInput(ev.target.value);},
                                 placeholder:lang==='fr'?'Filtrer une équipe...':lang==='es'?'Filtrar equipo...':lang==='pt'?'Filtrar seleção...':lang==='it'?'Filtra squadra...':lang==='de'?'Team filtern...':'Filter a team...',
-                                maxLength:30,autoFocus:true,
+                                maxLength:30,
                                 style:{flex:1,background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#eee8d5',outline:'none'}}),
                               e('button',{onClick:function(){setPollOtherActive(null);setPollOtherInput('');},
                                 style:{background:'rgba(255,255,255,0.08)',border:'1px solid '+BD,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#aaa',cursor:'pointer'}},'✕')
