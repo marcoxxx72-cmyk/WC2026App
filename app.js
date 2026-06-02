@@ -2067,7 +2067,7 @@ var STARS = [
   {name:'Breel Embolo',role:'CF',flag:'🇨🇭',club:'Rennes',pos:'FW',age:28,stat:'Switzerland captain',rating:82,pac:79,sho:83,pas:70,dri:77,def_:40,phy:64},
   {name:'Hwang Hee-chan',role:'RW',flag:'🇰🇷',club:'Wolves',pos:'FW',age:28,stat:'South Korea No.9',rating:82,pac:83,sho:77,pas:72,dri:82,def_:40,phy:60},
   {name:'Anthony Elanga',role:'LW',flag:'🇸🇪',club:'Newcastle',pos:'FW',age:24,stat:'Sweden winger WC 2026',rating:82,pac:90,sho:74,pas:72,dri:82,def_:40,phy:66},
-  {name:'Antoine Semenyo',role:'RW',flag:'🇬🇭',club:'Bournemouth',pos:'FW',age:25,stat:'Ghana PL winger',rating:82,pac:88,sho:76,pas:70,dri:82,def_:38,phy:66},
+  {name:'Antoine Semenyo',role:'RW',flag:'🇬🇭',club:'Man. City',pos:'FW',age:26,stat:'Ghana PL winger',rating:82,pac:88,sho:76,pas:70,dri:82,def_:38,phy:66},
   {name:'Altay Bayindir',flag:'🇹🇷',club:'Man. Utd',pos:'GK',age:26,stat:'Turkey Euro 2024',rating:81,pac:56,sho:40,pas:61,dri:40,def_:81,phy:66},
   {name:'Youcef Atal',flag:'🇩🇿',club:'Nice',pos:'DF',age:28,stat:'Algeria No.1 RB',rating:81,pac:76,sho:46,pas:69,dri:61,def_:83,phy:73},
   {name:'Hamari Traore',flag:'🇲🇱',club:'Rennes',pos:'DF',age:30,stat:'Mali captain',rating:81,pac:76,sho:46,pas:69,dri:61,def_:83,phy:73},
