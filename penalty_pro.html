@@ -118,9 +118,9 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 
 /* ATTRAPPAGE CENTRE BAS */
 @keyframes catchC{
-  0%  {transform:translateX(-50%) translateY(0) rotate(0) scaleX(1)}
-  50% {transform:translateX(-50%) translateY(5px) rotate(-8deg) scaleX(1.1)}
-  100%{transform:translateX(-50%) translateY(8px) rotate(-12deg) scaleX(1.15)}
+  0%  {transform:translateX(-50%) translateY(0)   rotate(0)     scaleY(1)}
+  50% {transform:translateX(-50%) translateY(8px)  rotate(-18deg) scaleY(0.92)}
+  100%{transform:translateX(-50%) translateY(14px) rotate(-28deg) scaleY(0.85)}
 }
 
 /* ══ TRAJECTOIRES BALLON ══ */
@@ -132,9 +132,10 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
   100%{bottom:210px;left:50%;opacity:.35;transform:translateX(-50%) scale(.38)}
 }
-@keyframes flyCL{
+/* Centre bas — ballon roule vers le gardien, finit au sol */
+@keyframes flyCM{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
-  100%{bottom:100px;left:50%;opacity:.35;transform:translateX(-50%) scale(.55)}
+  100%{bottom:6px;left:50%;opacity:.75;transform:translateX(-50%) scale(.88)}
 }
 @keyframes flyR{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
@@ -250,10 +251,11 @@ const aR=document.getElementById('aR');
 const faR=document.getElementById('faR');
 
 function setArms(alDeg,falDeg,arDeg,farDeg){
-  aL.style.transform =`rotate(${alDeg}deg)`;
-  faL.style.transform=`rotate(${falDeg}deg)`;
-  aR.style.transform =`rotate(${arDeg}deg)`;
-  faR.style.transform=`rotate(${farDeg}deg)`;
+  // Rotation autour du joint — pattern universel Safari/Chrome/iOS
+  aL.style.transform  =`translate(-8px,-118px) rotate(${alDeg}deg) translate(8px,118px)`;
+  faL.style.transform =`translate(-20px,-95px) rotate(${falDeg}deg) translate(20px,95px)`;
+  aR.style.transform  =`translate(8px,-118px)  rotate(${arDeg}deg)  translate(-8px,118px)`;
+  faR.style.transform =`translate(20px,-95px)  rotate(${farDeg}deg) translate(-20px,95px)`;
 }
 
 function updateSVG(s){
@@ -265,18 +267,18 @@ function updateSVG(s){
     diveLB: [ 50,   30, -15,  10],  // G vers sol gauche
     diveRB: [ 15,   10, -50, -30],  // D vers sol droit
     jump:   [-70,  -25,  70,  25],  // les deux bras montent
-    catchC: [-55,   20,  55, -20],  // V ouvert — phase 1
+    catchC: [ 55,   25, -55, -25],  // bras ouverts vers le bas
   };
   const p=poses[s]||poses.idle;
   setArms(p[0],p[1],p[2],p[3]);
 }
 
-/* Phase 2 catch — bras se referment (contact) */
-function setCatchPhase2(){ setArms(-30, 40, 30, -40); }
+/* Phase 2 — bras se referment */
+function setCatchPhase2(){ setArms(75, 30, -75, -30); }
 
-/* Phase 3 catch — ballon sécurisé aux pectoraux */
+/* Phase 3 — bras referment autour du ballon au sol */
 function setCatchPhase3(){
-  setArms(-18, 60, 18, -60);
+  setArms(85, 55, -85, -55);
   document.getElementById('gk-gloveL').setAttribute('r','9');
   document.getElementById('gk-gloveR').setAttribute('r','9');
   document.getElementById('catch-ball').style.display='block';
@@ -313,18 +315,21 @@ function shoot(dir){
   const choices=['L','C','R'];
   const kDir=choices[Math.floor(Math.random()*3)];
 
-  /* Variante A (lucarne) ou B (bas) au hasard selon direction */
+  /* Ballon centre : haut ou bas — lié à l'animation gardien */
+  const ballHigh=Math.random()<.5;
+
   function keeperAnim(kd){
     if(kd==='L') return Math.random()<.5?'diveLA':'diveLB';
     if(kd==='R') return Math.random()<.5?'diveRA':'diveRB';
-    return Math.random()<.5?'jump':'catchC';
+    // Si gardien choisit centre ET tireur centre → lier hauteur
+    return (dir==='C'&&kd==='C') ? (ballHigh?'jump':'catchC') : (Math.random()<.5?'jump':'catchC');
   }
   const kAnim=keeperAnim(kDir);
 
-  /* Trajectoire ballon : si centre — haut ou bas au hasard */
+  /* Trajectoire ballon */
   let ballAnim='flyL';
   if(dir==='R') ballAnim='flyR';
-  else if(dir==='C') ballAnim=Math.random()<.5?'flyCH':'flyCL';
+  else if(dir==='C') ballAnim=ballHigh?'flyCH':'flyCM';
 
   /* Reset ballon iOS-safe */
   ball.style.animation='none';
@@ -336,8 +341,8 @@ function shoot(dir){
 
   /* Catch 3 phases — seulement si catchC */
   if(kAnim==='catchC'){
-    setTimeout(setCatchPhase2, 280);   // Phase 2 — contact
-    setTimeout(setCatchPhase3, 560);   // Phase 3 — sécurisé
+    setTimeout(setCatchPhase2, 320);   // Phase 2 — contact ballon
+    setTimeout(setCatchPhase3, 520);   // Phase 3 — sécurisé
   }
 
   /* Résultat */
