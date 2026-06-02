@@ -268,17 +268,22 @@ var CITY_IMAGES=[
 
 var WC_WEATHER = {
   'New York':     {temp_c:24,temp_f:75,condition:'Warm & Humid',icon:'⛅',rain:'40%',wind:'15 km/h',tip:'Pack light clothes, rain possible'},
-  'Los Angeles':  {temp_c:27,temp_f:80,condition:'Sunny & Warm',icon:'☀️',rain:'5%',wind:'10 km/h',tip:'Perfect weather, sunscreen essential'},
+  'Los Angeles':  {temp_c:22,temp_f:72,condition:'June Gloom',icon:'🌫️',rain:'8%',wind:'12 km/h',tip:'Overcast mornings, clears by afternoon — sunscreen still needed'},
   'Dallas':       {temp_c:35,temp_f:95,condition:'Very Hot',icon:'🌡️',rain:'20%',wind:'20 km/h',tip:'Extreme heat - stay hydrated!'},
   'San Francisco':{temp_c:18,temp_f:64,condition:'Cool & Foggy',icon:'🌫️',rain:'15%',wind:'25 km/h',tip:'Bring a jacket, can be cold at night'},
-  'Kansas City':  {temp_c:30,temp_f:86,condition:'Hot & Sunny',icon:'☀️',rain:'25%',wind:'18 km/h',tip:'Hot summer days, thunderstorms possible'},
+  'Kansas City':  {temp_c:30,temp_f:86,condition:'Hot & Stormy',icon:'⛈️',rain:'45%',wind:'18 km/h',tip:'Hot days, afternoon thunderstorms very common'},
   'Las Vegas':    {temp_c:40,temp_f:104,condition:'Extreme Heat',icon:'🔥',rain:'2%',wind:'12 km/h',tip:'Hottest city! Avoid sun 11am-4pm'},
+  'Miami':        {temp_c:32,temp_f:90,condition:'Hot & Humid',icon:'🌦️',rain:'60%',wind:'15 km/h',tip:'Very hot & humid — afternoon thunderstorms daily'},
+  'Atlanta':      {temp_c:28,temp_f:82,condition:'Hot & Humid',icon:'⛈️',rain:'40%',wind:'10 km/h',tip:'Hot & muggy, pack light — thunderstorms possible'},
+  'Boston':       {temp_c:22,temp_f:72,condition:'Warm & Breezy',icon:'⛅',rain:'35%',wind:'18 km/h',tip:'Pleasant New England summer — rain jacket handy'},
+  'Philadelphia': {temp_c:26,temp_f:79,condition:'Warm & Humid',icon:'⛅',rain:'35%',wind:'12 km/h',tip:'Hot & humid, light clothes essential'},
+  'Seattle':      {temp_c:17,temp_f:63,condition:'Mild & Cloudy',icon:'🌥️',rain:'35%',wind:'14 km/h',tip:'Layers recommended — can be cool even in June'},
   'Mexico City':  {temp_c:19,temp_f:66,condition:'Mild & Pleasant',icon:'🌤️',rain:'35%',wind:'8 km/h',tip:'Altitude 2240m - acclimatize first'},
   'Guadalajara':  {temp_c:22,temp_f:72,condition:'Warm & Breezy',icon:'⛅',rain:'40%',wind:'14 km/h',tip:'Rainy season - afternoon showers likely'},
   'Monterrey':    {temp_c:34,temp_f:93,condition:'Hot & Humid',icon:'🌡️',rain:'30%',wind:'15 km/h',tip:'Very hot and humid, drink lots of water'},
   'Vancouver':    {temp_c:19,temp_f:66,condition:'Mild & Rainy',icon:'🌧️',rain:'55%',wind:'20 km/h',tip:'Classic Vancouver rain - bring waterproofs'},
-  'Toronto':      {temp_c:26,temp_f:79,condition:'Warm & Sunny',icon:'☀️',rain:'30%',wind:'16 km/h',tip:'Beautiful summer weather in Toronto'},
-  'Montreal':     {temp_c:25,temp_f:77,condition:'Warm & Pleasant',icon:'⛅',rain:'35%',wind:'18 km/h',tip:'French-Canadian summer at its best'}
+  'Toronto':      {temp_c:23,temp_f:73,condition:'Warm & Sunny',icon:'☀️',rain:'30%',wind:'16 km/h',tip:'Beautiful summer weather in Toronto'},
+  'Montreal':     {temp_c:22,temp_f:72,condition:'Warm & Pleasant',icon:'⛅',rain:'35%',wind:'18 km/h',tip:'French-Canadian summer at its best'}
 };
 var useState = React.useState;
 var useEffect = React.useEffect;
@@ -1449,7 +1454,7 @@ function PenaltyPitch(props){
         },'➡')
       ),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':lang==='it'?'DOVE TIRI?':lang==='de'?'WOHIN SCHIESST DU?':'WHERE DO YOU SHOOT?')),
-      result&&e('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',fontSize:66,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 50px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 6px 18px rgba(0,0,0,1)',textAlign:'center'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
+      result&&e('div',{style:{position:'absolute',top:'8%',left:'50%',transform:'translateX(-50%)',fontSize:52,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 40px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 4px 14px rgba(0,0,0,1)',textAlign:'center',whiteSpace:'nowrap'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
       (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
         style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
         onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
