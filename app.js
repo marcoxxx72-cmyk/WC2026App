@@ -1147,12 +1147,17 @@ function PenaltyPitch(props){
           var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
           var dt2=Math.min(Math.max((thr.animFrame-5)/18,0),1);
           var dts=dt2*dt2*(3-2*dt2);
-          kSpriteMesh.rotation.z=ds===0?0:-ds*dts*1.25;
+          kSpriteMesh.rotation.z=ds===0?0:-ds*Math.min(dts*1.8,0.75);
           kSpriteMesh.rotation.y=0;
-          kSpriteMesh.scale.set(1+dts*0.45,1-dts*0.1,1);
+          kSpriteMesh.scale.set(1+dts*0.35,1,1);
           var shotHi=Math.max(0,(thr.shotTarget.y-1.1)*0.4);
-          kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*(0.55+shotHi*0.4);
-          if(thr.animFrame===5&&ds!==0)kSprite.setDive(ds,shotHi>0.2);
+          // Plongeon bas → descend vers le sol. Plongeon haut → arc vers le haut
+          if(shotHi>0.15){
+            kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*(0.4+shotHi*0.4);
+          } else {
+            kSpriteMesh.position.y=0.88-dts*0.55;
+          }
+          // Sprite swap désactivé — goalkeeper.png + rotation suffit
 
           // ── Gloves: extend leading hand toward ball ──
           if(ds!==0){
