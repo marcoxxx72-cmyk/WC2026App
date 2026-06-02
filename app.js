@@ -989,9 +989,13 @@ function PenaltyPitch(props){
       var img=new Image();img.crossOrigin='anonymous';
       img.onload=function(){
         try{
-          var cv=document.createElement('canvas');cv.width=img.width;cv.height=img.height;
-          var cx2=cv.getContext('2d');cx2.drawImage(img,0,0);
-          var id=cx2.getImageData(0,0,cv.width,cv.height),d=id.data;
+          // Scale large images down to max 720px wide to avoid blocking pixel scan
+          var maxW=720;
+          var scale=img.width>maxW?maxW/img.width:1;
+          var w=Math.round(img.width*scale),h=Math.round(img.height*scale);
+          var cv=document.createElement('canvas');cv.width=w;cv.height=h;
+          var cx2=cv.getContext('2d');cx2.drawImage(img,0,0,w,h);
+          var id=cx2.getImageData(0,0,w,h),d=id.data;
           for(var i=0;i<d.length;i+=4){
             var r=d[i],g=d[i+1],b=d[i+2];
             var lum=r*0.299+g*0.587+b*0.114;
@@ -2982,7 +2986,7 @@ function App(){
     if(penTourPhase==='playing'&&shotsLeft===0&&gamePhase!=='done'){
       setGamePhase('done');
     }
-  },[shotsLeft]);
+  },[shotsLeft,penTourPhase,gamePhase]);
 
   function startPenRound(){
     if(timerRef){clearInterval(timerRef);setTimerRef(null);}
@@ -3920,7 +3924,11 @@ function App(){
                 setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
-                setShotsLeft(function(s){return Math.max(0,s-1);});
+                setShotsLeft(function(s){
+                  var ns=Math.max(0,s-1);
+                  if(ns===0)window.setTimeout(function(){setGamePhase('done');},50);
+                  return ns;
+                });
               }
             })),
             // Round done
