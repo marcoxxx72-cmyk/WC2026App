@@ -838,7 +838,10 @@ function PenaltyPitch(props){
         sbCtx.fillStyle='#ff4444';sbCtx.font='bold 88px monospace';
         sbCtx.fillText(saves,372,175);
         sbCtx.fillStyle='#aaa';sbCtx.font='14px monospace';
-        sbCtx.fillText('GOALS',140,215);sbCtx.fillText('SAVES',372,215);
+        var _l=thr&&thr.lang;
+        var _gl=_l==='fr'?'BUTS':_l==='es'?'GOLES':_l==='pt'?'GOLS':_l==='it'?'GOL':_l==='de'?'TORE':'GOALS';
+        var _sl=_l==='fr'?'ARRÊTS':_l==='es'?'PARADAS':_l==='pt'?'DEFESAS':_l==='it'?'PARATE':_l==='de'?'PARADEN':'SAVES';
+        sbCtx.fillText(_gl,140,215);sbCtx.fillText(_sl,372,215);
       }
       sbTex.needsUpdate=true;
     }
@@ -976,7 +979,7 @@ function PenaltyPitch(props){
     scene.add(gloveL);scene.add(gloveR);
 
     // ── Preload pose textures ──
-    var kTextures={idle:null,hi:null,lo:null,jump:null};
+    var kTextures={idle:null,jump:null,hdive:null};
     function loadKTex(key,url){
       var img=new Image();img.crossOrigin='anonymous';
       img.onload=function(){
@@ -994,30 +997,34 @@ function PenaltyPitch(props){
           cx2.putImageData(id,0,0);
           var t=new THREE.CanvasTexture(cv);t.needsUpdate=true;
           kTextures[key]=t;
+          // Apply pending dive if this was the awaited texture
+          if(pendingDive)applyDiveTex(pendingDive.dir);
         }catch(e){kTextures[key]=new THREE.TextureLoader().load(url);}
       };
       img.src=url;
     }
-    loadKTex('hi','/gk_hi.png');
-    loadKTex('lo','/gk_lo.png');
-    loadKTex('jump','/gk_jump.png');
+    loadKTex('jump','/gk_jump_v3.png');
+    loadKTex('hdive','/gk_hi_horiz.png');
 
+    // Pending dive — appliqué dès que la texture est chargée
+    var pendingDive=null;
+    function applyDiveTex(dir){
+      var tex=dir===0?kTextures.jump:kTextures.hdive;
+      if(!tex){pendingDive={dir:dir};return;}
+      pendingDive=null;
+      tex.wrapS=THREE.RepeatWrapping;
+      if(dir<0){tex.repeat.x=-1;tex.offset.x=1;}
+      else{tex.repeat.x=1;tex.offset.x=0;}
+      tex.needsUpdate=true;
+      kSpriteMesh.material.map=tex;
+      kSpriteMesh.material.needsUpdate=true;
+    }
     var kSprite={
       mesh:kSpriteMesh,
       gloveL:gloveL,gloveR:gloveR,
-      setDive:function(dir,high){
-        // dir: -1=left, 1=right, 0=jump
-        var tex=dir===0?kTextures.jump:(high?kTextures.hi:kTextures.lo);
-        if(!tex)return;
-        tex.wrapS=THREE.RepeatWrapping;
-        // Mirror horizontally for left dives
-        if(dir<0){tex.repeat.x=-1;tex.offset.x=1;}
-        else{tex.repeat.x=1;tex.offset.x=0;}
-        tex.needsUpdate=true;
-        kSpriteMesh.material.map=tex;
-        kSpriteMesh.material.needsUpdate=true;
-      },
+      setDive:function(dir){applyDiveTex(dir);},
       setIdle:function(){
+        pendingDive=null;
         if(kTextures.idle){kSpriteMesh.material.map=kTextures.idle;kSpriteMesh.material.needsUpdate=true;}
       }
     };
@@ -1088,6 +1095,7 @@ function PenaltyPitch(props){
     threeRef.current=thr;
     thr.sbMesh=sbMesh;thr.updateScoreboard=updateScoreboard;
     thr.playerName=props.playerName||'';
+    thr.lang=props.lang||'en';
 
     function animate(){
       thr.raf=requestAnimationFrame(animate);
@@ -1141,57 +1149,31 @@ function PenaltyPitch(props){
         var ss=Math.max(0.08,1.12-ball.position.y*0.62);
         ballShadow.scale.set(ss,ss,1);ballShadow.material.opacity=0.28*ss;
 
-        // Keeper dive — dramatic sideways plunge
-        if(thr.animFrame>4&&thr.animFrame<56){
-          kSpriteMesh.position.x+=(thr.keeperTarget-kSpriteMesh.position.x)*0.22;
-          var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
-          var dt2=Math.min(Math.max((thr.animFrame-5)/18,0),1);
-          var dts=dt2*dt2*(3-2*dt2);
-          kSpriteMesh.rotation.z=ds===0?0:-ds*Math.min(dts*1.8,0.75);
-          kSpriteMesh.rotation.y=0;
-          kSpriteMesh.scale.set(1+dts*0.35,1,1);
-          var shotHi=Math.max(0,(thr.shotTarget.y-1.1)*0.4);
-          if(shotHi>0.15){
-            // Haut → saut dramatique avec pic au milieu
-            kSpriteMesh.position.y=0.88+shotHi*dts*0.8+Math.sin(dts*Math.PI)*(0.5+shotHi*0.5);
+        // ── Keeper dive — SPRITE ONLY, no rotation ──
+        var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
+        if(thr.animFrame===2){
+          kSpriteMesh.position.x=thr.keeperTarget;
+          if(ds===0){
+            // Centre : sprite portrait debout
+            kSpriteMesh.position.y=0.88;
+            kSpriteMesh.scale.set(1,1,1);
           } else {
-            // Bas → descente rapide vers le sol
-            kSpriteMesh.position.y=Math.max(0.15,0.88-dts*0.75);
+            // Gauche/droite : sprite horizontal 2688x1520 (ratio 1.77:1)
+            kSpriteMesh.position.y=0.85;
+            kSpriteMesh.scale.set(1.9,0.72,1);
           }
-          // Sprite swap désactivé — goalkeeper.png + rotation suffit
-
-          // ── Gloves: extend leading hand toward ball ──
-          if(ds!==0){
-            var activeG=ds>0?gloveR:gloveL;
-            var restG=ds>0?gloveL:gloveR;
-            restG.visible=false;
-            activeG.visible=true;
-            var armReach=dts*1.1;
-            var gloveX=kSpriteMesh.position.x+ds*(0.45+armReach);
-            // Plongeon bas → gant descend aussi, pas d'arc vers le haut
-            var gloveY=shotHi>0.15
-              ? kSpriteMesh.position.y+0.15+Math.sin(dts*Math.PI)*0.3
-              : kSpriteMesh.position.y+0.1;
-            activeG.position.set(gloveX,gloveY,kSpriteMesh.position.z+0.05);
-            activeG.rotation.z=-ds*dts*0.9;
-            activeG.rotation.y=ds*0.35;
-            activeG.scale.set(1+dts*0.4,1+dts*0.3,1);
-          } else {
-            gloveL.visible=false;gloveR.visible=false;
-          }
-        }
-        // Reset scale + hide gloves after dive
-        if(thr.animFrame>=56){
-          kSpriteMesh.scale.set(1,1,1);
-          kSpriteMesh.rotation.z*=0.85; // smooth rotation reset
+          kSpriteMesh.rotation.set(0,0,0);
+          kSprite.setDive(ds);
           gloveL.visible=false;gloveR.visible=false;
-          // Smooth return to center after result
-          if(thr.phase==='result'){
-            kSpriteMesh.position.x+=(0-kSpriteMesh.position.x)*0.04;
-            kSpriteMesh.position.y+=(0.88-kSpriteMesh.position.y)*0.04;
-          }
         }
-
+        if(thr.animFrame>=28){
+          gloveL.visible=false;gloveR.visible=false;
+        }
+        // Recul gardien sur plongeon latéral
+        if(ds!==0&&thr.animFrame>2){
+          kSpriteMesh.position.z+=(GZ-0.3-kSpriteMesh.position.z)*0.14;
+          kShadow.position.z=kSpriteMesh.position.z;
+        }
 
         if(t>=1){
           thr.phase='result';
@@ -1358,6 +1340,12 @@ function PenaltyPitch(props){
     thr.playerName=props.playerName||'';
     if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,thr.sbSaves||0);
   },[props.playerName]);
+
+  useEffect(function(){
+    var thr=threeRef.current;if(!thr)return;
+    thr.lang=props.lang||'en';
+    if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,thr.sbSaves||0);
+  },[props.lang]);
 
   function doRaycast(clientX,clientY){
     var thr=threeRef.current;if(!thr||!thr.renderer)return null;
@@ -1979,8 +1967,22 @@ var SPONSORS = {
 
 var STRIPE_EUR = 'https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02';
 var STRIPE_GBP = 'https://buy.stripe.com/bJeeVdaX3di1bYD3dbcjS03';
-function getPrice(lang){return lang==='en'?'2.49 GBP':'2,99 EUR';}
-function getStripeLink(lang){return lang==='en'?STRIPE_GBP:STRIPE_EUR;}
+var STRIPE_USD = 'https://buy.stripe.com/00wdR9ghnfq93s7bJHcjS04';
+var STRIPE_BRL = 'https://buy.stripe.com/aFa9ATaX37XH4wbfZXcjS05';
+function getStripeLink(lang){
+  var loc=(navigator.language||'').toLowerCase();
+  if(loc.startsWith('pt-br'))return STRIPE_BRL;
+  if(loc.startsWith('en-gb'))return STRIPE_GBP;
+  if(loc.startsWith('en'))return STRIPE_USD;
+  return STRIPE_EUR;
+}
+function getPrice(lang){
+  var loc=(navigator.language||'').toLowerCase();
+  if(loc.startsWith('pt-br'))return 'R$14,90';
+  if(loc.startsWith('en-gb'))return '£2.49';
+  if(loc.startsWith('en'))return '$2.99';
+  return '€2,99';
+}
 
 
 var STARS = [
@@ -3747,10 +3749,10 @@ function App(){
         combo>=2&&e('div',{style:{textAlign:'center',marginBottom:8}},
           e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.3),rgba(255,150,0,0.2))',border:'1px solid '+G,borderRadius:8,padding:'4px 16px',display:'inline-block',fontSize:12,fontWeight:'bold',color:G}},'🔥 COMBO x',combo,' !')
         ),
-        gamePhase==='idle'&&e('button',{onClick:function(){setGamePhase('shooting');setTimer(3);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+        (penTourPhase!=='playing'&&gamePhase==='idle')&&e('button',{onClick:function(){setGamePhase('shooting');setTimer(3);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
           lang==='fr'?'⚽ Commencer':lang==='es'?'⚽ Empezar':lang==='pt'?'⚽ Comecar':lang==='it'?'⚽ Inizia':lang==='de'?'⚽ Starten':'⚽ Start'
         ),
-        gamePhase==='shooting'&&e('div',null,
+        (penTourPhase!=='playing'&&gamePhase==='shooting')&&e('div',null,
           e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8,padding:'0 4px'}},
             e('div',{style:{display:'flex',alignItems:'center',gap:5}},
               e('div',{style:{width:34,height:34,borderRadius:'50%',background:timer<=1?'rgba(200,40,40,0.3)':timer===2?'rgba(255,165,0,0.3)':'rgba(40,200,40,0.3)',border:'2px solid '+(timer<=1?'#ff6b6b':timer===2?'orange':'#90ee90'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:'bold',color:timer<=1?'#ff6b6b':timer===2?'orange':'#90ee90'}},timer),
@@ -3765,8 +3767,8 @@ function App(){
             })
           )
         ),
-        gamePhase==='animating'&&e('div',{style:{textAlign:'center',padding:'10px',color:G,fontSize:13}},'...'),
-        gamePhase==='done'&&e('div',{style:{textAlign:'center'}},
+        (penTourPhase!=='playing'&&gamePhase==='animating')&&e('div',{style:{textAlign:'center',padding:'10px',color:G,fontSize:13}},'...'),
+        (penTourPhase!=='playing'&&gamePhase==='done')&&e('div',{style:{textAlign:'center'}},
           e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,150,62,0.08))',border:'2px solid '+G,borderRadius:16,padding:'20px 16px',marginBottom:12}},
             e('div',{style:{fontSize:44,marginBottom:6}},gameScore===5?'🏆':gameScore===4?'🥇':gameScore===3?'⭐':gameScore===2?'👍':'😢'),
             e('div',{style:{fontSize:22,fontWeight:'bold',color:G,marginBottom:4}},gameScore,' / 5'),
@@ -3780,9 +3782,16 @@ function App(){
               shotHistory.map(function(h,i){return e('div',{key:i,style:{width:22,height:22,borderRadius:'50%',background:h.scored?'rgba(40,200,40,0.4)':'rgba(200,40,40,0.4)',border:'1px solid '+(h.scored?'#90ee90':'#ff8888'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:10}},h.scored?'⚽':'✗');})
             )
           ),
-          e('button',{onClick:resetGame,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+          e('button',{onClick:resetGame,style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',marginBottom:8}},
             lang==='fr'?'🔄 Rejouer':lang==='es'?'🔄 Jugar':lang==='pt'?'🔄 Jogar':lang==='it'?'🔄 Rigioca':lang==='de'?'🔄 Nochmal':'🔄 Play Again'
-          )
+          ),
+          premium&&e('button',{
+            onClick:function(){
+              setPenTourPhase('name');
+              setTimeout(function(){window.scrollBy({top:320,behavior:'smooth'});},100);
+            },
+            style:{width:'100%',background:'linear-gradient(135deg,rgba(212,175,55,0.18),rgba(184,150,62,0.1))',border:'2px solid '+G,borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:G,cursor:'pointer',boxShadow:'0 3px 14px rgba(212,175,55,0.3)'}
+          },'🏆 '+(lang==='fr'?'JOUER LE TOURNOI':lang==='es'?'JUGAR TORNEO':lang==='pt'?'JOGAR TORNEIO':lang==='it'?'GIOCA TORNEO':lang==='de'?'TURNIER SPIELEN':'PLAY TOURNAMENT'))
         ),
         e('div',{style:{height:1,background:'rgba(212,175,55,0.2)',margin:'16px 0'}}),
         !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.06))',border:'1px solid '+G,borderRadius:12,padding:'16px',textAlign:'center'}},
@@ -3887,10 +3896,12 @@ function App(){
               G:G,
               playerName:penTourName,
               onShotDone:function(scored){
+                var isLast=shotsLeft<=1;
                 setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
-                setShotsLeft(function(s){var ns=s-1;if(ns<=0)setGamePhase('done');return ns;});
+                setShotsLeft(function(s){return Math.max(0,s-1);});
+                if(isLast)setGamePhase('done');
               }
             })),
             // Round done
