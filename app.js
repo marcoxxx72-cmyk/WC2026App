@@ -2406,6 +2406,8 @@ function App(){
   var sQ10=useState('');var playerName=sQ10[0];var setPlayerName=sQ10[1];
   var sQ11=useState(false);var showLeaderboard=sQ11[0];var setShowLeaderboard=sQ11[1];
   var sP1=useState(0);var proTab=sP1[0];var setProTab=sP1[1];
+  var sLW=useState(null);var liveWeather=sLW[0];var setLiveWeather=sLW[1];
+  var sLWL=useState(false);var liveWeatherLoading=sLWL[0];var setLiveWeatherLoading=sLWL[1];
   var sLive=useState([]);var liveScores=sLive[0];var setLiveScores=sLive[1];
   var sLiveLoad=useState(false);var liveLoading=sLiveLoad[0];var setLiveLoading=sLiveLoad[1];
   var sStand=useState([]);var standings=sStand[0];var setStandings=sStand[1];
@@ -4613,19 +4615,32 @@ function App(){
 
           // ── WEATHER ──
           proTab===2&&e('div',null,
+            (function(){
+              if(!liveWeather&&!liveWeatherLoading){
+                setLiveWeatherLoading(true);
+                fetch('/api/weather').then(function(r){return r.json();}).then(function(d){
+                  setLiveWeather(d);setLiveWeatherLoading(false);
+                }).catch(function(){setLiveWeatherLoading(false);});
+              }
+            })(),
             e('div',{style:{fontSize:11,color:G,fontWeight:'bold',marginBottom:10,textAlign:'center'}},
-              '🌤️ '+(lang==='fr'?'MÉTÉO VILLES HÔTES — JUIN/JUILLET 2026':'HOST CITIES WEATHER — JUNE/JULY 2026')
+              '🌤️ '+(lang==='fr'?'MÉTÉO EN DIRECT — VILLES HÔTES':'LIVE WEATHER — HOST CITIES')
             ),
             e('div',{style:{fontSize:9,color:'#6a86a0',textAlign:'center',marginBottom:10}},
-              lang==='fr'?'Prévisions moyennes pour la période du Mondial':'Average forecast for World Cup period'
+              liveWeather
+                ? (lang==='fr'?'Données en temps réel OpenWeatherMap':'Live data via OpenWeatherMap')
+                : liveWeatherLoading
+                  ? (lang==='fr'?'Chargement…':'Loading…')
+                  : (lang==='fr'?'Prévisions moyennes pour la période du Mondial':'Average forecast for World Cup period')
             ),
+            liveWeatherLoading&&e('div',{style:{textAlign:'center',padding:20,color:G}},'⏳'),
             Object.keys(WC_WEATHER).map(function(city,i){
-              var w=WC_WEATHER[city];
+              var w=liveWeather&&liveWeather[city]?liveWeather[city]:WC_WEATHER[city];
               return e('div',{key:i,style:{background:CB,border:'1px solid '+BD,borderRadius:12,padding:'12px 14px',marginBottom:8}},
                 e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}},
                   e('div',null,
                     e('div',{style:{fontSize:12,fontWeight:'bold',color:'#eee8d5'}},city),
-                    e('div',{style:{fontSize:10,color:'#6a86a0'}},w.condition)
+                    e('div',{style:{fontSize:10,color:'#6a86a0',textTransform:'capitalize'}},w.condition)
                   ),
                   e('div',{style:{textAlign:'right'}},
                     e('div',{style:{fontSize:28}},w.icon),
@@ -4633,10 +4648,12 @@ function App(){
                   )
                 ),
                 e('div',{style:{display:'flex',gap:8,marginBottom:6}},
-                  e('span',{style:{fontSize:9,color:'#7ab0ff'}},'🌧️ Rain: ',w.rain),
+                  w.humidity
+                    ? e('span',{style:{fontSize:9,color:'#7ab0ff'}},'💧 Humidity: ',w.humidity)
+                    : e('span',{style:{fontSize:9,color:'#7ab0ff'}},'🌧️ Rain: ',w.rain),
                   e('span',{style:{fontSize:9,color:'#90ee90'}},'💨 Wind: ',w.wind)
                 ),
-                e('div',{style:{fontSize:9,color:'#d4af37',fontStyle:'italic'}},'💡 ',w.tip)
+                w.tip&&e('div',{style:{fontSize:9,color:'#d4af37',fontStyle:'italic'}},'💡 ',w.tip)
               );
             })
           ),
