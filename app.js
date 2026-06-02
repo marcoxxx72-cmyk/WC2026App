@@ -1436,9 +1436,6 @@ function PenaltyPitch(props){
   var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:vph+'px',zIndex:9999,background:'#000',cursor:'default',opacity:ready?1:0,transition:'opacity .3s'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer',opacity:ready?1:0,transition:'opacity .4s'};
 
   return e('div',{style:{userSelect:'none'}},
-    e('div',{style:{display:'flex',justifyContent:'center',gap:8,marginBottom:8}},
-      RL.map(function(r,i){return e('div',{key:i,style:{width:40,height:20,borderRadius:10,background:i<ri8?'rgba(40,200,40,0.3)':i===ri8?'rgba(212,175,55,0.3)':'rgba(255,255,255,0.05)',border:'1px solid '+(i<ri8?'#90ee90':i===ri8?G:'rgba(255,255,255,0.1)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:'bold',color:i<ri8?'#90ee90':i===ri8?G:'#444'}},i<ri8?'✅':r.n);})
-    ),
     e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd}),
     // Overlay HORS du container — évite que preventDefault() tue les clics sur mobile
     fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
@@ -1904,7 +1901,7 @@ var POLLS = {
     {id:'p4',q:'Who will top-score in 2026?',opts:['Kane','Mbappe','Haaland','Vinicius','Ronaldo'],votes:[980,1400,1100,760,540]}
   ,
     {id:'p_goldenboot',q:'Who will win the Golden Boot?',opts:['Mbappe','Haaland','Vinicius Jr','Lamine Yamal'],votes:[0,0,0,0]},
-    {id:'p_surprise',q:'Which surprise team will go furthest?',opts:['Morocco','Japan','USA','Canada'],votes:[0,0,0,0]},
+    {id:'p_surprise',q:'Which surprise team will go furthest?',opts:['Morocco','Japan','USA','Canada','Other...'],votes:[0,0,0,0,0],hasOther:true},
     {id:'p_bestgk',q:'Best goalkeeper of the tournament?',opts:['Alisson','Martinez','Courtois','Maignan'],votes:[0,0,0,0]},
     {id:'p_youngstar',q:'Best young player of the tournament?',opts:['Lamine Yamal','Endrick','Cherki','Doue'],votes:[0,0,0,0]},
     {id:'p_final',q:'What will the final be?',opts:['France vs Brazil','Argentina vs England','Spain vs Germany','France vs Argentina'],votes:[0,0,0,0]},
@@ -1925,7 +1922,7 @@ var POLLS = {
     {id:'p4',q:'Qui sera meilleur buteur 2026?',opts:['Mbappe','Kane','Haaland','Vinicius','Ronaldo'],votes:[1800,890,1100,760,540]}
   ,
     {id:'p_goldenboot',q:'Qui remportera le Soulier d Or ?',opts:['Mbappe','Haaland','Vinicius Jr','Lamine Yamal'],votes:[0,0,0,0]},
-    {id:'p_surprise',q:'Quelle equipe surprise ira le plus loin ?',opts:['Maroc','Japon','USA','Canada'],votes:[0,0,0,0]},
+    {id:'p_surprise',q:'Quelle equipe surprise ira le plus loin ?',opts:['Maroc','Japon','USA','Canada','Autre...'],votes:[0,0,0,0,0],hasOther:true},
     {id:'p_bestgk',q:'Meilleur gardien du tournoi ?',opts:['Alisson','Martinez','Courtois','Maignan'],votes:[0,0,0,0]},
     {id:'p_youngstar',q:'Meilleur jeune joueur du tournoi ?',opts:['Lamine Yamal','Endrick','Cherki','Doue'],votes:[0,0,0,0]},
     {id:'p_final',q:'Quelle sera la finale ?',opts:['France vs Bresil','Argentine vs Angleterre','Espagne vs Allemagne','France vs Argentine'],votes:[0,0,0,0]},
@@ -2367,6 +2364,9 @@ function App(){
   var s14=useState(false);var quizDone=s14[0];var setQuizDone=s14[1];
   var s15=useState(false);var answered=s15[0];var setAnswered=s15[1];
   var s16=useState({});var pollVotes=s16[0];var setPollVotes=s16[1];
+  var sOI=useState('');var pollOtherInput=sOI[0];var setPollOtherInput=sOI[1];
+  var sOA=useState(null);var pollOtherActive=sOA[0];var setPollOtherActive=sOA[1];
+  var sOV=useState({});var pollOtherVoted=sOV[0];var setPollOtherVoted=sOV[1];
   var s17=useState({});var pollCounts=s17[0];var setPollCounts=s17[1];
   var s18=useState({days:0,hours:0,minutes:0,seconds:0});var cd=s18[0];var setCd=s18[1];
   var s19=useState(null);var myTeam=s19[0];var setMyTeam=s19[1];
@@ -3430,14 +3430,50 @@ function App(){
             var total=cv.reduce(function(a,b){return a+b;},0);
             return e(Card,{key:poll.id,style:{padding:18}},
               e('div',{style:{fontSize:13,fontWeight:'bold',color:'#fff',marginBottom:13}},poll.q),
-              !voted?e('div',{style:{display:'flex',flexDirection:'column',gap:8}},poll.opts.map(function(opt,i){return e('button',{key:i,onClick:function(){handleVote(poll.id,i,poll.votes);},style:{background:CB,border:'1px solid '+BD,borderRadius:9,padding:'10px 14px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},opt);})):
+              !voted?e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
+                poll.opts.map(function(opt,i){
+                  var isOther=poll.hasOther&&i===poll.opts.length-1;
+                  if(isOther){
+                    var filtered=pollOtherActive===poll.id&&pollOtherInput.trim().length>0
+                      ?ALL_TEAMS.filter(function(t){return t.toLowerCase().startsWith(pollOtherInput.toLowerCase());})
+                      :[];
+                    return e('div',{key:i},
+                      pollOtherActive===poll.id
+                        ?e('div',null,
+                            e('div',{style:{display:'flex',gap:6}},
+                              e('input',{type:'text',value:pollOtherInput,onChange:function(ev){setPollOtherInput(ev.target.value);},
+                                placeholder:lang==='fr'?'Filtrer une équipe...':'Filter a team...',maxLength:30,autoFocus:true,
+                                style:{flex:1,background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#eee8d5',outline:'none'}}),
+                              e('button',{onClick:function(){setPollOtherActive(null);setPollOtherInput('');},
+                                style:{background:'rgba(255,255,255,0.08)',border:'1px solid '+BD,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#aaa',cursor:'pointer'}},'✕')
+                            ),
+                            filtered.length>0&&e('div',{style:{background:CB,border:'1px solid '+BD,borderRadius:9,marginTop:4,maxHeight:160,overflowY:'auto'}},
+                              filtered.map(function(team){
+                                return e('button',{key:team,onClick:function(){
+                                    setPollOtherVoted(function(p){var n=Object.assign({},p);n[poll.id]=team;return n;});
+                                    handleVote(poll.id,i,poll.votes);
+                                    setPollOtherActive(null);setPollOtherInput('');
+                                  },style:{display:'flex',alignItems:'center',gap:8,width:'100%',background:'transparent',border:'none',borderBottom:'1px solid rgba(255,255,255,0.05)',padding:'8px 12px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},
+                                  e('span',null,TEAM_FLAGS[team]||'🏳️'),team
+                                );
+                              })
+                            )
+                          )
+                        :e('button',{onClick:function(){setPollOtherActive(poll.id);setPollOtherInput('');},
+                            style:{background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 14px',fontSize:12,color:G,cursor:'pointer',textAlign:'left',fontStyle:'italic'}},opt)
+                    );
+                  }
+                  return e('button',{key:i,onClick:function(){handleVote(poll.id,i,poll.votes);},style:{background:CB,border:'1px solid '+BD,borderRadius:9,padding:'10px 14px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},opt);
+                })):
               e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
                 poll.opts.map(function(opt,i){
                   var pct=Math.round(cv[i]/total*100);
                   var isMe=pollVotes[poll.id]===i;
                   var isWin=cv[i]===Math.max.apply(null,cv);
+                  var label=isMe&&poll.hasOther&&i===poll.opts.length-1&&pollOtherVoted[poll.id]
+                    ?(lang==='fr'?'Autre: ':'Other: ')+pollOtherVoted[poll.id]:opt;
                   return e('div',{key:i},
-                    e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:4}},e('span',{style:{color:isMe?G:'#c0d0dc'}},isMe?'> ':'',opt),e('span',{style:{color:isWin?G:'#6a86a0',fontWeight:isWin?'bold':'normal'}},pct,'%')),
+                    e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:4}},e('span',{style:{color:isMe?G:'#c0d0dc'}},isMe?'> ':'',label),e('span',{style:{color:isWin?G:'#6a86a0',fontWeight:isWin?'bold':'normal'}},pct,'%')),
                     e('div',{style:{height:7,background:'rgba(255,255,255,0.07)',borderRadius:4,overflow:'hidden'}},e('div',{style:{width:pct+'%',height:'100%',background:isMe?'linear-gradient(90deg,'+G+',#ff9900)':isWin?'rgba(212,175,55,0.5)':'rgba(100,150,200,0.4)',borderRadius:4,transition:'width 0.6s'}}))
                   );
                 }),
@@ -3829,7 +3865,7 @@ function App(){
             {name:{en:'ROUND OF 16',fr:'8ÈME DE FINALE',es:'OCTAVOS',pt:'OITAVAS',it:'OTTAVI',de:'ACHTELFINALE'},keeper:'🧤 Higuita',need:3,bonus:0,color:'#90ee90'},
             {name:{en:'QUARTER-FINAL',fr:'QUART DE FINALE',es:'CUARTOS',pt:'QUARTAS',it:'QUARTI',de:'VIERTELFINALE'},keeper:'🥅 Buffon',need:3,bonus:30,color:'#ffd700'},
             {name:{en:'SEMI-FINAL',fr:'DEMI-FINALE',es:'SEMIFINAL',pt:'SEMIFINAL',it:'SEMIFINALE',de:'HALBFINALE'},keeper:'🧱 Casillas',need:4,bonus:80,color:'#ff9900'},
-            {name:{en:'THE FINAL',fr:'LA FINALE',es:'LA FINAL',pt:'A FINAL',it:'LA FINALE',de:'DAS FINALE'},keeper:'🌟 Yashin',need:4,bonus:150,color:'#ff4444'}
+            {name:{en:'THE FINAL',fr:'LA FINALE',es:'LA FINAL',pt:'A FINAL',it:'LA FINALE',de:'DAS FINALE'},short:'FINALE',keeper:'🌟 Yashin',need:4,bonus:150,color:'#ff4444'}
           ];
           var rd=ROUNDS[penTourRound]||ROUNDS[0];
           var roundScore=gameScore*10+(gameScore===5?30:0);
@@ -3904,7 +3940,7 @@ function App(){
                 return e('div',{key:i,style:{display:'flex',flexDirection:'column',alignItems:'center',gap:2}},
                   e('div',{style:{width:28,height:28,borderRadius:'50%',background:i<penTourRound?'rgba(40,200,40,0.4)':i===penTourRound?('rgba(212,175,55,0.4)'):('rgba(255,255,255,0.06)'),border:'2px solid '+(i<penTourRound?'#90ee90':i===penTourRound?G:'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:12}},
                   i<penTourRound?'✅':i===penTourRound?'⚽':'○'),
-                  e('div',{style:{fontSize:7,color:'#6a86a0'}},(r.name[lang]||r.name.en).split(' ')[0])
+                  e('div',{style:{fontSize:7,color:'#6a86a0'}},r.short||(r.name[lang]||r.name.en).split(' ')[0])
                 );
               })
             ),
@@ -3924,11 +3960,7 @@ function App(){
                 setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
-                setShotsLeft(function(s){
-                  var ns=Math.max(0,s-1);
-                  if(ns===0)window.setTimeout(function(){setGamePhase('done');},50);
-                  return ns;
-                });
+                setShotsLeft(function(s){return Math.max(0,s-1);});
               }
             })),
             // Round done
