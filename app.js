@@ -1895,7 +1895,7 @@ var QUIZ = {
 
 var POLLS = {
   en:[
-    {id:'p1',q:'Who will be World Champion 2026?',opts:['England','France','Spain','Brazil','Argentina','Germany','Portugal'],votes:[1580,1240,980,1100,1420,760,890]},
+    {id:'p1',q:'Who will be World Champion 2026?',opts:['England','France','Spain','Brazil','Argentina','Germany','Portugal','Other...'],votes:[1580,1240,980,1100,1420,760,890,0],hasOther:true},
     {id:'p2',q:'Who will be the best player?',opts:['Mbappe','Haaland','Bellingham','Kane','Vinicius','Rodri','Yamal'],votes:[2100,1300,980,1150,760,620,540]},
     {id:'p3',q:'Will ENGLAND reach the Final?',opts:['Yes champion','Yes finalist','Semi-final','Group stage'],votes:[1200,800,600,150]},
     {id:'p4',q:'Who will top-score in 2026?',opts:['Kane','Mbappe','Haaland','Vinicius','Ronaldo'],votes:[980,1400,1100,760,540]}
@@ -1910,13 +1910,13 @@ var POLLS = {
     {id:'p_goals',q:'How many total goals in the WC?',opts:['Less than 150','150-180','180-210','More than 210'],votes:[0,0,0,0]},
     {id:'p_var',q:'Will VAR ruin the World Cup?',opts:['Yes too much','A little bit','No it helps','No opinion'],votes:[0,0,0,0]},
     {id:'p_host',q:'Which host nation will go furthest?',opts:['USA','Mexico','Canada','None of them'],votes:[0,0,0,0]},
-    {id:'p_penalty',q:'Which team is best at penalties?',opts:['Argentina','France','England','Germany'],votes:[0,0,0,0]},
+    {id:'p_penalty',q:'Which team is best at penalties?',opts:['Argentina','France','England','Germany','Other...'],votes:[0,0,0,0,0],hasOther:true},
     {id:'p_bestgoal',q:'Who will score the best goal?',opts:['Mbappe','Vinicius Jr','Lamine Yamal','Olise'],votes:[0,0,0,0]},
     {id:'p_stadium',q:'Best World Cup stadium?',opts:['MetLife Stadium','Azteca Stadium','Rose Bowl','AT&T Stadium'],votes:[0,0,0,0]},
     {id:'p_referee',q:'Will the referees be good enough?',opts:['Yes definitely','Mostly yes','Mostly no','Big controversy ahead'],votes:[0,0,0,0]},
     {id:'p_format',q:'Do you like the 48-team format?',opts:['Yes more teams is great','Yes but too many games','No prefer 32 teams','No opinion'],votes:[0,0,0,0]}],
   fr:[
-    {id:'p1',q:'Qui sera champion du Monde 2026?',opts:['France','Argentine','Espagne','Bresil','Angleterre','Allemagne','Portugal'],votes:[1580,1420,980,1100,760,680,890]},
+    {id:'p1',q:'Qui sera champion du Monde 2026?',opts:['France','Argentine','Espagne','Bresil','Angleterre','Allemagne','Portugal','Autre...'],votes:[1580,1420,980,1100,760,680,890,0],hasOther:true},
     {id:'p2',q:'Quel sera le meilleur joueur?',opts:['Mbappe','Haaland','Bellingham','Kane','Vinicius','Rodri','Yamal'],votes:[2400,1300,760,890,820,620,540]},
     {id:'p3',q:'La FRANCE ira-t-elle en finale?',opts:['Oui championne','Oui finaliste','Demi-finale','Phase de groupes'],votes:[1600,900,500,120]},
     {id:'p4',q:'Qui sera meilleur buteur 2026?',opts:['Mbappe','Kane','Haaland','Vinicius','Ronaldo'],votes:[1800,890,1100,760,540]}
@@ -1931,31 +1931,31 @@ var POLLS = {
     {id:'p_goals',q:'Combien de buts au total ?',opts:['Moins de 150','150-180','180-210','Plus de 210'],votes:[0,0,0,0]},
     {id:'p_var',q:'Le VAR gachera-t-il le Mondial ?',opts:['Oui trop','Un peu','Non ca aide','Pas d avis'],votes:[0,0,0,0]},
     {id:'p_host',q:'Quel pays hote ira le plus loin ?',opts:['USA','Mexique','Canada','Aucun'],votes:[0,0,0,0]},
-    {id:'p_penalty',q:'Quelle equipe excelle aux tirs au but ?',opts:['Argentine','France','Angleterre','Allemagne'],votes:[0,0,0,0]},
+    {id:'p_penalty',q:'Quelle equipe excelle aux tirs au but ?',opts:['Argentine','France','Angleterre','Allemagne','Autre...'],votes:[0,0,0,0,0],hasOther:true},
     {id:'p_bestgoal',q:'Qui marquera le plus beau but ?',opts:['Mbappe','Vinicius Jr','Lamine Yamal','Olise'],votes:[0,0,0,0]},
     {id:'p_stadium',q:'Meilleur stade du Mondial ?',opts:['MetLife Stadium','Stade Azteca','Rose Bowl','AT&T Stadium'],votes:[0,0,0,0]},
     {id:'p_referee',q:'Les arbitres seront-ils a la hauteur ?',opts:['Oui certainement','Plutot oui','Plutot non','Grande controverse'],votes:[0,0,0,0]},
     {id:'p_format',q:'Aimez-vous le format a 48 equipes ?',opts:['Oui plus d equipes','Oui mais trop de matchs','Non je prefere 32','Sans avis'],votes:[0,0,0,0]}],
   es:[
-    {id:'p1',q:'Quien sera campeon del Mundo 2026?',opts:['Espana','Argentina','Francia','Brasil','Inglaterra','Alemania','Portugal'],votes:[1800,1420,980,1100,760,680,890]},
+    {id:'p1',q:'Quien sera campeon del Mundo 2026?',opts:['Espana','Argentina','Francia','Brasil','Inglaterra','Alemania','Portugal','Otro...'],votes:[1800,1420,980,1100,760,680,890,0],hasOther:true},
     {id:'p2',q:'Quien sera el mejor jugador?',opts:['Mbappe','Haaland','Bellingham','Kane','Vinicius','Rodri','Yamal'],votes:[1800,1300,760,890,820,1200,980]},
     {id:'p3',q:'Llegara ESPANA a la Final?',opts:['Si campeona','Si finalista','Semifinal','Fase de grupos'],votes:[1600,900,500,120]},
     {id:'p4',q:'Quien sera el Pichichi del Mundial?',opts:['Yamal','Mbappe','Haaland','Vinicius','Kane'],votes:[980,1400,1100,760,890]}
   ],
   pt:[
-    {id:'p1',q:'Quem sera campeao do Mundo 2026?',opts:['Portugal','Argentina','Franca','Brasil','Espanha','Alemanha','Inglaterra'],votes:[1800,1420,980,1350,880,680,760]},
+    {id:'p1',q:'Quem sera campeao do Mundo 2026?',opts:['Portugal','Argentina','Franca','Brasil','Espanha','Alemanha','Inglaterra','Outro...'],votes:[1800,1420,980,1350,880,680,760,0],hasOther:true},
     {id:'p2',q:'Quem sera o melhor jogador?',opts:['Mbappe','Haaland','Bellingham','Kane','Vinicius','Ronaldo','Rodri'],votes:[1800,1300,760,890,820,1100,620]},
     {id:'p3',q:'PORTUGAL chegara a Final?',opts:['Sim campeao','Sim finalista','Semifinal','Fase de grupos'],votes:[1600,900,500,120]},
     {id:'p4',q:'Quem sera artilheiro da Copa?',opts:['Ronaldo','Mbappe','Haaland','Vinicius','Kane'],votes:[1200,1400,1100,760,890]}
   ],
   it:[
-    {id:'p1',q:'Chi sara campione del Mondo 2026?',opts:['Francia','Argentina','Spagna','Brasile','Inghilterra','Germania','Portogallo'],votes:[1240,1420,980,1100,760,680,890]},
+    {id:'p1',q:'Chi sara campione del Mondo 2026?',opts:['Francia','Argentina','Spagna','Brasile','Inghilterra','Germania','Portogallo','Altro...'],votes:[1240,1420,980,1100,760,680,890,0],hasOther:true},
     {id:'p2',q:'Chi sara il miglior giocatore?',opts:['Mbappe','Haaland','Bellingham','Kane','Vinicius','Rodri','Yamal'],votes:[1800,1300,760,890,820,620,540]},
     {id:'p3',q:'L ITALIA tornera al Mondiale 2030?',opts:['Certamente','Probabilmente','Forse','No'],votes:[1200,800,600,150]},
     {id:'p4',q:'Chi sara capocannoniere 2026?',opts:['Mbappe','Haaland','Kane','Vinicius','Ronaldo'],votes:[1400,1100,890,760,540]}
   ],
   de:[
-    {id:'p1',q:'Wer wird Weltmeister 2026?',opts:['Deutschland','Argentinien','Spanien','Brasilien','England','Frankreich','Portugal'],votes:[1800,1420,980,1100,760,1240,890]},
+    {id:'p1',q:'Wer wird Weltmeister 2026?',opts:['Deutschland','Argentinien','Spanien','Brasilien','England','Frankreich','Portugal','Andere...'],votes:[1800,1420,980,1100,760,1240,890,0],hasOther:true},
     {id:'p2',q:'Wer wird der beste Spieler?',opts:['Mbappe','Haaland','Bellingham','Kane','Vinicius','Rodri','Yamal'],votes:[1800,1500,760,890,820,620,540]},
     {id:'p3',q:'Kommt DEUTSCHLAND ins Finale?',opts:['Ja Weltmeister','Ja Finalist','Halbfinale','Gruppenphase'],votes:[1600,900,500,120]},
     {id:'p4',q:'Wer wird Torschutzkoenig 2026?',opts:['Haaland','Mbappe','Kane','Vinicius','Muller'],votes:[1600,1400,890,760,540]}
@@ -2985,6 +2985,7 @@ function App(){
   useEffect(function(){
     if(penTourPhase==='playing'&&shotsLeft===0&&gamePhase!=='done'){
       setGamePhase('done');
+      setTimeout(function(){window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});},300);
     }
   },[shotsLeft,penTourPhase,gamePhase]);
 
@@ -3430,50 +3431,14 @@ function App(){
             var total=cv.reduce(function(a,b){return a+b;},0);
             return e(Card,{key:poll.id,style:{padding:18}},
               e('div',{style:{fontSize:13,fontWeight:'bold',color:'#fff',marginBottom:13}},poll.q),
-              !voted?e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
-                poll.opts.map(function(opt,i){
-                  var isOther=poll.hasOther&&i===poll.opts.length-1;
-                  if(isOther){
-                    var filtered=pollOtherActive===poll.id&&pollOtherInput.trim().length>0
-                      ?ALL_TEAMS.filter(function(t){return t.toLowerCase().startsWith(pollOtherInput.toLowerCase());})
-                      :[];
-                    return e('div',{key:i},
-                      pollOtherActive===poll.id
-                        ?e('div',null,
-                            e('div',{style:{display:'flex',gap:6}},
-                              e('input',{type:'text',value:pollOtherInput,onChange:function(ev){setPollOtherInput(ev.target.value);},
-                                placeholder:lang==='fr'?'Filtrer une équipe...':'Filter a team...',maxLength:30,autoFocus:true,
-                                style:{flex:1,background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#eee8d5',outline:'none'}}),
-                              e('button',{onClick:function(){setPollOtherActive(null);setPollOtherInput('');},
-                                style:{background:'rgba(255,255,255,0.08)',border:'1px solid '+BD,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#aaa',cursor:'pointer'}},'✕')
-                            ),
-                            filtered.length>0&&e('div',{style:{background:CB,border:'1px solid '+BD,borderRadius:9,marginTop:4,maxHeight:160,overflowY:'auto'}},
-                              filtered.map(function(team){
-                                return e('button',{key:team,onClick:function(){
-                                    setPollOtherVoted(function(p){var n=Object.assign({},p);n[poll.id]=team;return n;});
-                                    handleVote(poll.id,i,poll.votes);
-                                    setPollOtherActive(null);setPollOtherInput('');
-                                  },style:{display:'flex',alignItems:'center',gap:8,width:'100%',background:'transparent',border:'none',borderBottom:'1px solid rgba(255,255,255,0.05)',padding:'8px 12px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},
-                                  e('span',null,TEAM_FLAGS[team]||'🏳️'),team
-                                );
-                              })
-                            )
-                          )
-                        :e('button',{onClick:function(){setPollOtherActive(poll.id);setPollOtherInput('');},
-                            style:{background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 14px',fontSize:12,color:G,cursor:'pointer',textAlign:'left',fontStyle:'italic'}},opt)
-                    );
-                  }
-                  return e('button',{key:i,onClick:function(){handleVote(poll.id,i,poll.votes);},style:{background:CB,border:'1px solid '+BD,borderRadius:9,padding:'10px 14px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},opt);
-                })):
+              !voted?e('div',{style:{display:'flex',flexDirection:'column',gap:8}},poll.opts.map(function(opt,i){return e('button',{key:i,onClick:function(){handleVote(poll.id,i,poll.votes);},style:{background:CB,border:'1px solid '+BD,borderRadius:9,padding:'10px 14px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},opt);})):
               e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
                 poll.opts.map(function(opt,i){
                   var pct=Math.round(cv[i]/total*100);
                   var isMe=pollVotes[poll.id]===i;
                   var isWin=cv[i]===Math.max.apply(null,cv);
-                  var label=isMe&&poll.hasOther&&i===poll.opts.length-1&&pollOtherVoted[poll.id]
-                    ?(lang==='fr'?'Autre: ':'Other: ')+pollOtherVoted[poll.id]:opt;
                   return e('div',{key:i},
-                    e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:4}},e('span',{style:{color:isMe?G:'#c0d0dc'}},isMe?'> ':'',label),e('span',{style:{color:isWin?G:'#6a86a0',fontWeight:isWin?'bold':'normal'}},pct,'%')),
+                    e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:4}},e('span',{style:{color:isMe?G:'#c0d0dc'}},isMe?'> ':'',opt),e('span',{style:{color:isWin?G:'#6a86a0',fontWeight:isWin?'bold':'normal'}},pct,'%')),
                     e('div',{style:{height:7,background:'rgba(255,255,255,0.07)',borderRadius:4,overflow:'hidden'}},e('div',{style:{width:pct+'%',height:'100%',background:isMe?'linear-gradient(90deg,'+G+',#ff9900)':isWin?'rgba(212,175,55,0.5)':'rgba(100,150,200,0.4)',borderRadius:4,transition:'width 0.6s'}}))
                   );
                 }),
