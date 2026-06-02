@@ -3431,14 +3431,50 @@ function App(){
             var total=cv.reduce(function(a,b){return a+b;},0);
             return e(Card,{key:poll.id,style:{padding:18}},
               e('div',{style:{fontSize:13,fontWeight:'bold',color:'#fff',marginBottom:13}},poll.q),
-              !voted?e('div',{style:{display:'flex',flexDirection:'column',gap:8}},poll.opts.map(function(opt,i){return e('button',{key:i,onClick:function(){handleVote(poll.id,i,poll.votes);},style:{background:CB,border:'1px solid '+BD,borderRadius:9,padding:'10px 14px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},opt);})):
+              !voted?e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
+                poll.opts.map(function(opt,i){
+                  var isOther=poll.hasOther&&i===poll.opts.length-1;
+                  if(isOther){
+                    var filtered=pollOtherActive===poll.id&&pollOtherInput.trim().length>0
+                      ?ALL_TEAMS.filter(function(tm){return tm.toLowerCase().startsWith(pollOtherInput.toLowerCase());})
+                      :[];
+                    return e('div',{key:i},
+                      pollOtherActive===poll.id
+                        ?e('div',null,
+                            e('div',{style:{display:'flex',gap:6}},
+                              e('input',{type:'text',value:pollOtherInput,onChange:function(ev){setPollOtherInput(ev.target.value);},
+                                placeholder:lang==='fr'?'Filtrer une équipe...':lang==='es'?'Filtrar equipo...':lang==='pt'?'Filtrar seleção...':lang==='it'?'Filtra squadra...':lang==='de'?'Team filtern...':'Filter a team...',
+                                maxLength:30,autoFocus:true,
+                                style:{flex:1,background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#eee8d5',outline:'none'}}),
+                              e('button',{onClick:function(){setPollOtherActive(null);setPollOtherInput('');},
+                                style:{background:'rgba(255,255,255,0.08)',border:'1px solid '+BD,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#aaa',cursor:'pointer'}},'✕')
+                            ),
+                            filtered.length>0&&e('div',{style:{background:CB,border:'1px solid '+BD,borderRadius:9,marginTop:4,maxHeight:160,overflowY:'auto'}},
+                              filtered.map(function(team){
+                                return e('button',{key:team,onClick:function(){
+                                    setPollOtherVoted(function(p){var n=Object.assign({},p);n[poll.id]=team;return n;});
+                                    handleVote(poll.id,i,poll.votes);
+                                    setPollOtherActive(null);setPollOtherInput('');
+                                  },style:{display:'flex',alignItems:'center',gap:8,width:'100%',background:'transparent',border:'none',borderBottom:'1px solid rgba(255,255,255,0.05)',padding:'8px 12px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},
+                                  e('span',null,TEAM_FLAGS[team]||'🏳️'),team);
+                              })
+                            )
+                          )
+                        :e('button',{onClick:function(){setPollOtherActive(poll.id);setPollOtherInput('');},
+                            style:{background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 14px',fontSize:12,color:G,cursor:'pointer',textAlign:'left',fontStyle:'italic'}},opt)
+                    );
+                  }
+                  return e('button',{key:i,onClick:function(){handleVote(poll.id,i,poll.votes);},style:{background:CB,border:'1px solid '+BD,borderRadius:9,padding:'10px 14px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},opt);
+                })):
               e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
                 poll.opts.map(function(opt,i){
                   var pct=Math.round(cv[i]/total*100);
                   var isMe=pollVotes[poll.id]===i;
                   var isWin=cv[i]===Math.max.apply(null,cv);
+                  var label=isMe&&poll.hasOther&&i===poll.opts.length-1&&pollOtherVoted[poll.id]
+                    ?(lang==='fr'?'Autre: ':lang==='es'?'Otro: ':lang==='pt'?'Outro: ':lang==='it'?'Altro: ':lang==='de'?'Andere: ':'Other: ')+pollOtherVoted[poll.id]:opt;
                   return e('div',{key:i},
-                    e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:4}},e('span',{style:{color:isMe?G:'#c0d0dc'}},isMe?'> ':'',opt),e('span',{style:{color:isWin?G:'#6a86a0',fontWeight:isWin?'bold':'normal'}},pct,'%')),
+                    e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:4}},e('span',{style:{color:isMe?G:'#c0d0dc'}},isMe?'> ':'',label),e('span',{style:{color:isWin?G:'#6a86a0',fontWeight:isWin?'bold':'normal'}},pct,'%')),
                     e('div',{style:{height:7,background:'rgba(255,255,255,0.07)',borderRadius:4,overflow:'hidden'}},e('div',{style:{width:pct+'%',height:'100%',background:isMe?'linear-gradient(90deg,'+G+',#ff9900)':isWin?'rgba(212,175,55,0.5)':'rgba(100,150,200,0.4)',borderRadius:4,transition:'width 0.6s'}}))
                   );
                 }),
