@@ -931,6 +931,7 @@ function PenaltyPitch(props){
           cx2.putImageData(id,0,0);
           var newTex=new THREE.CanvasTexture(cv);
           newTex.needsUpdate=true;
+          kTextures.idle=newTex;
           kSpriteMesh.material.map=newTex;
           kSpriteMesh.material.needsUpdate=true;
         }catch(e){
@@ -974,11 +975,51 @@ function PenaltyPitch(props){
     gloveL.visible=false;gloveR.visible=false;
     scene.add(gloveL);scene.add(gloveR);
 
+    // ── Preload pose textures ──
+    var kTextures={idle:null,hi:null,lo:null,jump:null};
+    function loadKTex(key,url){
+      var img=new Image();img.crossOrigin='anonymous';
+      img.onload=function(){
+        try{
+          var cv=document.createElement('canvas');cv.width=img.width;cv.height=img.height;
+          var cx2=cv.getContext('2d');cx2.drawImage(img,0,0);
+          var id=cx2.getImageData(0,0,cv.width,cv.height),d=id.data;
+          for(var i=0;i<d.length;i+=4){
+            var r=d[i],g=d[i+1],b=d[i+2];
+            var lum=r*0.299+g*0.587+b*0.114;
+            var sat=Math.max(r,g,b)-Math.min(r,g,b);
+            if(lum>238&&sat<22){d[i+3]=0;}
+            else if(lum>215&&sat<28){d[i+3]=Math.round((255-lum)/(255-215)*255*0.6);}
+          }
+          cx2.putImageData(id,0,0);
+          var t=new THREE.CanvasTexture(cv);t.needsUpdate=true;
+          kTextures[key]=t;
+        }catch(e){kTextures[key]=new THREE.TextureLoader().load(url);}
+      };
+      img.src=url;
+    }
+    loadKTex('hi','/gk_hi.png');
+    loadKTex('lo','/gk_lo.png');
+    loadKTex('jump','/gk_jump.png');
+
     var kSprite={
       mesh:kSpriteMesh,
       gloveL:gloveL,gloveR:gloveR,
-      setDive:function(dir){},
-      setIdle:function(){}
+      setDive:function(dir,high){
+        // dir: -1=left, 1=right, 0=jump
+        var tex=dir===0?kTextures.jump:(high?kTextures.hi:kTextures.lo);
+        if(!tex)return;
+        tex.wrapS=THREE.RepeatWrapping;
+        // Mirror horizontally for left dives
+        if(dir<0){tex.repeat.x=-1;tex.offset.x=1;}
+        else{tex.repeat.x=1;tex.offset.x=0;}
+        tex.needsUpdate=true;
+        kSpriteMesh.material.map=tex;
+        kSpriteMesh.material.needsUpdate=true;
+      },
+      setIdle:function(){
+        if(kTextures.idle){kSpriteMesh.material.map=kTextures.idle;kSpriteMesh.material.needsUpdate=true;}
+      }
     };
 
     // ── Kicker — Lower-body Canvas Sprite (FIFA low-camera angle) ──
@@ -1111,7 +1152,7 @@ function PenaltyPitch(props){
           kSpriteMesh.scale.set(1+dts*0.45,1-dts*0.1,1);
           var shotHi=Math.max(0,(thr.shotTarget.y-1.1)*0.4);
           kSpriteMesh.position.y=0.88+shotHi*dts+Math.sin(dts*Math.PI)*(0.55+shotHi*0.4);
-          if(thr.animFrame===5&&ds!==0)kSprite.setDive(ds);
+          if(thr.animFrame===5&&ds!==0)kSprite.setDive(ds,shotHi>0.2);
 
           // ── Gloves: extend leading hand toward ball ──
           if(ds!==0){
