@@ -2006,6 +2006,8 @@ var STARS = [
   {name:'Cody Gakpo',role:'LW',flag:'🇳🇱',club:'Liverpool',pos:'FW',age:25,stat:'WC 2022 top scorer NL',rating:85,pac:86,sho:80,pas:75,dri:85,def_:40,phy:63},
   {name:'Neymar Jr',role:'CF',flag:'🇧🇷',club:'Santos FC',pos:'FW',age:33,stat:'Brazil record scorer',rating:85,pac:82,sho:86,pas:73,dri:80,def_:40,phy:67},
   {name:'Pedro Neto',role:'RW',flag:'🇵🇹',club:'Chelsea',pos:'FW',age:25,stat:'Portugal pacey winger',rating:85,pac:92,sho:78,pas:76,dri:86,def_:40,phy:64},
+  {name:'Arda Guler',role:'RW',flag:'🇹🇷',club:'Real Madrid',pos:'MF',age:20,stat:'Turkey golden boy',rating:86,pac:80,sho:78,pas:85,dri:88,def_:45,phy:65},
+  {name:'Kenan Yildiz',role:'LW',flag:'🇹🇷',club:'Juventus',pos:'FW',age:20,stat:'Turkey Serie A star',rating:84,pac:82,sho:76,pas:80,dri:86,def_:40,phy:66},
   {name:'Jordan Pickford',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',club:'Everton',pos:'GK',age:32,stat:'England No.1',rating:84,pac:59,sho:40,pas:64,dri:40,def_:84,phy:69},
   {name:'Alphonso Davies',flag:'🇨🇦',club:'Bayern Munich',pos:'DF',age:24,stat:'Canada WC 2026 host',rating:84,pac:79,sho:49,pas:72,dri:64,def_:86,phy:76},
   {name:'Nuno Mendes',flag:'🇵🇹',club:'PSG',pos:'DF',age:22,stat:'Euro 2024 Portugal',rating:84,pac:79,sho:49,pas:72,dri:64,def_:86,phy:76},
