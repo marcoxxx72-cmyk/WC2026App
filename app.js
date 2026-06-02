@@ -3435,32 +3435,24 @@ function App(){
                 poll.opts.map(function(opt,i){
                   var isOther=poll.hasOther&&i===poll.opts.length-1;
                   if(isOther){
-                    var filtered=pollOtherActive===poll.id
-                      ?ALL_TEAMS.filter(function(tm){return pollOtherInput.trim().length===0||tm.toLowerCase().startsWith(pollOtherInput.toLowerCase());})
-                      :[];
                     return e('div',{key:i},
                       pollOtherActive===poll.id
-                        ?e('div',null,
-                            e('div',{style:{display:'flex',gap:6}},
-                              e('input',{type:'text',value:pollOtherInput,onChange:function(ev){setPollOtherInput(ev.target.value);},
-                                placeholder:lang==='fr'?'Filtrer une équipe...':lang==='es'?'Filtrar equipo...':lang==='pt'?'Filtrar seleção...':lang==='it'?'Filtra squadra...':lang==='de'?'Team filtern...':'Filter a team...',
-                                maxLength:30,
-                                style:{flex:1,background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#eee8d5',outline:'none'}}),
-                              e('button',{onClick:function(){setPollOtherActive(null);setPollOtherInput('');},
-                                style:{background:'rgba(255,255,255,0.08)',border:'1px solid '+BD,borderRadius:9,padding:'10px 12px',fontSize:12,color:'#aaa',cursor:'pointer'}},'✕')
+                        ?e('div',{style:{background:CB,border:'1px solid '+G,borderRadius:9,maxHeight:180,overflowY:'auto'}},
+                            e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 12px',borderBottom:'1px solid '+BD}},
+                              e('span',{style:{fontSize:10,color:G,fontWeight:'bold'}},lang==='fr'?'Choisir une équipe':lang==='es'?'Elegir equipo':lang==='pt'?'Escolher seleção':lang==='de'?'Team wählen':'Choose a team'),
+                              e('button',{onClick:function(){setPollOtherActive(null);},style:{background:'transparent',border:'none',color:'#aaa',cursor:'pointer',fontSize:14,padding:'0 4px'}},'✕')
                             ),
-                            filtered.length>0&&e('div',{style:{background:CB,border:'1px solid '+BD,borderRadius:9,marginTop:4,maxHeight:160,overflowY:'auto'}},
-                              filtered.map(function(team){
-                                return e('button',{key:team,onClick:function(){
-                                    setPollOtherVoted(function(p){var n=Object.assign({},p);n[poll.id]=team;return n;});
-                                    handleVote(poll.id,i,poll.votes);
-                                    setPollOtherActive(null);setPollOtherInput('');
-                                  },style:{display:'flex',alignItems:'center',gap:8,width:'100%',background:'transparent',border:'none',borderBottom:'1px solid rgba(255,255,255,0.05)',padding:'8px 12px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},
-                                  e('span',null,TEAM_FLAGS[team]||'🏳️'),team);
-                              })
-                            )
+                            ALL_TEAMS.map(function(team){
+                              var pid=poll.id;var oidx=i;var pvotes=poll.votes;
+                              return e('button',{key:team,onClick:function(){
+                                  setPollOtherVoted(function(p){var n=Object.assign({},p);n[pid]=team;return n;});
+                                  handleVote(pid,oidx,pvotes);
+                                  setPollOtherActive(null);
+                                },style:{display:'flex',alignItems:'center',gap:8,width:'100%',background:'transparent',border:'none',borderBottom:'1px solid rgba(255,255,255,0.04)',padding:'8px 12px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},
+                                (TEAM_FLAGS[team]||'🏳️')+' '+team);
+                            })
                           )
-                        :e('button',{onClick:function(){setPollOtherActive(poll.id);setPollOtherInput('');},
+                        :e('button',{onClick:function(){setPollOtherActive(poll.id);},
                             style:{background:CB,border:'1px solid '+G,borderRadius:9,padding:'10px 14px',fontSize:12,color:G,cursor:'pointer',textAlign:'left',fontStyle:'italic'}},opt)
                     );
                   }
