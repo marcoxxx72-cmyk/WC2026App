@@ -1969,18 +1969,26 @@ var STRIPE_EUR = 'https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02';
 var STRIPE_GBP = 'https://buy.stripe.com/bJeeVdaX3di1bYD3dbcjS03';
 var STRIPE_USD = 'https://buy.stripe.com/00wdR9ghnfq93s7bJHcjS04';
 var STRIPE_BRL = 'https://buy.stripe.com/aFa9ATaX37XH4wbfZXcjS05';
-function getStripeLink(lang){
+function _getCurrency(){
   var loc=(navigator.language||'').toLowerCase();
-  if(loc.startsWith('pt-br'))return STRIPE_BRL;
-  if(loc.startsWith('en-gb'))return STRIPE_GBP;
-  if(loc.startsWith('en'))return STRIPE_USD;
+  if(loc.startsWith('pt-br'))return 'brl';
+  if(loc.startsWith('en-gb'))return 'gbp';
+  if(loc.startsWith('en'))return 'usd';
+  if(loc.startsWith('es')&&loc!=='es-es'&&!loc.startsWith('es-es'))return 'usd';
+  return 'eur';
+}
+function getStripeLink(lang){
+  var c=_getCurrency();
+  if(c==='brl')return STRIPE_BRL;
+  if(c==='gbp')return STRIPE_GBP;
+  if(c==='usd')return STRIPE_USD;
   return STRIPE_EUR;
 }
 function getPrice(lang){
-  var loc=(navigator.language||'').toLowerCase();
-  if(loc.startsWith('pt-br'))return 'R$14,90';
-  if(loc.startsWith('en-gb'))return '£2.49';
-  if(loc.startsWith('en'))return '$2.99';
+  var c=_getCurrency();
+  if(c==='brl')return 'R$14,90';
+  if(c==='gbp')return '£2.49';
+  if(c==='usd')return '$2.99';
   return '€2,99';
 }
 
@@ -2963,6 +2971,12 @@ function App(){
     setShotDir(null);setKeeperDir(null);setShotResult(null);
     setShotsLeft(5);setShotHistory([]);setCombo(0);setTimer(3);
   }
+  useEffect(function(){
+    if(penTourPhase==='playing'&&shotsLeft===0&&gamePhase!=='done'){
+      setGamePhase('done');
+    }
+  },[shotsLeft]);
+
   function startPenRound(){
     if(timerRef){clearInterval(timerRef);setTimerRef(null);}
     setGamePhase('shooting');setGameScore(0);setGameMiss(0);
@@ -3896,12 +3910,10 @@ function App(){
               G:G,
               playerName:penTourName,
               onShotDone:function(scored){
-                var isLast=shotsLeft<=1;
                 setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
                 setShotsLeft(function(s){return Math.max(0,s-1);});
-                if(isLast)setGamePhase('done');
               }
             })),
             // Round done
