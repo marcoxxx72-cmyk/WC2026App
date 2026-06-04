@@ -6,11 +6,12 @@ workflows:
     integrations:
       app_store_connect: Codemagic
     environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.marcocanal.worldcup2026
       node: latest
       xcode: latest
       cocoapods: default
-      vars:
-        BUNDLE_ID: com.marcocanal.worldcup2026
     scripts:
       - name: Install dependencies
         script: |
@@ -19,16 +20,9 @@ workflows:
           npx cap sync ios
           cd ios/App
           pod install
-      - name: Fix bundle ID in Xcode project
-        script: |
-          sed -i '' 's/com.marco72.mundial2026/com.marcocanal.worldcup2026/g' ios/App/App.xcodeproj/project.pbxproj
-          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.marcocanal.worldcup2026" ios/App/App/Info.plist
       - name: Set up signing
         script: |
           keychain initialize
-          app-store-connect fetch-signing-files "$BUNDLE_ID" \
-            --type IOS_APP_STORE \
-            --create
           keychain add-certificates
           xcode-project use-profiles
       - name: Build iOS IPA
