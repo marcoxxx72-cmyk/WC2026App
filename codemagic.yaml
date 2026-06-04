@@ -14,8 +14,9 @@ workflows:
     scripts:
       - name: Install dependencies
         script: |
-          rm -rf node_modules
-          npm install
+          rm -rf node_modules package-lock.json
+          npm install @capacitor/cli@5 @capacitor/core@5 @capacitor/ios@5 --legacy-peer-deps
+          npx cap sync ios
           cd ios/App
           pod install
       - name: Set up signing
