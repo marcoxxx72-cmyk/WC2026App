@@ -3,6 +3,8 @@ workflows:
     name: iOS App Store
     max_build_duration: 120
     instance_type: mac_mini_m1
+    integrations:
+      app_store_connect: Codemagic
     environment:
       ios_signing:
         distribution_type: app_store
@@ -28,6 +30,9 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
       email:
         recipients:
           - marcoxxx72@gmail.com
