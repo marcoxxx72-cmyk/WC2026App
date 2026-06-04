@@ -19,6 +19,10 @@ workflows:
           npx cap sync ios
           cd ios/App
           pod install
+      - name: Fix bundle ID in Xcode project
+        script: |
+          sed -i '' 's/com.marco72.mundial2026/com.marcocanal.worldcup2026/g' ios/App/App.xcodeproj/project.pbxproj
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.marcocanal.worldcup2026" ios/App/App/Info.plist
       - name: Set up signing
         script: |
           keychain initialize
