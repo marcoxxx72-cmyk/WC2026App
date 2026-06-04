@@ -8,7 +8,7 @@ workflows:
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.marcocanal.worldcup2026
+        bundle_identifier: com.marco72.mundial2026
       node: latest
       xcode: latest
       cocoapods: default
