@@ -6,9 +6,6 @@ workflows:
     integrations:
       app_store_connect: Codemagic
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.marcocanal.worldcup2026
       node: latest
       xcode: latest
       cocoapods: default
@@ -23,7 +20,7 @@ workflows:
         script: |
           cd ios/App
           pod install
-      - name: Set up keychain and code signing
+      - name: Set up signing
         script: |
           keychain initialize
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
