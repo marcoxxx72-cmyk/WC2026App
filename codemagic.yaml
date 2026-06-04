@@ -10,13 +10,12 @@ workflows:
       xcode: latest
       cocoapods: default
       vars:
-        BUNDLE_ID: com.marco72.mundial2026
+        BUNDLE_ID: com.marcocanal.worldcup2026
     scripts:
       - name: Install dependencies
         script: |
-          npm install --legacy-peer-deps
-          echo "--- Checking @capacitor/ios ---"
-          ls node_modules/@capacitor/ios/scripts/ || echo "NOT FOUND"
+          rm -rf node_modules
+          npm install
           cd ios/App
           pod install
       - name: Set up signing
