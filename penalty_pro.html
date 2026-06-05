@@ -176,9 +176,9 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 @keyframes armR-trailB{0%{transform:translateY(-50%) rotate(-20deg)} 100%{transform:translateY(-50%) rotate(-35deg)}}
 @keyframes armL-trailA{0%{transform:translateY(-50%) rotate(20deg)}  100%{transform:translateY(-50%) rotate(50deg)}}
 @keyframes armL-trailB{0%{transform:translateY(-50%) rotate(20deg)}  100%{transform:translateY(-50%) rotate(35deg)}}
-/* Saut — les deux bras montent */
-@keyframes armL-jump  {0%,100%{transform:translateY(-50%) rotate(20deg)}  50%{transform:translateY(-50%) rotate(-90deg)}}
-@keyframes armR-jump  {0%,100%{transform:translateY(-50%) rotate(-20deg)} 50%{transform:translateY(-50%) rotate(90deg)}}
+/* Saut — bras montent et RESTENT en haut (fill:forwards) pour la phase 2 */
+@keyframes armL-jump  {0%{transform:translateY(-50%) rotate(20deg)}  100%{transform:translateY(-50%) rotate(-90deg)}}
+@keyframes armR-jump  {0%{transform:translateY(-50%) rotate(-20deg)} 100%{transform:translateY(-50%) rotate(90deg)}}
 /* Catch — bras ouverts vers le bas pour attraper */
 @keyframes armL-catch {
   0%  {transform:translateY(-50%) rotate(20deg)   scaleX(1)}
@@ -285,15 +285,74 @@ function setState(s){
   const ease = s==='idle'?'ease-in-out':s==='jump'?'ease-out':'cubic-bezier(.2,0,.4,1)';
   const easeA= s==='idle'?'ease-in-out':'ease-out';
 
+  /* Nettoyer les transitions phase 2 avant de relancer les animations */
+  armL.style.transition = '';
+  armR.style.transition = '';
+  armL.style.transform  = '';
+  armR.style.transform  = '';
+
   /* Reset iOS-safe */
   gk.style.animation   = 'none';
   armL.style.animation = 'none';
   armR.style.animation = 'none';
-  void gk.getBoundingClientRect();   /* force reflow sans bloquer */
+  void gk.getBoundingClientRect();
 
   gk.style.animation   = `${ANIM.body[s]||''} ${dur} ${ease}  ${fill} ${rep}`;
   armL.style.animation = `${ANIM.armL[s]||''} ${dur} ${easeA} ${fill} ${rep}`;
   armR.style.animation = `${ANIM.armR[s]||''} ${dur} ${easeA} ${fill} ${rep}`;
+}
+
+/* ══ Phase 2 — Bras se referment pour sécuriser le ballon ══
+   3 tables : position finale anim (snap) → fermeture (160ms) → verrouillage (100ms)
+*/
+const ARMS_EXT = {
+  diveLA: ['translateY(-50%) rotate(120deg) scaleX(1.45)','translateY(-50%) rotate(-50deg)'],
+  diveLB: ['translateY(-50%) rotate(-60deg) scaleX(1.45)','translateY(-50%) rotate(-35deg)'],
+  diveRA: ['translateY(-50%) rotate(50deg)',              'translateY(-50%) rotate(-120deg) scaleX(1.45)'],
+  diveRB: ['translateY(-50%) rotate(35deg)',              'translateY(-50%) rotate(60deg)  scaleX(1.45)'],
+  jump:   ['translateY(-50%) rotate(-90deg)',             'translateY(-50%) rotate(90deg)'],
+  catch:  ['translateY(-50%) rotate(-55deg) scaleX(1.35)','translateY(-50%) rotate(55deg)  scaleX(1.35)'],
+};
+const ARMS_CLOSE = {
+  diveLA: ['translateY(-50%) rotate(110deg) scaleX(1.35)','translateY(-50%) rotate(-35deg)'],
+  diveLB: ['translateY(-50%) rotate(-52deg) scaleX(1.35)','translateY(-50%) rotate(-25deg)'],
+  diveRA: ['translateY(-50%) rotate(35deg)',              'translateY(-50%) rotate(-110deg) scaleX(1.35)'],
+  diveRB: ['translateY(-50%) rotate(25deg)',              'translateY(-50%) rotate(-52deg) scaleX(1.35)'],
+  jump:   ['translateY(-50%) rotate(-78deg)',             'translateY(-50%) rotate(78deg)'],
+  catch:  ['translateY(-50%) rotate(-68deg) scaleX(1.25)','translateY(-50%) rotate(68deg)  scaleX(1.25)'],
+};
+const ARMS_LOCK = {
+  diveLA: ['translateY(-50%) rotate(114deg) scaleX(1.3)','translateY(-50%) rotate(-40deg)'],
+  diveLB: ['translateY(-50%) rotate(-56deg) scaleX(1.3)','translateY(-50%) rotate(-28deg)'],
+  diveRA: ['translateY(-50%) rotate(40deg)',             'translateY(-50%) rotate(-114deg) scaleX(1.3)'],
+  diveRB: ['translateY(-50%) rotate(28deg)',             'translateY(-50%) rotate(-56deg) scaleX(1.3)'],
+  jump:   ['translateY(-50%) rotate(-82deg)',            'translateY(-50%) rotate(82deg)'],
+  catch:  ['translateY(-50%) rotate(-72deg) scaleX(1.2)','translateY(-50%) rotate(72deg)  scaleX(1.2)'],
+};
+
+function setArmsClose(kAnim){
+  const ext = ARMS_EXT[kAnim];  if(!ext) return;
+  /* 1. Couper l'animation → snap à la position finale (fill:forwards) */
+  armL.style.animation = 'none';
+  armR.style.animation = 'none';
+  armL.style.transition= '';
+  armR.style.transition= '';
+  armL.style.transform = ext[0];
+  armR.style.transform = ext[1];
+  void armL.getBoundingClientRect();  /* force reflow — peint ext avant transition */
+  /* 2. Transition douce vers position fermée */
+  armL.style.transition= 'transform .18s ease-out';
+  armR.style.transition= 'transform .18s ease-out';
+  const cl = ARMS_CLOSE[kAnim];
+  armL.style.transform = cl[0];
+  armR.style.transform = cl[1];
+}
+function setArmsLock(kAnim){
+  const lk = ARMS_LOCK[kAnim];  if(!lk) return;
+  armL.style.transition= 'transform .10s ease-out';
+  armR.style.transition= 'transform .10s ease-out';
+  armL.style.transform = lk[0];
+  armR.style.transform = lk[1];
 }
 
 /* ══ Confettis sur but ══ */
@@ -350,9 +409,17 @@ function shoot(dir){
   /* Lancer l'animation gardien */
   setState(kAnim);
 
-  /* Résultat — 520ms = fin de trajectoire visible */
+  /* Résultat connu immédiatement — score déterminé par la direction */
+  const scored=(dir!==kDir);
+
+  /* Phase 2 — arrêt seulement : bras se referment sur le ballon */
+  if(!scored){
+    setTimeout(()=>setArmsClose(kAnim), 320);  /* fermeture */
+    setTimeout(()=>setArmsLock(kAnim),  520);  /* verrouillage */
+  }
+
+  /* Flash résultat — 520ms = fin de trajectoire visible */
   setTimeout(()=>{
-    const scored=(dir!==kDir);
     if(scored){
       goals++;
       document.getElementById('sg').textContent=goals;
@@ -365,13 +432,9 @@ function shoot(dir){
     }
   },520);
 
-  /* Reset position — 1950ms */
+  /* Reset — 1950ms */
   setTimeout(()=>{
-    gk.style.animation   ='none';
-    armL.style.animation ='none';
-    armR.style.animation ='none';
-    void gk.getBoundingClientRect();
-    setState('idle');
+    setState('idle');          /* setState nettoie transitions + transforms */
     ball.style.display='none';
     busy=false;
     btns.forEach(b=>b.disabled=false);
