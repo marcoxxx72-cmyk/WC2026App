@@ -363,7 +363,9 @@ function shoot(dir){
   btns.forEach(b=>b.disabled=true);
 
   const choices=['L','C','R'];
-  const kDir   = choices[Math.floor(Math.random()*3)];
+  /* IA gardien — lit le tir 15% du temps (→ ~43% save rate) */
+  let kDir = choices[Math.floor(Math.random()*3)];
+  if(Math.random()<0.15) kDir=dir;
   const variant= Math.random()<.5?'A':'B';
 
   /* Animation gardien selon sa décision */
