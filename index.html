@@ -16,6 +16,16 @@
 body{background:#08091a;color:#eee8d5;font-family:sans-serif;min-height:100vh}
 #root{min-height:100vh}
 select{-webkit-appearance:none;appearance:none}
+#splash-overlay{position:fixed;inset:0;background:#08091a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease}
+#splash-overlay.hidden{opacity:0;pointer-events:none}
+#splash-icon{width:96px;height:96px;border-radius:22px;opacity:0;animation:iconIn 1s ease 0.3s forwards}
+@keyframes iconIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+#splash-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:bgIn 1.2s ease 1.2s forwards}
+@keyframes bgIn{from{opacity:0}to{opacity:1}}
+#splash-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;padding:40px 24px;text-align:center;opacity:0;animation:contentIn 0.8s ease 2.2s forwards}
+@keyframes contentIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+#splash-tagline{font-size:15px;color:#d4af37;letter-spacing:2px;text-transform:uppercase}
+#splash-btn{background:linear-gradient(135deg,#d4af37,#b8963e);color:#08091a;border:none;border-radius:50px;padding:16px 48px;font-size:17px;font-weight:bold;cursor:pointer;letter-spacing:1px;margin-top:8px}
 </style>
 <!-- OneSignal -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -29,6 +39,35 @@ select{-webkit-appearance:none;appearance:none}
 </script>
 </head>
 <body>
+<div id="splash-overlay">
+  <img src="/public/splash-screen.png" id="splash-bg" alt="">
+  <img src="/icon-512.png" id="splash-icon" alt="WC 2026">
+  <div id="splash-content">
+    <p id="splash-tagline"></p>
+    <button id="splash-btn" onclick="closeSplash()"></button>
+  </div>
+</div>
+<script>
+(function(){
+  var lang=(navigator.language||'en').slice(0,2);
+  var t={
+    fr:{sub:'L\'App Fan Ultime',btn:'Commencer →'},
+    es:{sub:'La App Fan Definitiva',btn:'Comenzar →'},
+    de:{sub:'Die ultimative Fan-App',btn:'Starten →'},
+    pt:{sub:'O App Definitivo do Fã',btn:'Começar →'},
+    it:{sub:'L\'App Fan Definitiva',btn:'Inizia →'},
+    en:{sub:'The Ultimate Fan App',btn:'Get Started →'}
+  };
+  var d=t[lang]||t.en;
+  document.getElementById('splash-tagline').textContent=d.sub;
+  document.getElementById('splash-btn').textContent=d.btn;
+})();
+function closeSplash(){
+  var s=document.getElementById('splash-overlay');
+  s.classList.add('hidden');
+  setTimeout(function(){s.style.display='none';},800);
+}
+</script>
 <div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
