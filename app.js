@@ -3036,18 +3036,6 @@ function App(){
       e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap',textDecoration:'none',display:'inline-block'}},t.premiumBtn+' - '+getPrice(lang))
     ),
 
-    e('div',{style:{background:'linear-gradient(90deg,#0a1a0a,#0d2a1a,#0a1a0a)',borderBottom:'1px solid rgba(50,200,100,0.3)',padding:'8px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',gap:8,flexWrap:'wrap'}},
-      e('span',{style:{fontSize:11,color:'#5de88a',flexShrink:1}},
-        lang==='fr'?'📱 Bientôt sur App Store & Google Play':
-        lang==='es'?'📱 Próximamente en App Store y Google Play':
-        lang==='de'?'📱 Bald im App Store & Google Play':
-        lang==='pt'?'📱 Em breve no App Store e Google Play':
-        lang==='it'?'📱 Prossimamente su App Store e Google Play':
-        '📱 Coming soon on App Store & Google Play'
-      ),
-      e('a',{href:'https://wc-2026-app.vercel.app',target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,#2ecc71,#27ae60)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#fff',cursor:'pointer',whiteSpace:'nowrap',textDecoration:'none',display:'inline-block'}},'🌐 Web App')
-    ),
-
     e('nav',{style:{position:'sticky',top:0,zIndex:20,background:'rgba(6,9,26,0.97)',backdropFilter:'blur(14px)',borderBottom:'2px solid rgba(212,175,55,0.2)',overflowX:'auto',WebkitOverflowScrolling:'touch',scrollbarWidth:'none'}},
       e('div',{id:'wc-nav-inner',style:{display:'flex',gap:4,padding:'8px 10px'}},
         t.nav.map(function(label,i){
