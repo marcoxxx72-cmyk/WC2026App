@@ -3703,11 +3703,17 @@ function App(){
               left:keeperDir==='left'?'12%':keeperDir==='right'?'52%':'41%',
               width:58,height:90,
               transition:'all 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
+              WebkitTransition:'all 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
+              willChange:'transform, left, top',
               transform:shotResult==='saved'
+                ?'rotate(18deg)'
+                :keeperDir==='left'?'rotate(-30deg) scaleX(-1)':keeperDir==='right'?'rotate(30deg)':'rotate(0deg)',
+              WebkitTransform:shotResult==='saved'
                 ?'rotate(18deg)'
                 :keeperDir==='left'?'rotate(-30deg) scaleX(-1)':keeperDir==='right'?'rotate(30deg)':'rotate(0deg)',
               filter:shotResult==='goal'?'grayscale(0.9) opacity(0.5)':shotResult==='saved'?'drop-shadow(0 0 10px #ffd700)':'',
               transformOrigin:'center center',
+              WebkitTransformOrigin:'center center',
               zIndex:10
             },
             viewBox:'0 0 56 82',xmlns:'http://www.w3.org/2000/svg'
@@ -3803,7 +3809,7 @@ function App(){
         combo>=2&&e('div',{style:{textAlign:'center',marginBottom:8}},
           e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.3),rgba(255,150,0,0.2))',border:'1px solid '+G,borderRadius:8,padding:'4px 16px',display:'inline-block',fontSize:12,fontWeight:'bold',color:G}},'🔥 COMBO x',combo,' !')
         ),
-        (penTourPhase!=='playing'&&gamePhase==='idle')&&e('button',{onClick:function(){setGamePhase('shooting');setTimer(3);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+        (penTourPhase!=='playing'&&gamePhase==='idle')&&e('button',{onClick:function(){setGamePhase('shooting');setTimer(3);},onTouchEnd:function(ev){ev.preventDefault();setGamePhase('shooting');setTimer(3);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
           lang==='fr'?'⚽ Commencer':lang==='es'?'⚽ Empezar':lang==='pt'?'⚽ Comecar':lang==='it'?'⚽ Inizia':lang==='de'?'⚽ Starten':'⚽ Start'
         ),
         (penTourPhase!=='playing'&&gamePhase==='shooting')&&e('div',null,
