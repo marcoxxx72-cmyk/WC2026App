@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.marco72.mundial2026",
+    "sha256_cert_fingerprints": ["DD:6A:49:45:70:A3:4A:A9:80:8F:8B:86:3F:C9:0E:CF:AA:73:2C:83:D0:87:03:3D:A4:F9:93:E4:4C:3F:FA:CC"]
+  }
+}]

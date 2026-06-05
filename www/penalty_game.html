@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gardien Penalty</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+}
+
+.score {
+  color:#fff;
+  font-size:18px;
+  display:flex;
+  gap:40px;
+  margin-bottom:20px;
+}
+.score strong { color:#ffd700; font-size:28px; }
+
+.goal {
+  position:relative;
+  width:360px;
+  height:260px;
+  border:4px solid #fff;
+  border-bottom:none;
+  border-radius:4px 4px 0 0;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 19px,rgba(255,255,255,.1) 19px,rgba(255,255,255,.1) 20px),
+    repeating-linear-gradient(90deg,transparent,transparent 19px,rgba(255,255,255,.1) 19px,rgba(255,255,255,.1) 20px);
+  overflow:hidden;
+}
+
+#wrap {
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:160px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.arms {
+  position:absolute;
+  bottom:72px;
+  width:170px;
+  height:44px;
+  pointer-events:none;
+}
+.arm {
+  position:absolute;
+  width:58px;
+  height:14px;
+  background:linear-gradient(90deg,#5bc8e8,#3aa8cc);
+  border-radius:7px;
+  top:50%;
+}
+#arm-L { right:50%; transform-origin:right center; transform:translateY(-50%) rotate(20deg); }
+#arm-R { left:50%;  transform-origin:left  center; transform:translateY(-50%) rotate(-20deg); }
+
+#gk {
+  width:150px;
+  height:auto;
+  display:block;
+  filter:drop-shadow(0 8px 20px rgba(0,0,0,.7));
+  transform-origin:bottom center;
+}
+
+@keyframes idle {
+  0%,100%{ transform:rotate(-2deg) } 50%{ transform:rotate(2deg) }
+}
+@keyframes diveLA {
+  0%   { transform:translateX(0)       translateY(0)      rotate(0)      }
+  30%  { transform:translateX(-50px)   translateY(-60px)  rotate(-40deg) }
+  65%  { transform:translateX(-110px)  translateY(-40px)  rotate(-70deg) }
+  100% { transform:translateX(-160px)  translateY(-10px)  rotate(-78deg) }
+}
+@keyframes diveLB {
+  0%   { transform:translateX(0)      translateY(0)      rotate(0)      }
+  30%  { transform:translateX(-40px)  translateY(-20px)  rotate(-25deg) }
+  65%  { transform:translateX(-90px)  translateY(-5px)   rotate(-45deg) }
+  100% { transform:translateX(-135px) translateY(5px)    rotate(-55deg) }
+}
+@keyframes diveRA {
+  0%   { transform:translateX(0)      translateY(0)      rotate(0)     }
+  30%  { transform:translateX(50px)   translateY(-60px)  rotate(40deg) }
+  65%  { transform:translateX(110px)  translateY(-40px)  rotate(70deg) }
+  100% { transform:translateX(160px)  translateY(-10px)  rotate(78deg) }
+}
+@keyframes diveRB {
+  0%   { transform:translateX(0)     translateY(0)      rotate(0)     }
+  30%  { transform:translateX(40px)  translateY(-20px)  rotate(25deg) }
+  65%  { transform:translateX(90px)  translateY(-5px)   rotate(45deg) }
+  100% { transform:translateX(135px) translateY(5px)    rotate(55deg) }
+}
+@keyframes jump {
+  0%   { transform:translateY(0)     scaleX(1)    scaleY(1)    }
+  12%  { transform:translateY(4px)   scaleX(1.05) scaleY(0.92) }
+  45%  { transform:translateY(-75px) scaleX(1.2)  scaleY(1)    }
+  70%  { transform:translateY(-65px) scaleX(1.25) scaleY(1)    }
+  100% { transform:translateY(0)     scaleX(1)    scaleY(1)    }
+}
+
+@keyframes armL-idle { 0%,100%{ transform:translateY(-50%) rotate(20deg)  } 50%{ transform:translateY(-50%) rotate(8deg)    } }
+@keyframes armR-idle { 0%,100%{ transform:translateY(-50%) rotate(-20deg) } 50%{ transform:translateY(-50%) rotate(-8deg)   } }
+@keyframes armL-diveA { 0%{ transform:translateY(-50%) rotate(20deg) scaleX(1) } 50%{ transform:translateY(-50%) rotate(70deg) scaleX(1.2) } 100%{ transform:translateY(-50%) rotate(120deg) scaleX(1.45) } }
+@keyframes armL-diveB { 0%{ transform:translateY(-50%) rotate(20deg) scaleX(1) } 50%{ transform:translateY(-50%) rotate(-20deg) scaleX(1.2) } 100%{ transform:translateY(-50%) rotate(-60deg) scaleX(1.45) } }
+@keyframes armR-diveA { 0%{ transform:translateY(-50%) rotate(-20deg) scaleX(1) } 50%{ transform:translateY(-50%) rotate(-70deg) scaleX(1.2) } 100%{ transform:translateY(-50%) rotate(-120deg) scaleX(1.45) } }
+@keyframes armR-diveB { 0%{ transform:translateY(-50%) rotate(-20deg) scaleX(1) } 50%{ transform:translateY(-50%) rotate(20deg) scaleX(1.2) } 100%{ transform:translateY(-50%) rotate(60deg) scaleX(1.45) } }
+@keyframes armR-trailA { 0%{ transform:translateY(-50%) rotate(-20deg) } 100%{ transform:translateY(-50%) rotate(-50deg) } }
+@keyframes armR-trailB { 0%{ transform:translateY(-50%) rotate(-20deg) } 100%{ transform:translateY(-50%) rotate(-35deg) } }
+@keyframes armL-trailA { 0%{ transform:translateY(-50%) rotate(20deg) } 100%{ transform:translateY(-50%) rotate(50deg) } }
+@keyframes armL-trailB { 0%{ transform:translateY(-50%) rotate(20deg) } 100%{ transform:translateY(-50%) rotate(35deg) } }
+@keyframes armL-jump { 0%,100%{ transform:translateY(-50%) rotate(20deg)  } 50%{ transform:translateY(-50%) rotate(-90deg) } }
+@keyframes armR-jump { 0%,100%{ transform:translateY(-50%) rotate(-20deg) } 50%{ transform:translateY(-50%) rotate(90deg)  } }
+@keyframes catch     { 0%{ transform:translateY(0) scaleY(1) } 40%{ transform:translateY(3px) scaleY(0.97) } 100%{ transform:translateY(2px) scaleY(0.98) } }
+@keyframes armL-catch { 0%{ transform:translateY(-50%) rotate(20deg) scaleX(1) } 50%{ transform:translateY(-50%) rotate(-35deg) scaleX(1.2) } 100%{ transform:translateY(-50%) rotate(-55deg) scaleX(1.35) } }
+@keyframes armR-catch { 0%{ transform:translateY(-50%) rotate(-20deg) scaleX(1) } 50%{ transform:translateY(-50%) rotate(35deg) scaleX(1.2) } 100%{ transform:translateY(-50%) rotate(55deg) scaleX(1.35) } }
+
+#ball {
+  position:absolute;
+  width:34px; height:34px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#fff,#222);
+  bottom:-50px; left:50%;
+  transform:translateX(-50%);
+  display:none;
+  box-shadow:0 4px 12px rgba(0,0,0,.5);
+}
+@keyframes flyL { 0%{ bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1) } 100%{ bottom:185px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45) } }
+@keyframes flyC { 0%{ bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1) } 100%{ bottom:205px;left:50%;opacity:.4;transform:translateX(-50%) scale(.4)  } }
+@keyframes flyR { 0%{ bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1) } 100%{ bottom:185px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45) } }
+
+#flash {
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  font-size:30px; font-weight:900;
+  text-shadow:0 4px 16px rgba(0,0,0,.8);
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap; pointer-events:none;
+}
+#flash.show { transform:translate(-50%,-50%) scale(1); }
+
+.label {
+  color:rgba(255,255,255,.55);
+  font-size:12px; letter-spacing:2px;
+  text-transform:uppercase;
+  margin:24px 0 12px;
+}
+.btns { display:flex; gap:16px; }
+.btn {
+  width:68px; height:68px;
+  border-radius:50%; border:none;
+  font-size:24px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.4);
+  transition:transform .1s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:active  { transform:scale(.87); }
+.btn:disabled{ opacity:.4; pointer-events:none; }
+.btnL { background:linear-gradient(135deg,#e74c3c,#c0392b); }
+.btnC { background:linear-gradient(135deg,#f39c12,#e67e22); }
+.btnR { background:linear-gradient(135deg,#27ae60,#2ecc71); }
+.hint { color:rgba(255,255,255,.3); font-size:11px; margin-top:14px; letter-spacing:1px; }
+</style>
+</head>
+<body>
+
+<div class="score">
+  <div>⚽ Buts<br><strong id="sg">0</strong></div>
+  <div>🧤 Arrêts<br><strong id="ss">0</strong></div>
+</div>
+
+<div class="goal">
+  <div id="wrap">
+    <div class="arms">
+      <div class="arm" id="arm-L"></div>
+      <div class="arm" id="arm-R"></div>
+    </div>
+    <!-- Remplace TON_IMAGE.png par le chemin de ton gardien -->
+    <img id="gk" src="TON_IMAGE.png" alt="Gardien">
+  </div>
+  <div id="ball"></div>
+  <div id="flash"></div>
+</div>
+
+<p class="label">Choisissez où tirer</p>
+<div class="btns">
+  <button class="btn btnL" onclick="shoot('L')">⬅️</button>
+  <button class="btn btnC" onclick="shoot('C')">⬆️</button>
+  <button class="btn btnR" onclick="shoot('R')">➡️</button>
+</div>
+<p class="hint">Le gardien choisit aléatoirement</p>
+
+<script>
+const gk    = document.getElementById('gk');
+const armL  = document.getElementById('arm-L');
+const armR  = document.getElementById('arm-R');
+const ball  = document.getElementById('ball');
+const flash = document.getElementById('flash');
+const btns  = document.querySelectorAll('.btn');
+let busy = false, goals = 0, saves = 0;
+
+function setState(s) {
+  const durMap = { idle:'1.6s', jump:'.5s', catch:'.4s', diveLA:'.42s', diveLB:'.42s', diveRA:'.42s', diveRB:'.42s' };
+  const dur    = durMap[s] || '.42s';
+  const fill   = s === 'idle' ? 'none' : 'forwards';
+  const repeat = s === 'idle' ? 'infinite' : '1';
+  const ease   = s === 'idle' ? 'ease-in-out' : s === 'jump' ? 'ease-out' : 'cubic-bezier(.2,0,.4,1)';
+
+  const bodyAnim = {
+    idle:   `idle ${dur} ease-in-out ${repeat}`,
+    diveLA: `diveLA ${dur} ${ease} ${fill}`,
+    diveLB: `diveLB ${dur} ${ease} ${fill}`,
+    diveRA: `diveRA ${dur} ${ease} ${fill}`,
+    diveRB: `diveRB ${dur} ${ease} ${fill}`,
+    jump:   `jump ${dur} ${ease} ${fill}`,
+    catch:  `catch ${dur} ease-out ${fill}`
+  };
+  const armLAnim = {
+    idle:   `armL-idle ${dur} ease-in-out ${repeat}`,
+    diveLA: `armL-diveA ${dur} ease-out forwards`,
+    diveLB: `armL-diveB ${dur} ease-out forwards`,
+    diveRA: `armL-trailA ${dur} ease-out forwards`,
+    diveRB: `armL-trailB ${dur} ease-out forwards`,
+    jump:   `armL-jump ${dur} ease-out forwards`,
+    catch:  `armL-catch ${dur} ease-out forwards`
+  };
+  const armRAnim = {
+    idle:   `armR-idle ${dur} ease-in-out ${repeat}`,
+    diveLA: `armR-trailA ${dur} ease-out forwards`,
+    diveLB: `armR-trailB ${dur} ease-out forwards`,
+    diveRA: `armR-diveA ${dur} ease-out forwards`,
+    diveRB: `armR-diveB ${dur} ease-out forwards`,
+    jump:   `armR-jump ${dur} ease-out forwards`,
+    catch:  `armR-catch ${dur} ease-out forwards`
+  };
+
+  // iOS Safari fix — reset avant d'appliquer la nouvelle animation
+  gk.style.animation   = 'none';
+  armL.style.animation = 'none';
+  armR.style.animation = 'none';
+  void gk.offsetWidth;
+
+  gk.style.animation   = bodyAnim[s]  || '';
+  armL.style.animation = armLAnim[s]  || '';
+  armR.style.animation = armRAnim[s]  || '';
+}
+
+function showFlash(txt, color) {
+  flash.textContent = txt;
+  flash.style.color = color;
+  flash.classList.add('show');
+  setTimeout(() => flash.classList.remove('show'), 1000);
+}
+
+function shoot(dir) {
+  if (busy) return;
+  busy = true;
+  btns.forEach(b => b.disabled = true);
+
+  const choices = ['L','C','R'];
+  const kDir = choices[Math.floor(Math.random() * 3)];
+  const variant = Math.random() < 0.5 ? 'A' : 'B';
+
+  ball.style.animation = 'none';
+  ball.style.display   = 'block';
+  void ball.offsetWidth;
+  ball.style.animation = `fly${dir} .5s ease-in forwards`;
+
+  const stateMap = {
+    L: variant === 'A' ? 'diveLA' : 'diveLB',
+    C: Math.random() < 0.5 ? 'jump' : 'catch',
+    R: variant === 'A' ? 'diveRA' : 'diveRB'
+  };
+  setState(stateMap[kDir]);
+
+  setTimeout(() => {
+    if (dir === kDir) {
+      saves++;
+      document.getElementById('ss').textContent = saves;
+      showFlash('ARRÊTÉ ! 🧤', '#ffd700');
+    } else {
+      goals++;
+      document.getElementById('sg').textContent = goals;
+      showFlash('BUT ! ⚽', '#ff4444');
+    }
+  }, 500);
+
+  setTimeout(() => {
+    setState('idle');
+    ball.style.display = 'none';
+    busy = false;
+    btns.forEach(b => b.disabled = false);
+  }, 1900);
+}
+
+setState('idle');
+</script>
+
+</body>
+</html>
