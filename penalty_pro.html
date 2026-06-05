@@ -6,7 +6,30 @@
 <title>Penalty PRO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial,sans-serif;overflow:hidden}
+body{background:#0a0e1a;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial,sans-serif;overflow:hidden;position:relative}
+#stadium-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.55;z-index:0;pointer-events:none}
+#game-wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;padding:0 8px}
+
+/* ── HEADER SCORE ── */
+.hdr{width:100%;background:rgba(0,0,0,0.7);border-bottom:2px solid #d4af37;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;border-radius:8px}
+.team{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:70px}
+.team-flag{font-size:26px}
+.team-name{font-size:10px;color:#aaa;letter-spacing:1px;text-transform:uppercase}
+.score-center{display:flex;flex-direction:column;align-items:center;gap:2px}
+.score-nums{font-size:32px;font-weight:900;color:#fff;letter-spacing:4px}
+.score-label{font-size:9px;color:#d4af37;letter-spacing:2px;text-transform:uppercase}
+.score-dots{display:flex;gap:4px;margin-top:2px}
+.score-dots span{width:8px;height:8px;border-radius:50%;border:1px solid #d4af37;background:transparent}
+.score-dots span.scored{background:#d4af37}
+
+/* ── STATS ── */
+.stats-panel{width:100%;background:rgba(0,0,0,0.6);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:8px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.player-num{font-size:22px;font-weight:900;color:#d4af37;min-width:28px}
+.stats-rows{flex:1;display:flex;flex-direction:column;gap:4px}
+.stat-row{display:flex;align-items:center;gap:8px;font-size:10px;color:#aaa;letter-spacing:1px}
+.stat-bar{flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden}
+.stat-fill{height:100%;background:linear-gradient(90deg,#d4af37,#f5d06e);border-radius:2px}
+.stat-val{color:#fff;font-weight:bold;min-width:20px;text-align:right;font-size:10px}
 
 /* ── SCORE ── */
 .score{color:#fff;font-size:14px;display:flex;gap:30px;margin-bottom:14px;letter-spacing:1px}
@@ -77,21 +100,30 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 .conf{position:absolute;top:-8px;font-size:16px;pointer-events:none;opacity:0;z-index:15}
 
 /* ── BOUTONS ── */
-.label{color:rgba(255,255,255,.5);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:20px 0 10px}
-.btns{display:flex;gap:14px}
+.label{color:rgba(255,255,255,.5);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:12px 0 8px}
+.btns{display:flex;gap:14px;margin-bottom:4px}
 .btn{
-  width:74px;height:74px;border-radius:50%;border:none;
-  font-size:26px;cursor:pointer;
-  box-shadow:0 6px 20px rgba(0,0,0,.4);
+  width:68px;height:68px;border-radius:50%;border:2px solid rgba(212,175,55,0.4);
+  font-size:22px;cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.5);
   transition:transform .1s;color:#fff;
   display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.6);
 }
 .btn:active{transform:scale(.88)}
 .btn:disabled{opacity:.35;pointer-events:none}
-.btnL{background:linear-gradient(135deg,#e74c3c,#c0392b)}
-.btnC{background:linear-gradient(135deg,#f39c12,#e67e22)}
-.btnR{background:linear-gradient(135deg,#27ae60,#2ecc71)}
-.hint{color:rgba(255,255,255,.25);font-size:10px;margin-top:10px;letter-spacing:1px}
+.btnL{border-color:#e74c3c;color:#e74c3c}
+.btnC{border-color:#d4af37;color:#d4af37}
+.btnR{border-color:#27ae60;color:#27ae60}
+.shoot-btn{
+  width:100%;padding:15px;background:linear-gradient(135deg,#d4af37,#b8963e);
+  color:#0a0e1a;border:none;border-radius:50px;font-size:18px;font-weight:900;
+  cursor:pointer;letter-spacing:2px;margin-top:10px;
+  box-shadow:0 8px 25px rgba(212,175,55,0.4);transition:transform .1s;
+}
+.shoot-btn:active{transform:scale(.96)}
+.shoot-btn:disabled{opacity:.4;pointer-events:none}
+.hint{color:rgba(255,255,255,.25);font-size:10px;margin-top:6px;letter-spacing:1px}
 
 /* ════════════════════════════════════════
    ANIMATIONS CORPS GARDIEN — 6 positions
@@ -202,6 +234,11 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
   100%{bottom:205px;left:50%;opacity:.4;transform:translateX(-50%) scale(.4)}
 }
+/* Trajectoire centre-save : arrive à hauteur des bras levés (~148px) */
+@keyframes flyCsave{
+  0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
+  100%{bottom:148px;left:50%;opacity:.4;transform:translateX(-50%) scale(.44)}
+}
 @keyframes flyClow{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
   100%{bottom:12px; left:50%;opacity:.75;transform:translateX(-50%) scale(.82)}
@@ -219,31 +256,66 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 </style>
 </head>
 <body>
+<img src="/stadium_bg.png" id="stadium-bg" alt="" crossorigin="anonymous">
 
-<div class="score">
-  <div>⚽ Buts<br><strong id="sg">0</strong></div>
-  <div>🧤 Arrêts<br><strong id="ss">0</strong></div>
-</div>
+<div id="game-wrap">
 
-<div class="goal" id="goal">
-  <div id="wrap">
-    <div class="arms">
-      <div class="arm" id="arm-L"></div>
-      <div class="arm" id="arm-R"></div>
+  <!-- HEADER SCORE -->
+  <div class="hdr">
+    <div class="team">
+      <div class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+      <div class="team-name">YOU</div>
     </div>
-    <img id="gk" src="goalkeeper.png" alt="Gardien" crossorigin="anonymous">
+    <div class="score-center">
+      <div class="score-label">PENALTIES</div>
+      <div class="score-nums"><span id="sg">0</span> – <span id="ss">0</span></div>
+      <div class="score-dots">
+        <span id="d1"></span><span id="d2"></span><span id="d3"></span>
+        <span id="d4"></span><span id="d5"></span>
+      </div>
+    </div>
+    <div class="team">
+      <div class="team-flag">🧤</div>
+      <div class="team-name">GK</div>
+    </div>
   </div>
-  <div id="ball"></div>
-  <div id="flash"></div>
-</div>
 
-<p class="label">Où tirez-vous ?</p>
-<div class="btns">
-  <button class="btn btnL" onclick="shoot('L')">⬅</button>
-  <button class="btn btnC" onclick="shoot('C')">⬆</button>
-  <button class="btn btnR" onclick="shoot('R')">➡</button>
+  <!-- STATS JOUEUR -->
+  <div class="stats-panel">
+    <div class="player-num">10</div>
+    <div class="stats-rows">
+      <div class="stat-row">POWER<div class="stat-bar"><div class="stat-fill" style="width:82%"></div></div><span class="stat-val">82</span></div>
+      <div class="stat-row">PRECISION<div class="stat-bar"><div class="stat-fill" style="width:91%"></div></div><span class="stat-val">91</span></div>
+      <div class="stat-row">NERVE<div class="stat-bar"><div class="stat-fill" style="width:75%"></div></div><span class="stat-val">75</span></div>
+    </div>
+  </div>
+
+  <!-- CAGE + GARDIEN -->
+  <div class="goal" id="goal">
+    <div id="wrap">
+      <div class="arms">
+        <div class="arm" id="arm-L"></div>
+        <div class="arm" id="arm-R"></div>
+      </div>
+      <img id="gk" src="goalkeeper.png" alt="Gardien" crossorigin="anonymous">
+    </div>
+    <div id="ball"></div>
+    <div id="flash"></div>
+  </div>
+
+  <!-- DIRECTION -->
+  <p class="label">Where do you shoot?</p>
+  <div class="btns">
+    <button class="btn btnL" onclick="shoot('L')">⬅</button>
+    <button class="btn btnC" onclick="shoot('C')">⬆</button>
+    <button class="btn btnR" onclick="shoot('R')">➡</button>
+  </div>
+
+  <!-- SHOOT -->
+  <button class="shoot-btn" id="shoot-main" onclick="shootAuto()">⚽ SHOOT</button>
+  <p class="hint">Goalkeeper chooses randomly</p>
+
 </div>
-<p class="hint">Le gardien choisit aléatoirement</p>
 
 <script>
 const gk   = document.getElementById('gk');
@@ -253,7 +325,14 @@ const ball = document.getElementById('ball');
 const flash= document.getElementById('flash');
 const goal = document.getElementById('goal');
 const btns = document.querySelectorAll('.btn');
-let busy=false, goals=0, saves=0;
+const shootMain = document.getElementById('shoot-main');
+let busy=false, goals=0, saves=0, gkHoldAnim=null;
+let pendingDir=null;
+
+function shootAuto(){
+  const dirs=['L','C','R'];
+  shoot(dirs[Math.floor(Math.random()*3)]);
+}
 
 /* ══ Cartes d'animation par position ══ */
 const ANIM = {
@@ -285,7 +364,8 @@ function setState(s){
   const ease = s==='idle'?'ease-in-out':s==='jump'?'ease-out':'cubic-bezier(.2,0,.4,1)';
   const easeA= s==='idle'?'ease-in-out':'ease-out';
 
-  /* Annuler toutes les animations WAAPI (phase 2) avant les nouvelles CSS */
+  /* Annuler uniquement les WAAPI sur les bras + le hold de saut éventuel */
+  if(gkHoldAnim){ try{gkHoldAnim.cancel();}catch(e){} gkHoldAnim=null; }
   try{ armL.getAnimations().forEach(a=>a.cancel()); }catch(e){}
   try{ armR.getAnimations().forEach(a=>a.cancel()); }catch(e){}
 
@@ -361,6 +441,7 @@ function shoot(dir){
   if(busy)return;
   busy=true;
   btns.forEach(b=>b.disabled=true);
+  if(shootMain) shootMain.disabled=true;
 
   const choices=['L','C','R'];
   /* IA gardien — lit le tir 15% du temps (→ ~43% save rate) */
@@ -375,12 +456,20 @@ function shoot(dir){
     R: variant==='A'?'diveRA':'diveRB'
   }[kDir];
 
-  /* Trajectoire ballon — centre bas si gardien attrape bas */
-  let ballAnim='flyL';
-  if(dir==='R')  ballAnim='flyR';
-  else if(dir==='C') ballAnim=(kDir==='C'&&kAnim==='catch')?'flyClow':'flyC';
+  /* Résultat connu maintenant (avant choix de trajectoire) */
+  const scored=(dir!==kDir);
 
-  /* Reset ballon iOS-safe */
+  /* Trajectoire ballon */
+  let ballAnim='flyL';
+  if(dir==='R') ballAnim='flyR';
+  else if(dir==='C'){
+    if(kDir==='C'&&kAnim==='catch')       ballAnim='flyClow';
+    else if(!scored&&kAnim==='jump')       ballAnim='flyCsave'; /* arrive aux bras */
+    else                                   ballAnim='flyC';
+  }
+
+  /* Reset ballon iOS-safe — nettoie aussi les WAAPI opacity de l'arrêt précédent */
+  try{ ball.getAnimations().forEach(a=>a.cancel()); }catch(e){}
   ball.style.animation='none';
   ball.style.display='block';
   void ball.getBoundingClientRect();
@@ -389,13 +478,22 @@ function shoot(dir){
   /* Lancer l'animation gardien */
   setState(kAnim);
 
-  /* Résultat connu immédiatement — score déterminé par la direction */
-  const scored=(dir!==kDir);
-
-  /* Phase 2 — arrêt seulement : bras se referment sur le ballon */
+  /* Phase 2 — arrêt seulement : bras se referment + ballon reste visible */
   if(!scored){
-    setTimeout(()=>setArmsClose(kAnim), 320);  /* fermeture */
-    setTimeout(()=>setArmsLock(kAnim),  520);  /* verrouillage */
+    setTimeout(()=>setArmsClose(kAnim), 320);
+    setTimeout(()=>setArmsLock(kAnim),  520);
+    /* #2 — ballon "attrapé" : éclairci 530ms, fondu sortant 1760ms */
+    setTimeout(()=>ball.animate([{opacity:.92}],{duration:80,easing:'ease-out',fill:'forwards'}), 530);
+    setTimeout(()=>ball.animate([{opacity:0}],  {duration:220,easing:'ease-in', fill:'forwards'}), 1760);
+    /* Saut : figer le gardien à son point culminant (sinon il retombe avant l'arrêt) */
+    if(kAnim==='jump'){
+      setTimeout(()=>{
+        gkHoldAnim=gk.animate(
+          [{transform:'translateY(-65px) scaleX(1.25) scaleY(1)'}],
+          {duration:200,easing:'ease-out',fill:'forwards'}
+        );
+      }, 340);
+    }
   }
 
   /* Flash résultat — 520ms = fin de trajectoire visible */
@@ -412,13 +510,15 @@ function shoot(dir){
     }
   },520);
 
-  /* Reset — 1950ms */
+  /* Reset — 1990ms (laisse le fondu ballon se terminer) */
   setTimeout(()=>{
-    setState('idle');          /* setState nettoie transitions + transforms */
     ball.style.display='none';
+    try{ ball.getAnimations().forEach(a=>a.cancel()); }catch(e){}
+    setState('idle');
     busy=false;
     btns.forEach(b=>b.disabled=false);
-  },1950);
+    if(shootMain) shootMain.disabled=false;
+  },1990);
 }
 
 /* Démarrage idle */
