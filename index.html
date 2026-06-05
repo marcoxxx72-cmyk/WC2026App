@@ -16,13 +16,14 @@
 body{background:#08091a;color:#eee8d5;font-family:sans-serif;min-height:100vh}
 #root{min-height:100vh}
 select{-webkit-appearance:none;appearance:none}
-#splash-overlay{position:fixed;inset:0;background:#08091a;z-index:9999;cursor:pointer;transition:opacity 0.8s ease;display:flex;align-items:center;justify-content:center}
+#splash-overlay{position:fixed;inset:0;background:#08091a;z-index:9999;transition:opacity 0.8s ease;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
 #splash-overlay.hidden{opacity:0;pointer-events:none}
-#splash-icon{width:110px;height:110px;border-radius:24px;opacity:0;animation:iconIn 1s ease 0.3s forwards,iconOut 0.6s ease 1.6s forwards;z-index:2;position:relative}
+#splash-icon{width:110px;height:110px;border-radius:24px;opacity:0;animation:iconIn 1s ease 0.3s forwards,iconOut 0.6s ease 1.6s forwards;z-index:2;position:relative;flex-shrink:0}
 @keyframes iconIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
 @keyframes iconOut{from{opacity:1}to{opacity:0}}
-#splash-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;animation:bgIn 1s ease 2s forwards}
+#splash-bg{position:absolute;top:0;left:50%;transform:translateX(-50%);height:100%;width:auto;max-width:100%;object-fit:contain;opacity:0;animation:bgIn 1s ease 2s forwards}
 @keyframes bgIn{from{opacity:0}to{opacity:1}}
+#splash-btn{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#d4af37,#b8963e);color:#08091a;border:none;border-radius:50px;padding:16px 56px;font-size:18px;font-weight:bold;cursor:pointer;letter-spacing:1px;opacity:0;animation:bgIn 1s ease 2.5s forwards;white-space:nowrap;z-index:3}
 </style>
 <!-- OneSignal -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -36,9 +37,10 @@ select{-webkit-appearance:none;appearance:none}
 </script>
 </head>
 <body>
-<div id="splash-overlay" onclick="closeSplash()">
+<div id="splash-overlay">
   <img src="/public/splash-screen.png" id="splash-bg" alt="">
   <img src="/icon-512.png" id="splash-icon" alt="WC 2026">
+  <button id="splash-btn" onclick="closeSplash()">GET STARTED →</button>
 </div>
 <script>
 function closeSplash(){
