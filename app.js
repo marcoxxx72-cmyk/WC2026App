@@ -2114,12 +2114,14 @@ var STARS = [
   {name:'Micky van de Ven',flag:'🇳🇱',club:'Tottenham',pos:'DF',age:23,stat:'PL fastest player',rating:83,pac:78,sho:48,pas:71,dri:63,def_:85,phy:75},
   {name:'Jonathan Tah',flag:'🇩🇪',club:'Bayern Munich',pos:'DF',age:28,stat:'Germany Euro 2024',rating:83,pac:78,sho:48,pas:71,dri:63,def_:85,phy:75},
   {name:'Piero Hincapie',flag:'🇪🇨',club:'Bayer Leverkusen',pos:'DF',age:23,stat:'Bundesliga champion',rating:83,pac:78,sho:48,pas:71,dri:63,def_:85,phy:75},
+  {name:'Merih Demiral',flag:'🇹🇷',club:'Al-Qadsiah',pos:'DF',age:26,stat:'Turkey Euro 2024 star',rating:83,pac:79,sho:50,pas:72,dri:64,def_:86,phy:80},
   {name:'Ferdi Kadioglu',flag:'🇹🇷',club:'Brighton',pos:'DF',age:25,stat:'Turkey Euro 2024',rating:83,pac:78,sho:48,pas:71,dri:63,def_:85,phy:75},
   {name:'Danilo',flag:'🇧🇷',club:'Flamengo',pos:'DF',age:34,stat:'Brazil captain',rating:83,pac:78,sho:48,pas:71,dri:63,def_:85,phy:75},
   {name:'Warren Zaire-Emery',flag:'🇫🇷',club:'PSG',pos:'MF',age:18,stat:'Youngest PSG scorer ever',rating:83,pac:75,sho:68,pas:84,dri:77,def_:63,phy:69},
   {name:'Sofyan Amrabat',flag:'🇲🇦',club:'Real Betis',pos:'MF',age:29,stat:'WC 2022 best MF',rating:83,pac:75,sho:68,pas:84,dri:77,def_:63,phy:69},
   {name:'Youri Tielemans',flag:'🇧🇪',club:'Aston Villa',pos:'MF',age:27,stat:'Belgium Euro 2024',rating:83,pac:75,sho:68,pas:84,dri:77,def_:63,phy:69},
   {name:'Rodrigo De Paul',flag:'🇦🇷',club:'Inter Miami',pos:'MF',age:31,stat:'WC 2022 champion',rating:83,pac:75,sho:68,pas:84,dri:77,def_:63,phy:69},
+  {name:'Hakan Calhanoglu',flag:'🇹🇷',club:'Inter Milan',pos:'MF',age:30,stat:'Turkey captain Euro 2024',rating:87,pac:75,sho:76,pas:88,dri:82,def_:72,phy:74},
   {name:'Thomas Partey',flag:'🇬🇭',club:'Arsenal',pos:'MF',age:31,stat:'Ghana captain',rating:83,pac:75,sho:68,pas:84,dri:77,def_:63,phy:69},
   {name:'Ruben Neves',flag:'🇵🇹',club:'Al Hilal',pos:'MF',age:27,stat:'Portugal squad',rating:83,pac:75,sho:68,pas:84,dri:77,def_:63,phy:69},
   {name:'Lamine Camara',flag:'🇸🇳',club:'Monaco',pos:'MF',age:21,stat:'Senegal golden boy',rating:83,pac:80,sho:68,pas:80,dri:82,def_:66,phy:74},
@@ -2139,7 +2141,10 @@ var STARS = [
   {name:'Breel Embolo',role:'CF',flag:'🇨🇭',club:'Rennes',pos:'FW',age:28,stat:'Switzerland captain',rating:82,pac:79,sho:83,pas:70,dri:77,def_:40,phy:64},
   {name:'Hwang Hee-chan',role:'RW',flag:'🇰🇷',club:'Wolves',pos:'FW',age:28,stat:'South Korea No.9',rating:82,pac:83,sho:77,pas:72,dri:82,def_:40,phy:60},
   {name:'Anthony Elanga',role:'LW',flag:'🇸🇪',club:'Newcastle',pos:'FW',age:24,stat:'Sweden winger WC 2026',rating:82,pac:90,sho:74,pas:72,dri:82,def_:40,phy:66},
+  {name:'Mohammed Kudus',role:'LW',flag:'🇬🇭',club:'West Ham',pos:'FW',age:24,stat:'Ghana star attacking MF',rating:83,pac:84,sho:78,pas:76,dri:85,def_:42,phy:68},
+  {name:'Inaki Williams',role:'CF',flag:'🇬🇭',club:'Athletic Bilbao',pos:'FW',age:30,stat:'Ghana key striker',rating:82,pac:90,sho:75,pas:70,dri:80,def_:40,phy:72},
   {name:'Antoine Semenyo',role:'RW',flag:'🇬🇭',club:'Man. City',pos:'FW',age:26,stat:'Ghana PL winger',rating:82,pac:88,sho:76,pas:70,dri:82,def_:38,phy:66},
+  {name:'Tariq Lamptey',flag:'🇬🇭',club:'Hoffenheim',pos:'DF',age:24,stat:'Ghana speedy fullback',rating:81,pac:92,sho:46,pas:70,dri:72,def_:80,phy:70},
   {name:'Altay Bayindir',flag:'🇹🇷',club:'Man. Utd',pos:'GK',age:26,stat:'Turkey Euro 2024',rating:81,pac:56,sho:40,pas:61,dri:40,def_:81,phy:66},
   {name:'Youcef Atal',flag:'🇩🇿',club:'Nice',pos:'DF',age:28,stat:'Algeria No.1 RB',rating:81,pac:76,sho:46,pas:69,dri:61,def_:83,phy:73},
   {name:'Hamari Traore',flag:'🇲🇱',club:'Rennes',pos:'DF',age:30,stat:'Mali captain',rating:81,pac:76,sho:46,pas:69,dri:61,def_:83,phy:73},
@@ -3029,6 +3034,18 @@ function App(){
     !premium&&e('div',{style:{background:'linear-gradient(90deg,#1a1000,#3a2800,#1a1000)',borderBottom:'1px solid rgba(212,175,55,0.3)',padding:'7px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}},
       e('span',{style:{fontSize:11,color:G,flexShrink:1}},t.premiumBanner),
       e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap',textDecoration:'none',display:'inline-block'}},t.premiumBtn+' - '+getPrice(lang))
+    ),
+
+    e('div',{style:{background:'linear-gradient(90deg,#0a1a0a,#0d2a1a,#0a1a0a)',borderBottom:'1px solid rgba(50,200,100,0.3)',padding:'8px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',gap:8,flexWrap:'wrap'}},
+      e('span',{style:{fontSize:11,color:'#5de88a',flexShrink:1}},
+        lang==='fr'?'📱 Bientôt sur App Store & Google Play':
+        lang==='es'?'📱 Próximamente en App Store y Google Play':
+        lang==='de'?'📱 Bald im App Store & Google Play':
+        lang==='pt'?'📱 Em breve no App Store e Google Play':
+        lang==='it'?'📱 Prossimamente su App Store e Google Play':
+        '📱 Coming soon on App Store & Google Play'
+      ),
+      e('a',{href:'https://wc-2026-app.vercel.app',target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,#2ecc71,#27ae60)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#fff',cursor:'pointer',whiteSpace:'nowrap',textDecoration:'none',display:'inline-block'}},'🌐 Web App')
     ),
 
     e('nav',{style:{position:'sticky',top:0,zIndex:20,background:'rgba(6,9,26,0.97)',backdropFilter:'blur(14px)',borderBottom:'2px solid rgba(212,175,55,0.2)',overflowX:'auto',WebkitOverflowScrolling:'touch',scrollbarWidth:'none'}},
