@@ -42,8 +42,12 @@ select{-webkit-appearance:none;appearance:none}
 </div>
 <script>
 (function(){
+  var lang=(navigator.language||'en').slice(0,2).toLowerCase();
+  var supported=['en','fr','es','de','pt','it'];
+  if(supported.indexOf(lang)===-1) lang='en';
   var isMobile=window.innerWidth<=768;
-  document.getElementById('splash-bg').src=isMobile?'/public/splash-screen.png':'/public/splash-desktop.png';
+  var type=isMobile?'phone':'desktop';
+  document.getElementById('splash-bg').src='/public/splash-'+lang+'-'+type+'.png';
 })();
 function closeSplash(){
   var s=document.getElementById('splash-overlay');
