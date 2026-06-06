@@ -365,10 +365,10 @@ function PenaltyCSSGame(props){
   useEffect(function(){setState('idle');},[]);
 
   var goalStyle={position:'relative',width:'100%',maxWidth:360,height:260,margin:'0 auto',
-    border:'4px solid rgba(255,255,255,.9)',borderBottom:'none',borderRadius:'3px 3px 0 0',
-    background:'repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(255,255,255,.06) 18px,rgba(255,255,255,.06) 19px),repeating-linear-gradient(90deg,transparent,transparent 18px,rgba(255,255,255,.06) 18px,rgba(255,255,255,.06) 19px)',
-    overflow:'visible',
-    boxShadow:'inset 0 0 60px rgba(0,0,0,.4)'};
+    border:'4px solid #fff',borderBottom:'none',borderRadius:'4px 4px 0 0',
+    background:'linear-gradient(180deg,#0d3b0d 0%,#1a6b1a 60%,#2d8a2d 100%)',
+    overflow:'hidden',
+    boxShadow:'0 0 30px rgba(0,0,0,0.6)'};
   var wrapStyle={position:'absolute',bottom:0,left:'50%',transform:'translateX(-50%)',width:160,display:'flex',flexDirection:'column',alignItems:'center'};
   var armsStyle={position:'absolute',bottom:72,width:170,height:44,pointerEvents:'none'};
   var armBase={position:'absolute',width:58,height:14,background:'linear-gradient(90deg,#5bc8e8,#3aa8cc)',borderRadius:7,top:'50%'};
@@ -3948,14 +3948,20 @@ function App(){
                 );
               })
             ),
-            // CSS Penalty Game — gardien avec vrais plongeons CSS
+            // 3D Canvas Pitch — always mounted to avoid WebGL context loss on iOS
             e('div',{style:{display:gamePhase==='done'?'none':'block'}},
-            e(PenaltyCSSGame,{
+            e(PenaltyPitch,{
+              key:'pitch-'+penTourRound,
               roundIdx:penTourRound,
+              shotsLeft:shotsLeft,
+              shotHistory:shotHistory,
+              gameScore:gameScore,
+              gameMiss:gameMiss,
               lang:lang,
               G:G,
+              playerName:penTourName,
               onShotDone:function(scored){
-                setShotHistory(function(hist){return hist.concat([{dir:'css',scored:scored}]);});
+                setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
                 setShotsLeft(function(s){return Math.max(0,s-1);});
