@@ -2512,43 +2512,17 @@ function App(){
   var polls=POLLS[lang];
   var sponsors=SPONSORS[lang];
 
-  var musicUnlockedRef=useRef(false);
-
-  useEffect(function(){
-    if(musicTrack==='off'){
-      if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
-      return;
-    }
-    var src=musicTrack==='A'?'Goals.mp3':'Ritmo da Torcida.mp3';
-    if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
-    var audio=new Audio(src);
-    audio.loop=true;audio.volume=0.20;
-    if(musicUnlockedRef.current){
-      var p=audio.play();if(p&&p.catch)p.catch(function(){});
-    }
-    musicRef.current=audio;
-    return function(){if(musicRef.current){musicRef.current.pause();musicRef.current=null;}};
-  },[musicTrack]);
-
-  useEffect(function(){
-    function unlock(){
-      if(musicUnlockedRef.current)return;
-      musicUnlockedRef.current=true;
-      if(musicRef.current&&musicTrack!=='off'){
-        var p=musicRef.current.play();if(p&&p.catch)p.catch(function(){});
-      }
-    }
-    document.addEventListener('touchstart',unlock,{once:true,passive:true});
-    document.addEventListener('click',unlock,{once:true});
-    return function(){
-      document.removeEventListener('touchstart',unlock);
-      document.removeEventListener('click',unlock);
-    };
-  },[]);
-
   function cycleMusic(){
     var next=musicTrack==='A'?'B':musicTrack==='B'?'off':'A';
     try{localStorage.setItem('wc2026_music',next);}catch(e){}
+    if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
+    if(next!=='off'){
+      var src=next==='A'?'Goals.mp3':'Ritmo da Torcida.mp3';
+      var audio=new Audio(src);
+      audio.loop=true;audio.volume=0.20;
+      var p=audio.play();if(p&&p.catch)p.catch(function(){});
+      musicRef.current=audio;
+    }
     setMusicTrack(next);
   }
 
@@ -3118,7 +3092,7 @@ function App(){
           LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
-          e('button',{onClick:cycleMusic,title:'Music',style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:musicTrack==='off'?'#4a5a6a':'#9bb0c8',fontSize:11}},musicTrack==='A'?'🎵 A':musicTrack==='B'?'🎵 B':'🔇'),
+          e('button',{onClick:cycleMusic,title:'Music',style:{background:musicTrack!=='off'?'linear-gradient(135deg,#d4af37,#b8963e)':'rgba(255,255,255,0.07)',border:musicTrack!=='off'?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'4px 10px',cursor:'pointer',color:musicTrack!=='off'?'#0a0a1a':'#4a5a6a',fontSize:12,fontWeight:musicTrack!=='off'?'bold':'normal',boxShadow:musicTrack!=='off'?'0 0 8px rgba(212,175,55,0.5)':'none'}},musicTrack==='A'?'🎵 A':musicTrack==='B'?'🎵 B':'🔇'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
           !premium&&e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',textDecoration:'none',display:'inline-block'}},'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
