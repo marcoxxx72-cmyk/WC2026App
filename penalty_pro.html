@@ -253,8 +253,6 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
   <button class="btn btnR" onclick="shoot('R')">➡</button>
 </div>
 <p class="hint" id="lbl-hint">Le gardien choisit aléatoirement</p>
-<p id="dbg">idle</p>
-
 <script>
 const gk      = document.getElementById('gk');
 const armL    = document.getElementById('arm-L');
@@ -281,7 +279,6 @@ const ANIM = {
 
 /* ══ setState — iOS-safe, annule UNIQUEMENT les WAAPI stockées ══ */
 function setState(s){
-  var dbg=document.getElementById('dbg'); if(dbg)dbg.textContent=s;
   const dur  = {idle:'1.6s',jump:'.5s',catch:'.45s',diveLA:'.44s',diveLB:'.44s',diveRA:'.44s',diveRB:'.44s'}[s]||'.44s';
   const fill = s==='idle'?'none':'forwards';
   const rep  = s==='idle'?'infinite':'1';

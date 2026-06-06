@@ -367,7 +367,7 @@ function PenaltyCSSGame(props){
   var goalStyle={position:'relative',width:'100%',maxWidth:360,height:260,margin:'0 auto',
     border:'4px solid #fff',borderBottom:'none',borderRadius:'4px 4px 0 0',
     background:'linear-gradient(180deg,#0d3b0d 0%,#1a6b1a 60%,#2d8a2d 100%)',
-    overflow:'hidden',
+    overflow:'visible',
     boxShadow:'0 0 30px rgba(0,0,0,0.6)'};
   var wrapStyle={position:'absolute',bottom:0,left:'50%',transform:'translateX(-50%)',width:160,display:'flex',flexDirection:'column',alignItems:'center'};
   var armsStyle={position:'absolute',bottom:72,width:170,height:44,pointerEvents:'none'};
@@ -3948,20 +3948,14 @@ function App(){
                 );
               })
             ),
-            // 3D Canvas Pitch — always mounted to avoid WebGL context loss on iOS
+            // CSS Penalty Game — gardien avec vrais plongeons CSS
             e('div',{style:{display:gamePhase==='done'?'none':'block'}},
-            e(PenaltyPitch,{
-              key:'pitch-'+penTourRound,
+            e(PenaltyCSSGame,{
               roundIdx:penTourRound,
-              shotsLeft:shotsLeft,
-              shotHistory:shotHistory,
-              gameScore:gameScore,
-              gameMiss:gameMiss,
               lang:lang,
               G:G,
-              playerName:penTourName,
               onShotDone:function(scored){
-                setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
+                setShotHistory(function(hist){return hist.concat([{dir:'css',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
                 setShotsLeft(function(s){return Math.max(0,s-1);});
