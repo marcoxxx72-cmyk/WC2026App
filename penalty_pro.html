@@ -6,7 +6,7 @@
 <title>Penalty PRO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial,sans-serif;overflow-x:hidden;overscroll-behavior:none}
+body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial,sans-serif;overflow:hidden}
 
 /* ── SCORE ── */
 .score{color:#fff;font-size:14px;display:flex;gap:30px;margin-bottom:14px;letter-spacing:1px}
@@ -31,26 +31,16 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 #wrap{
   position:absolute;bottom:0;left:50%;
   transform:translateX(-50%);
-  width:160px;
+  width:200px;
   display:flex;flex-direction:column;align-items:center;
   z-index:5;
 }
-
-/* ── BRAS CSS — pivotent depuis l'épaule ── */
-.arms{position:absolute;bottom:70px;width:170px;height:44px;pointer-events:none}
-.arm{
-  position:absolute;width:58px;height:14px;
-  background:linear-gradient(90deg,#5bc8e8,#3aa8cc);
-  border-radius:7px;top:50%;
-}
-#arm-L{right:50%;transform-origin:right center;transform:translateY(-50%) rotate(20deg)}
-#arm-R{left:50%;transform-origin:left center;transform:translateY(-50%) rotate(-20deg)}
 
 /* ── GARDIEN IMAGE ── */
 #gk{
   width:150px;height:auto;display:block;
   filter:drop-shadow(0 8px 20px rgba(0,0,0,.7));
-  transform-origin:bottom center;
+  transform-origin:center center;
 }
 
 /* ── BALLON ── */
@@ -62,14 +52,15 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 }
 #ball::after{content:'';position:absolute;top:30%;left:20%;width:30%;height:20%;background:rgba(0,0,0,.25);border-radius:50%;transform:rotate(-30deg)}
 
-/* ── FLASH RÉSULTAT — dans la cage ── */
+/* ── FLASH RÉSULTAT ── */
 #flash{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%) scale(0);
-  font-size:clamp(18px,5vw,28px);font-weight:900;white-space:nowrap;
-  pointer-events:none;text-shadow:0 4px 18px rgba(0,0,0,.9);
-  transition:transform .16s cubic-bezier(.34,1.56,.64,1);
-  z-index:20;
+  background:rgba(0,0,0,.82);
+  padding:14px 22px;border-radius:14px;
+  font-size:clamp(18px,5.5vw,30px);font-weight:900;white-space:nowrap;
+  pointer-events:none;z-index:30;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1);
 }
 #flash.show{transform:translate(-50%,-50%) scale(1)}
 
@@ -92,11 +83,10 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 .btnC{background:linear-gradient(135deg,#f39c12,#e67e22)}
 .btnR{background:linear-gradient(135deg,#27ae60,#2ecc71)}
 .hint{color:rgba(255,255,255,.25);font-size:10px;margin-top:10px;letter-spacing:1px}
-#dbg{color:#ff0;font-size:10px;margin-top:4px;letter-spacing:1px;min-height:14px}
 
 /* ════════════════════════════════════════
-   ANIMATIONS CORPS GARDIEN — 6 positions
-   transform-origin: bottom center
+   ANIMATIONS GARDIEN — translation seule
+   (les images montrent déjà la pose exacte)
    ════════════════════════════════════════ */
 
 @keyframes gk-idle{
@@ -104,92 +94,41 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 }
 /* Lucarne gauche */
 @keyframes gk-diveLA{
-  0%  {transform:translateX(0)       translateY(0)       rotate(0)}
-  30% {transform:translateX(-45px)   translateY(-55px)   rotate(-40deg)}
-  65% {transform:translateX(-100px)  translateY(-35px)   rotate(-70deg)}
-  100%{transform:translateX(-130px)  translateY(-10px)   rotate(-78deg)}
+  0%  {transform:translateX(0)     translateY(0)}
+  30% {transform:translateX(-45px) translateY(-50px)}
+  100%{transform:translateX(-85px) translateY(-30px)}
 }
 /* Ras du sol gauche */
 @keyframes gk-diveLB{
-  0%  {transform:translateX(0)       translateY(0)       rotate(0)}
-  30% {transform:translateX(-35px)   translateY(-18px)   rotate(-25deg)}
-  65% {transform:translateX(-80px)   translateY(-4px)    rotate(-45deg)}
-  100%{transform:translateX(-115px)  translateY(5px)     rotate(-55deg)}
+  0%  {transform:translateX(0)     translateY(0)}
+  30% {transform:translateX(-35px) translateY(-15px)}
+  100%{transform:translateX(-70px) translateY(5px)}
 }
 /* Lucarne droite */
 @keyframes gk-diveRA{
-  0%  {transform:translateX(0)       translateY(0)       rotate(0)}
-  30% {transform:translateX(45px)    translateY(-55px)   rotate(40deg)}
-  65% {transform:translateX(100px)   translateY(-35px)   rotate(70deg)}
-  100%{transform:translateX(130px)   translateY(-10px)   rotate(78deg)}
+  0%  {transform:translateX(0)    translateY(0)}
+  30% {transform:translateX(45px) translateY(-50px)}
+  100%{transform:translateX(85px) translateY(-30px)}
 }
 /* Ras du sol droit */
 @keyframes gk-diveRB{
-  0%  {transform:translateX(0)       translateY(0)       rotate(0)}
-  30% {transform:translateX(35px)    translateY(-18px)   rotate(25deg)}
-  65% {transform:translateX(80px)    translateY(-4px)    rotate(45deg)}
-  100%{transform:translateX(115px)   translateY(5px)     rotate(55deg)}
+  0%  {transform:translateX(0)    translateY(0)}
+  30% {transform:translateX(35px) translateY(-15px)}
+  100%{transform:translateX(70px) translateY(5px)}
 }
 /* Saut centre haut */
 @keyframes gk-jump{
-  0%  {transform:translateY(0)     scaleX(1)    scaleY(1)}
-  12% {transform:translateY(4px)   scaleX(1.05) scaleY(.92)}
-  45% {transform:translateY(-75px) scaleX(1.2)  scaleY(1)}
-  70% {transform:translateY(-65px) scaleX(1.25) scaleY(1)}
-  100%{transform:translateY(0)     scaleX(1)    scaleY(1)}
+  0%  {transform:translateY(0)}
+  12% {transform:translateY(4px)}
+  45% {transform:translateY(-80px)}
+  70% {transform:translateY(-75px)}
+  100%{transform:translateY(0)}
 }
-/* Attrappage centre bas — penché en avant */
+/* Attrappage centre bas */
 @keyframes gk-catch{
-  0%  {transform:translateY(0)     rotate(0)      scaleY(1)}
-  50% {transform:translateY(6px)   rotate(-15deg) scaleY(.93)}
-  100%{transform:translateY(10px)  rotate(-25deg) scaleY(.87)}
-}
-
-/* ════════════════════════════════════════
-   ANIMATIONS BRAS — pivotent depuis épaule
-   ════════════════════════════════════════ */
-@keyframes armL-idle  {0%,100%{transform:translateY(-50%) rotate(20deg)} 50%{transform:translateY(-50%) rotate(8deg)}}
-@keyframes armR-idle  {0%,100%{transform:translateY(-50%) rotate(-20deg)} 50%{transform:translateY(-50%) rotate(-8deg)}}
-
-/* Bras actif — part vers la lucarne */
-@keyframes armL-diveA {
-  0%  {transform:translateY(-50%) rotate(20deg)  scaleX(1)}
-  50% {transform:translateY(-50%) rotate(70deg)  scaleX(1.2)}
-  100%{transform:translateY(-50%) rotate(120deg) scaleX(1.45)}
-}
-@keyframes armL-diveB {
-  0%  {transform:translateY(-50%) rotate(20deg)   scaleX(1)}
-  50% {transform:translateY(-50%) rotate(-20deg)  scaleX(1.2)}
-  100%{transform:translateY(-50%) rotate(-60deg)  scaleX(1.45)}
-}
-@keyframes armR-diveA {
-  0%  {transform:translateY(-50%) rotate(-20deg)  scaleX(1)}
-  50% {transform:translateY(-50%) rotate(-70deg)  scaleX(1.2)}
-  100%{transform:translateY(-50%) rotate(-120deg) scaleX(1.45)}
-}
-@keyframes armR-diveB {
-  0%  {transform:translateY(-50%) rotate(-20deg) scaleX(1)}
-  50% {transform:translateY(-50%) rotate(20deg)  scaleX(1.2)}
-  100%{transform:translateY(-50%) rotate(60deg)  scaleX(1.45)}
-}
-/* Bras traîne — suit le mouvement */
-@keyframes armR-trailA{0%{transform:translateY(-50%) rotate(-20deg)} 100%{transform:translateY(-50%) rotate(-50deg)}}
-@keyframes armR-trailB{0%{transform:translateY(-50%) rotate(-20deg)} 100%{transform:translateY(-50%) rotate(-35deg)}}
-@keyframes armL-trailA{0%{transform:translateY(-50%) rotate(20deg)}  100%{transform:translateY(-50%) rotate(50deg)}}
-@keyframes armL-trailB{0%{transform:translateY(-50%) rotate(20deg)}  100%{transform:translateY(-50%) rotate(35deg)}}
-/* Saut — bras montent et RESTENT en haut (fill:forwards) pour la phase 2 */
-@keyframes armL-jump  {0%{transform:translateY(-50%) rotate(20deg)}  100%{transform:translateY(-50%) rotate(-90deg)}}
-@keyframes armR-jump  {0%{transform:translateY(-50%) rotate(-20deg)} 100%{transform:translateY(-50%) rotate(90deg)}}
-/* Catch — bras ouverts vers le bas pour attraper */
-@keyframes armL-catch {
-  0%  {transform:translateY(-50%) rotate(20deg)   scaleX(1)}
-  50% {transform:translateY(-50%) rotate(-35deg)  scaleX(1.2)}
-  100%{transform:translateY(-50%) rotate(-55deg)  scaleX(1.35)}
-}
-@keyframes armR-catch {
-  0%  {transform:translateY(-50%) rotate(-20deg)  scaleX(1)}
-  50% {transform:translateY(-50%) rotate(35deg)   scaleX(1.2)}
-  100%{transform:translateY(-50%) rotate(55deg)   scaleX(1.35)}
+  0%  {transform:translateY(0)}
+  50% {transform:translateY(5px)}
+  100%{transform:translateY(8px)}
 }
 
 /* ════════════════════════════════════════
@@ -220,9 +159,8 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
   100%{bottom:25px; left:92%;opacity:.6;transform:translateX(-50%) scale(.65)}
 }
 
-/* CONFETTIS */
 @keyframes confFall{
-  0%  {transform:translateY(0)    rotate(0);opacity:1}
+  0%  {transform:translateY(0)     rotate(0);opacity:1}
   100%{transform:translateY(230px) rotate(720deg);opacity:0}
 }
 </style>
@@ -230,104 +168,68 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 <body>
 
 <div class="score">
-  <div>⚽ <span id="lbl-goals">Buts</span><br><strong id="sg">0</strong></div>
-  <div>🧤 <span id="lbl-saves">Arrêts</span><br><strong id="ss">0</strong></div>
+  <div>⚽ Buts<br><strong id="sg">0</strong></div>
+  <div>🧤 Arrêts<br><strong id="ss">0</strong></div>
 </div>
 
 <div class="goal" id="goal">
   <div id="wrap">
-    <div class="arms">
-      <div class="arm" id="arm-L"></div>
-      <div class="arm" id="arm-R"></div>
-    </div>
     <img id="gk" src="goalkeeper.png" alt="Gardien" crossorigin="anonymous">
   </div>
   <div id="ball"></div>
   <div id="flash"></div>
 </div>
 
-<p class="label" id="lbl-shoot">Où tirez-vous ?</p>
+<p class="label">Où tirez-vous ?</p>
 <div class="btns">
   <button class="btn btnL" onclick="shoot('L')">⬅</button>
   <button class="btn btnC" onclick="shoot('C')">⬆</button>
   <button class="btn btnR" onclick="shoot('R')">➡</button>
 </div>
-<p class="hint" id="lbl-hint">Le gardien choisit aléatoirement</p>
+<p class="hint">Le gardien choisit aléatoirement</p>
+
 <script>
 const gk      = document.getElementById('gk');
-const armL    = document.getElementById('arm-L');
-const armR    = document.getElementById('arm-R');
 const ball    = document.getElementById('ball');
 const flash   = document.getElementById('flash');
 const goal    = document.getElementById('goal');
 const btns    = document.querySelectorAll('.btn');
 const shootEl = document.getElementById('shoot-main');
 let busy=false, goals=0, saves=0;
-/* Références WAAPI — on cancelle UNIQUEMENT celles-ci (jamais getAnimations sur gk/armL/armR) */
-let _armL=null, _armR=null, _gkH=null;
+let _gkH=null;
 
-function shootAuto(){
-  const d=['L','C','R']; shoot(d[Math.floor(Math.random()*3)]);
-}
-
-/* ══ Cartes d'animation ══ */
-const ANIM = {
-  body:{ idle:'gk-idle', diveLA:'gk-diveLA', diveLB:'gk-diveLB', diveRA:'gk-diveRA', diveRB:'gk-diveRB', jump:'gk-jump', catch:'gk-catch' },
-  armL:{ idle:'armL-idle', diveLA:'armL-diveA', diveLB:'armL-diveB', diveRA:'armL-trailA', diveRB:'armL-trailB', jump:'armL-jump', catch:'armL-catch' },
-  armR:{ idle:'armR-idle', diveLA:'armR-trailA', diveLB:'armR-trailB', diveRA:'armR-diveA', diveRB:'armR-diveB', jump:'armR-jump', catch:'armR-catch' }
+/* ══ Image pour chaque état ══ */
+const IMG_MAP={
+  idle:   'goalkeeper.png',
+  diveLA: 'gk_diveLA.png',
+  diveLB: 'gk_diveLB.png',
+  diveRA: 'gk_diveRA.png',
+  diveRB: 'gk_diveRB.png',
+  jump:   'gk_jump_v3.png',
+  catch:  'gk_lo_v4.png'
 };
 
-/* ══ setState — iOS-safe, annule UNIQUEMENT les WAAPI stockées ══ */
-function setState(s){
-  const dur  = {idle:'1.6s',jump:'.5s',catch:'.45s',diveLA:'.44s',diveLB:'.44s',diveRA:'.44s',diveRB:'.44s'}[s]||'.44s';
-  const fill = s==='idle'?'none':'forwards';
-  const rep  = s==='idle'?'infinite':'1';
-  const ease = s==='idle'?'ease-in-out':s==='jump'?'ease-out':'cubic-bezier(.2,0,.4,1)';
-  const easeA= s==='idle'?'ease-in-out':'ease-out';
+/* ══ Cartes d'animation (corps uniquement, pas de bras CSS) ══ */
+const ANIM={
+  body:{ idle:'gk-idle', diveLA:'gk-diveLA', diveLB:'gk-diveLB', diveRA:'gk-diveRA', diveRB:'gk-diveRB', jump:'gk-jump', catch:'gk-catch' }
+};
 
-  /* Annuler UNIQUEMENT les WAAPI qu'on a créées — jamais getAnimations() sur gk/arms */
-  if(_gkH){ try{_gkH.cancel();}catch(e){} _gkH=null; }
-  if(_armL){ try{_armL.cancel();}catch(e){} _armL=null; }
-  if(_armR){ try{_armR.cancel();}catch(e){} _armR=null; }
+/* ══ setState — iOS-safe ══ */
+function setState(s){
+  const dur  ={idle:'1.6s',jump:'.5s',catch:'.45s',diveLA:'.44s',diveLB:'.44s',diveRA:'.44s',diveRB:'.44s'}[s]||'.44s';
+  const fill =s==='idle'?'none':'forwards';
+  const rep  =s==='idle'?'infinite':'1';
+  const ease =s==='idle'?'ease-in-out':s==='jump'?'ease-out':'cubic-bezier(.2,0,.4,1)';
+
+  if(_gkH){try{_gkH.cancel();}catch(e){} _gkH=null;}
+
+  /* Changer l'image du gardien */
+  if(IMG_MAP[s]) gk.src=IMG_MAP[s];
 
   /* Reset iOS-safe */
-  gk.style.animation   = 'none';
-  armL.style.animation = 'none';
-  armR.style.animation = 'none';
+  gk.style.animation='none';
   void gk.getBoundingClientRect();
-
-  gk.style.animation   = `${ANIM.body[s]} ${dur} ${ease} ${fill} ${rep}`;
-  armL.style.animation = `${ANIM.armL[s]} ${dur} ${easeA} ${fill} ${rep}`;
-  armR.style.animation = `${ANIM.armR[s]} ${dur} ${easeA} ${fill} ${rep}`;
-}
-
-/* ══ Phase 2 — WAAPI bras se referment ══ */
-const ARMS_CLOSE = {
-  diveLA:['translateY(-50%) rotate(110deg) scaleX(1.35)','translateY(-50%) rotate(-35deg)'],
-  diveLB:['translateY(-50%) rotate(-52deg) scaleX(1.35)','translateY(-50%) rotate(-25deg)'],
-  diveRA:['translateY(-50%) rotate(35deg)','translateY(-50%) rotate(-110deg) scaleX(1.35)'],
-  diveRB:['translateY(-50%) rotate(25deg)','translateY(-50%) rotate(-52deg) scaleX(1.35)'],
-  jump:  ['translateY(-50%) rotate(-78deg)','translateY(-50%) rotate(78deg)'],
-  catch: ['translateY(-50%) rotate(-68deg) scaleX(1.25)','translateY(-50%) rotate(68deg) scaleX(1.25)'],
-};
-const ARMS_LOCK = {
-  diveLA:['translateY(-50%) rotate(114deg) scaleX(1.3)','translateY(-50%) rotate(-40deg)'],
-  diveLB:['translateY(-50%) rotate(-56deg) scaleX(1.3)','translateY(-50%) rotate(-28deg)'],
-  diveRA:['translateY(-50%) rotate(40deg)','translateY(-50%) rotate(-114deg) scaleX(1.3)'],
-  diveRB:['translateY(-50%) rotate(28deg)','translateY(-50%) rotate(-56deg) scaleX(1.3)'],
-  jump:  ['translateY(-50%) rotate(-82deg)','translateY(-50%) rotate(82deg)'],
-  catch: ['translateY(-50%) rotate(-72deg) scaleX(1.2)','translateY(-50%) rotate(72deg) scaleX(1.2)'],
-};
-
-function setArmsClose(k){
-  const c=ARMS_CLOSE[k]; if(!c)return;
-  _armL=armL.animate([{transform:c[0]}],{duration:180,easing:'ease-out',fill:'forwards'});
-  _armR=armR.animate([{transform:c[1]}],{duration:180,easing:'ease-out',fill:'forwards'});
-}
-function setArmsLock(k){
-  const l=ARMS_LOCK[k]; if(!l)return;
-  _armL=armL.animate([{transform:l[0]}],{duration:100,easing:'ease-out',fill:'forwards'});
-  _armR=armR.animate([{transform:l[1]}],{duration:100,easing:'ease-out',fill:'forwards'});
+  gk.style.animation=`${ANIM.body[s]} ${dur} ${ease} ${fill} ${rep}`;
 }
 
 /* ══ Confettis ══ */
@@ -342,53 +244,49 @@ function spawnConfetti(){
   }
 }
 
-/* ══ Flash dans la cage ══ */
-function showFlash(txt,color){
-  flash.textContent=txt; flash.style.color=color;
-  flash.classList.add('show');
-  clearTimeout(flash._tid);
-  flash._tid=setTimeout(()=>flash.classList.remove('show'),1100);
-}
-
-/* ══ Langue ══ */
+/* ── MESSAGES VARIÉS PAR TYPE D'ARRÊT (6 langues) ── */
+const SAVE_MSGS={
+  diveLA:{fr:'PLONGÉE INCROYABLE ! 🧤',en:'INCREDIBLE DIVE ! 🧤',es:'¡PARADA INCREÍBLE ! 🧤',de:'UNGLAUBLICHE PARADE ! 🧤',pt:'DEFESA INCRÍVEL ! 🧤',it:'PARATA INCREDIBILE ! 🧤'},
+  diveRA:{fr:'PLONGÉE INCROYABLE ! 🧤',en:'INCREDIBLE DIVE ! 🧤',es:'¡PARADA INCREÍBLE ! 🧤',de:'UNGLAUBLICHE PARADE ! 🧤',pt:'DEFESA INCRÍVEL ! 🧤',it:'PARATA INCREDIBILE ! 🧤'},
+  diveLB:{fr:'RÉFLEXE PARFAIT ! 🧤',  en:'PERFECT REFLEX ! 🧤',  es:'¡REFLEJO PERFECTO ! 🧤',de:'PERFEKTER REFLEX ! 🧤',   pt:'REFLEXO PERFEITO ! 🧤', it:'RIFLESSO PERFETTO ! 🧤'},
+  diveRB:{fr:'RÉFLEXE PARFAIT ! 🧤',  en:'PERFECT REFLEX ! 🧤',  es:'¡REFLEJO PERFECTO ! 🧤',de:'PERFEKTER REFLEX ! 🧤',   pt:'REFLEXO PERFEITO ! 🧤', it:'RIFLESSO PERFETTO ! 🧤'},
+  jump:  {fr:'VOL PARFAIT ! 🧤',      en:'PERFECT FLIGHT ! 🧤',  es:'¡VUELO PERFECTO ! 🧤',  de:'PERFEKTER SPRUNG ! 🧤',   pt:'VÔO PERFEITO ! 🧤',     it:'VOLO PERFETTO ! 🧤'},
+  catch: {fr:'DANS LES BRAS ! 🧤',    en:'CAUGHT IT ! 🧤',       es:'¡ATRAPADO ! 🧤',        de:'SICHER GEFANGEN ! 🧤',    pt:'AGARROU ! 🧤',          it:'PRESO AL VOLO ! 🧤'},
+};
 function getLang(){
-  const supported=['fr','en','es','de','pt','it'];
-  const urlP=new URLSearchParams(window.location.search).get('lang');
-  if(urlP&&supported.includes(urlP))return urlP;
   let stored=null;
   try{stored=localStorage.getItem('wc2026_lang');}catch(e){}
   const l=(stored||navigator.language||'fr').slice(0,2).toLowerCase();
-  return supported.includes(l)?l:'fr';
+  return ['fr','en','es','de','pt','it'].includes(l)?l:'fr';
 }
 
-/* ══ Messages simples 6 langues ══ */
-const MSGS={
-  goal:{fr:'⚽ BUT !',   en:'⚽ GOAL !',   es:'⚽ GOL !',    de:'⚽ TOR !',       pt:'⚽ GOL !',   it:'⚽ GOL !'},
-  save:{fr:'🧤 ARRÊTÉ !',en:'🧤 SAVED !',  es:'🧤 PARADO !', de:'🧤 GEHALTEN !', pt:'🧤 PEGOU !', it:'🧤 PARATO !'},
-};
-
-/* Positions snap ballon */
+/* Positions snap ballon par type d'arrêt */
 const CATCH_POS={
-  diveLA:{x:55,  b:155}, diveLB:{x:40,  b:28},
-  diveRA:{x:285, b:155}, diveRB:{x:300, b:28},
-  jump:  {x:170, b:185}, catch: {x:170, b:16},
+  diveLA:{x:55, b:155}, diveLB:{x:35, b:30},
+  diveRA:{x:285,b:155}, diveRB:{x:305,b:30},
+  jump:  {x:170,b:195}, catch: {x:170,b:20},
 };
 
-/* ══ Traduction UI ══ */
-const UI={
-  fr:{goals:'Buts',     saves:'Arrêts',  shoot:'Où tirez-vous ?',       hint:'Le gardien choisit aléatoirement'},
-  en:{goals:'Goals',    saves:'Saves',   shoot:'Where do you shoot ?',  hint:'The goalkeeper chooses randomly'},
-  es:{goals:'Goles',    saves:'Paradas', shoot:'¿Dónde disparas ?',     hint:'El portero elige al azar'},
-  de:{goals:'Tore',     saves:'Paraden', shoot:'Wohin schießt du ?',    hint:'Der Torwart wählt zufällig'},
-  pt:{goals:'Gols',     saves:'Defesas', shoot:'Para onde você chuta ?',hint:'O goleiro escolhe aleatoriamente'},
-  it:{goals:'Gol',      saves:'Parate',  shoot:'Dove tiri ?',           hint:'Il portiere sceglie a caso'},
-};
-function applyLang(){
-  const l=getLang(), t=UI[l]||UI.fr;
-  document.getElementById('lbl-goals').textContent=t.goals;
-  document.getElementById('lbl-saves').textContent=t.saves;
-  document.getElementById('lbl-shoot').textContent=t.shoot;
-  document.getElementById('lbl-hint').textContent=t.hint;
+function showFlash(txt,color){
+  const old=document.getElementById('_fl');
+  if(old)old.remove();
+  const el=document.createElement('div');
+  el.id='_fl';
+  el.textContent=txt;
+  Object.assign(el.style,{
+    position:'fixed',top:'50%',left:'50%',
+    transform:'translate(-50%,-50%)',
+    background:'rgba(0,0,0,.88)',color:color,
+    fontSize:'clamp(22px,6vw,38px)',fontWeight:'900',
+    padding:'14px 26px',borderRadius:'16px',
+    zIndex:'99999',pointerEvents:'none',whiteSpace:'nowrap',
+    fontFamily:'Arial,sans-serif',
+    textShadow:'0 2px 10px rgba(0,0,0,.9)',
+    letterSpacing:'1px'
+  });
+  document.body.appendChild(el);
+  clearTimeout(showFlash._t);
+  showFlash._t=setTimeout(()=>{if(el.parentNode)el.remove();},1300);
 }
 
 /* ══ TIRER ══ */
@@ -406,7 +304,6 @@ function shoot(dir){
 
   const scored=(dir!==kDir);
 
-  /* Trajectoire ballon */
   let ballAnim;
   if(dir==='L')      ballAnim=(!scored&&kAnim==='diveLB')?'flyLlow':'flyL';
   else if(dir==='R') ballAnim=(!scored&&kAnim==='diveRB')?'flyRlow':'flyR';
@@ -419,29 +316,32 @@ function shoot(dir){
 
   setState(kAnim);
 
+  /* Figer le gardien au sommet du saut */
+  if(!scored && kAnim==='jump'){
+    setTimeout(()=>{ _gkH=gk.animate([{transform:'translateY(-75px)'}],{duration:200,easing:'ease-out',fill:'forwards'}); },340);
+  }
+
+  /* Fondu ballon sur arrêt */
   if(!scored){
-    setTimeout(()=>setArmsClose(kAnim), 320);
-    setTimeout(()=>setArmsLock(kAnim),  520);
-    if(kAnim==='jump'){
-      setTimeout(()=>{ _gkH=gk.animate([{transform:'translateY(-65px) scaleX(1.25) scaleY(1)'}],{duration:200,easing:'ease-out',fill:'forwards'}); },340);
-    }
     setTimeout(()=>ball.animate([{opacity:0}],{duration:220,easing:'ease-in',fill:'forwards'}),1760);
   }
 
+  /* Flash + snap ballon — 520ms */
   setTimeout(()=>{
-    const lang=getLang();
     if(scored){
       goals++; document.getElementById('sg').textContent=goals;
-      showFlash(MSGS.goal[lang]||MSGS.goal.en,'#ff4444');
-      spawnConfetti();
+      showFlash('⚽ BUT !','#ff4444'); spawnConfetti();
     } else {
       saves++; document.getElementById('ss').textContent=saves;
-      showFlash(MSGS.save[lang]||MSGS.save.en,'#ffd700');
+      const lang=getLang();
+      const msg=(SAVE_MSGS[kAnim]||{})[lang]||'ARRÊTÉ ! 🧤';
+      showFlash(msg,'#ffd700');
       const p=CATCH_POS[kAnim]||{x:170,b:90};
       ball.animate([{left:p.x+'px',bottom:p.b+'px',transform:'translateX(-50%) scale(.5)',opacity:.9}],{duration:130,easing:'ease-out',fill:'forwards'});
     }
   },520);
 
+  /* Reset — 1990ms */
   setTimeout(()=>{
     ball.style.display='none';
     try{ball.getAnimations().forEach(a=>a.cancel());}catch(e){}
@@ -452,7 +352,6 @@ function shoot(dir){
   },1990);
 }
 
-applyLang();
 setState('idle');
 </script>
 </body>
