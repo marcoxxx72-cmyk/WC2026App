@@ -297,49 +297,6 @@ var e = React.createElement;
   });
 })();
 
-/* ── MESSAGES COMMENTATEURS 6 LANGUES ── */
-var GOAL_MSGS_6L=[
-  {fr:'⚽ BUT !',en:'⚽ GOAL !',es:'⚽ ¡GOL !',de:'⚽ TOR !',pt:'⚽ GOL !',it:'⚽ GOL !'},
-  {fr:'⚽ DANS LE FILET !',en:'⚽ IN THE NET !',es:'⚽ ¡A LA RED !',de:'⚽ INS NETZ !',pt:'⚽ NA REDE !',it:'⚽ IN RETE !'},
-  {fr:'⚽ MAGNIFIQUE !',en:'⚽ BEAUTIFUL GOAL !',es:'⚽ ¡QUÉ GOLAZO !',de:'⚽ WUNDERSCHÖN !',pt:'⚽ QUE GOLAÇO !',it:'⚽ CHE GOL !'},
-];
-var SAVE_MSGS_6L={
-  diveLA:[
-    {fr:'PLONGÉE INCROYABLE ! 🧤',en:'INCREDIBLE DIVE ! 🧤',es:'¡PARADA INCREÍBLE ! 🧤',de:'UNGLAUBLICHE PARADE ! 🧤',pt:'DEFESA INCRÍVEL ! 🧤',it:'PARATA INCREDIBILE ! 🧤'},
-    {fr:'QUE RÉFLEXE ! 🧤',en:'WHAT A REFLEX ! 🧤',es:'¡QUÉ REFLEJO ! 🧤',de:'WELCH EIN REFLEX ! 🧤',pt:'QUE REFLEXO ! 🧤',it:'CHE RIFLESSO ! 🧤'},
-  ],
-  diveRA:[
-    {fr:'PLONGÉE INCROYABLE ! 🧤',en:'INCREDIBLE DIVE ! 🧤',es:'¡PARADA INCREÍBLE ! 🧤',de:'UNGLAUBLICHE PARADE ! 🧤',pt:'DEFESA INCRÍVEL ! 🧤',it:'PARATA INCREDIBILE ! 🧤'},
-    {fr:'ENVOL PARFAIT ! 🧤',en:'PERFECT TAKE-OFF ! 🧤',es:'¡VUELO PERFECTO ! 🧤',de:'PERFEKTER ABFLUG ! 🧤',pt:'VOO PERFEITO ! 🧤',it:'VOLO PERFETTO ! 🧤'},
-  ],
-  diveLB:[
-    {fr:'RÉFLEXE PARFAIT ! 🧤',en:'PERFECT REFLEX ! 🧤',es:'¡REFLEJO PERFECTO ! 🧤',de:'PERFEKTER REFLEX ! 🧤',pt:'REFLEXO PERFEITO ! 🧤',it:'RIFLESSO PERFETTO ! 🧤'},
-    {fr:'ARRÊT AU SOL ! 🧤',en:'DIVING SAVE ! 🧤',es:'¡PARADA AL SUELO ! 🧤',de:'PARADE AM BODEN ! 🧤',pt:'DEFESA RASTEIRA ! 🧤',it:'PARATA A TERRA ! 🧤'},
-  ],
-  diveRB:[
-    {fr:'RÉFLEXE PARFAIT ! 🧤',en:'PERFECT REFLEX ! 🧤',es:'¡REFLEJO PERFECTO ! 🧤',de:'PERFEKTER REFLEX ! 🧤',pt:'REFLEXO PERFEITO ! 🧤',it:'RIFLESSO PERFETTO ! 🧤'},
-    {fr:'LANCÉ COMME UNE FLÈCHE ! 🧤',en:'ARROW DIVE ! 🧤',es:'¡COMO UNA FLECHA ! 🧤',de:'WIE EIN PFEIL ! 🧤',pt:'COMO UMA FLECHA ! 🧤',it:'COME UNA FRECCIA ! 🧤'},
-  ],
-  jump:[
-    {fr:'VOL PARFAIT ! 🧤',en:'PERFECT FLIGHT ! 🧤',es:'¡VUELO PERFECTO ! 🧤',de:'PERFEKTER SPRUNG ! 🧤',pt:'VÔO PERFEITO ! 🧤',it:'VOLO PERFETTO ! 🧤'},
-    {fr:'IL DÉCOLLE ! 🧤',en:'HE FLIES ! 🧤',es:'¡VUELA ! 🧤',de:'ER FLIEGT ! 🧤',pt:'ELE VOA ! 🧤',it:'VOLA ! 🧤'},
-  ],
-  catch:[
-    {fr:'DANS LES BRAS ! 🧤',en:'CAUGHT IT ! 🧤',es:'¡ATRAPADO ! 🧤',de:'SICHER GEFANGEN ! 🧤',pt:'PEGOU ! 🧤',it:'PRESO AL VOLO ! 🧤'},
-    {fr:'ATTRAPÉ PROPREMENT ! 🧤',en:'CLEAN CATCH ! 🧤',es:'¡CAPTURADO ! 🧤',de:'SAUBER GEFANGEN ! 🧤',pt:'PEGOU LIMPO ! 🧤',it:'PRESO PULITO ! 🧤'},
-  ],
-};
-function showCommentator(msg,scored){
-  var old=document.getElementById('_cmt');if(old)old.remove();
-  var d=document.createElement('div');d.id='_cmt';d.textContent=msg;
-  Object.assign(d.style,{position:'fixed',top:'38%',left:'50%',transform:'translate(-50%,-50%)',
-    background:'rgba(0,0,0,.88)',color:scored?'#ff4444':'#ffd700',
-    fontSize:'clamp(18px,5vw,32px)',fontWeight:'900',padding:'12px 24px',
-    borderRadius:'14px',zIndex:'99999',pointerEvents:'none',whiteSpace:'nowrap',
-    fontFamily:'Arial,sans-serif',textShadow:'0 2px 10px rgba(0,0,0,.9)',letterSpacing:'1px'});
-  document.body.appendChild(d);
-  setTimeout(function(){if(d.parentNode)d.remove();},1400);
-}
 // ── PENALTY CSS GAME — version image gardien + CSS animations ────────────────
 (function(){
   var s=document.createElement('style');
@@ -392,14 +349,10 @@ function PenaltyCSSGame(props){
     setState(kAnim);
     var scored=(dir!==kDir);
     setTimeout(function(){
-      if(scored){
-        var gm=GOAL_MSGS_6L[Math.floor(Math.random()*GOAL_MSGS_6L.length)];
-        showCommentator(gm[lang]||gm.en,true);
-      } else {
-        var arr=SAVE_MSGS_6L[kAnim]||SAVE_MSGS_6L.catch;
-        var pick=arr[Math.floor(Math.random()*arr.length)];
-        showCommentator(pick[lang]||pick.en,false);
-      }
+      flash.textContent=scored?'⚽ BUT !':(lang==='fr'?'ARRÊTÉ ! 🧤':lang==='es'?'PARADO ! 🧤':'SAVED ! 🧤');
+      flash.style.color=scored?'#ff4444':'#ffd700';
+      flash.style.transform='translate(-50%,-50%) scale(1)';
+      setTimeout(function(){flash.style.transform='translate(-50%,-50%) scale(0)';},900);
       if(props.onShotDone)props.onShotDone(scored);
     },550);
     setTimeout(function(){
@@ -414,7 +367,7 @@ function PenaltyCSSGame(props){
   var goalStyle={position:'relative',width:'100%',maxWidth:360,height:260,margin:'0 auto',
     border:'4px solid #fff',borderBottom:'none',borderRadius:'4px 4px 0 0',
     background:'linear-gradient(180deg,#0d3b0d 0%,#1a6b1a 60%,#2d8a2d 100%)',
-    overflow:'visible',
+    overflow:'hidden',
     boxShadow:'0 0 30px rgba(0,0,0,0.6)'};
   var wrapStyle={position:'absolute',bottom:0,left:'50%',transform:'translateX(-50%)',width:160,display:'flex',flexDirection:'column',alignItems:'center'};
   var armsStyle={position:'absolute',bottom:72,width:170,height:44,pointerEvents:'none'};
@@ -878,7 +831,7 @@ function PenaltyPitch(props){
         sbCtx.fillStyle=result==='goal'?'#ffe500':'#ff4466';
         sbCtx.shadowColor=result==='goal'?'rgba(255,229,0,0.9)':'rgba(255,60,80,0.9)';
         sbCtx.shadowBlur=28;
-        sbCtx.fillText(result==='goal'?(lang==='fr'?'⚽ BUT!':lang==='es'?'⚽ GOL!':lang==='de'?'⚽ TOR!':lang==='pt'?'⚽ GOL!':lang==='it'?'⚽ GOL!':'⚽ GOAL!'):(lang==='fr'?'✋ ARRÊTÉ!':lang==='es'?'✋ PARADO!':lang==='de'?'✋ GEHALTEN!':lang==='pt'?'✋ PEGOU!':lang==='it'?'✋ PARATO!':'✋ SAVED!'),256,155);
+        sbCtx.fillText(result==='goal'?'⚽ GOAL!':'✋ SAVED!',256,155);
         sbCtx.shadowBlur=0;
         sbCtx.fillStyle='rgba(255,255,255,0.55)';sbCtx.font='bold 22px monospace';
         sbCtx.fillText(goals+' — '+saves,256,210);
@@ -1256,16 +1209,6 @@ function PenaltyPitch(props){
             playSound('save');
           }
           setResult(thr.result);
-          /* Commentateur extérieur */
-          if(thr.result==='goal'){
-            var gm2=GOAL_MSGS_6L[Math.floor(Math.random()*GOAL_MSGS_6L.length)];
-            showCommentator(gm2[thr.lang||'en']||gm2.en,true);
-          } else {
-            var kKey=thr.keeperTarget===0?(Math.random()<0.5?'jump':'catch'):(thr.keeperTarget<0?(Math.random()<0.5?'diveLA':'diveLB'):(Math.random()<0.5?'diveRA':'diveRB'));
-            var arr2=SAVE_MSGS_6L[kKey]||SAVE_MSGS_6L.catch;
-            var pick2=arr2[Math.floor(Math.random()*arr2.length)];
-            showCommentator(pick2[thr.lang||'en']||pick2.en,false);
-          }
           thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
         }
       }
@@ -1512,7 +1455,7 @@ function PenaltyPitch(props){
         },'➡')
       ),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':lang==='it'?'DOVE TIRI?':lang==='de'?'WOHIN SCHIESST DU?':'WHERE DO YOU SHOOT?')),
-      result&&e('div',{style:{position:'absolute',top:'8%',left:'50%',transform:'translateX(-50%)',fontSize:52,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 40px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 4px 14px rgba(0,0,0,1)',textAlign:'center',whiteSpace:'nowrap'}},result==='goal'?(lang==='fr'?'⚽ BUT !':lang==='es'?'⚽ GOL !':lang==='de'?'⚽ TOR !':lang==='pt'?'⚽ GOL !':lang==='it'?'⚽ GOL !':'⚽ GOAL !'):(lang==='fr'?'✋ ARRÊTÉ !':lang==='es'?'✋ PARADO !':lang==='de'?'✋ GEHALTEN !':lang==='pt'?'✋ PEGOU !':lang==='it'?'✋ PARATO !':'✋ SAVED !')),
+      result&&e('div',{style:{position:'absolute',top:'8%',left:'50%',transform:'translateX(-50%)',fontSize:52,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 40px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 4px 14px rgba(0,0,0,1)',textAlign:'center',whiteSpace:'nowrap'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
       (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
         style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
         onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
@@ -2488,8 +2431,6 @@ function App(){
   var sF2=useState(null);var fantasyPos=sF2[0];var setFantasyPos=sF2[1];
   var sF3=useState(false);var fantasyDone=sF3[0];var setFantasyDone=sF3[1];
   var sF4=useState('4-3-3');var fantasyFormation=sF4[0];var setFantasyFormation=sF4[1];
-  var sMus=useState(function(){try{return localStorage.getItem('wc2026_music')||'A';}catch(e){return 'A';}});var musicTrack=sMus[0];var setMusicTrack=sMus[1];
-  var musicRef=useRef(null);
   var sM1=useState({});var predictions=sM1[0];var setPredictions=sM1[1];
   var sM2=useState(false);var predSaved=sM2[0];var setPredSaved=sM2[1];
   // Interactive tournament state
@@ -2511,41 +2452,6 @@ function App(){
   var questions=QUIZ[lang];
   var polls=POLLS[lang];
   var sponsors=SPONSORS[lang];
-
-  useEffect(function(){
-    if(musicTrack==='off'){
-      if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
-      return;
-    }
-    var src=musicTrack==='A'?'Goals.mp3':'Ritmo da Torcida.mp3';
-    if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
-    var audio=new Audio(src);
-    audio.loop=true;audio.volume=0.20;
-    // Try autoplay immediately (works on Android/Chrome with engagement)
-    var p=audio.play();
-    if(p&&p.catch)p.catch(function(){
-      // iOS blocked — wait for splash tap (wc2026-unlocked) or any gesture
-      function unlockPlay(){audio.play().catch(function(){});}
-      document.addEventListener('wc2026-unlocked',unlockPlay,{once:true});
-      document.addEventListener('touchstart',unlockPlay,{once:true,passive:true});
-    });
-    musicRef.current=audio;
-    return function(){if(musicRef.current){musicRef.current.pause();musicRef.current=null;}};
-  },[musicTrack]);
-
-  function cycleMusic(){
-    var next=musicTrack==='A'?'B':musicTrack==='B'?'off':'A';
-    try{localStorage.setItem('wc2026_music',next);}catch(e){}
-    if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
-    if(next!=='off'){
-      var src=next==='A'?'Goals.mp3':'Ritmo da Torcida.mp3';
-      var audio=new Audio(src);
-      audio.loop=true;audio.volume=0.20;
-      var p=audio.play();if(p&&p.catch)p.catch(function(){});
-      musicRef.current=audio;
-    }
-    setMusicTrack(next);
-  }
 
   useEffect(function(){
     function calc(){
@@ -2621,7 +2527,7 @@ function App(){
     }
   },[tab]);
 
-  function changeLang(code){setLang(code);try{localStorage.setItem('wc2026_lang',code);}catch(e){}setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);setMyTeam(null);}
+  function changeLang(code){setLang(code);setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);setMyTeam(null);}
   function handleAnswer(i){if(answered)return;setSelected(i);setAnswered(true);if(i===questions[qIdx].a)setScore(function(s){return s+1;});}
   function nextQ(){if(qIdx<questions.length-1){setQIdx(function(q){return q+1;});setSelected(null);setAnswered(false);}else setQuizDone(true);}
   function resetQuiz(){setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);}
@@ -3113,7 +3019,6 @@ function App(){
           LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
-          e('button',{onClick:cycleMusic,title:'Music',style:{background:musicTrack!=='off'?'linear-gradient(135deg,#d4af37,#b8963e)':'rgba(255,255,255,0.07)',border:musicTrack!=='off'?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'4px 10px',cursor:'pointer',color:musicTrack!=='off'?'#0a0a1a':'#4a5a6a',fontSize:12,fontWeight:musicTrack!=='off'?'bold':'normal',boxShadow:musicTrack!=='off'?'0 0 8px rgba(212,175,55,0.5)':'none'}},musicTrack==='A'?'🎵 A':musicTrack==='B'?'🎵 B':'🔇'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
           !premium&&e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',textDecoration:'none',display:'inline-block'}},'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
@@ -3768,7 +3673,7 @@ function App(){
           ),
           e('div',{style:{textAlign:'center',background:'rgba(200,40,40,0.2)',border:'1px solid rgba(200,60,60,0.4)',borderRadius:10,padding:'7px 14px'}},
             e('div',{style:{fontSize:20,fontWeight:'bold',color:'#ff8888'}},'✗ ',gameMiss),
-            e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'ARRÊTÉS':lang==='es'?'PARADOS':lang==='pt'?'DEFESAS':lang==='it'?'PARATI':lang==='de'?'GEHALTEN':'SAVED')
+            e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'ARRÊTÉS':lang==='es'?'PARADOS':lang==='pt'?'DEFENDIDOS':lang==='it'?'PARATI':lang==='de'?'GEHALTEN':'SAVED')
           )
         ),
         e('div',{style:{display:'flex',justifyContent:'center',gap:5,marginBottom:10}},
@@ -3898,7 +3803,7 @@ function App(){
             textShadow:'0 0 20px '+(shotResult==='goal'?'rgba(255,255,0,0.9)':'rgba(255,0,0,0.9)'),
             whiteSpace:'nowrap',
             zIndex:1000
-          }},shotResult==='goal'?'⚽ GOAL !!':(lang==='fr'?'🦂 ARRETE !':lang==='es'?'🦂 PARADO !':lang==='pt'?'🦂 PEGOU !':lang==='it'?'🦂 PARATO !':lang==='de'?'🦂 GEHALTEN !':'🦂 SAVED !!')),
+          }},shotResult==='goal'?'⚽ GOAL !!':(lang==='fr'?'🦂 ARRETE !':lang==='es'?'🦂 PARADO !':lang==='pt'?'🦂 DEFENDIDO !':lang==='it'?'🦂 PARATO !':lang==='de'?'🦂 GEHALTEN !':'🦂 SAVED !!')),
 
           // Crowd
           shotResult==='goal'&&e('div',{style:{position:'absolute',bottom:4,left:0,right:0,textAlign:'center',fontSize:16,zIndex:50}},'🎉🎊🎉'),
@@ -4043,14 +3948,20 @@ function App(){
                 );
               })
             ),
-            // CSS Penalty Game (goalkeeper avec animations CSS — dives + jump)
+            // 3D Canvas Pitch — always mounted to avoid WebGL context loss on iOS
             e('div',{style:{display:gamePhase==='done'?'none':'block'}},
-            e(PenaltyCSSGame,{
+            e(PenaltyPitch,{
+              key:'pitch-'+penTourRound,
               roundIdx:penTourRound,
+              shotsLeft:shotsLeft,
+              shotHistory:shotHistory,
+              gameScore:gameScore,
+              gameMiss:gameMiss,
               lang:lang,
               G:G,
+              playerName:penTourName,
               onShotDone:function(scored){
-                setShotHistory(function(hist){return hist.concat([{dir:'css',scored:scored}]);});
+                setShotHistory(function(hist){return hist.concat([{dir:'canvas',scored:scored}]);});
                 if(scored){setGameScore(function(s){return s+1;});setCombo(function(c){return c+1;});}
                 else{setGameMiss(function(m){return m+1;});setCombo(0);}
                 setShotsLeft(function(s){return Math.max(0,s-1);});
