@@ -2427,6 +2427,8 @@ function App(){
   var sP4=useState('');var favTeam=sP4[0];var setFavTeam=sP4[1];
   var sP5=useState(null);var compareTeam1=sP5[0];var setCompareTeam1=sP5[1];
   var sP6=useState(null);var compareTeam2=sP6[0];var setCompareTeam2=sP6[1];
+  var sMu=useState('A');var musicMode=sMu[0];var setMusicMode=sMu[1];
+  var audioRef=useRef(null);
   var sF1=useState([]);var fantasyTeam=sF1[0];var setFantasyTeam=sF1[1];
   var sF2=useState(null);var fantasyPos=sF2[0];var setFantasyPos=sF2[1];
   var sF3=useState(false);var fantasyDone=sF3[0];var setFantasyDone=sF3[1];
@@ -2516,6 +2518,23 @@ function App(){
     var i2=setInterval(fetchStandings,300000);
     return function(){clearInterval(i1);clearInterval(i2);};
   },[]);
+
+  // Music player
+  useEffect(function(){
+    if(audioRef.current){audioRef.current.pause();audioRef.current=null;}
+    if(musicMode==='off')return;
+    var src=musicMode==='A'?'Goals.mp3':'Ritmo da Torcida.mp3';
+    var a=new Audio(src);
+    a.loop=true;a.volume=0.20;
+    audioRef.current=a;
+    var p=a.play();
+    if(p&&p.catch)p.catch(function(){
+      function resume(){a.play().catch(function(){});}
+      document.addEventListener('touchstart',resume,{once:true});
+      document.addEventListener('click',resume,{once:true});
+    });
+    return function(){a.pause();audioRef.current=null;};
+  },[musicMode]);
 
   // Reset game when switching tabs
   useEffect(function(){
@@ -3019,6 +3038,18 @@ function App(){
           LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
+          e('div',{style:{display:'flex',gap:2,alignItems:'center',background:'rgba(0,0,0,0.3)',borderRadius:8,padding:'2px',border:'1px solid rgba(212,175,55,0.35)'}},
+            ['A','B','off'].map(function(m){
+              var on=musicMode===m;
+              return e('button',{key:m,onClick:function(){setMusicMode(m);},style:{
+                background:on?'linear-gradient(135deg,#d4af37,#b8963e)':'transparent',
+                border:'none',borderRadius:6,padding:'3px 8px',cursor:'pointer',
+                color:on?'#0a0a1a':' rgba(212,175,55,0.55)',
+                fontSize:10,fontWeight:on?'bold':'normal',
+                lineHeight:1.4
+              }},m==='off'?'Off':m);
+            })
+          ),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
           !premium&&e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',textDecoration:'none',display:'inline-block'}},'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
