@@ -1439,6 +1439,9 @@ function PenaltyPitch(props){
     e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd}),
     // Overlay HORS du container — évite que preventDefault() tue les clics sur mobile
     fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
+      e('div',{style:{position:'absolute',top:60,left:10,background:'rgba(0,0,0,0.8)',color:'#0f0',fontSize:13,padding:'6px 10px',borderRadius:6,fontFamily:'monospace'}},
+        'phase:'+phase+' | thr:'+(threeRef.current?'OK':'NULL')+' | raf:'+(threeRef.current&&threeRef.current.raf?'RUN':'STOP')
+      ),
       e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:28,left:'50%',transform:'translateX(-50%)',display:'flex',gap:'20px',alignItems:'center',pointerEvents:'auto'}},
         e('button',{
