@@ -66,10 +66,11 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 #flash{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%) scale(0);
-  font-size:30px;font-weight:900;white-space:nowrap;
-  pointer-events:none;text-shadow:0 4px 18px rgba(0,0,0,.9);
-  transition:transform .16s cubic-bezier(.34,1.56,.64,1);
-  z-index:20;
+  background:rgba(0,0,0,.82);
+  padding:14px 22px;border-radius:14px;
+  font-size:clamp(18px,5.5vw,30px);font-weight:900;white-space:nowrap;
+  pointer-events:none;z-index:30;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1);
 }
 #flash.show{transform:translate(-50%,-50%) scale(1)}
 
@@ -101,7 +102,7 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 @keyframes gk-idle{
   0%,100%{transform:rotate(-2deg)} 50%{transform:rotate(2deg)}
 }
-/* Lucarne gauche — grand plongeon en arc */
+/* Lucarne gauche */
 @keyframes gk-diveLA{
   0%  {transform:translateX(0)       translateY(0)       rotate(0)}
   30% {transform:translateX(-50px)   translateY(-60px)   rotate(-40deg)}
@@ -196,7 +197,7 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
    ════════════════════════════════════════ */
 @keyframes flyL{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
-  100%{bottom:185px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45)}
+  100%{bottom:175px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45)}
 }
 @keyframes flyC{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
@@ -208,7 +209,16 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 }
 @keyframes flyR{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
-  100%{bottom:185px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45)}
+  100%{bottom:175px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45)}
+}
+/* Trajectoires basses (arrêts ras du sol) */
+@keyframes flyLlow{
+  0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
+  100%{bottom:25px; left:8%; opacity:.6;transform:translateX(-50%) scale(.65)}
+}
+@keyframes flyRlow{
+  0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
+  100%{bottom:25px; left:92%;opacity:.6;transform:translateX(-50%) scale(.65)}
 }
 
 /* CONFETTIS */
@@ -221,8 +231,8 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 <body>
 
 <div class="score">
-  <div>⚽ Buts<br><strong id="sg">0</strong></div>
-  <div>🧤 Arrêts<br><strong id="ss">0</strong></div>
+  <div>⚽ <span id="lbl-goals">Buts</span><br><strong id="sg">0</strong></div>
+  <div>🧤 <span id="lbl-saves">Arrêts</span><br><strong id="ss">0</strong></div>
 </div>
 
 <div class="goal" id="goal">
@@ -237,48 +247,39 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
   <div id="flash"></div>
 </div>
 
-<p class="label">Où tirez-vous ?</p>
+<p class="label" id="lbl-shoot">Où tirez-vous ?</p>
 <div class="btns">
   <button class="btn btnL" onclick="shoot('L')">⬅</button>
   <button class="btn btnC" onclick="shoot('C')">⬆</button>
   <button class="btn btnR" onclick="shoot('R')">➡</button>
 </div>
-<p class="hint">Le gardien choisit aléatoirement</p>
+<p class="hint" id="lbl-hint">Le gardien choisit aléatoirement</p>
 
 <script>
-const gk   = document.getElementById('gk');
-const armL = document.getElementById('arm-L');
-const armR = document.getElementById('arm-R');
-const ball = document.getElementById('ball');
-const flash= document.getElementById('flash');
-const goal = document.getElementById('goal');
-const btns = document.querySelectorAll('.btn');
+const gk      = document.getElementById('gk');
+const armL    = document.getElementById('arm-L');
+const armR    = document.getElementById('arm-R');
+const ball    = document.getElementById('ball');
+const flash   = document.getElementById('flash');
+const goal    = document.getElementById('goal');
+const btns    = document.querySelectorAll('.btn');
+const shootEl = document.getElementById('shoot-main');
 let busy=false, goals=0, saves=0;
+/* Références aux WAAPI actives — on cancelle UNIQUEMENT celles-ci (pas les CSS) */
 let _armL=null, _armR=null, _gkH=null;
 
-/* ══ Cartes d'animation par position ══ */
+function shootAuto(){
+  const d=['L','C','R']; shoot(d[Math.floor(Math.random()*3)]);
+}
+
+/* ══ Cartes d'animation ══ */
 const ANIM = {
-  body:{
-    idle:   'gk-idle',
-    diveLA: 'gk-diveLA', diveLB: 'gk-diveLB',
-    diveRA: 'gk-diveRA', diveRB: 'gk-diveRB',
-    jump:   'gk-jump',   catch:  'gk-catch'
-  },
-  armL:{
-    idle:   'armL-idle',
-    diveLA: 'armL-diveA', diveLB: 'armL-diveB',
-    diveRA: 'armL-trailA',diveRB: 'armL-trailB',
-    jump:   'armL-jump',  catch:  'armL-catch'
-  },
-  armR:{
-    idle:   'armR-idle',
-    diveLA: 'armR-trailA',diveLB: 'armR-trailB',
-    diveRA: 'armR-diveA', diveRB: 'armR-diveB',
-    jump:   'armR-jump',  catch:  'armR-catch'
-  }
+  body:{ idle:'gk-idle', diveLA:'gk-diveLA', diveLB:'gk-diveLB', diveRA:'gk-diveRA', diveRB:'gk-diveRB', jump:'gk-jump', catch:'gk-catch' },
+  armL:{ idle:'armL-idle', diveLA:'armL-diveA', diveLB:'armL-diveB', diveRA:'armL-trailA', diveRB:'armL-trailB', jump:'armL-jump', catch:'armL-catch' },
+  armR:{ idle:'armR-idle', diveLA:'armR-trailA', diveLB:'armR-trailB', diveRA:'armR-diveA', diveRB:'armR-diveB', jump:'armR-jump', catch:'armR-catch' }
 };
 
-/* ══ setState — iOS-safe ══ */
+/* ══ setState — iOS-safe, cancelle uniquement les WAAPI stockées ══ */
 function setState(s){
   const dur  = {idle:'1.6s',jump:'.5s',catch:'.45s',diveLA:'.44s',diveLB:'.44s',diveRA:'.44s',diveRB:'.44s'}[s]||'.44s';
   const fill = s==='idle'?'none':'forwards';
@@ -286,7 +287,7 @@ function setState(s){
   const ease = s==='idle'?'ease-in-out':s==='jump'?'ease-out':'cubic-bezier(.2,0,.4,1)';
   const easeA= s==='idle'?'ease-in-out':'ease-out';
 
-  /* Canceller uniquement les WAAPI stockées — jamais les CSS du gardien */
+  /* Canceller uniquement les WAAPI qu'on a créées (pas les CSS du gardien) */
   if(_gkH){ try{_gkH.cancel();}catch(e){} _gkH=null; }
   if(_armL){ try{_armL.cancel();}catch(e){} _armL=null; }
   if(_armR){ try{_armR.cancel();}catch(e){} _armR=null; }
@@ -297,64 +298,129 @@ function setState(s){
   armR.style.animation = 'none';
   void gk.getBoundingClientRect();
 
-  gk.style.animation   = `${ANIM.body[s]||''} ${dur} ${ease}  ${fill} ${rep}`;
-  armL.style.animation = `${ANIM.armL[s]||''} ${dur} ${easeA} ${fill} ${rep}`;
-  armR.style.animation = `${ANIM.armR[s]||''} ${dur} ${easeA} ${fill} ${rep}`;
+  gk.style.animation   = `${ANIM.body[s]} ${dur} ${ease} ${fill} ${rep}`;
+  armL.style.animation = `${ANIM.armL[s]} ${dur} ${easeA} ${fill} ${rep}`;
+  armR.style.animation = `${ANIM.armR[s]} ${dur} ${easeA} ${fill} ${rep}`;
 }
 
-/* ══ Phase 2 — Web Animations API ══
-   element.animate([{to}]) démarre DEPUIS la valeur animée courante →
-   écrase la CSS animation sans snap ni transition inline.
-*/
+/* ══ Phase 2 — WAAPI bras se referment ══ */
 const ARMS_CLOSE = {
-  diveLA: ['translateY(-50%) rotate(110deg) scaleX(1.35)','translateY(-50%) rotate(-35deg)'],
-  diveLB: ['translateY(-50%) rotate(-52deg) scaleX(1.35)','translateY(-50%) rotate(-25deg)'],
-  diveRA: ['translateY(-50%) rotate(35deg)',              'translateY(-50%) rotate(-110deg) scaleX(1.35)'],
-  diveRB: ['translateY(-50%) rotate(25deg)',              'translateY(-50%) rotate(-52deg)  scaleX(1.35)'],
-  jump:   ['translateY(-50%) rotate(-78deg)',             'translateY(-50%) rotate(78deg)'],
-  catch:  ['translateY(-50%) rotate(-68deg) scaleX(1.25)','translateY(-50%) rotate(68deg)   scaleX(1.25)'],
+  diveLA:['translateY(-50%) rotate(110deg) scaleX(1.35)','translateY(-50%) rotate(-35deg)'],
+  diveLB:['translateY(-50%) rotate(-52deg) scaleX(1.35)','translateY(-50%) rotate(-25deg)'],
+  diveRA:['translateY(-50%) rotate(35deg)','translateY(-50%) rotate(-110deg) scaleX(1.35)'],
+  diveRB:['translateY(-50%) rotate(25deg)','translateY(-50%) rotate(-52deg) scaleX(1.35)'],
+  jump:  ['translateY(-50%) rotate(-78deg)','translateY(-50%) rotate(78deg)'],
+  catch: ['translateY(-50%) rotate(-68deg) scaleX(1.25)','translateY(-50%) rotate(68deg) scaleX(1.25)'],
 };
 const ARMS_LOCK = {
-  diveLA: ['translateY(-50%) rotate(114deg) scaleX(1.3)','translateY(-50%) rotate(-40deg)'],
-  diveLB: ['translateY(-50%) rotate(-56deg) scaleX(1.3)','translateY(-50%) rotate(-28deg)'],
-  diveRA: ['translateY(-50%) rotate(40deg)',             'translateY(-50%) rotate(-114deg) scaleX(1.3)'],
-  diveRB: ['translateY(-50%) rotate(28deg)',             'translateY(-50%) rotate(-56deg)  scaleX(1.3)'],
-  jump:   ['translateY(-50%) rotate(-82deg)',            'translateY(-50%) rotate(82deg)'],
-  catch:  ['translateY(-50%) rotate(-72deg) scaleX(1.2)','translateY(-50%) rotate(72deg)   scaleX(1.2)'],
+  diveLA:['translateY(-50%) rotate(114deg) scaleX(1.3)','translateY(-50%) rotate(-40deg)'],
+  diveLB:['translateY(-50%) rotate(-56deg) scaleX(1.3)','translateY(-50%) rotate(-28deg)'],
+  diveRA:['translateY(-50%) rotate(40deg)','translateY(-50%) rotate(-114deg) scaleX(1.3)'],
+  diveRB:['translateY(-50%) rotate(28deg)','translateY(-50%) rotate(-56deg) scaleX(1.3)'],
+  jump:  ['translateY(-50%) rotate(-82deg)','translateY(-50%) rotate(82deg)'],
+  catch: ['translateY(-50%) rotate(-72deg) scaleX(1.2)','translateY(-50%) rotate(72deg) scaleX(1.2)'],
 };
 
-function setArmsClose(kAnim){
-  const cl=ARMS_CLOSE[kAnim]; if(!cl) return;
-  _armL=armL.animate([{transform:cl[0]}],{duration:180,easing:'ease-out',fill:'forwards'});
-  _armR=armR.animate([{transform:cl[1]}],{duration:180,easing:'ease-out',fill:'forwards'});
+function setArmsClose(k){
+  const c=ARMS_CLOSE[k]; if(!c)return;
+  _armL=armL.animate([{transform:c[0]}],{duration:180,easing:'ease-out',fill:'forwards'});
+  _armR=armR.animate([{transform:c[1]}],{duration:180,easing:'ease-out',fill:'forwards'});
 }
-function setArmsLock(kAnim){
-  const lk=ARMS_LOCK[kAnim]; if(!lk) return;
-  _armL=armL.animate([{transform:lk[0]}],{duration:100,easing:'ease-out',fill:'forwards'});
-  _armR=armR.animate([{transform:lk[1]}],{duration:100,easing:'ease-out',fill:'forwards'});
+function setArmsLock(k){
+  const l=ARMS_LOCK[k]; if(!l)return;
+  _armL=armL.animate([{transform:l[0]}],{duration:100,easing:'ease-out',fill:'forwards'});
+  _armR=armR.animate([{transform:l[1]}],{duration:100,easing:'ease-out',fill:'forwards'});
 }
 
-/* ══ Confettis sur but ══ */
+/* ══ Confettis ══ */
 function spawnConfetti(){
-  const emojis=['🎊','⭐','🎉','✨','🌟','💫','🥇'];
+  const em=['🎊','⭐','🎉','✨','🌟','💫','🥇'];
   for(let i=0;i<10;i++){
     const d=document.createElement('div');
-    d.className='conf';
-    d.textContent=emojis[i%emojis.length];
-    d.style.left=(5+i*9)+'%';
-    d.style.fontSize=(12+Math.random()*10)+'px';
+    d.className='conf'; d.textContent=em[i%em.length];
+    d.style.left=(5+i*9)+'%'; d.style.fontSize=(12+Math.random()*10)+'px';
     d.style.animation=`confFall ${.8+i*.1}s ease-in ${i*.06}s forwards`;
-    goal.appendChild(d);
-    setTimeout(()=>d.remove(),2000);
+    goal.appendChild(d); setTimeout(()=>d.remove(),2000);
   }
 }
 
-/* ══ Flash résultat ══ */
-function showFlash(txt,color){
-  flash.textContent=txt;
-  flash.style.color=color;
+/* ══ Flash ══ */
+/* ── MESSAGES BUT — 3 variantes × 6 langues ── */
+const GOAL_MSGS=[
+  {fr:'⚽ BUT !',            en:'⚽ GOAL !',            es:'⚽ ¡GOL !',            de:'⚽ TOR !',              pt:'⚽ GOL !',             it:'⚽ GOL !'},
+  {fr:'⚽ DANS LE FILET !',  en:'⚽ IN THE NET !',      es:'⚽ ¡A LA RED !',       de:'⚽ INS NETZ !',         pt:'⚽ NA REDE !',         it:'⚽ IN RETE !'},
+  {fr:'⚽ MAGNIFIQUE !',     en:'⚽ BEAUTIFUL GOAL !',  es:'⚽ ¡QUÉ GOLAZO !',    de:'⚽ WUNDERSCHÖN !',      pt:'⚽ QUE GOLAÇO !',      it:'⚽ CHE GOL !'},
+];
+/* ── MESSAGES ARRÊT — 2 variantes × 6 types × 6 langues ── */
+const SAVE_MSGS={
+  diveLA:[
+    {fr:'PLONGÉE INCROYABLE ! 🧤', en:'INCREDIBLE DIVE ! 🧤',    es:'¡PARADA INCREÍBLE ! 🧤',  de:'UNGLAUBLICHE PARADE ! 🧤', pt:'DEFESA INCRÍVEL ! 🧤',    it:'PARATA INCREDIBILE ! 🧤'},
+    {fr:'QUE RÉFLEXE ! 🧤',        en:'WHAT A REFLEX ! 🧤',      es:'¡QUÉ REFLEJO ! 🧤',       de:'WELCH EIN REFLEX ! 🧤',    pt:'QUE REFLEXO ! 🧤',        it:'CHE RIFLESSO ! 🧤'},
+  ],
+  diveRA:[
+    {fr:'PLONGÉE INCROYABLE ! 🧤', en:'INCREDIBLE DIVE ! 🧤',    es:'¡PARADA INCREÍBLE ! 🧤',  de:'UNGLAUBLICHE PARADE ! 🧤', pt:'DEFESA INCRÍVEL ! 🧤',    it:'PARATA INCREDIBILE ! 🧤'},
+    {fr:'ENVOL PARFAIT ! 🧤',      en:'PERFECT TAKE-OFF ! 🧤',   es:'¡VUELO PERFECTO ! 🧤',    de:'PERFEKTER ABFLUG ! 🧤',    pt:'VOO PERFEITO ! 🧤',       it:'VOLO PERFETTO ! 🧤'},
+  ],
+  diveLB:[
+    {fr:'RÉFLEXE PARFAIT ! 🧤',   en:'PERFECT REFLEX ! 🧤',     es:'¡REFLEJO PERFECTO ! 🧤',  de:'PERFEKTER REFLEX ! 🧤',    pt:'REFLEXO PERFEITO ! 🧤',   it:'RIFLESSO PERFETTO ! 🧤'},
+    {fr:'ARRÊT AU SOL ! 🧤',      en:'DIVING SAVE ! 🧤',        es:'¡PARADA AL SUELO ! 🧤',   de:'PARADE AM BODEN ! 🧤',     pt:'DEFESA RASTEIRA ! 🧤',    it:'PARATA A TERRA ! 🧤'},
+  ],
+  diveRB:[
+    {fr:'RÉFLEXE PARFAIT ! 🧤',   en:'PERFECT REFLEX ! 🧤',     es:'¡REFLEJO PERFECTO ! 🧤',  de:'PERFEKTER REFLEX ! 🧤',    pt:'REFLEXO PERFEITO ! 🧤',   it:'RIFLESSO PERFETTO ! 🧤'},
+    {fr:'LANCÉ COMME UNE FLÈCHE ! 🧤',en:'ARROW DIVE ! 🧤',     es:'¡COMO UNA FLECHA ! 🧤',   de:'WIE EIN PFEIL ! 🧤',       pt:'COMO UMA FLECHA ! 🧤',    it:'COME UNA FRECCIA ! 🧤'},
+  ],
+  jump:[
+    {fr:'VOL PARFAIT ! 🧤',       en:'PERFECT FLIGHT ! 🧤',     es:'¡VUELO PERFECTO ! 🧤',    de:'PERFEKTER SPRUNG ! 🧤',    pt:'VÔO PERFEITO ! 🧤',       it:'VOLO PERFETTO ! 🧤'},
+    {fr:'IL DÉCOLLE ! 🧤',        en:'HE FLIES ! 🧤',           es:'¡VUELA ! 🧤',             de:'ER FLIEGT ! 🧤',           pt:'ELE VOA ! 🧤',            it:'VOLA ! 🧤'},
+  ],
+  catch:[
+    {fr:'DANS LES BRAS ! 🧤',     en:'CAUGHT IT ! 🧤',          es:'¡ATRAPADO ! 🧤',          de:'SICHER GEFANGEN ! 🧤',     pt:'PEGOU ! 🧤',            it:'PRESO AL VOLO ! 🧤'},
+    {fr:'ATTRAPÉ PROPREMENT ! 🧤',en:'CLEAN CATCH ! 🧤',        es:'¡CAPTURADO ! 🧤',         de:'SAUBER GEFANGEN ! 🧤',     pt:'PEGOU LIMPO ! 🧤',        it:'PRESO PULITO ! 🧤'},
+  ],
+};
+function getLang(){
+  const supported=['fr','en','es','de','pt','it'];
+  const urlP=new URLSearchParams(window.location.search).get('lang');
+  if(urlP&&supported.includes(urlP))return urlP;
+  let stored=null;
+  try{stored=localStorage.getItem('wc2026_lang');}catch(e){}
+  const l=(stored||navigator.language||'fr').slice(0,2).toLowerCase();
+  return supported.includes(l)?l:'fr';
+}
+/* Positions snap fixes par type d'arrêt (px dans goal, bottom depuis bas) */
+const CATCH_POS={
+  diveLA:{x:42, b:170}, diveLB:{x:28, b:28},
+  diveRA:{x:298,b:170}, diveRB:{x:312,b:28},
+  jump:  {x:170,b:190}, catch: {x:170,b:16},
+};
+/* Flash intérieur — dans l'écran noir (cage) */
+function showFlashInner(txt,color){
+  flash.textContent=txt; flash.style.color=color;
   flash.classList.add('show');
-  setTimeout(()=>flash.classList.remove('show'),1100);
+  clearTimeout(flash._tid);
+  flash._tid=setTimeout(()=>flash.classList.remove('show'),1250);
+}
+/* Flash extérieur — grand overlay plein écran */
+function showFlash(txt,color){
+  const old=document.getElementById('_fl');
+  if(old)old.remove();
+  const el=document.createElement('div');
+  el.id='_fl';
+  el.textContent=txt;
+  Object.assign(el.style,{
+    position:'fixed',top:'50%',left:'50%',
+    transform:'translate(-50%,-50%)',
+    background:'rgba(0,0,0,.88)',color:color,
+    fontSize:'clamp(22px,6vw,38px)',fontWeight:'900',
+    padding:'14px 26px',borderRadius:'16px',
+    zIndex:'99999',pointerEvents:'none',whiteSpace:'nowrap',
+    fontFamily:'Arial,sans-serif',
+    textShadow:'0 2px 10px rgba(0,0,0,.9)',
+    letterSpacing:'1px'
+  });
+  document.body.appendChild(el);
+  clearTimeout(showFlash._t);
+  showFlash._t=setTimeout(()=>{if(el.parentNode)el.remove();},1300);
 }
 
 /* ══ TIRER ══ */
@@ -362,68 +428,93 @@ function shoot(dir){
   if(busy)return;
   busy=true;
   btns.forEach(b=>b.disabled=true);
+  if(shootEl) shootEl.disabled=true;
 
   const choices=['L','C','R'];
-  /* IA gardien — lit le tir 15% du temps (→ ~43% save rate) */
-  let kDir = choices[Math.floor(Math.random()*3)];
-  if(Math.random()<0.15) kDir=dir;
-  const variant= Math.random()<.5?'A':'B';
+  let kDir=choices[Math.floor(Math.random()*3)];
+  if(Math.random()<0.38) kDir=dir;               /* IA ~59% save rate */
+  const variant=Math.random()<.5?'A':'B';
+  const kAnim={L:variant==='A'?'diveLA':'diveLB', C:Math.random()<.5?'jump':'catch', R:variant==='A'?'diveRA':'diveRB'}[kDir];
 
-  /* Animation gardien selon sa décision */
-  const kAnim = {
-    L: variant==='A'?'diveLA':'diveLB',
-    C: Math.random()<.5?'jump':'catch',
-    R: variant==='A'?'diveRA':'diveRB'
-  }[kDir];
+  /* Résultat connu avant de choisir la trajectoire */
+  const scored=(dir!==kDir);
 
-  /* Trajectoire ballon — centre bas si gardien attrape bas */
-  let ballAnim='flyL';
-  if(dir==='R')  ballAnim='flyR';
-  else if(dir==='C') ballAnim=(kDir==='C'&&kAnim==='catch')?'flyClow':'flyC';
+  /* Trajectoire ballon — variante basse pour saves ras-du-sol */
+  let ballAnim;
+  if(dir==='L')      ballAnim=(!scored&&kAnim==='diveLB')?'flyLlow':'flyL';
+  else if(dir==='R') ballAnim=(!scored&&kAnim==='diveRB')?'flyRlow':'flyR';
+  else               ballAnim=(kDir==='C'&&kAnim==='catch')?'flyClow':'flyC';
 
-  /* Reset ballon iOS-safe — nettoie aussi les WAAPI opacity de l'arrêt précédent */
-  try{ ball.getAnimations().forEach(a=>a.cancel()); }catch(e){}
-  ball.style.animation='none';
-  ball.style.display='block';
+  /* Reset ballon iOS-safe */
+  try{ball.getAnimations().forEach(a=>a.cancel());}catch(e){}
+  ball.style.animation='none'; ball.style.display='block';
   void ball.getBoundingClientRect();
   ball.style.animation=`${ballAnim} .52s ease-in forwards`;
 
-  /* Lancer l'animation gardien */
   setState(kAnim);
 
-  /* Résultat connu immédiatement — score déterminé par la direction */
-  const scored=(dir!==kDir);
-
-  /* Phase 2 — arrêt seulement : bras se referment sur le ballon */
+  /* Phase 2 — seulement sur arrêt */
   if(!scored){
-    setTimeout(()=>setArmsClose(kAnim), 320);  /* fermeture */
-    setTimeout(()=>setArmsLock(kAnim),  520);  /* verrouillage */
+    setTimeout(()=>setArmsClose(kAnim), 320);
+    setTimeout(()=>setArmsLock(kAnim),  520);
+    /* Saut : figer le gardien à son point culminant */
+    if(kAnim==='jump'){
+      setTimeout(()=>{ _gkH=gk.animate([{transform:'translateY(-65px) scaleX(1.25) scaleY(1)'}],{duration:200,easing:'ease-out',fill:'forwards'}); },340);
+    }
+    /* Fondu sortant du ballon */
+    setTimeout(()=>ball.animate([{opacity:0}],{duration:220,easing:'ease-in',fill:'forwards'}),1760);
   }
 
-  /* Flash résultat — 520ms = fin de trajectoire visible */
+  /* Flash + snap ballon sur les bras — 520ms */
+  const SIMPLE_GOAL={fr:'⚽ BUT !',   en:'⚽ GOAL !', es:'⚽ GOL !', de:'⚽ TOR !', pt:'⚽ GOL !', it:'⚽ GOL !'};
+  const SIMPLE_SAVE={fr:'ARRÊTÉ ! 🧤',en:'SAVED ! 🧤',es:'PARADO ! 🧤',de:'GEHALTEN ! 🧤',pt:'PEGOU ! 🧤',it:'PARATO ! 🧤'};
   setTimeout(()=>{
+    const lang=getLang();
     if(scored){
-      goals++;
-      document.getElementById('sg').textContent=goals;
-      showFlash('⚽ BUT !','#ff4444');
+      goals++; document.getElementById('sg').textContent=goals;
+      const gm=GOAL_MSGS[Math.floor(Math.random()*GOAL_MSGS.length)];
+      showFlash(gm[lang]||gm.en,'#ff4444');
       spawnConfetti();
     } else {
-      saves++;
-      document.getElementById('ss').textContent=saves;
-      showFlash('ARRÊTÉ ! 🧤','#ffd700');
+      saves++; document.getElementById('ss').textContent=saves;
+      const arr=SAVE_MSGS[kAnim]||[{fr:'ARRÊTÉ !',en:'SAVED !',es:'PARADO !',de:'GEHALTEN !',pt:'PEGOU !',it:'PARATO !'}];
+      const pick=arr[Math.floor(Math.random()*arr.length)];
+      showFlash(pick[lang]||pick.en,'#ffd700');
+      /* Snap ballon sur position fixe par type d'arrêt */
+      const p=CATCH_POS[kAnim]||{x:170,b:90};
+      ball.animate([{left:p.x+'px',bottom:p.b+'px',transform:'translateX(-50%) scale(.5)',opacity:.9}],{duration:130,easing:'ease-out',fill:'forwards'});
     }
   },520);
 
-  /* Reset — 1950ms */
+  /* Reset — 1990ms */
   setTimeout(()=>{
-    setState('idle');          /* setState nettoie transitions + transforms */
     ball.style.display='none';
+    try{ball.getAnimations().forEach(a=>a.cancel());}catch(e){}
+    setState('idle');
     busy=false;
     btns.forEach(b=>b.disabled=false);
-  },1950);
+    if(shootEl) shootEl.disabled=false;
+  },1990);
 }
 
-/* Démarrage idle */
+/* ── Traduction UI ── */
+const UI={
+  fr:{goals:'Buts',      saves:'Arrêts',  shoot:'Où tirez-vous ?',        hint:'Le gardien choisit aléatoirement'},
+  en:{goals:'Goals',     saves:'Saves',   shoot:'Where do you shoot ?',   hint:'The goalkeeper chooses randomly'},
+  es:{goals:'Goles',     saves:'Paradas', shoot:'¿Dónde disparas ?',      hint:'El portero elige al azar'},
+  de:{goals:'Tore',      saves:'Paraden', shoot:'Wohin schießt du ?',     hint:'Der Torwart wählt zufällig'},
+  pt:{goals:'Gols',      saves:'Defesas', shoot:'Para onde você chuta ?', hint:'O goleiro escolhe aleatoriamente'},
+  it:{goals:'Gol',       saves:'Parate',  shoot:'Dove tiri ?',            hint:'Il portiere sceglie a caso'},
+};
+function applyLang(){
+  const l=getLang();
+  const t=UI[l]||UI.fr;
+  document.getElementById('lbl-goals').textContent=t.goals;
+  document.getElementById('lbl-saves').textContent=t.saves;
+  document.getElementById('lbl-shoot').textContent=t.shoot;
+  document.getElementById('lbl-hint').textContent=t.hint;
+}
+applyLang();
 setState('idle');
 </script>
 </body>
