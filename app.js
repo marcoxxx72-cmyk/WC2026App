@@ -1038,32 +1038,9 @@ function PenaltyPitch(props){
       }
     };
 
-    // ── Kicker — Lower-body Canvas Sprite (FIFA low-camera angle) ──
-    // ── Kicker — Real 3D Mixamo GLB Model ──
     var pMesh=new THREE.Object3D();
     pMesh.position.set(0,0,3.2);
     scene.add(pMesh);
-    (function(){
-      function doLoad(){
-        var dracoLoader=new window.DRACOLoader();
-        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
-        var loader=new window.GLTFLoader();
-        loader.setDRACOLoader(dracoLoader);
-        loader.load('/kicker.glb',function(gltf){
-          var model=gltf.scene;
-          // Scale: bbox height=177cm → 1.8 world units
-          model.scale.set(0.0101,0.0101,0.0101);
-          // Back faces camera (camera z=5.5, goal z=-10)
-          model.rotation.y=Math.PI;
-          // Feet at ground: compute world bbox after scale, offset up
-          var box=new THREE.Box3().setFromObject(model);
-          model.position.y=-box.min.y;
-          pMesh.add(model);
-        },undefined,function(e){console.warn('kicker.glb error',e);});
-      }
-      if(window.GLTFLoader&&window.DRACOLoader){doLoad();}
-      else{window.addEventListener('loaders-ready',doLoad,{once:true});}
-    })();
 
         // ── Aim plane & crosshair ──
     var aimPlane=new THREE.Mesh(new THREE.PlaneGeometry(GW*2.6,GH*2.6),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
