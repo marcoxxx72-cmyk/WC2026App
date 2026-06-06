@@ -2402,7 +2402,7 @@ function App(){
   var sPT2=useState(0);var penTourRound=sPT2[0];var setPenTourRound=sPT2[1];
   var sPT3=useState('');var penTourName=sPT3[0];var setPenTourName=sPT3[1];
   var sPT4=useState(0);var penTourTotal=sPT4[0];var setPenTourTotal=sPT4[1];
-  var sPT5=useState(function(){try{return JSON.parse(localStorage.getItem('wc2026_pen_lb')||'[]');}catch(ex){return[];}});var penLeaderboard=sPT5[0];var setPenLeaderboard=sPT5[1];
+  var sPT5=useState(function(){try{if(new URLSearchParams(window.location.search).get('resetlb')==='1'){localStorage.removeItem('wc2026_pen_lb');return[];}return JSON.parse(localStorage.getItem('wc2026_pen_lb')||'[]');}catch(ex){return[];}});var penLeaderboard=sPT5[0];var setPenLeaderboard=sPT5[1];
   var sQ1=useState(0);var qcIdx=sQ1[0];var setQcIdx=sQ1[1];
   var sQ2=useState(0);var qcScore=sQ2[0];var setQcScore=sQ2[1];
   var sQ3=useState(null);var qcSelected=sQ3[0];var setQcSelected=sQ3[1];
