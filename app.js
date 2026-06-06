@@ -1158,9 +1158,9 @@ function PenaltyPitch(props){
         var ss=Math.max(0.08,1.12-ball.position.y*0.62);
         ballShadow.scale.set(ss,ss,1);ballShadow.material.opacity=0.28*ss;
 
-        // ── Keeper dive — smooth animated arc ──
+        // ── Keeper dive — smooth arc, stays in front of net ──
         var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
-        var DIVE_START=6,DIVE_DUR=18;
+        var DIVE_START=4,DIVE_DUR=16;
         var kf=thr.animFrame;
         if(kf===DIVE_START){kSprite.setDive(ds);gloveL.visible=false;gloveR.visible=false;}
         if(kf>=DIVE_START){
@@ -1168,15 +1168,16 @@ function PenaltyPitch(props){
           var ep=dp<0.5?2*dp*dp:-1+(4-2*dp)*dp; // ease-in-out
           if(ds===0){
             kSpriteMesh.position.x=0;
-            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*1.0;
-            kSpriteMesh.scale.set(1,1,1);
+            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*1.3;
+            kSpriteMesh.scale.set(1+0.15*Math.sin(ep*Math.PI),1,1);
           } else {
             kSpriteMesh.position.x=thr.keeperTarget*ep;
-            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.55;
+            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.65;
             kSpriteMesh.scale.set(1+0.9*ep,1-0.28*ep,1);
-            kSpriteMesh.position.z+=(GZ-0.3-kSpriteMesh.position.z)*0.12;
-            kShadow.position.z=kSpriteMesh.position.z;
           }
+          // Keep keeper in front of net — no z movement behind goal line
+          kSpriteMesh.position.z=GZ+0.7;
+          kShadow.position.z=GZ+0.7;
           kSpriteMesh.rotation.set(0,0,0);
         }
 
