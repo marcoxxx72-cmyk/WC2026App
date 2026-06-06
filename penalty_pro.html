@@ -254,6 +254,7 @@ const flash= document.getElementById('flash');
 const goal = document.getElementById('goal');
 const btns = document.querySelectorAll('.btn');
 let busy=false, goals=0, saves=0;
+let _armL=null, _armR=null, _gkH=null;
 
 /* ══ Cartes d'animation par position ══ */
 const ANIM = {
@@ -285,9 +286,10 @@ function setState(s){
   const ease = s==='idle'?'ease-in-out':s==='jump'?'ease-out':'cubic-bezier(.2,0,.4,1)';
   const easeA= s==='idle'?'ease-in-out':'ease-out';
 
-  /* Annuler toutes les animations WAAPI (phase 2) avant les nouvelles CSS */
-  try{ armL.getAnimations().forEach(a=>a.cancel()); }catch(e){}
-  try{ armR.getAnimations().forEach(a=>a.cancel()); }catch(e){}
+  /* Canceller uniquement les WAAPI stockées — jamais les CSS du gardien */
+  if(_gkH){ try{_gkH.cancel();}catch(e){} _gkH=null; }
+  if(_armL){ try{_armL.cancel();}catch(e){} _armL=null; }
+  if(_armR){ try{_armR.cancel();}catch(e){} _armR=null; }
 
   /* Reset iOS-safe */
   gk.style.animation   = 'none';
@@ -323,14 +325,13 @@ const ARMS_LOCK = {
 
 function setArmsClose(kAnim){
   const cl=ARMS_CLOSE[kAnim]; if(!cl) return;
-  /* Démarre depuis la position CSS animée courante — aucun snap */
-  armL.animate([{transform:cl[0]}],{duration:180,easing:'ease-out',fill:'forwards'});
-  armR.animate([{transform:cl[1]}],{duration:180,easing:'ease-out',fill:'forwards'});
+  _armL=armL.animate([{transform:cl[0]}],{duration:180,easing:'ease-out',fill:'forwards'});
+  _armR=armR.animate([{transform:cl[1]}],{duration:180,easing:'ease-out',fill:'forwards'});
 }
 function setArmsLock(kAnim){
   const lk=ARMS_LOCK[kAnim]; if(!lk) return;
-  armL.animate([{transform:lk[0]}],{duration:100,easing:'ease-out',fill:'forwards'});
-  armR.animate([{transform:lk[1]}],{duration:100,easing:'ease-out',fill:'forwards'});
+  _armL=armL.animate([{transform:lk[0]}],{duration:100,easing:'ease-out',fill:'forwards'});
+  _armR=armR.animate([{transform:lk[1]}],{duration:100,easing:'ease-out',fill:'forwards'});
 }
 
 /* ══ Confettis sur but ══ */
