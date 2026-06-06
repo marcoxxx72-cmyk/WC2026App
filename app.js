@@ -2496,6 +2496,8 @@ function App(){
   var sF2=useState(null);var fantasyPos=sF2[0];var setFantasyPos=sF2[1];
   var sF3=useState(false);var fantasyDone=sF3[0];var setFantasyDone=sF3[1];
   var sF4=useState('4-3-3');var fantasyFormation=sF4[0];var setFantasyFormation=sF4[1];
+  var sMus=useState(function(){try{return localStorage.getItem('wc2026_music')||'A';}catch(e){return 'A';}});var musicTrack=sMus[0];var setMusicTrack=sMus[1];
+  var musicRef=useRef(null);
   var sM1=useState({});var predictions=sM1[0];var setPredictions=sM1[1];
   var sM2=useState(false);var predSaved=sM2[0];var setPredSaved=sM2[1];
   // Interactive tournament state
@@ -2517,6 +2519,26 @@ function App(){
   var questions=QUIZ[lang];
   var polls=POLLS[lang];
   var sponsors=SPONSORS[lang];
+
+  useEffect(function(){
+    if(musicTrack==='off'){
+      if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
+      return;
+    }
+    var src=musicTrack==='A'?'Goals.mp3':'Ritmo da Torcida.mp3';
+    if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
+    var audio=new Audio(src);
+    audio.loop=true;audio.volume=0.25;
+    var p=audio.play();if(p&&p.catch)p.catch(function(){});
+    musicRef.current=audio;
+    return function(){if(musicRef.current){musicRef.current.pause();musicRef.current=null;}};
+  },[musicTrack]);
+
+  function cycleMusic(){
+    var next=musicTrack==='A'?'B':musicTrack==='B'?'off':'A';
+    try{localStorage.setItem('wc2026_music',next);}catch(e){}
+    setMusicTrack(next);
+  }
 
   useEffect(function(){
     function calc(){
@@ -3084,6 +3106,7 @@ function App(){
           LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
+          e('button',{onClick:cycleMusic,title:'Music',style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:musicTrack==='off'?'#4a5a6a':'#9bb0c8',fontSize:11}},musicTrack==='A'?'🎵 A':musicTrack==='B'?'🎵 B':'🔇'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
           !premium&&e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',textDecoration:'none',display:'inline-block'}},'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
