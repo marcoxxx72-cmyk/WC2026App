@@ -3038,18 +3038,12 @@ function App(){
           LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
-          e('div',{style:{display:'flex',gap:2,alignItems:'center',background:'rgba(0,0,0,0.3)',borderRadius:8,padding:'2px',border:'1px solid rgba(212,175,55,0.35)'}},
-            ['A','B','off'].map(function(m){
-              var on=musicMode===m;
-              return e('button',{key:m,onClick:function(){setMusicMode(m);},style:{
-                background:on?'linear-gradient(135deg,#d4af37,#b8963e)':'transparent',
-                border:'none',borderRadius:6,padding:'3px 8px',cursor:'pointer',
-                color:on?'#0a0a1a':' rgba(212,175,55,0.55)',
-                fontSize:10,fontWeight:on?'bold':'normal',
-                lineHeight:1.4
-              }},m==='off'?'Off':m);
-            })
-          ),
+          e('button',{onClick:function(){setMusicMode(function(m){return m==='A'?'B':m==='B'?'off':'A';});},style:{
+            background:'rgba(0,0,0,0.3)',border:'1px solid rgba(212,175,55,0.35)',
+            borderRadius:7,padding:'3px 9px',cursor:'pointer',
+            color:musicMode==='off'?'rgba(212,175,55,0.4)':'#d4af37',
+            fontSize:10,fontWeight:'bold',letterSpacing:1
+          }},musicMode==='off'?'Off':musicMode==='A'?'♪ A':'♪ B'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
           !premium&&e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',textDecoration:'none',display:'inline-block'}},'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
