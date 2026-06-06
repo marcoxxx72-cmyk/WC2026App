@@ -66,10 +66,11 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 #flash{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%) scale(0);
-  font-size:30px;font-weight:900;white-space:nowrap;
-  pointer-events:none;text-shadow:0 4px 18px rgba(0,0,0,.9);
-  transition:transform .16s cubic-bezier(.34,1.56,.64,1);
-  z-index:20;
+  background:rgba(0,0,0,.82);
+  padding:14px 22px;border-radius:14px;
+  font-size:clamp(18px,5.5vw,30px);font-weight:900;white-space:nowrap;
+  pointer-events:none;z-index:30;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1);
 }
 #flash.show{transform:translate(-50%,-50%) scale(1)}
 
@@ -196,7 +197,7 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
    ════════════════════════════════════════ */
 @keyframes flyL{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
-  100%{bottom:185px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45)}
+  100%{bottom:175px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45)}
 }
 @keyframes flyC{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
@@ -208,7 +209,16 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 }
 @keyframes flyR{
   0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
-  100%{bottom:185px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45)}
+  100%{bottom:175px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45)}
+}
+/* Trajectoires basses (arrêts ras du sol) */
+@keyframes flyLlow{
+  0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
+  100%{bottom:25px; left:8%; opacity:.6;transform:translateX(-50%) scale(.65)}
+}
+@keyframes flyRlow{
+  0%  {bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}
+  100%{bottom:25px; left:92%;opacity:.6;transform:translateX(-50%) scale(.65)}
 }
 
 /* CONFETTIS */
@@ -244,6 +254,7 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
   <button class="btn btnR" onclick="shoot('R')">➡</button>
 </div>
 <p class="hint">Le gardien choisit aléatoirement</p>
+<p id="dbg" style="color:#ff0;font-size:11px;margin-top:6px;letter-spacing:1px">JS: chargé ✓</p>
 
 <script>
 const gk      = document.getElementById('gk');
@@ -335,10 +346,71 @@ function spawnConfetti(){
 }
 
 /* ══ Flash ══ */
+/* ── MESSAGES BUT — 3 variantes × 6 langues ── */
+const GOAL_MSGS=[
+  {fr:'⚽ BUT !',           en:'⚽ GOAL !',           es:'⚽ ¡GOL !',         de:'⚽ TOR !',            pt:'⚽ GOL !',           it:'⚽ GOL !'},
+  {fr:'⚽ DANS LE FILET !', en:'⚽ IN THE NET !',     es:'⚽ ¡A LA RED !',    de:'⚽ INS NETZ !',       pt:'⚽ NA REDE !',       it:'⚽ IN RETE !'},
+  {fr:'⚽ MAGNIFIQUE !',    en:'⚽ BEAUTIFUL GOAL !', es:'⚽ ¡QUÉ GOLAZO !', de:'⚽ WUNDERSCHÖN !',    pt:'⚽ QUE GOLAÇO !',    it:'⚽ CHE GOL !'},
+];
+/* ── MESSAGES ARRÊT — 2 variantes × 6 types × 6 langues ── */
+const SAVE_MSGS={
+  diveLA:[
+    {fr:'PLONGÉE INCROYABLE ! 🧤',en:'INCREDIBLE DIVE ! 🧤',  es:'¡PARADA INCREÍBLE ! 🧤',de:'UNGLAUBLICHE PARADE ! 🧤',pt:'DEFESA INCRÍVEL ! 🧤',  it:'PARATA INCREDIBILE ! 🧤'},
+    {fr:'QUE RÉFLEXE ! 🧤',      en:'WHAT A REFLEX ! 🧤',    es:'¡QUÉ REFLEJO ! 🧤',     de:'WELCH EIN REFLEX ! 🧤',  pt:'QUE REFLEXO ! 🧤',      it:'CHE RIFLESSO ! 🧤'},
+  ],
+  diveRA:[
+    {fr:'PLONGÉE INCROYABLE ! 🧤',en:'INCREDIBLE DIVE ! 🧤',  es:'¡PARADA INCREÍBLE ! 🧤',de:'UNGLAUBLICHE PARADE ! 🧤',pt:'DEFESA INCRÍVEL ! 🧤',  it:'PARATA INCREDIBILE ! 🧤'},
+    {fr:'ENVOL PARFAIT ! 🧤',    en:'PERFECT TAKE-OFF ! 🧤', es:'¡VUELO PERFECTO ! 🧤',  de:'PERFEKTER ABFLUG ! 🧤',  pt:'VOO PERFEITO ! 🧤',     it:'VOLO PERFETTO ! 🧤'},
+  ],
+  diveLB:[
+    {fr:'RÉFLEXE PARFAIT ! 🧤', en:'PERFECT REFLEX ! 🧤',   es:'¡REFLEJO PERFECTO ! 🧤',de:'PERFEKTER REFLEX ! 🧤',  pt:'REFLEXO PERFEITO ! 🧤', it:'RIFLESSO PERFETTO ! 🧤'},
+    {fr:'ARRÊT AU SOL ! 🧤',    en:'DIVING SAVE ! 🧤',      es:'¡PARADA AL SUELO ! 🧤', de:'PARADE AM BODEN ! 🧤',  pt:'DEFESA RASTEIRA ! 🧤',  it:'PARATA A TERRA ! 🧤'},
+  ],
+  diveRB:[
+    {fr:'RÉFLEXE PARFAIT ! 🧤', en:'PERFECT REFLEX ! 🧤',   es:'¡REFLEJO PERFECTO ! 🧤',de:'PERFEKTER REFLEX ! 🧤',  pt:'REFLEXO PERFEITO ! 🧤', it:'RIFLESSO PERFETTO ! 🧤'},
+    {fr:'LANCÉ COMME UNE FLÈCHE ! 🧤',en:'ARROW DIVE ! 🧤', es:'¡COMO UNA FLECHA ! 🧤', de:'WIE EIN PFEIL ! 🧤',    pt:'COMO UMA FLECHA ! 🧤',  it:'COME UNA FRECCIA ! 🧤'},
+  ],
+  jump:[
+    {fr:'VOL PARFAIT ! 🧤',     en:'PERFECT FLIGHT ! 🧤',   es:'¡VUELO PERFECTO ! 🧤',  de:'PERFEKTER SPRUNG ! 🧤', pt:'VÔO PERFEITO ! 🧤',     it:'VOLO PERFETTO ! 🧤'},
+    {fr:'IL DÉCOLLE ! 🧤',      en:'HE FLIES ! 🧤',         es:'¡VUELA ! 🧤',           de:'ER FLIEGT ! 🧤',        pt:'ELE VOA ! 🧤',          it:'VOLA ! 🧤'},
+  ],
+  catch:[
+    {fr:'DANS LES BRAS ! 🧤',   en:'CAUGHT IT ! 🧤',        es:'¡ATRAPADO ! 🧤',        de:'SICHER GEFANGEN ! 🧤',  pt:'PEGOU ! 🧤',            it:'PRESO AL VOLO ! 🧤'},
+    {fr:'ATTRAPÉ PROPREMENT ! 🧤',en:'CLEAN CATCH ! 🧤',    es:'¡CAPTURADO ! 🧤',       de:'SAUBER GEFANGEN ! 🧤',  pt:'PEGOU LIMPO ! 🧤',      it:'PRESO PULITO ! 🧤'},
+  ],
+};
+function getLang(){
+  let stored=null;
+  try{ stored=localStorage.getItem('wc2026_lang'); }catch(e){}
+  const l=(stored||navigator.language||'fr').slice(0,2).toLowerCase();
+  return ['fr','en','es','de','pt','it'].includes(l)?l:'fr';
+}
+/* Positions snap fixes par type d'arrêt (px dans goal, bottom depuis bas) */
+const CATCH_POS={
+  diveLA:{x:42, b:170}, diveLB:{x:28, b:28},
+  diveRA:{x:298,b:170}, diveRB:{x:312,b:28},
+  jump:  {x:170,b:190}, catch: {x:170,b:16},
+};
 function showFlash(txt,color){
-  flash.textContent=txt; flash.style.color=color;
-  flash.classList.add('show');
-  setTimeout(()=>flash.classList.remove('show'),1100);
+  const old=document.getElementById('_fl');
+  if(old)old.remove();
+  const el=document.createElement('div');
+  el.id='_fl';
+  el.textContent=txt;
+  Object.assign(el.style,{
+    position:'fixed',top:'50%',left:'50%',
+    transform:'translate(-50%,-50%)',
+    background:'rgba(0,0,0,.88)',color:color,
+    fontSize:'clamp(22px,6vw,38px)',fontWeight:'900',
+    padding:'14px 26px',borderRadius:'16px',
+    zIndex:'99999',pointerEvents:'none',whiteSpace:'nowrap',
+    fontFamily:'Arial,sans-serif',
+    textShadow:'0 2px 10px rgba(0,0,0,.9)',
+    letterSpacing:'1px'
+  });
+  document.body.appendChild(el);
+  clearTimeout(showFlash._t);
+  showFlash._t=setTimeout(()=>{if(el.parentNode)el.remove();},1300);
 }
 
 /* ══ TIRER ══ */
@@ -350,17 +422,18 @@ function shoot(dir){
 
   const choices=['L','C','R'];
   let kDir=choices[Math.floor(Math.random()*3)];
-  if(Math.random()<0.15) kDir=dir;               /* IA ~43% save rate */
+  if(Math.random()<0.38) kDir=dir;               /* IA ~59% save rate */
   const variant=Math.random()<.5?'A':'B';
   const kAnim={L:variant==='A'?'diveLA':'diveLB', C:Math.random()<.5?'jump':'catch', R:variant==='A'?'diveRA':'diveRB'}[kDir];
 
   /* Résultat connu avant de choisir la trajectoire */
   const scored=(dir!==kDir);
 
-  /* Trajectoire ballon */
-  let ballAnim='flyL';
-  if(dir==='R') ballAnim='flyR';
-  else if(dir==='C') ballAnim=(kDir==='C'&&kAnim==='catch')?'flyClow':'flyC';
+  /* Trajectoire ballon — variante basse pour saves ras-du-sol */
+  let ballAnim;
+  if(dir==='L')      ballAnim=(!scored&&kAnim==='diveLB')?'flyLlow':'flyL';
+  else if(dir==='R') ballAnim=(!scored&&kAnim==='diveRB')?'flyRlow':'flyR';
+  else               ballAnim=(kDir==='C'&&kAnim==='catch')?'flyClow':'flyC';
 
   /* Reset ballon iOS-safe */
   try{ball.getAnimations().forEach(a=>a.cancel());}catch(e){}
@@ -384,17 +457,18 @@ function shoot(dir){
 
   /* Flash + snap ballon sur les bras — 520ms */
   setTimeout(()=>{
+    const lang=getLang();
     if(scored){
       goals++; document.getElementById('sg').textContent=goals;
-      showFlash('⚽ BUT !','#ff4444'); spawnConfetti();
+      const gm=GOAL_MSGS[Math.floor(Math.random()*GOAL_MSGS.length)];
+      showFlash(gm[lang]||gm.en,'#ff4444'); spawnConfetti();
     } else {
       saves++; document.getElementById('ss').textContent=saves;
-      showFlash('ARRÊTÉ ! 🧤','#ffd700');
-      /* Ballon snappe sur la position réelle du gardien */
-      const rK=gk.getBoundingClientRect(), rG=goal.getBoundingClientRect();
-      const cx=(rK.left+rK.right)/2 - rG.left;
-      const cy=rG.bottom - (rK.top+rK.bottom)/2;
-      ball.animate([{left:cx+'px',bottom:cy+'px',transform:'translateX(-50%) scale(.5)',opacity:.9}],{duration:130,easing:'ease-out',fill:'forwards'});
+      const arr=SAVE_MSGS[kAnim]||[{fr:'ARRÊTÉ !',en:'SAVED !',es:'PARADO !',de:'GEHALTEN !',pt:'PEGOU !',it:'PARATO !'}];
+      const pick=arr[Math.floor(Math.random()*arr.length)];
+      showFlash(pick[lang]||pick.en,'#ffd700');
+      const p=CATCH_POS[kAnim]||{x:170,b:90};
+      ball.animate([{left:p.x+'px',bottom:p.b+'px',transform:'translateX(-50%) scale(.5)',opacity:.9}],{duration:130,easing:'ease-out',fill:'forwards'});
     }
   },520);
 
