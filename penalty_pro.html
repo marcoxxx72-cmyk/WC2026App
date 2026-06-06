@@ -472,17 +472,11 @@ function shoot(dir){
     const lang=getLang();
     if(scored){
       goals++; document.getElementById('sg').textContent=goals;
-      /* Écran noir : simple */
-      showFlashInner(SIMPLE_GOAL[lang]||SIMPLE_GOAL.en,'#ff4444');
-      /* Commentateur : varié */
       const gm=GOAL_MSGS[Math.floor(Math.random()*GOAL_MSGS.length)];
       showFlash(gm[lang]||gm.en,'#ff4444');
       spawnConfetti();
     } else {
       saves++; document.getElementById('ss').textContent=saves;
-      /* Écran noir : simple */
-      showFlashInner(SIMPLE_SAVE[lang]||SIMPLE_SAVE.en,'#ffd700');
-      /* Commentateur : varié selon le type d'arrêt */
       const arr=SAVE_MSGS[kAnim]||[{fr:'ARRÊTÉ !',en:'SAVED !',es:'PARADO !',de:'GEHALTEN !',pt:'PEGOU !',it:'PARATO !'}];
       const pick=arr[Math.floor(Math.random()*arr.length)];
       showFlash(pick[lang]||pick.en,'#ffd700');

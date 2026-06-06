@@ -392,14 +392,6 @@ function PenaltyCSSGame(props){
     setState(kAnim);
     var scored=(dir!==kDir);
     setTimeout(function(){
-      /* Écran noir : message simple */
-      var sg={fr:'⚽ BUT !',en:'⚽ GOAL !',es:'⚽ GOL !',de:'⚽ TOR !',pt:'⚽ GOL !',it:'⚽ GOL !'};
-      var ss={fr:'ARRÊTÉ ! 🧤',en:'SAVED ! 🧤',es:'PARADO ! 🧤',de:'GEHALTEN ! 🧤',pt:'PEGOU ! 🧤',it:'PARATO ! 🧤'};
-      flash.textContent=scored?(sg[lang]||sg.en):(ss[lang]||ss.en);
-      flash.style.color=scored?'#ff4444':'#ffd700';
-      flash.style.transform='translate(-50%,-50%) scale(1)';
-      setTimeout(function(){flash.style.transform='translate(-50%,-50%) scale(0)';},900);
-      /* Commentateur : message varié à l'extérieur */
       if(scored){
         var gm=GOAL_MSGS_6L[Math.floor(Math.random()*GOAL_MSGS_6L.length)];
         showCommentator(gm[lang]||gm.en,true);
