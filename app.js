@@ -2536,12 +2536,8 @@ function App(){
         var p=musicRef.current.play();if(p&&p.catch)p.catch(function(){});
       }
     }
-    document.addEventListener('touchstart',unlock,{once:true,passive:true});
-    document.addEventListener('click',unlock,{once:true});
-    return function(){
-      document.removeEventListener('touchstart',unlock);
-      document.removeEventListener('click',unlock);
-    };
+    document.addEventListener('wc2026-unlocked',unlock,{once:true});
+    return function(){document.removeEventListener('wc2026-unlocked',unlock);};
   },[]);
 
   function cycleMusic(){

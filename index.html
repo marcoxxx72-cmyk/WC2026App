@@ -53,6 +53,7 @@ function closeSplash(){
   var s=document.getElementById('splash-overlay');
   s.classList.add('hidden');
   setTimeout(function(){s.style.display='none';},800);
+  document.dispatchEvent(new Event('wc2026-unlocked'));
 }
 </script>
 <div id="root"></div>
