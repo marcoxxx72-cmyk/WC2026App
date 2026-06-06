@@ -1158,30 +1158,26 @@ function PenaltyPitch(props){
         var ss=Math.max(0.08,1.12-ball.position.y*0.62);
         ballShadow.scale.set(ss,ss,1);ballShadow.material.opacity=0.28*ss;
 
-        // ── Keeper dive — SPRITE ONLY, no rotation ──
+        // ── Keeper dive — smooth animated arc ──
         var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
-        if(thr.animFrame===2){
-          kSpriteMesh.position.x=thr.keeperTarget;
+        var DIVE_START=6,DIVE_DUR=18;
+        var kf=thr.animFrame;
+        if(kf===DIVE_START){kSprite.setDive(ds);gloveL.visible=false;gloveR.visible=false;}
+        if(kf>=DIVE_START){
+          var dp=Math.min((kf-DIVE_START)/DIVE_DUR,1);
+          var ep=dp<0.5?2*dp*dp:-1+(4-2*dp)*dp; // ease-in-out
           if(ds===0){
-            // Centre : sprite portrait debout
-            kSpriteMesh.position.y=0.88;
+            kSpriteMesh.position.x=0;
+            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*1.0;
             kSpriteMesh.scale.set(1,1,1);
           } else {
-            // Gauche/droite : sprite horizontal 2688x1520 (ratio 1.77:1)
-            kSpriteMesh.position.y=0.85;
-            kSpriteMesh.scale.set(1.9,0.72,1);
+            kSpriteMesh.position.x=thr.keeperTarget*ep;
+            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.55;
+            kSpriteMesh.scale.set(1+0.9*ep,1-0.28*ep,1);
+            kSpriteMesh.position.z+=(GZ-0.3-kSpriteMesh.position.z)*0.12;
+            kShadow.position.z=kSpriteMesh.position.z;
           }
           kSpriteMesh.rotation.set(0,0,0);
-          kSprite.setDive(ds);
-          gloveL.visible=false;gloveR.visible=false;
-        }
-        if(thr.animFrame>=28){
-          gloveL.visible=false;gloveR.visible=false;
-        }
-        // Recul gardien sur plongeon latéral
-        if(ds!==0&&thr.animFrame>2){
-          kSpriteMesh.position.z+=(GZ-0.3-kSpriteMesh.position.z)*0.14;
-          kShadow.position.z=kSpriteMesh.position.z;
         }
 
         if(t>=1){
@@ -1439,9 +1435,6 @@ function PenaltyPitch(props){
     e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd}),
     // Overlay HORS du container — évite que preventDefault() tue les clics sur mobile
     fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
-      e('div',{style:{position:'absolute',top:60,left:10,background:'rgba(0,0,0,0.8)',color:'#0f0',fontSize:13,padding:'6px 10px',borderRadius:6,fontFamily:'monospace'}},
-        'phase:'+phase+' | thr:'+(threeRef.current?'OK':'NULL')+' | raf:'+(threeRef.current&&threeRef.current.raf?'RUN':'STOP')
-      ),
       e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:28,left:'50%',transform:'translateX(-50%)',display:'flex',gap:'20px',alignItems:'center',pointerEvents:'auto'}},
         e('button',{
