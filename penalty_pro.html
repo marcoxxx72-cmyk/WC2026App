@@ -466,22 +466,26 @@ function shoot(dir){
   }
 
   /* Flash + snap ballon sur les bras — 520ms */
+  const SIMPLE_GOAL={fr:'⚽ BUT !',   en:'⚽ GOAL !', es:'⚽ GOL !', de:'⚽ TOR !', pt:'⚽ GOL !', it:'⚽ GOL !'};
+  const SIMPLE_SAVE={fr:'ARRÊTÉ ! 🧤',en:'SAVED ! 🧤',es:'PARADO ! 🧤',de:'GEHALTEN ! 🧤',pt:'PEGOU ! 🧤',it:'PARATO ! 🧤'};
   setTimeout(()=>{
+    const lang=getLang();
     if(scored){
       goals++; document.getElementById('sg').textContent=goals;
+      /* Écran noir : simple */
+      showFlashInner(SIMPLE_GOAL[lang]||SIMPLE_GOAL.en,'#ff4444');
+      /* Commentateur : varié */
       const gm=GOAL_MSGS[Math.floor(Math.random()*GOAL_MSGS.length)];
-      const gmsg=gm[getLang()]||gm.fr;
-      showFlashInner(gmsg,'#ff4444');
-      showFlash(gmsg,'#ff4444');
+      showFlash(gm[lang]||gm.en,'#ff4444');
       spawnConfetti();
     } else {
       saves++; document.getElementById('ss').textContent=saves;
-      const lang=getLang();
-      const arr=SAVE_MSGS[kAnim]||[{fr:'ARRÊTÉ ! 🧤',en:'SAVED ! 🧤',es:'¡PARADO ! 🧤',de:'GEHALTEN ! 🧤',pt:'PEGOU ! 🧤',it:'PARATO ! 🧤'}];
+      /* Écran noir : simple */
+      showFlashInner(SIMPLE_SAVE[lang]||SIMPLE_SAVE.en,'#ffd700');
+      /* Commentateur : varié selon le type d'arrêt */
+      const arr=SAVE_MSGS[kAnim]||[{fr:'ARRÊTÉ !',en:'SAVED !',es:'PARADO !',de:'GEHALTEN !',pt:'PEGOU !',it:'PARATO !'}];
       const pick=arr[Math.floor(Math.random()*arr.length)];
-      const msg=pick[lang]||pick.fr;
-      showFlashInner(msg,'#ffd700');
-      showFlash(msg,'#ffd700');
+      showFlash(pick[lang]||pick.en,'#ffd700');
       /* Snap ballon sur position fixe par type d'arrêt */
       const p=CATCH_POS[kAnim]||{x:170,b:90};
       ball.animate([{left:p.x+'px',bottom:p.b+'px',transform:'translateX(-50%) scale(.5)',opacity:.9}],{duration:130,easing:'ease-out',fill:'forwards'});
