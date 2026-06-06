@@ -2512,6 +2512,8 @@ function App(){
   var polls=POLLS[lang];
   var sponsors=SPONSORS[lang];
 
+  var musicUnlockedRef=useRef(false);
+
   useEffect(function(){
     if(musicTrack==='off'){
       if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
@@ -2521,10 +2523,28 @@ function App(){
     if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
     var audio=new Audio(src);
     audio.loop=true;audio.volume=0.20;
-    var p=audio.play();if(p&&p.catch)p.catch(function(){});
+    if(musicUnlockedRef.current){
+      var p=audio.play();if(p&&p.catch)p.catch(function(){});
+    }
     musicRef.current=audio;
     return function(){if(musicRef.current){musicRef.current.pause();musicRef.current=null;}};
   },[musicTrack]);
+
+  useEffect(function(){
+    function unlock(){
+      if(musicUnlockedRef.current)return;
+      musicUnlockedRef.current=true;
+      if(musicRef.current&&musicTrack!=='off'){
+        var p=musicRef.current.play();if(p&&p.catch)p.catch(function(){});
+      }
+    }
+    document.addEventListener('touchstart',unlock,{once:true,passive:true});
+    document.addEventListener('click',unlock,{once:true});
+    return function(){
+      document.removeEventListener('touchstart',unlock);
+      document.removeEventListener('click',unlock);
+    };
+  },[]);
 
   function cycleMusic(){
     var next=musicTrack==='A'?'B':musicTrack==='B'?'off':'A';
