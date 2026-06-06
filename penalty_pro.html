@@ -281,6 +281,7 @@ const ANIM = {
 
 /* ══ setState — iOS-safe, cancelle uniquement les WAAPI stockées ══ */
 function setState(s){
+  document.title = 'GK:'+s; /* DEBUG — visible dans l'onglet */
   const dur  = {idle:'1.6s',jump:'.5s',catch:'.45s',diveLA:'.44s',diveLB:'.44s',diveRA:'.44s',diveRB:'.44s'}[s]||'.44s';
   const fill = s==='idle'?'none':'forwards';
   const rep  = s==='idle'?'infinite':'1';
