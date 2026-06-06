@@ -2528,7 +2528,7 @@ function App(){
     var src=musicTrack==='A'?'Goals.mp3':'Ritmo da Torcida.mp3';
     if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
     var audio=new Audio(src);
-    audio.loop=true;audio.volume=0.25;
+    audio.loop=true;audio.volume=0.20;
     var p=audio.play();if(p&&p.catch)p.catch(function(){});
     musicRef.current=audio;
     return function(){if(musicRef.current){musicRef.current.pause();musicRef.current=null;}};
