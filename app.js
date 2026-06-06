@@ -297,6 +297,49 @@ var e = React.createElement;
   });
 })();
 
+/* ── MESSAGES COMMENTATEURS 6 LANGUES ── */
+var GOAL_MSGS_6L=[
+  {fr:'⚽ BUT !',en:'⚽ GOAL !',es:'⚽ ¡GOL !',de:'⚽ TOR !',pt:'⚽ GOL !',it:'⚽ GOL !'},
+  {fr:'⚽ DANS LE FILET !',en:'⚽ IN THE NET !',es:'⚽ ¡A LA RED !',de:'⚽ INS NETZ !',pt:'⚽ NA REDE !',it:'⚽ IN RETE !'},
+  {fr:'⚽ MAGNIFIQUE !',en:'⚽ BEAUTIFUL GOAL !',es:'⚽ ¡QUÉ GOLAZO !',de:'⚽ WUNDERSCHÖN !',pt:'⚽ QUE GOLAÇO !',it:'⚽ CHE GOL !'},
+];
+var SAVE_MSGS_6L={
+  diveLA:[
+    {fr:'PLONGÉE INCROYABLE ! 🧤',en:'INCREDIBLE DIVE ! 🧤',es:'¡PARADA INCREÍBLE ! 🧤',de:'UNGLAUBLICHE PARADE ! 🧤',pt:'DEFESA INCRÍVEL ! 🧤',it:'PARATA INCREDIBILE ! 🧤'},
+    {fr:'QUE RÉFLEXE ! 🧤',en:'WHAT A REFLEX ! 🧤',es:'¡QUÉ REFLEJO ! 🧤',de:'WELCH EIN REFLEX ! 🧤',pt:'QUE REFLEXO ! 🧤',it:'CHE RIFLESSO ! 🧤'},
+  ],
+  diveRA:[
+    {fr:'PLONGÉE INCROYABLE ! 🧤',en:'INCREDIBLE DIVE ! 🧤',es:'¡PARADA INCREÍBLE ! 🧤',de:'UNGLAUBLICHE PARADE ! 🧤',pt:'DEFESA INCRÍVEL ! 🧤',it:'PARATA INCREDIBILE ! 🧤'},
+    {fr:'ENVOL PARFAIT ! 🧤',en:'PERFECT TAKE-OFF ! 🧤',es:'¡VUELO PERFECTO ! 🧤',de:'PERFEKTER ABFLUG ! 🧤',pt:'VOO PERFEITO ! 🧤',it:'VOLO PERFETTO ! 🧤'},
+  ],
+  diveLB:[
+    {fr:'RÉFLEXE PARFAIT ! 🧤',en:'PERFECT REFLEX ! 🧤',es:'¡REFLEJO PERFECTO ! 🧤',de:'PERFEKTER REFLEX ! 🧤',pt:'REFLEXO PERFEITO ! 🧤',it:'RIFLESSO PERFETTO ! 🧤'},
+    {fr:'ARRÊT AU SOL ! 🧤',en:'DIVING SAVE ! 🧤',es:'¡PARADA AL SUELO ! 🧤',de:'PARADE AM BODEN ! 🧤',pt:'DEFESA RASTEIRA ! 🧤',it:'PARATA A TERRA ! 🧤'},
+  ],
+  diveRB:[
+    {fr:'RÉFLEXE PARFAIT ! 🧤',en:'PERFECT REFLEX ! 🧤',es:'¡REFLEJO PERFECTO ! 🧤',de:'PERFEKTER REFLEX ! 🧤',pt:'REFLEXO PERFEITO ! 🧤',it:'RIFLESSO PERFETTO ! 🧤'},
+    {fr:'LANCÉ COMME UNE FLÈCHE ! 🧤',en:'ARROW DIVE ! 🧤',es:'¡COMO UNA FLECHA ! 🧤',de:'WIE EIN PFEIL ! 🧤',pt:'COMO UMA FLECHA ! 🧤',it:'COME UNA FRECCIA ! 🧤'},
+  ],
+  jump:[
+    {fr:'VOL PARFAIT ! 🧤',en:'PERFECT FLIGHT ! 🧤',es:'¡VUELO PERFECTO ! 🧤',de:'PERFEKTER SPRUNG ! 🧤',pt:'VÔO PERFEITO ! 🧤',it:'VOLO PERFETTO ! 🧤'},
+    {fr:'IL DÉCOLLE ! 🧤',en:'HE FLIES ! 🧤',es:'¡VUELA ! 🧤',de:'ER FLIEGT ! 🧤',pt:'ELE VOA ! 🧤',it:'VOLA ! 🧤'},
+  ],
+  catch:[
+    {fr:'DANS LES BRAS ! 🧤',en:'CAUGHT IT ! 🧤',es:'¡ATRAPADO ! 🧤',de:'SICHER GEFANGEN ! 🧤',pt:'PEGOU ! 🧤',it:'PRESO AL VOLO ! 🧤'},
+    {fr:'ATTRAPÉ PROPREMENT ! 🧤',en:'CLEAN CATCH ! 🧤',es:'¡CAPTURADO ! 🧤',de:'SAUBER GEFANGEN ! 🧤',pt:'PEGOU LIMPO ! 🧤',it:'PRESO PULITO ! 🧤'},
+  ],
+};
+function showCommentator(msg,scored){
+  var old=document.getElementById('_cmt');if(old)old.remove();
+  var d=document.createElement('div');d.id='_cmt';d.textContent=msg;
+  Object.assign(d.style,{position:'fixed',top:'38%',left:'50%',transform:'translate(-50%,-50%)',
+    background:'rgba(0,0,0,.88)',color:scored?'#ff4444':'#ffd700',
+    fontSize:'clamp(18px,5vw,32px)',fontWeight:'900',padding:'12px 24px',
+    borderRadius:'14px',zIndex:'99999',pointerEvents:'none',whiteSpace:'nowrap',
+    fontFamily:'Arial,sans-serif',textShadow:'0 2px 10px rgba(0,0,0,.9)',letterSpacing:'1px'});
+  document.body.appendChild(d);
+  setTimeout(function(){if(d.parentNode)d.remove();},1400);
+}
 // ── PENALTY CSS GAME — version image gardien + CSS animations ────────────────
 (function(){
   var s=document.createElement('style');
@@ -349,10 +392,22 @@ function PenaltyCSSGame(props){
     setState(kAnim);
     var scored=(dir!==kDir);
     setTimeout(function(){
-      flash.textContent=scored?(lang==='fr'?'⚽ BUT !':lang==='es'?'⚽ GOL !':lang==='de'?'⚽ TOR !':lang==='pt'?'⚽ GOL !':lang==='it'?'⚽ GOL !':'⚽ GOAL !'):(lang==='fr'?'ARRÊTÉ ! 🧤':lang==='es'?'PARADO ! 🧤':lang==='de'?'GEHALTEN ! 🧤':lang==='pt'?'PEGOU ! 🧤':lang==='it'?'PARATO ! 🧤':'SAVED ! 🧤');
+      /* Écran noir : message simple */
+      var sg={fr:'⚽ BUT !',en:'⚽ GOAL !',es:'⚽ GOL !',de:'⚽ TOR !',pt:'⚽ GOL !',it:'⚽ GOL !'};
+      var ss={fr:'ARRÊTÉ ! 🧤',en:'SAVED ! 🧤',es:'PARADO ! 🧤',de:'GEHALTEN ! 🧤',pt:'PEGOU ! 🧤',it:'PARATO ! 🧤'};
+      flash.textContent=scored?(sg[lang]||sg.en):(ss[lang]||ss.en);
       flash.style.color=scored?'#ff4444':'#ffd700';
       flash.style.transform='translate(-50%,-50%) scale(1)';
       setTimeout(function(){flash.style.transform='translate(-50%,-50%) scale(0)';},900);
+      /* Commentateur : message varié à l'extérieur */
+      if(scored){
+        var gm=GOAL_MSGS_6L[Math.floor(Math.random()*GOAL_MSGS_6L.length)];
+        showCommentator(gm[lang]||gm.en,true);
+      } else {
+        var arr=SAVE_MSGS_6L[kAnim]||SAVE_MSGS_6L.catch;
+        var pick=arr[Math.floor(Math.random()*arr.length)];
+        showCommentator(pick[lang]||pick.en,false);
+      }
       if(props.onShotDone)props.onShotDone(scored);
     },550);
     setTimeout(function(){
@@ -1209,6 +1264,16 @@ function PenaltyPitch(props){
             playSound('save');
           }
           setResult(thr.result);
+          /* Commentateur extérieur */
+          if(thr.result==='goal'){
+            var gm2=GOAL_MSGS_6L[Math.floor(Math.random()*GOAL_MSGS_6L.length)];
+            showCommentator(gm2[thr.lang||'en']||gm2.en,true);
+          } else {
+            var kKey=thr.keeperTarget===0?(Math.random()<0.5?'jump':'catch'):(thr.keeperTarget<0?(Math.random()<0.5?'diveLA':'diveLB'):(Math.random()<0.5?'diveRA':'diveRB'));
+            var arr2=SAVE_MSGS_6L[kKey]||SAVE_MSGS_6L.catch;
+            var pick2=arr2[Math.floor(Math.random()*arr2.length)];
+            showCommentator(pick2[thr.lang||'en']||pick2.en,false);
+          }
           thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
         }
       }
@@ -2527,7 +2592,7 @@ function App(){
     }
   },[tab]);
 
-  function changeLang(code){setLang(code);setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);setMyTeam(null);}
+  function changeLang(code){setLang(code);try{localStorage.setItem('wc2026_lang',code);}catch(e){}setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);setMyTeam(null);}
   function handleAnswer(i){if(answered)return;setSelected(i);setAnswered(true);if(i===questions[qIdx].a)setScore(function(s){return s+1;});}
   function nextQ(){if(qIdx<questions.length-1){setQIdx(function(q){return q+1;});setSelected(null);setAnswered(false);}else setQuizDone(true);}
   function resetQuiz(){setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);}
