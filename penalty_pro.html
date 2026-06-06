@@ -102,41 +102,41 @@ body{background:linear-gradient(135deg,#0a0e1a,#0d1b2a,#0a0e1a);min-height:100vh
 @keyframes gk-idle{
   0%,100%{transform:rotate(-2deg)} 50%{transform:rotate(2deg)}
 }
-/* Lucarne gauche — arc parabolique : monte d'abord puis part sur le côté */
+/* Lucarne gauche */
 @keyframes gk-diveLA{
-  0%  {transform:translateX(0)      translateY(0)      rotate(0)}
-  18% {transform:translateX(-15px)  translateY(-92px)  rotate(-22deg)}
-  55% {transform:translateX(-132px) translateY(-54px)  rotate(-68deg)}
-  100%{transform:translateX(-178px) translateY(-12px)  rotate(-84deg)}
+  0%  {transform:translateX(0)       translateY(0)       rotate(0)}
+  30% {transform:translateX(-50px)   translateY(-60px)   rotate(-40deg)}
+  65% {transform:translateX(-110px)  translateY(-40px)   rotate(-70deg)}
+  100%{transform:translateX(-160px)  translateY(-10px)   rotate(-78deg)}
 }
-/* Ras du sol gauche — lunge rapide et horizontal */
+/* Ras du sol gauche */
 @keyframes gk-diveLB{
-  0%  {transform:translateX(0)      translateY(0)     rotate(0)}
-  22% {transform:translateX(-32px)  translateY(-12px) rotate(-18deg)}
-  60% {transform:translateX(-95px)  translateY(4px)   rotate(-42deg)}
-  100%{transform:translateX(-140px) translateY(12px)  rotate(-52deg)}
+  0%  {transform:translateX(0)       translateY(0)       rotate(0)}
+  30% {transform:translateX(-40px)   translateY(-20px)   rotate(-25deg)}
+  65% {transform:translateX(-90px)   translateY(-5px)    rotate(-45deg)}
+  100%{transform:translateX(-135px)  translateY(5px)     rotate(-55deg)}
 }
-/* Lucarne droite — miroir diveLA */
+/* Lucarne droite */
 @keyframes gk-diveRA{
-  0%  {transform:translateX(0)     translateY(0)      rotate(0)}
-  18% {transform:translateX(15px)  translateY(-92px)  rotate(22deg)}
-  55% {transform:translateX(132px) translateY(-54px)  rotate(68deg)}
-  100%{transform:translateX(178px) translateY(-12px)  rotate(84deg)}
+  0%  {transform:translateX(0)       translateY(0)       rotate(0)}
+  30% {transform:translateX(50px)    translateY(-60px)   rotate(40deg)}
+  65% {transform:translateX(110px)   translateY(-40px)   rotate(70deg)}
+  100%{transform:translateX(160px)   translateY(-10px)   rotate(78deg)}
 }
-/* Ras du sol droit — miroir diveLB */
+/* Ras du sol droit */
 @keyframes gk-diveRB{
-  0%  {transform:translateX(0)     translateY(0)     rotate(0)}
-  22% {transform:translateX(32px)  translateY(-12px) rotate(18deg)}
-  60% {transform:translateX(95px)  translateY(4px)   rotate(42deg)}
-  100%{transform:translateX(140px) translateY(12px)  rotate(52deg)}
+  0%  {transform:translateX(0)       translateY(0)       rotate(0)}
+  30% {transform:translateX(40px)    translateY(-20px)   rotate(25deg)}
+  65% {transform:translateX(90px)    translateY(-5px)    rotate(45deg)}
+  100%{transform:translateX(135px)   translateY(5px)     rotate(55deg)}
 }
-/* Saut centre haut — propulsion verticale sans déformation latérale */
+/* Saut centre haut */
 @keyframes gk-jump{
-  0%  {transform:translateY(0)      scaleY(1)}
-  12% {transform:translateY(5px)    scaleY(.9)}
-  42% {transform:translateY(-90px)  scaleY(1.05)}
-  68% {transform:translateY(-72px)  scaleY(1)}
-  100%{transform:translateY(0)      scaleY(1)}
+  0%  {transform:translateY(0)     scaleX(1)    scaleY(1)}
+  12% {transform:translateY(4px)   scaleX(1.05) scaleY(.92)}
+  45% {transform:translateY(-75px) scaleX(1.2)  scaleY(1)}
+  70% {transform:translateY(-65px) scaleX(1.25) scaleY(1)}
+  100%{transform:translateY(0)     scaleX(1)    scaleY(1)}
 }
 /* Attrappage centre bas — penché en avant */
 @keyframes gk-catch{
@@ -281,7 +281,7 @@ const ANIM = {
 
 /* ══ setState — iOS-safe, cancelle uniquement les WAAPI stockées ══ */
 function setState(s){
-  const dur  = {idle:'1.6s',jump:'.52s',catch:'.42s',diveLA:'.50s',diveLB:'.40s',diveRA:'.50s',diveRB:'.40s'}[s]||'.44s';
+  const dur  = {idle:'1.6s',jump:'.5s',catch:'.45s',diveLA:'.44s',diveLB:'.44s',diveRA:'.44s',diveRB:'.44s'}[s]||'.44s';
   const fill = s==='idle'?'none':'forwards';
   const rep  = s==='idle'?'infinite':'1';
   const ease = s==='idle'?'ease-in-out':s==='jump'?'ease-out':'cubic-bezier(.2,0,.4,1)';
@@ -459,7 +459,7 @@ function shoot(dir){
     setTimeout(()=>setArmsLock(kAnim),  520);
     /* Saut : figer le gardien à son point culminant */
     if(kAnim==='jump'){
-      setTimeout(()=>{ _gkH=gk.animate([{transform:'translateY(-72px) scaleY(1)'}],{duration:200,easing:'ease-out',fill:'forwards'}); },340);
+      setTimeout(()=>{ _gkH=gk.animate([{transform:'translateY(-65px) scaleX(1.25) scaleY(1)'}],{duration:200,easing:'ease-out',fill:'forwards'}); },340);
     }
     /* Fondu sortant du ballon */
     setTimeout(()=>ball.animate([{opacity:0}],{duration:220,easing:'ease-in',fill:'forwards'}),1760);
