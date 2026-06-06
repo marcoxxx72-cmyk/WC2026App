@@ -477,7 +477,7 @@ function shoot(dir){
     } else {
       saves++; document.getElementById('ss').textContent=saves;
       const lang=getLang();
-      const arr=SAVE_MSGS[kAnim]||[{fr:'ARRÊTÉ ! 🧤',en:'SAVED ! 🧤',es:'¡PARADO ! 🧤',de:'GEHALTEN ! 🧤',pt:'DEFENDIDO ! 🧤',it:'PARATO ! 🧤'}];
+      const arr=SAVE_MSGS[kAnim]||[{fr:'ARRÊTÉ ! 🧤',en:'SAVED ! 🧤',es:'¡PARADO ! 🧤',de:'GEHALTEN ! 🧤',pt:'PEGOU ! 🧤',it:'PARATO ! 🧤'}];
       const pick=arr[Math.floor(Math.random()*arr.length)];
       const msg=pick[lang]||pick.fr;
       showFlashInner(msg,'#ffd700');

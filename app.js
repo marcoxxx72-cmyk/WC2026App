@@ -349,7 +349,7 @@ function PenaltyCSSGame(props){
     setState(kAnim);
     var scored=(dir!==kDir);
     setTimeout(function(){
-      flash.textContent=scored?(lang==='fr'?'⚽ BUT !':lang==='es'?'⚽ GOL !':lang==='de'?'⚽ TOR !':lang==='pt'?'⚽ GOL !':lang==='it'?'⚽ GOL !':'⚽ GOAL !'):(lang==='fr'?'ARRÊTÉ ! 🧤':lang==='es'?'PARADO ! 🧤':lang==='de'?'GEHALTEN ! 🧤':lang==='pt'?'DEFENDIDO ! 🧤':lang==='it'?'PARATO ! 🧤':'SAVED ! 🧤');
+      flash.textContent=scored?(lang==='fr'?'⚽ BUT !':lang==='es'?'⚽ GOL !':lang==='de'?'⚽ TOR !':lang==='pt'?'⚽ GOL !':lang==='it'?'⚽ GOL !':'⚽ GOAL !'):(lang==='fr'?'ARRÊTÉ ! 🧤':lang==='es'?'PARADO ! 🧤':lang==='de'?'GEHALTEN ! 🧤':lang==='pt'?'PEGOU ! 🧤':lang==='it'?'PARATO ! 🧤':'SAVED ! 🧤');
       flash.style.color=scored?'#ff4444':'#ffd700';
       flash.style.transform='translate(-50%,-50%) scale(1)';
       setTimeout(function(){flash.style.transform='translate(-50%,-50%) scale(0)';},900);
@@ -831,7 +831,7 @@ function PenaltyPitch(props){
         sbCtx.fillStyle=result==='goal'?'#ffe500':'#ff4466';
         sbCtx.shadowColor=result==='goal'?'rgba(255,229,0,0.9)':'rgba(255,60,80,0.9)';
         sbCtx.shadowBlur=28;
-        sbCtx.fillText(result==='goal'?(lang==='fr'?'⚽ BUT!':lang==='es'?'⚽ GOL!':lang==='de'?'⚽ TOR!':lang==='pt'?'⚽ GOL!':lang==='it'?'⚽ GOL!':'⚽ GOAL!'):(lang==='fr'?'✋ ARRÊTÉ!':lang==='es'?'✋ PARADO!':lang==='de'?'✋ GEHALTEN!':lang==='pt'?'✋ DEFENDIDO!':lang==='it'?'✋ PARATO!':'✋ SAVED!'),256,155);
+        sbCtx.fillText(result==='goal'?(lang==='fr'?'⚽ BUT!':lang==='es'?'⚽ GOL!':lang==='de'?'⚽ TOR!':lang==='pt'?'⚽ GOL!':lang==='it'?'⚽ GOL!':'⚽ GOAL!'):(lang==='fr'?'✋ ARRÊTÉ!':lang==='es'?'✋ PARADO!':lang==='de'?'✋ GEHALTEN!':lang==='pt'?'✋ PEGOU!':lang==='it'?'✋ PARATO!':'✋ SAVED!'),256,155);
         sbCtx.shadowBlur=0;
         sbCtx.fillStyle='rgba(255,255,255,0.55)';sbCtx.font='bold 22px monospace';
         sbCtx.fillText(goals+' — '+saves,256,210);
@@ -1455,7 +1455,7 @@ function PenaltyPitch(props){
         },'➡')
       ),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':lang==='it'?'DOVE TIRI?':lang==='de'?'WOHIN SCHIESST DU?':'WHERE DO YOU SHOOT?')),
-      result&&e('div',{style:{position:'absolute',top:'8%',left:'50%',transform:'translateX(-50%)',fontSize:52,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 40px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 4px 14px rgba(0,0,0,1)',textAlign:'center',whiteSpace:'nowrap'}},result==='goal'?(lang==='fr'?'⚽ BUT !':lang==='es'?'⚽ GOL !':lang==='de'?'⚽ TOR !':lang==='pt'?'⚽ GOL !':lang==='it'?'⚽ GOL !':'⚽ GOAL !'):(lang==='fr'?'✋ ARRÊTÉ !':lang==='es'?'✋ PARADO !':lang==='de'?'✋ GEHALTEN !':lang==='pt'?'✋ DEFENDIDO !':lang==='it'?'✋ PARATO !':'✋ SAVED !')),
+      result&&e('div',{style:{position:'absolute',top:'8%',left:'50%',transform:'translateX(-50%)',fontSize:52,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 40px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 4px 14px rgba(0,0,0,1)',textAlign:'center',whiteSpace:'nowrap'}},result==='goal'?(lang==='fr'?'⚽ BUT !':lang==='es'?'⚽ GOL !':lang==='de'?'⚽ TOR !':lang==='pt'?'⚽ GOL !':lang==='it'?'⚽ GOL !':'⚽ GOAL !'):(lang==='fr'?'✋ ARRÊTÉ !':lang==='es'?'✋ PARADO !':lang==='de'?'✋ GEHALTEN !':lang==='pt'?'✋ PEGOU !':lang==='it'?'✋ PARATO !':'✋ SAVED !')),
       (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
         style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
         onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
@@ -3673,7 +3673,7 @@ function App(){
           ),
           e('div',{style:{textAlign:'center',background:'rgba(200,40,40,0.2)',border:'1px solid rgba(200,60,60,0.4)',borderRadius:10,padding:'7px 14px'}},
             e('div',{style:{fontSize:20,fontWeight:'bold',color:'#ff8888'}},'✗ ',gameMiss),
-            e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'ARRÊTÉS':lang==='es'?'PARADOS':lang==='pt'?'DEFENDIDOS':lang==='it'?'PARATI':lang==='de'?'GEHALTEN':'SAVED')
+            e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'ARRÊTÉS':lang==='es'?'PARADOS':lang==='pt'?'DEFESAS':lang==='it'?'PARATI':lang==='de'?'GEHALTEN':'SAVED')
           )
         ),
         e('div',{style:{display:'flex',justifyContent:'center',gap:5,marginBottom:10}},
@@ -3803,7 +3803,7 @@ function App(){
             textShadow:'0 0 20px '+(shotResult==='goal'?'rgba(255,255,0,0.9)':'rgba(255,0,0,0.9)'),
             whiteSpace:'nowrap',
             zIndex:1000
-          }},shotResult==='goal'?'⚽ GOAL !!':(lang==='fr'?'🦂 ARRETE !':lang==='es'?'🦂 PARADO !':lang==='pt'?'🦂 DEFENDIDO !':lang==='it'?'🦂 PARATO !':lang==='de'?'🦂 GEHALTEN !':'🦂 SAVED !!')),
+          }},shotResult==='goal'?'⚽ GOAL !!':(lang==='fr'?'🦂 ARRETE !':lang==='es'?'🦂 PARADO !':lang==='pt'?'🦂 PEGOU !':lang==='it'?'🦂 PARATO !':lang==='de'?'🦂 GEHALTEN !':'🦂 SAVED !!')),
 
           // Crowd
           shotResult==='goal'&&e('div',{style:{position:'absolute',bottom:4,left:0,right:0,textAlign:'center',fontSize:16,zIndex:50}},'🎉🎊🎉'),
