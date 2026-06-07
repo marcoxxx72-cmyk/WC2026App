@@ -1239,10 +1239,7 @@ function PenaltyPitch(props){
       } else {
         netMat.opacity=0.5;
       }
-      // Camera smooth follow during shot (subtle horizontal pan)
-      var camTX=(thr.phase==='animating'||thr.phase==='result')?ball.position.x*0.16:0;
-      camLookX+=(camTX-camLookX)*0.07;
-      camera.lookAt(camLookX,1.1,GZ);
+      camera.lookAt(0,1.1,GZ);
 
       // Kicker kick animation — lean forward then hide
       if(thr.phase==='animating'&&pMesh.visible){
