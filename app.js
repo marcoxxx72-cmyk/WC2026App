@@ -3806,7 +3806,7 @@ function App(){
             textShadow:'0 0 20px '+(shotResult==='goal'?'rgba(255,255,0,0.9)':'rgba(255,0,0,0.9)'),
             whiteSpace:'nowrap',
             zIndex:1000
-          }},shotResult==='goal'?'⚽ GOAL !!':(lang==='fr'?'🦂 ARRETE !':lang==='es'?'🦂 PARADO !':lang==='pt'?'🦂 DEFENDIDO !':lang==='it'?'🦂 PARATO !':lang==='de'?'🦂 GEHALTEN !':'🦂 SAVED !!')),
+          }},shotResult==='goal'?(lang==='fr'?'⚽ BUT !!':lang==='es'?'⚽ GOL !!':lang==='pt'?'⚽ GOL !!':lang==='it'?'⚽ GOL !!':lang==='de'?'⚽ TOR !!':'⚽ GOAL !!'):(lang==='fr'?'🦂 ARRÊT !':lang==='es'?'🦂 PARADO !':lang==='pt'?'🦂 DEFESA !':lang==='it'?'🦂 PARATO !':lang==='de'?'🦂 GEHALTEN !':'🦂 SAVED !!')),
 
           // Crowd
           shotResult==='goal'&&e('div',{style:{position:'absolute',bottom:4,left:0,right:0,textAlign:'center',fontSize:16,zIndex:50}},'🎉🎊🎉'),
