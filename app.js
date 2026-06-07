@@ -1043,7 +1043,7 @@ function PenaltyPitch(props){
     // Pending dive — appliqué dès que la texture est chargée
     var pendingDive=null;
     function applyDiveTex(dir){
-      var tex=dir===0?kTextures.jump:(dir>0?kTextures.hdive:kTextures.hdiveR);
+      var tex=dir===0?kTextures.jump:kTextures.hdive;
       if(!tex){pendingDive={dir:dir};return;}
       pendingDive=null;
       tex.wrapS=THREE.RepeatWrapping;
