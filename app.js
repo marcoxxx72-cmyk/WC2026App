@@ -4027,11 +4027,11 @@ function App(){
                   e('div',{style:{fontSize:44,marginBottom:6}},isChampion?'🏆':qualified?'✅':'❌'),
                   e('div',{style:{fontSize:16,fontWeight:'bold',color:qualified?'#90ee90':'#ff4444',marginBottom:4}},
                     isChampion?(lang==='fr'?'CHAMPION DU MONDE !':lang==='es'?'¡CAMPEÓN DEL MUNDO!':lang==='pt'?'CAMPEÃO DO MUNDO !':lang==='it'?'CAMPIONE DEL MONDO !':lang==='de'?'WELTMEISTER !':'WORLD CHAMPION !'):
-                    qualified?(lang==='fr'?'QUALIFIÉ !':lang==='es'?'¡CLASIFICADO!':lang==='pt'?'CLASSIFICADO !':'QUALIFIED !'):
-                    (lang==='fr'?'ÉLIMINÉ':lang==='es'?'ELIMINADO':lang==='pt'?'ELIMINADO':'ELIMINATED')
+                    qualified?(lang==='fr'?'QUALIFIÉ !':lang==='es'?'¡CLASIFICADO!':lang==='pt'?'CLASSIFICADO !':lang==='it'?'QUALIFICATO !':lang==='de'?'QUALIFIZIERT !':'QUALIFIED !'):
+                    (lang==='fr'?'ÉLIMINÉ':lang==='es'?'ELIMINADO':lang==='pt'?'ELIMINADO':lang==='it'?'ELIMINATO':lang==='de'?'AUSGESCHIEDEN':'ELIMINATED')
                   ),
                   e('div',{style:{fontSize:12,color:'#ccc',marginBottom:6}},gameScore,' / 5 — +',bonus,' pts'),
-                  e('div',{style:{fontSize:14,fontWeight:'bold',color:G}},'Total: ',newTotal,' pts'),
+                  e('div',{style:{fontSize:14,fontWeight:'bold',color:G}},(lang==='it'?'Totale: ':lang==='de'?'Gesamt: ':'Total: '),newTotal,' pts'),
                   qualified&&rd.bonus>0&&e('div',{style:{fontSize:10,color:'#90ee90',marginTop:3}},'⭐ Round bonus: +',rd.bonus,' pts'),
                   e('div',{style:{display:'flex',justifyContent:'center',gap:4,marginTop:8}},
                     shotHistory.map(function(h,i){return e('div',{key:i,style:{width:22,height:22,borderRadius:'50%',background:h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)',border:'1px solid '+(h.scored?'#90ee90':'#ff6666'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:10}},h.scored?'⚽':'✗');})
@@ -4041,20 +4041,20 @@ function App(){
                   savePenLeaderboard(penTourName,newTotal,3);
                   setPenTourPhase('menu');
                 },style:{width:'100%',background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)',marginBottom:6}},
-                '🏆 '+(lang==='fr'?'SAUVEGARDER & CLASSEMENT':lang==='es'?'GUARDAR & RANKING':lang==='pt'?'SALVAR & RANKING':'SAVE & LEADERBOARD')),
+                '🏆 '+(lang==='fr'?'SAUVEGARDER & CLASSEMENT':lang==='es'?'GUARDAR & RANKING':lang==='pt'?'SALVAR & RANKING':lang==='it'?'SALVA & CLASSIFICA':lang==='de'?'SPEICHERN & RANGLISTE':'SAVE & LEADERBOARD')),
                 qualified&&!isChampion&&e('button',{onClick:function(){
                   setPenTourTotal(newTotal);
                   setPenTourRound(penTourRound+1);
                   startPenRound();
                 },style:{width:'100%',background:'linear-gradient(135deg,#90ee90,#228B22)',border:'none',borderRadius:12,padding:'13px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',marginBottom:6}},
-                '▶ '+(lang==='fr'?'PROCHAIN ROUND':lang==='es'?'SIGUIENTE RONDA':lang==='pt'?'PRÓXIMA RODADA':'NEXT ROUND')+' — '+(ROUNDS[penTourRound+1]&&(ROUNDS[penTourRound+1].name[lang]||ROUNDS[penTourRound+1].name.en)||'')),
+                '▶ '+(lang==='fr'?'PROCHAIN ROUND':lang==='es'?'SIGUIENTE RONDA':lang==='pt'?'PRÓXIMA RODADA':lang==='it'?'PROSSIMO ROUND':lang==='de'?'NÄCHSTE RUNDE':'NEXT ROUND')+' — '+(ROUNDS[penTourRound+1]&&(ROUNDS[penTourRound+1].name[lang]||ROUNDS[penTourRound+1].name.en)||'')),
                 !qualified&&e('button',{onClick:function(){
                   savePenLeaderboard(penTourName,newTotal,penTourRound);
                   setPenTourPhase('menu');
                 },style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'13px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',marginBottom:6}},
-                '🏅 '+(lang==='fr'?'SAUVEGARDER MON SCORE':lang==='es'?'GUARDAR MI SCORE':lang==='pt'?'SALVAR MEU SCORE':'SAVE MY SCORE')),
+                '🏅 '+(lang==='fr'?'SAUVEGARDER MON SCORE':lang==='es'?'GUARDAR MI SCORE':lang==='pt'?'SALVAR MEU SCORE':lang==='it'?'SALVA IL MIO PUNTEGGIO':lang==='de'?'ERGEBNIS SPEICHERN':'SAVE MY SCORE')),
                 e('button',{onClick:function(){setPenTourPhase('menu');},style:{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'9px 0',fontSize:11,color:'#6a86a0',cursor:'pointer'}},
-                '🏠 '+(lang==='fr'?'Menu':lang==='es'?'Menú':lang==='pt'?'Menu':'Menu'))
+                '🏠 '+(lang==='fr'?'Menu':lang==='es'?'Menú':lang==='pt'?'Menu':lang==='it'?'Menu':lang==='de'?'Menü':'Menu'))
               );
             })()
           );
