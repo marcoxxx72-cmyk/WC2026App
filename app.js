@@ -1174,7 +1174,7 @@ function PenaltyPitch(props){
           } else {
             kSpriteMesh.position.x=thr.keeperTarget*ep;
             kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.65;
-            kSpriteMesh.scale.set(1+0.9*ep,1-0.28*ep,1);
+            kSpriteMesh.scale.set(ds*(1+0.9*ep),1-0.28*ep,1);
           }
           // Keep keeper in front of net — no z movement behind goal line
           kSpriteMesh.position.z=GZ+0.7;
@@ -1210,7 +1210,7 @@ function PenaltyPitch(props){
             if(_isC){
               // Centre : ballon fixe à la cible, gardien monte vers lui via lerp
               ball.position.set(tgt.x,tgt.y,_kp.z);
-              thr.savedKeeperSnap={x:0,y:_kp.y};
+              thr.savedKeeperSnap={x:0,y:tgt.y};
               thr.savedBounce=null;
             } else {
               // Latéral : ballon snap aux mains + déviation réaliste
