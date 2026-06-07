@@ -399,6 +399,24 @@ function PenaltyCSSGame(props){
 }
 
 // ── PENALTY 3D CANVAS GAME ────────────────────────────────────────────────────
+var SAVE_MSGS_3D={
+  center:{
+    en:['What a catch!','Read it perfectly!','Incredible reflex!','No chance!'],
+    fr:['Quelle prise !','Il l\'avait lu !','Réflexe incroyable !','Impossible !'],
+    es:['¡Qué atrapada!','¡Lo leyó perfecto!','¡Reflejo increíble!','¡Imposible!'],
+    pt:['Que defesa!','Leu perfeitamente!','Reflexo incrível!','Impossível!'],
+    it:['Che presa!','L\'ha letto!','Riflesso incredibile!','Impossibile!'],
+    de:['Was für ein Fang!','Perfekt gelesen!','Unglaublicher Reflex!','Unmöglich!']
+  },
+  dive:{
+    en:['What a dive!','Right way!','Incredible save!','Flying keeper!'],
+    fr:['Quel plongeon !','Du bon côté !','Arrêt incroyable !','Il s\'envole !'],
+    es:['¡Qué estirada!','¡Lado correcto!','¡Parada increíble!','¡Vuela el portero!'],
+    pt:['Que mergulho!','Lado certo!','Defesa incrível!','O goleiro voa!'],
+    it:['Che tuffo!','Lato giusto!','Parata incredibile!','Il portiere vola!'],
+    de:['Hechtsprung!','Richtige Seite!','Unglaubliche Parade!','Er fliegt!']
+  }
+};
 function PenaltyPitch(props){
   var containerRef=useRef(null);
   var powerBarRef=useRef(null);
@@ -408,6 +426,7 @@ function PenaltyPitch(props){
   var _pfs=useState(false);var fullscreen=_pfs[0];var setFullscreen=_pfs[1];
   var _pvh=useState(window.innerHeight);var vph=_pvh[0];var setVph=_pvh[1];
   var _pready=useState(false);var ready=_pready[0];var setReady=_pready[1];
+  var _psm=useState(null);var saveMsg=_psm[0];var setSaveMsg=_psm[1];
   var lang=props.lang||'en';var G=props.G||'#d4af37';var roundIdx=props.roundIdx||0;
 
   // Fix iOS 100vh + orientation change
@@ -1186,6 +1205,7 @@ function PenaltyPitch(props){
             initSbConf();thr.sbResultActive='saved';
             if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,sv,'saved');
             playSound('save');
+            (function(){var _kd=thr.keeperTarget;var _mk=_kd===0?'center':'dive';var _lg=thr.lang||'en';var _lm=SAVE_MSGS_3D[_mk][_lg]||SAVE_MSGS_3D[_mk].en;window.setTimeout(function(){setSaveMsg(_lm[Math.floor(Math.random()*_lm.length)]);},50);})();
           }
           setResult(thr.result);
           thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
@@ -1235,6 +1255,7 @@ function PenaltyPitch(props){
           if(props.onShotDone)props.onShotDone(_scored);
           setResult(null);
           setPhase('idle');
+          setSaveMsg(null);
         },0);
       }
 
@@ -1437,7 +1458,8 @@ function PenaltyPitch(props){
       (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
         style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
         onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
-      },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':lang==='it'?'TIRARE':lang==='de'?'SCHIESSEN':'SHOOT'))
+      },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':lang==='it'?'TIRARE':lang==='de'?'SCHIESSEN':'SHOOT')),
+      saveMsg&&e('div',{style:{position:'absolute',top:'55%',left:'50%',transform:'translate(-50%,-50%)',fontSize:22,fontWeight:'bold',color:'#00ff88',textShadow:'0 0 20px rgba(0,255,136,0.9)',whiteSpace:'nowrap',pointerEvents:'none',letterSpacing:1}},saveMsg)
     ),
     e('div',{style:{display:'flex',justifyContent:'center',gap:6,margin:'6px 0'}},
       [0,1,2,3,4].map(function(i){var h=(props.shotHistory||[])[i];return e('div',{key:i,style:{width:24,height:24,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)'):'rgba(255,255,255,0.08)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff6666'):'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h?(h.scored?'⚽':'✗'):'');})
