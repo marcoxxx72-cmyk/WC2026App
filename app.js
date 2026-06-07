@@ -401,12 +401,12 @@ function PenaltyCSSGame(props){
 // ── PENALTY 3D CANVAS GAME ────────────────────────────────────────────────────
 var SAVE_MSGS_3D={
   center:{
-    en:['What a catch!','Read it perfectly!','Incredible reflex!','No chance!'],
-    fr:['Quelle prise !','Il l\'avait lu !','Réflexe incroyable !','Impossible !'],
-    es:['¡Qué atrapada!','¡Lo leyó perfecto!','¡Reflejo increíble!','¡Imposible!'],
-    pt:['Que defesa!','Leu perfeitamente!','Reflexo incrível!','Impossível!'],
-    it:['Che presa!','L\'ha letto!','Riflesso incredibile!','Impossibile!'],
-    de:['Was für ein Fang!','Perfekt gelesen!','Unglaublicher Reflex!','Unmöglich!']
+    en:['CAUGHT IT! 🧤','IN HIS HANDS! 🧤','Read it perfectly!','Incredible reflex!'],
+    fr:['DANS LES BRAS ! 🧤','ATTRAPÉ ! 🧤','Il l\'avait lu !','Réflexe incroyable !'],
+    es:['¡LO ATRAPA! 🧤','¡EN LAS MANOS! 🧤','¡Lo leyó perfecto!','¡Reflejo increíble!'],
+    pt:['AGARROU! 🧤','NAS MÃOS! 🧤','Leu perfeitamente!','Reflexo incrível!'],
+    it:['PRESA! 🧤','NELLE MANI! 🧤','L\'ha letto!','Riflesso incredibile!'],
+    de:['GEFANGEN! 🧤','IN SEINEN HÄNDEN! 🧤','Perfekt gelesen!','Unglaublicher Reflex!']
   },
   dive:{
     en:['What a dive!','Right way!','Incredible save!','Flying keeper!'],
@@ -1229,10 +1229,21 @@ function PenaltyPitch(props){
             playSound('save');triggerFX('save');
             (function(){var _kd=thr.keeperTarget;var _mk=_kd===0?'center':'dive';var _lg=thr.lang||'en';var _lm=SAVE_MSGS_3D[_mk][_lg]||SAVE_MSGS_3D[_mk].en;window.setTimeout(function(){setSaveMsg(_lm[Math.floor(Math.random()*_lm.length)]);},50);})();
             thr.savedKeeperSnap=null;thr.savedBounce=null;
+            if(thr.keeperTarget===0){
+              kSpriteMesh.position.y=0.88+1.3;kSpriteMesh.scale.set(1.15,1,1);
+              thr.catchSnap={x:0,y:2.75,z:GZ+0.55};
+              ball.position.set(0,2.75,GZ+0.55);ball.rotation.set(0,0,0);
+            }else{thr.catchSnap=null;}
           }
           setResult(thr.result);
           thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
         }
+      }
+
+      // Lock ball in keeper hands during center catch result display
+      if(thr.phase==='result'&&thr.catchSnap){
+        ball.position.set(thr.catchSnap.x,thr.catchSnap.y,thr.catchSnap.z);
+        ball.rotation.set(0,0,0);
       }
 
       if(showConf){
@@ -1265,7 +1276,7 @@ function PenaltyPitch(props){
         ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
         ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
         kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSpriteMesh.scale.set(1,1,1);
-        thr.savedKeeperSnap=null;thr.savedBounce=null;
+        thr.savedKeeperSnap=null;thr.savedBounce=null;thr.catchSnap=null;
         gloveL.visible=false;gloveR.visible=false;kSprite.setIdle();
         pMesh.visible=true;
         markerGrp.visible=false;showConf=false;confMat.opacity=0;
