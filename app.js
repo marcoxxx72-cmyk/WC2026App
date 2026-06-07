@@ -1043,7 +1043,7 @@ function PenaltyPitch(props){
     // Pending dive — appliqué dès que la texture est chargée
     var pendingDive=null;
     function applyDiveTex(dir){
-      var tex=dir===0?kTextures.jump:(dir>0?kTextures.hdiveR:kTextures.hdive);
+      var tex=dir===0?kTextures.jump:(dir>0?kTextures.hdive:kTextures.hdiveR);
       if(!tex){pendingDive={dir:dir};return;}
       pendingDive=null;
       tex.wrapS=THREE.RepeatWrapping;
@@ -1174,8 +1174,8 @@ function PenaltyPitch(props){
             kSpriteMesh.scale.set(1+0.15*Math.sin(ep*Math.PI),1,1);
           } else {
             kSpriteMesh.position.x=thr.keeperTarget*ep;
-            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI*0.5)*0.45;
-            kSpriteMesh.scale.set(1+0.9*ep,1-0.28*ep,1);
+            kSpriteMesh.position.y=0.88+ep*0.18;
+            kSpriteMesh.scale.set(1,1,1);
           }
           // Keep keeper in front of net — no z movement behind goal line
           kSpriteMesh.position.z=GZ+0.7;
