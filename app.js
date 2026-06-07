@@ -1174,7 +1174,7 @@ function PenaltyPitch(props){
           } else {
             kSpriteMesh.position.x=thr.keeperTarget*ep;
             kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.65;
-            kSpriteMesh.scale.set(ds*(1+0.9*ep),1-0.28*ep,1);
+            kSpriteMesh.scale.set(1+0.9*ep,1-0.28*ep,1);
           }
           // Keep keeper in front of net — no z movement behind goal line
           kSpriteMesh.position.z=GZ+0.7;
