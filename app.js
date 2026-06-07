@@ -513,13 +513,12 @@ function PenaltyPitch(props){
   }
 
   function triggerFX(type){
-    // Vignette flash
     var v=vignetteRef.current;
     if(v){
-      v.style.background=type==='goal'?'rgba(0,220,100,0.45)':'rgba(220,30,30,0.38)';
+      v.style.transition='opacity 0.05s ease';
+      v.style.background=type==='goal'?'rgba(0,220,100,0.5)':'rgba(220,30,30,0.45)';
       v.style.opacity='1';
-      v.style.transition='opacity 0.08s ease';
-      setTimeout(function(){v.style.transition='opacity 0.55s ease';v.style.opacity='0';},80);
+      setTimeout(function(){v.style.transition='opacity 0.6s ease';v.style.opacity='0';},60);
     }
     // Screen shake — only on goal
     if(type==='goal'){
@@ -1458,9 +1457,8 @@ function PenaltyPitch(props){
   var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:vph+'px',zIndex:9999,background:'#000',cursor:'default',opacity:ready?1:0,transition:'opacity .3s'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer',opacity:ready?1:0,transition:'opacity .4s'};
 
   return e('div',{style:{userSelect:'none'}},
-    e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd},
-      e('div',{ref:vignetteRef,style:{position:'absolute',inset:0,opacity:0,pointerEvents:'none',zIndex:9998,borderRadius:'inherit'}})
-    ),
+    e('div',{ref:vignetteRef,style:{position:'fixed',inset:0,opacity:0,pointerEvents:'none',zIndex:99999,transition:'opacity 0.08s ease'}}),
+    e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd}),
     // Overlay HORS du container — évite que preventDefault() tue les clics sur mobile
     fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
       e('button',{style:{position:'absolute',top:18,right:18,background:'rgba(0,0,0,0.7)',color:'white',border:'1px solid rgba(255,255,255,0.3)',borderRadius:8,padding:'8px 16px',fontSize:14,cursor:'pointer',pointerEvents:'auto',backdropFilter:'blur(8px)'},onClick:function(){exitFullscreen();var thr=threeRef.current;if(thr){thr.phase='idle';}setPhase('idle');}},'✕ ESC'),
