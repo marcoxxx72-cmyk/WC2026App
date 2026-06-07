@@ -1169,7 +1169,7 @@ function PenaltyPitch(props){
           var ep=dp<0.5?2*dp*dp:-1+(4-2*dp)*dp; // ease-in-out
           if(ds===0){
             kSpriteMesh.position.x=0;
-            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*1.3;
+            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.7;
             kSpriteMesh.scale.set(1+0.15*Math.sin(ep*Math.PI),1,1);
           } else {
             kSpriteMesh.position.x=thr.keeperTarget*ep;
