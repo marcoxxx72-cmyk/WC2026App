@@ -1163,7 +1163,7 @@ function PenaltyPitch(props){
         var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
         var DIVE_START=ds===0?22:4,DIVE_DUR=ds===0?80:16;
         var kf=thr.animFrame;
-        if(kf===DIVE_START){kSprite.setDive(ds);if(ds!==0)kSpriteMesh.rotation.y=ds>0?Math.PI:0;gloveL.visible=false;gloveR.visible=false;}
+        if(kf===DIVE_START){kSprite.setDive(ds);gloveL.visible=false;gloveR.visible=false;}
         if(kf>=DIVE_START){
           var dp=Math.min((kf-DIVE_START)/DIVE_DUR,1);
           var ep=dp<0.5?2*dp*dp:-1+(4-2*dp)*dp; // ease-in-out
