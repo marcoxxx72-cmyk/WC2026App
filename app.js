@@ -1008,7 +1008,7 @@ function PenaltyPitch(props){
     scene.add(gloveL);scene.add(gloveR);
 
     // ── Preload pose textures ──
-    var kTextures={idle:null,jump:null,hdive:null};
+    var kTextures={idle:null,jump:null,hdive:null,hdiveR:null};
     function loadKTex(key,url){
       var img=new Image();img.crossOrigin='anonymous';
       img.onload=function(){
@@ -1038,11 +1038,12 @@ function PenaltyPitch(props){
     }
     loadKTex('jump','/gk_jump_v3.png');
     loadKTex('hdive','/gk_hi_horiz.png');
+    loadKTex('hdiveR','/gk_hi_horiz_r.png');
 
     // Pending dive — appliqué dès que la texture est chargée
     var pendingDive=null;
     function applyDiveTex(dir){
-      var tex=dir===0?kTextures.jump:kTextures.hdive;
+      var tex=dir===0?kTextures.jump:(dir>0?kTextures.hdiveR:kTextures.hdive);
       if(!tex){pendingDive={dir:dir};return;}
       pendingDive=null;
       tex.wrapS=THREE.RepeatWrapping;
