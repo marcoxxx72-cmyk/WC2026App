@@ -1206,9 +1206,20 @@ function PenaltyPitch(props){
             if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,sv,'saved');
             playSound('save');
             (function(){var _kd=thr.keeperTarget;var _mk=_kd===0?'center':'dive';var _lg=thr.lang||'en';var _lm=SAVE_MSGS_3D[_mk][_lg]||SAVE_MSGS_3D[_mk].en;window.setTimeout(function(){setSaveMsg(_lm[Math.floor(Math.random()*_lm.length)]);},50);})();
-            var _kp=kSpriteMesh.position;var _isC=thr.keeperTarget===0;ball.position.set(_isC?tgt.x:_kp.x,_isC?tgt.y:_kp.y+0.75,_kp.z);ballShadow.position.set(ball.position.x,0.011,_kp.z);
-            thr.savedKeeperSnap={x:_isC?tgt.x*0.4:_kp.x,y:ball.position.y-0.35};
-            if(!_isC){thr.savedBounce={vx:thr.keeperTarget>0?0.07:-0.07,vy:0.05,vz:-0.01,f:0};}else{thr.savedBounce=null;}
+            var _kp=kSpriteMesh.position;var _isC=thr.keeperTarget===0;
+            if(_isC){
+              // Centre : snap gardien au sommet du saut + ballon dans les mains
+              kSpriteMesh.position.set(tgt.x*0.2,tgt.y,_kp.z);
+              ball.position.set(tgt.x,tgt.y,_kp.z);
+              thr.savedKeeperSnap={x:0,y:Math.max(tgt.y-0.08,1.4)};
+              thr.savedBounce=null;
+            } else {
+              // Latéral : ballon snap aux mains + déviation réaliste
+              ball.position.set(_kp.x,_kp.y+0.75,_kp.z);
+              thr.savedKeeperSnap={x:_kp.x,y:ball.position.y-0.35};
+              thr.savedBounce={vx:thr.keeperTarget>0?0.07:-0.07,vy:0.05,vz:-0.01,f:0};
+            }
+            ballShadow.position.set(ball.position.x,0.011,_kp.z);
           }
           setResult(thr.result);
           thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
