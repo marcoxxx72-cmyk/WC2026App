@@ -1207,29 +1207,13 @@ function PenaltyPitch(props){
             if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,sv,'saved');
             playSound('save');
             (function(){var _kd=thr.keeperTarget;var _mk=_kd===0?'center':'dive';var _lg=thr.lang||'en';var _lm=SAVE_MSGS_3D[_mk][_lg]||SAVE_MSGS_3D[_mk].en;window.setTimeout(function(){setSaveMsg(_lm[Math.floor(Math.random()*_lm.length)]);},50);})();
-            var _kp=kSpriteMesh.position;var _isC=thr.keeperTarget===0;
-            if(_isC){
-              // Centre : ballon fixe à la cible, gardien monte vers lui via lerp
-              ball.position.set(tgt.x,tgt.y,_kp.z);
-              thr.savedKeeperSnap={x:0,y:_kp.y};
-              thr.savedBounce=null;
-            } else {
-              // Latéral : ballon snap aux mains + déviation réaliste
-              ball.position.set(_kp.x,_kp.y+0.75,_kp.z);
-              thr.savedKeeperSnap={x:_kp.x,y:ball.position.y-0.35};
-              thr.savedBounce={vx:thr.keeperTarget>0?0.07:-0.07,vy:0.05,vz:-0.01,f:0};
-            }
-            ballShadow.position.set(ball.position.x,0.011,_kp.z);
+            thr.savedKeeperSnap=null;thr.savedBounce=null;
           }
           setResult(thr.result);
           thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
         }
       }
 
-      if(thr.phase==='result'&&thr.result==='saved'){
-        if(thr.savedKeeperSnap){kSpriteMesh.position.x+=(thr.savedKeeperSnap.x-kSpriteMesh.position.x)*0.16;kSpriteMesh.position.y+=(thr.savedKeeperSnap.y-kSpriteMesh.position.y)*0.16;kShadow.position.x=kSpriteMesh.position.x;}
-        if(thr.savedBounce){var _ksb=thr.savedBounce;_ksb.f++;if(_ksb.f<=22){ball.position.x+=_ksb.vx;ball.position.y+=_ksb.vy-0.005*_ksb.f;ball.position.z+=_ksb.vz;ball.rotation.x+=0.2;ball.rotation.z+=_ksb.vx>0?0.1:-0.1;ballShadow.position.set(ball.position.x,0.011,ball.position.z);var _kss=Math.max(0.08,1.1-ball.position.y*0.5);ballShadow.scale.set(_kss,_kss,1);}}
-      }
       if(showConf){
         confTimer++;if(confTimer>90)confMat.opacity=Math.max(0,1-(confTimer-90)/65);if(confTimer>155)showConf=false;
         for(var cj=0;cj<CNUM;cj++){cPos[cj*3]+=cVel[cj].x;cPos[cj*3+1]+=cVel[cj].y;cVel[cj].y-=0.003;cPos[cj*3+2]+=cVel[cj].z;}
