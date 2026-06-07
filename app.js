@@ -1162,7 +1162,7 @@ function PenaltyPitch(props){
 
         // ── Keeper dive — smooth arc, stays in front of net ──
         var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
-        var DIVE_START=ds===0?22:4,DIVE_DUR=ds===0?80:54;
+        var DIVE_START=4,DIVE_DUR=ds===0?16:54;
         var kf=thr.animFrame;
         if(kf===DIVE_START){kSprite.setDive(ds);gloveL.visible=false;gloveR.visible=false;}
         if(kf>=DIVE_START){
