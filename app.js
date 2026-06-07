@@ -1161,7 +1161,7 @@ function PenaltyPitch(props){
 
         // ── Keeper dive — smooth arc, stays in front of net ──
         var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
-        var DIVE_START=4,DIVE_DUR=16;
+        var DIVE_START=ds===0?22:4,DIVE_DUR=ds===0?80:16;
         var kf=thr.animFrame;
         if(kf===DIVE_START){kSprite.setDive(ds);gloveL.visible=false;gloveR.visible=false;}
         if(kf>=DIVE_START){
@@ -1210,7 +1210,7 @@ function PenaltyPitch(props){
             if(_isC){
               // Centre : ballon fixe à la cible, gardien monte vers lui via lerp
               ball.position.set(tgt.x,tgt.y,_kp.z);
-              thr.savedKeeperSnap={x:tgt.x*0.15,y:Math.min(tgt.y-0.2,1.85)};
+              thr.savedKeeperSnap={x:0,y:_kp.y};
               thr.savedBounce=null;
             } else {
               // Latéral : ballon snap aux mains + déviation réaliste
@@ -1303,7 +1303,7 @@ function PenaltyPitch(props){
       // Keeper AI: 3 options — left(-2.2), center(0), right(+2.2)
       var dirs=[-2.2,0,2.2];
       var cx=GW*0.13; // center threshold ±0.95 units
-      var diff=[0.45,0.58,0.70,0.82][roundIdx]||0.45;
+      var diff=[0.65,0.75,0.83,0.90][roundIdx]||0.65;
       var reaction=Math.max(0.28,Math.min(0.88,diff+(thr.power-0.5)*0.10));
       // correctSide: 0=left 1=center 2=right — matches where the shot goes
       var correctSide=thr.aimPoint.x>cx?2:thr.aimPoint.x<-cx?0:1;
