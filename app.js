@@ -827,11 +827,16 @@ function PenaltyPitch(props){
       if(result){
         if(sbConf.length>0){sbConf.forEach(function(p){sbCtx.save();sbCtx.translate(p.x,p.y);sbCtx.rotate(p.rot);sbCtx.fillStyle=p.color;sbCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h);sbCtx.restore();});}
         sbCtx.fillStyle='rgba(0,0,0,0.3)';sbCtx.fillRect(0,52,512,204);
-        sbCtx.font='bold 76px sans-serif';
         sbCtx.fillStyle=result==='goal'?'#ffe500':'#ff4466';
         sbCtx.shadowColor=result==='goal'?'rgba(255,229,0,0.9)':'rgba(255,60,80,0.9)';
         sbCtx.shadowBlur=28;
-        sbCtx.fillText(result==='goal'?'⚽ GOAL!':'✋ SAVED!',256,155);
+        var _rl=thr&&thr.lang;
+        var _gt=_rl==='fr'?'⚽ BUT !':_rl==='es'?'⚽ GOL !':_rl==='pt'?'⚽ GOL !':_rl==='it'?'⚽ GOL !':_rl==='de'?'⚽ TOR !':'⚽ GOAL!';
+        var _st=_rl==='fr'?'✋ ARRÊT !':_rl==='es'?'✋ PARADO !':_rl==='pt'?'✋ DEFESA !':_rl==='it'?'✋ PARATO !':_rl==='de'?'✋ GEHALTEN !':'✋ SAVED!';
+        var _rt=result==='goal'?_gt:_st;
+        var _fs=76;sbCtx.font='bold '+_fs+'px sans-serif';
+        while(sbCtx.measureText(_rt).width>480&&_fs>32){_fs-=4;sbCtx.font='bold '+_fs+'px sans-serif';}
+        sbCtx.fillText(_rt,256,155);
         sbCtx.shadowBlur=0;
         sbCtx.fillStyle='rgba(255,255,255,0.55)';sbCtx.font='bold 22px monospace';
         sbCtx.fillText(goals+' — '+saves,256,210);
