@@ -1162,7 +1162,7 @@ function PenaltyPitch(props){
 
         // ── Keeper dive — smooth arc, stays in front of net ──
         var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
-        var DIVE_START=4,DIVE_DUR=ds===0?16:54;
+        var DIVE_START=4,DIVE_DUR=16;
         var kf=thr.animFrame;
         if(kf===DIVE_START){kSprite.setDive(ds);gloveL.visible=false;gloveR.visible=false;}
         if(kf>=DIVE_START){
@@ -1170,11 +1170,11 @@ function PenaltyPitch(props){
           var ep=dp<0.5?2*dp*dp:-1+(4-2*dp)*dp; // ease-in-out
           if(ds===0){
             kSpriteMesh.position.x=0;
-            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.7;
+            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*1.3;
             kSpriteMesh.scale.set(1+0.15*Math.sin(ep*Math.PI),1,1);
           } else {
             kSpriteMesh.position.x=thr.keeperTarget*ep;
-            kSpriteMesh.position.y=Math.max(0.5,0.88-ep*0.4);
+            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.65;
             kSpriteMesh.scale.set(1+0.9*ep,1-0.28*ep,1);
           }
           // Keep keeper in front of net — no z movement behind goal line
