@@ -1208,10 +1208,9 @@ function PenaltyPitch(props){
             (function(){var _kd=thr.keeperTarget;var _mk=_kd===0?'center':'dive';var _lg=thr.lang||'en';var _lm=SAVE_MSGS_3D[_mk][_lg]||SAVE_MSGS_3D[_mk].en;window.setTimeout(function(){setSaveMsg(_lm[Math.floor(Math.random()*_lm.length)]);},50);})();
             var _kp=kSpriteMesh.position;var _isC=thr.keeperTarget===0;
             if(_isC){
-              // Centre : snap gardien au sommet du saut + ballon dans les mains
-              kSpriteMesh.position.set(tgt.x*0.2,tgt.y,_kp.z);
+              // Centre : ballon fixe à la cible, gardien monte vers lui via lerp
               ball.position.set(tgt.x,tgt.y,_kp.z);
-              thr.savedKeeperSnap={x:0,y:Math.max(tgt.y-0.08,1.4)};
+              thr.savedKeeperSnap={x:tgt.x*0.15,y:Math.min(tgt.y-0.2,1.85)};
               thr.savedBounce=null;
             } else {
               // Latéral : ballon snap aux mains + déviation réaliste
