@@ -1210,11 +1210,11 @@ function PenaltyPitch(props){
             if(_isC){
               // Centre : ballon fixe à la cible, gardien monte vers lui via lerp
               ball.position.set(tgt.x,tgt.y,_kp.z);
-              thr.savedKeeperSnap={x:0,y:tgt.y};
+              thr.savedKeeperSnap={x:0,y:_kp.y};
               thr.savedBounce=null;
             } else {
               // Latéral : ballon snap aux mains + déviation réaliste
-              ball.position.set(_kp.x,_kp.y+1.1,_kp.z);
+              ball.position.set(_kp.x,_kp.y+0.75,_kp.z);
               thr.savedKeeperSnap={x:_kp.x,y:ball.position.y-0.35};
               thr.savedBounce={vx:thr.keeperTarget>0?0.07:-0.07,vy:0.05,vz:-0.01,f:0};
             }
