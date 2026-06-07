@@ -1191,7 +1191,7 @@ function PenaltyPitch(props){
           var ep=dp<0.5?2*dp*dp:-1+(4-2*dp)*dp; // ease-in-out
           if(ds===0){
             kSpriteMesh.position.x=0;
-            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*1.3;
+            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.65;
             kSpriteMesh.scale.set(1+0.15*Math.sin(ep*Math.PI),1,1);
           } else {
             kSpriteMesh.position.x=thr.keeperTarget*ep;
@@ -1230,8 +1230,8 @@ function PenaltyPitch(props){
             (function(){var _kd=thr.keeperTarget;var _mk=_kd===0?'center':'dive';var _lg=thr.lang||'en';var _lm=SAVE_MSGS_3D[_mk][_lg]||SAVE_MSGS_3D[_mk].en;window.setTimeout(function(){setSaveMsg(_lm[Math.floor(Math.random()*_lm.length)]);},50);})();
             thr.savedKeeperSnap=null;thr.savedBounce=null;
             if(thr.keeperTarget===0){
-              kSpriteMesh.position.y=0.88+1.3;kSpriteMesh.scale.set(1.15,1,1);
-              thr.catchSnap={x:0,y:2.75,z:GZ+0.55};
+              kSpriteMesh.position.y=0.88+0.65;kSpriteMesh.scale.set(1.15,1,1);
+              thr.catchSnap={x:0,y:1.95,z:GZ+0.55};
               ball.position.set(0,2.75,GZ+0.55);ball.rotation.set(0,0,0);
             }else{thr.catchSnap=null;}
           }
