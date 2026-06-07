@@ -1206,6 +1206,7 @@ function PenaltyPitch(props){
             if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,sv,'saved');
             playSound('save');
             (function(){var _kd=thr.keeperTarget;var _mk=_kd===0?'center':'dive';var _lg=thr.lang||'en';var _lm=SAVE_MSGS_3D[_mk][_lg]||SAVE_MSGS_3D[_mk].en;window.setTimeout(function(){setSaveMsg(_lm[Math.floor(Math.random()*_lm.length)]);},50);})();
+            var _kp=kSpriteMesh.position;ball.position.set(_kp.x,_kp.y+0.55,_kp.z);ballShadow.position.set(_kp.x,0.011,_kp.z);
           }
           setResult(thr.result);
           thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
