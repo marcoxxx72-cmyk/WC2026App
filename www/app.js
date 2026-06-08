@@ -3454,7 +3454,7 @@ function App(){
                                   handleVote(pid,oidx,pvotes);
                                   setPollOtherActive(null);
                                 },style:{display:'flex',alignItems:'center',gap:8,width:'100%',background:'transparent',border:'none',borderBottom:'1px solid rgba(255,255,255,0.04)',padding:'8px 12px',fontSize:12,color:'#eee8d5',cursor:'pointer',textAlign:'left'}},
-                                (TEAM_FLAGS[team]||'🏳️')+' '+team);
+                                (FLAG_MAP[team]||'🏳️')+' '+team);
                             })
                           )
                         :e('button',{onClick:function(){setPollOtherActive(poll.id);},
