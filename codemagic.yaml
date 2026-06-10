@@ -1,4 +1,52 @@
 workflows:
+  macos-app-store:
+    name: macOS App Store (Mac Catalyst)
+    max_build_duration: 120
+    instance_type: mac_mini_m1
+    integrations:
+      app_store_connect: Codemagic
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.marcocanal.worldcup2026
+      node: latest
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Install dependencies
+        script: |
+          rm -rf node_modules package-lock.json
+          npm install @capacitor/cli@5 @capacitor/core@5 @capacitor/ios@5 --legacy-peer-deps
+          npx cap sync ios
+          cd ios/App
+          pod install
+      - name: Set up signing
+        script: |
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Build macOS (Mac Catalyst)
+        script: |
+          xcodebuild clean archive \
+            -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -destination "platform=macOS,variant=Mac Catalyst" \
+            -archivePath /tmp/App-macOS.xcarchive \
+            -allowProvisioningUpdates
+          xcodebuild -exportArchive \
+            -archivePath /tmp/App-macOS.xcarchive \
+            -exportPath /tmp/App-macOS \
+            -exportOptionsPlist ios/App/ExportOptions-macOS.plist
+    artifacts:
+      - /tmp/App-macOS/*.pkg
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: false
+      email:
+        recipients:
+          - marcoxxx72@gmail.com
+
   ios-app-store:
     name: iOS App Store
     max_build_duration: 120
