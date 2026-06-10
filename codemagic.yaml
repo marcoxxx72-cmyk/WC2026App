@@ -7,7 +7,7 @@ workflows:
       app_store_connect: Codemagic
     environment:
       ios_signing:
-        distribution_type: app_store
+        distribution_type: ad_hoc
         bundle_identifier: com.marcocanal.worldcup2026
       node: latest
       xcode: latest
@@ -27,7 +27,6 @@ workflows:
           xcode-project use-profiles
       - name: Build macOS (Mac Catalyst)
         script: |
-          sed -i '' 's/PROVISIONING_PROFILE_SPECIFIER = WorldCup2026Distribution;/PROVISIONING_PROFILE_SPECIFIER = "WC2026 Mac Catalyst Distribution";/g' ios/App/App.xcodeproj/project.pbxproj
           xcodebuild clean archive \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
