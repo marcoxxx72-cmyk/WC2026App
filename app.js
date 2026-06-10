@@ -1963,13 +1963,15 @@ var POLLS = {
 };
 
 var SPONSORS = {
-  en:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'ESPN FC',icon:'📺',url:'https://www.espn.com/soccer'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  fr:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'beIN Sports',icon:'📺',url:'https://www.beinsports.com'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  es:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  pt:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'Sport TV',icon:'📺',url:'https://www.sporttv.pt'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  it:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'RAI Sport',icon:'📺',url:'https://www.raisport.rai.it'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  de:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'ARD Sport',icon:'📺',url:'https://www.sportschau.de'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}]
+  en:[{name:'BBC Sport',icon:'📺',url:'https://www.bbc.co.uk/sport/football'},{name:'ITV',icon:'📺',url:'https://www.itv.com'}],
+  fr:[{name:'M6',icon:'📺',url:'https://www.6play.fr'},{name:'beIN Sports',icon:'📺',url:'https://www.beinsports.com/fr'}],
+  es:[{name:'RTVE',icon:'📺',url:'https://www.rtve.es/deportes/futbol'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com/es-ES'}],
+  pt:[{name:'Sport TV',icon:'📺',url:'https://www.sporttv.pt'},{name:'RTP',icon:'📺',url:'https://www.rtp.pt/desporto'}],
+  it:[{name:'RAI Sport',icon:'📺',url:'https://www.raisport.rai.it'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com/it-IT'}],
+  de:[{name:'ARD',icon:'📺',url:'https://www.sportschau.de'},{name:'ZDF',icon:'📺',url:'https://www.zdf.de/sport'}]
 }
+var _platform=(window.Capacitor&&window.Capacitor.getPlatform)?window.Capacitor.getPlatform():'web';
+var STORE_LINKS=_platform==='ios'?[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'}]:_platform==='android'?[{name:'Google Play',icon:'🤖',url:'https://play.google.com'}]:[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'},{name:'Google Play',icon:'🤖',url:'https://play.google.com'}];
 
 var STRIPE_EUR = 'https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02';
 var STRIPE_GBP = 'https://buy.stripe.com/bJeeVdaX3di1bYD3dbcjS03';
@@ -4916,7 +4918,7 @@ function App(){
     !premium&&e('div',{style:{background:'rgba(2,5,15,0.95)',borderTop:'1px solid rgba(212,175,55,0.15)',padding:'8px 14px',textAlign:'center'}},
       e('div',{style:{fontSize:8,color:'#3a5070',marginBottom:4}},'ADVERTISEMENT'),
       e('div',{style:{borderTop:'1px solid rgba(212,175,55,0.1)',padding:'10px 16px',display:'flex',justifyContent:'center',gap:10,flexWrap:'wrap'}},
-        (sponsors||SPONSORS.en).map(function(s){
+        (sponsors||SPONSORS.en).concat(STORE_LINKS).map(function(s){
           return e('a',{key:s.name,href:s.url,target:'_blank',rel:'noopener',
             style:{display:'flex',alignItems:'center',gap:5,background:'rgba(255,255,255,0.04)',border:'1px solid rgba(212,175,55,0.12)',borderRadius:16,padding:'5px 12px',textDecoration:'none',color:'#6a86a0',fontSize:10}},
             e('span',null,s.icon),' ',e('span',null,s.name));
