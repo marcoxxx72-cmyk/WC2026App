@@ -24,7 +24,6 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          xcode-project use-profiles
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
@@ -32,8 +31,9 @@ workflows:
             -scheme App \
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
-            -allowProvisioningUpdates \
-            CODE_SIGN_STYLE=Automatic \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="WC2026 Mac Catalyst Distribution" \
             DEVELOPMENT_TEAM=Y6F853GG9K
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
