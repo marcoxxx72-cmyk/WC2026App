@@ -27,6 +27,7 @@ workflows:
           xcode-project use-profiles
       - name: Build macOS (Mac Catalyst)
         script: |
+          sed -i '' 's/WorldCup2026Distribution/WC2026 Mac Catalyst Distribution/g' ios/App/App.xcodeproj/project.pbxproj
           xcodebuild clean archive \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
