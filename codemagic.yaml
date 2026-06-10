@@ -27,7 +27,6 @@ workflows:
             --certificate-types MAC_APP_DISTRIBUTION MAC_INSTALLER_DISTRIBUTION \
             --create
           keychain add-certificates
-          xcode-project use-profiles
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
@@ -35,6 +34,7 @@ workflows:
             -scheme App \
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
+            -allowProvisioningUpdates \
             DEVELOPMENT_TEAM=Y6F853GG9K
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
