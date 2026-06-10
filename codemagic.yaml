@@ -24,8 +24,14 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          # Write ASC API key to file so xcodebuild can authenticate with Apple
-          echo "$APP_STORE_CONNECT_PRIVATE_KEY" > /tmp/asc_private_key.p8
+          # Write ASC API key preserving real newlines (echo corrupts PEM format)
+          python3 << 'PYEOF'
+import os
+key = os.environ.get('APP_STORE_CONNECT_PRIVATE_KEY', '')
+key = key.replace('\\n', '\n')
+with open('/tmp/asc_private_key.p8', 'w') as f:
+    f.write(key)
+PYEOF
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
