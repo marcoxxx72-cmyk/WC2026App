@@ -23,9 +23,14 @@ workflows:
       - name: Set up signing
         script: |
           keychain initialize
+          app-store-connect fetch-signing-files \
+            com.marcocanal.worldcup2026 \
+            --platform MAC_OS \
+            --type MAC_APP_STORE \
+            --certificate-types MAC_APP_DISTRIBUTION MAC_INSTALLER_DISTRIBUTION \
+            --create
           keychain add-certificates
-          printf '%b' "$APP_STORE_CONNECT_PRIVATE_KEY" > /tmp/asc_private_key.p8
-          echo "Key file: $(wc -c < /tmp/asc_private_key.p8) bytes, $(wc -l < /tmp/asc_private_key.p8) lines, first line: $(head -1 /tmp/asc_private_key.p8)"
+          xcode-project use-profiles
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
@@ -33,19 +38,11 @@ workflows:
             -scheme App \
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath /tmp/asc_private_key.p8 \
-            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
-            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID" \
             DEVELOPMENT_TEAM=Y6F853GG9K
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
-            -exportOptionsPlist ios/App/ExportOptions-macOS.plist \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath /tmp/asc_private_key.p8 \
-            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
-            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
+            -exportOptionsPlist ios/App/ExportOptions-macOS.plist
     artifacts:
       - /tmp/App-macOS/*.pkg
     publishing:
