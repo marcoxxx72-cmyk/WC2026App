@@ -1963,7 +1963,7 @@ var POLLS = {
 };
 
 var SPONSORS = {
-  en:[{name:'BBC Sport',icon:'📺',url:'https://www.bbc.co.uk/sport/football'},{name:'ITV',icon:'📺',url:'https://www.itv.com'}],
+  en:[{name:'BBC Sport',icon:'📺',url:'https://www.bbc.co.uk/sport/football'},{name:'ITV',icon:'📺',url:'https://www.itv.com'},{name:'BBC iPlayer',icon:'▶️',url:'https://www.bbc.co.uk/iplayer'},{name:'ITVX',icon:'▶️',url:'https://www.itv.com/watch'}],
   fr:[{name:'M6',icon:'📺',url:'https://www.6play.fr'},{name:'beIN Sports',icon:'📺',url:'https://www.beinsports.com/fr'}],
   es:[{name:'RTVE',icon:'📺',url:'https://www.rtve.es/deportes/futbol'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com/es-ES'}],
   pt:[{name:'Sport TV',icon:'📺',url:'https://www.sporttv.pt'},{name:'RTP',icon:'📺',url:'https://www.rtp.pt/desporto'}],
