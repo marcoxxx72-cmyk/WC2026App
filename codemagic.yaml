@@ -24,7 +24,7 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          xcode-project use-profiles --type mac_catalyst
+          xcode-project use-profiles
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
