@@ -7,10 +7,8 @@ workflows:
       app_store_connect: Codemagic
     environment:
       ios_signing:
-        distribution_type: mac_catalyst
+        distribution_type: app_store
         bundle_identifier: com.marcocanal.worldcup2026
-        provisioning_profile: WC2026_MAC_CATALYST
-        certificate: Mac Catalyst Distribution
       node: latest
       xcode: latest
       cocoapods: default
