@@ -24,6 +24,7 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
+          node -e 'require("fs").writeFileSync("/tmp/asc_key.p8",(process.env.APP_STORE_CONNECT_PRIVATE_KEY||"").replace(/\\n/g,"\n"))'
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
@@ -32,11 +33,18 @@ workflows:
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
             -allowProvisioningUpdates \
+            -authenticationKeyPath /tmp/asc_key.p8 \
+            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID" \
             DEVELOPMENT_TEAM=Y6F853GG9K
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
-            -exportOptionsPlist ios/App/ExportOptions-macOS.plist
+            -exportOptionsPlist ios/App/ExportOptions-macOS.plist \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath /tmp/asc_key.p8 \
+            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
     artifacts:
       - /tmp/App-macOS/*.pkg
     publishing:
