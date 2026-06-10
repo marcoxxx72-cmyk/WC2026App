@@ -24,14 +24,7 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          # Write ASC API key preserving real newlines (echo corrupts PEM format)
-          python3 << 'PYEOF'
-import os
-key = os.environ.get('APP_STORE_CONNECT_PRIVATE_KEY', '')
-key = key.replace('\\n', '\n')
-with open('/tmp/asc_private_key.p8', 'w') as f:
-    f.write(key)
-PYEOF
+          printf '%s' "$APP_STORE_CONNECT_PRIVATE_KEY" | sed 's/\\n/\n/g' > /tmp/asc_private_key.p8
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
