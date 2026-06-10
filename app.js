@@ -300,7 +300,7 @@ var e = React.createElement;
 // ── PENALTY CSS GAME — version image gardien + CSS animations ────────────────
 (function(){
   var s=document.createElement('style');
-  s.textContent='@keyframes gk-idle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}@keyframes gk-diveLA{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(-50px) translateY(-60px) rotate(-40deg)}65%{transform:translateX(-110px) translateY(-40px) rotate(-70deg)}100%{transform:translateX(-160px) translateY(-10px) rotate(-78deg)}}@keyframes gk-diveLB{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(-40px) translateY(-20px) rotate(-25deg)}65%{transform:translateX(-90px) translateY(-5px) rotate(-45deg)}100%{transform:translateX(-135px) translateY(5px) rotate(-55deg)}}@keyframes gk-diveRA{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(50px) translateY(-60px) rotate(40deg)}65%{transform:translateX(110px) translateY(-40px) rotate(70deg)}100%{transform:translateX(160px) translateY(-10px) rotate(78deg)}}@keyframes gk-diveRB{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(40px) translateY(-20px) rotate(25deg)}65%{transform:translateX(90px) translateY(-5px) rotate(45deg)}100%{transform:translateX(135px) translateY(5px) rotate(55deg)}}@keyframes gk-jump{0%{transform:translateY(0) scaleX(1) scaleY(1)}12%{transform:translateY(4px) scaleX(1.05) scaleY(0.92)}45%{transform:translateY(-75px) scaleX(1.2) scaleY(1)}70%{transform:translateY(-65px) scaleX(1.25) scaleY(1)}100%{transform:translateY(0) scaleX(1) scaleY(1)}}@keyframes gk-catch{0%{transform:translateY(0) rotate(0) scaleY(1)}50%{transform:translateY(6px) rotate(-15deg) scaleY(0.93)}100%{transform:translateY(10px) rotate(-25deg) scaleY(0.87)}}@keyframes gk-armL-idle{0%,100%{transform:translateY(-50%) rotate(20deg)}50%{transform:translateY(-50%) rotate(8deg)}}@keyframes gk-armR-idle{0%,100%{transform:translateY(-50%) rotate(-20deg)}50%{transform:translateY(-50%) rotate(-8deg)}}@keyframes gk-armL-diveA{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(70deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(120deg) scaleX(1.45)}}@keyframes gk-armL-diveB{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-20deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(-60deg) scaleX(1.45)}}@keyframes gk-armR-diveA{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-70deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(-120deg) scaleX(1.45)}}@keyframes gk-armR-diveB{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(20deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(60deg) scaleX(1.45)}}@keyframes gk-armR-trailA{0%{transform:translateY(-50%) rotate(-20deg)}100%{transform:translateY(-50%) rotate(-50deg)}}@keyframes gk-armR-trailB{0%{transform:translateY(-50%) rotate(-20deg)}100%{transform:translateY(-50%) rotate(-35deg)}}@keyframes gk-armL-trailA{0%{transform:translateY(-50%) rotate(20deg)}100%{transform:translateY(-50%) rotate(50deg)}}@keyframes gk-armL-trailB{0%{transform:translateY(-50%) rotate(20deg)}100%{transform:translateY(-50%) rotate(35deg)}}@keyframes gk-armL-jump{0%,100%{transform:translateY(-50%) rotate(20deg)}50%{transform:translateY(-50%) rotate(-90deg)}}@keyframes gk-armR-jump{0%,100%{transform:translateY(-50%) rotate(-20deg)}50%{transform:translateY(-50%) rotate(90deg)}}@keyframes gk-armL-catch{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(65deg) scaleX(1.25)}100%{transform:translateY(-50%) rotate(90deg) scaleX(1.45)}}@keyframes gk-armR-catch{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-65deg) scaleX(1.25)}100%{transform:translateY(-50%) rotate(-90deg) scaleX(1.45)}}@keyframes gk-flyL{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:185px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45)}}@keyframes gk-flyC{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:205px;left:50%;opacity:.4;transform:translateX(-50%) scale(.4)}}@keyframes gk-flyClow{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:12px;left:50%;opacity:.7;transform:translateX(-50%) scale(.82)}}@keyframes gk-flyR{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:185px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45)}}@keyframes pp-shake{0%,100%{transform:translate(0,0)}10%{transform:translate(-8px,-5px)}20%{transform:translate(8px,5px)}30%{transform:translate(-7px,4px)}40%{transform:translate(7px,-4px)}50%{transform:translate(-5px,3px)}60%{transform:translate(5px,-3px)}70%{transform:translate(-3px,2px)}80%{transform:translate(3px,-2px)}90%{transform:translate(-1px,1px)}}';
+  s.textContent='@keyframes gk-idle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}@keyframes gk-diveLA{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(-50px) translateY(-60px) rotate(-40deg)}65%{transform:translateX(-110px) translateY(-40px) rotate(-70deg)}100%{transform:translateX(-160px) translateY(-10px) rotate(-78deg)}}@keyframes gk-diveLB{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(-40px) translateY(-20px) rotate(-25deg)}65%{transform:translateX(-90px) translateY(-5px) rotate(-45deg)}100%{transform:translateX(-135px) translateY(5px) rotate(-55deg)}}@keyframes gk-diveRA{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(50px) translateY(-60px) rotate(40deg)}65%{transform:translateX(110px) translateY(-40px) rotate(70deg)}100%{transform:translateX(160px) translateY(-10px) rotate(78deg)}}@keyframes gk-diveRB{0%{transform:translateX(0) translateY(0) rotate(0)}30%{transform:translateX(40px) translateY(-20px) rotate(25deg)}65%{transform:translateX(90px) translateY(-5px) rotate(45deg)}100%{transform:translateX(135px) translateY(5px) rotate(55deg)}}@keyframes gk-jump{0%{transform:translateY(0) scaleX(1) scaleY(1)}12%{transform:translateY(4px) scaleX(1.05) scaleY(0.92)}45%{transform:translateY(-75px) scaleX(1.2) scaleY(1)}70%{transform:translateY(-65px) scaleX(1.25) scaleY(1)}100%{transform:translateY(0) scaleX(1) scaleY(1)}}@keyframes gk-catch{0%{transform:translateY(0) rotate(0) scaleY(1)}50%{transform:translateY(6px) rotate(-15deg) scaleY(0.93)}100%{transform:translateY(10px) rotate(-25deg) scaleY(0.87)}}@keyframes gk-armL-idle{0%,100%{transform:translateY(-50%) rotate(20deg)}50%{transform:translateY(-50%) rotate(8deg)}}@keyframes gk-armR-idle{0%,100%{transform:translateY(-50%) rotate(-20deg)}50%{transform:translateY(-50%) rotate(-8deg)}}@keyframes gk-armL-diveA{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(70deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(120deg) scaleX(1.45)}}@keyframes gk-armL-diveB{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-20deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(-60deg) scaleX(1.45)}}@keyframes gk-armR-diveA{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-70deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(-120deg) scaleX(1.45)}}@keyframes gk-armR-diveB{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(20deg) scaleX(1.2)}100%{transform:translateY(-50%) rotate(60deg) scaleX(1.45)}}@keyframes gk-armR-trailA{0%{transform:translateY(-50%) rotate(-20deg)}100%{transform:translateY(-50%) rotate(-50deg)}}@keyframes gk-armR-trailB{0%{transform:translateY(-50%) rotate(-20deg)}100%{transform:translateY(-50%) rotate(-35deg)}}@keyframes gk-armL-trailA{0%{transform:translateY(-50%) rotate(20deg)}100%{transform:translateY(-50%) rotate(50deg)}}@keyframes gk-armL-trailB{0%{transform:translateY(-50%) rotate(20deg)}100%{transform:translateY(-50%) rotate(35deg)}}@keyframes gk-armL-jump{0%,100%{transform:translateY(-50%) rotate(20deg)}50%{transform:translateY(-50%) rotate(-90deg)}}@keyframes gk-armR-jump{0%,100%{transform:translateY(-50%) rotate(-20deg)}50%{transform:translateY(-50%) rotate(90deg)}}@keyframes gk-armL-catch{0%{transform:translateY(-50%) rotate(20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(65deg) scaleX(1.25)}100%{transform:translateY(-50%) rotate(90deg) scaleX(1.45)}}@keyframes gk-armR-catch{0%{transform:translateY(-50%) rotate(-20deg) scaleX(1)}50%{transform:translateY(-50%) rotate(-65deg) scaleX(1.25)}100%{transform:translateY(-50%) rotate(-90deg) scaleX(1.45)}}@keyframes gk-flyL{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:185px;left:12%;opacity:.4;transform:translateX(-50%) scale(.45)}}@keyframes gk-flyC{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:205px;left:50%;opacity:.4;transform:translateX(-50%) scale(.4)}}@keyframes gk-flyClow{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:12px;left:50%;opacity:.7;transform:translateX(-50%) scale(.82)}}@keyframes gk-flyR{0%{bottom:-50px;left:50%;opacity:1;transform:translateX(-50%) scale(1)}100%{bottom:185px;left:88%;opacity:.4;transform:translateX(-50%) scale(.45)}}';
   document.head.appendChild(s);
 })();
 
@@ -399,35 +399,15 @@ function PenaltyCSSGame(props){
 }
 
 // ── PENALTY 3D CANVAS GAME ────────────────────────────────────────────────────
-var SAVE_MSGS_3D={
-  center:{
-    en:['CAUGHT IT! 🧤','IN HIS HANDS! 🧤','Read it perfectly!','Incredible reflex!'],
-    fr:['DANS LES BRAS ! 🧤','ATTRAPÉ ! 🧤','Il l\'avait lu !','Réflexe incroyable !'],
-    es:['¡LO ATRAPA! 🧤','¡EN LAS MANOS! 🧤','¡Lo leyó perfecto!','¡Reflejo increíble!'],
-    pt:['AGARROU! 🧤','NAS MÃOS! 🧤','Leu perfeitamente!','Reflexo incrível!'],
-    it:['PRESA! 🧤','NELLE MANI! 🧤','L\'ha letto!','Riflesso incredibile!'],
-    de:['GEFANGEN! 🧤','IN SEINEN HÄNDEN! 🧤','Perfekt gelesen!','Unglaublicher Reflex!']
-  },
-  dive:{
-    en:['What a dive!','Right way!','Incredible save!','Flying keeper!'],
-    fr:['Quel plongeon !','Du bon côté !','Arrêt incroyable !','Il s\'envole !'],
-    es:['¡Qué estirada!','¡Lado correcto!','¡Parada increíble!','¡Vuela el portero!'],
-    pt:['Que mergulho!','Lado certo!','Defesa incrível!','O goleiro voa!'],
-    it:['Che tuffo!','Lato giusto!','Parata incredibile!','Il portiere vola!'],
-    de:['Hechtsprung!','Richtige Seite!','Unglaubliche Parade!','Er fliegt!']
-  }
-};
 function PenaltyPitch(props){
   var containerRef=useRef(null);
   var powerBarRef=useRef(null);
   var threeRef=useRef(null);
-  var vignetteRef=useRef(null);
   var _ps=useState('idle');var phase=_ps[0];var setPhase=_ps[1];
   var _pr=useState(null);var result=_pr[0];var setResult=_pr[1];
   var _pfs=useState(false);var fullscreen=_pfs[0];var setFullscreen=_pfs[1];
   var _pvh=useState(window.innerHeight);var vph=_pvh[0];var setVph=_pvh[1];
   var _pready=useState(false);var ready=_pready[0];var setReady=_pready[1];
-  var _psm=useState(null);var saveMsg=_psm[0];var setSaveMsg=_psm[1];
   var lang=props.lang||'en';var G=props.G||'#d4af37';var roundIdx=props.roundIdx||0;
 
   // Fix iOS 100vh + orientation change
@@ -510,26 +490,6 @@ function PenaltyPitch(props){
         }
       }
     }catch(ex){}
-  }
-
-  function triggerFX(type){
-    var v=vignetteRef.current;
-    if(v){
-      v.style.transition='opacity 0.05s ease';
-      v.style.background=type==='goal'?'rgba(0,220,100,0.5)':'rgba(220,30,30,0.45)';
-      v.style.opacity='1';
-      setTimeout(function(){v.style.transition='opacity 0.6s ease';v.style.opacity='0';},60);
-    }
-    // Screen shake — only on goal
-    if(type==='goal'){
-      var c=containerRef.current;
-      if(c){
-        c.style.animation='none';
-        c.offsetHeight; // reflow
-        c.style.animation='pp-shake 0.45s ease';
-        setTimeout(function(){c.style.animation='none';},500);
-      }
-    }
   }
 
   useEffect(function(){
@@ -867,16 +827,11 @@ function PenaltyPitch(props){
       if(result){
         if(sbConf.length>0){sbConf.forEach(function(p){sbCtx.save();sbCtx.translate(p.x,p.y);sbCtx.rotate(p.rot);sbCtx.fillStyle=p.color;sbCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h);sbCtx.restore();});}
         sbCtx.fillStyle='rgba(0,0,0,0.3)';sbCtx.fillRect(0,52,512,204);
+        sbCtx.font='bold 76px sans-serif';
         sbCtx.fillStyle=result==='goal'?'#ffe500':'#ff4466';
         sbCtx.shadowColor=result==='goal'?'rgba(255,229,0,0.9)':'rgba(255,60,80,0.9)';
         sbCtx.shadowBlur=28;
-        var _rl=thr&&thr.lang;
-        var _gt=_rl==='fr'?'⚽ BUT !':_rl==='es'?'⚽ GOL !':_rl==='pt'?'⚽ GOL !':_rl==='it'?'⚽ GOL !':_rl==='de'?'⚽ TOR !':'⚽ GOAL!';
-        var _st=_rl==='fr'?'✋ ARRÊT !':_rl==='es'?'✋ PARADO !':_rl==='pt'?'✋ DEFESA !':_rl==='it'?'✋ PARATO !':_rl==='de'?'✋ GEHALTEN !':'✋ SAVED!';
-        var _rt=result==='goal'?_gt:_st;
-        var _fs=76;sbCtx.font='bold '+_fs+'px sans-serif';
-        while(sbCtx.measureText(_rt).width>480&&_fs>32){_fs-=4;sbCtx.font='bold '+_fs+'px sans-serif';}
-        sbCtx.fillText(_rt,256,155);
+        sbCtx.fillText(result==='goal'?'⚽ GOAL!':'✋ SAVED!',256,155);
         sbCtx.shadowBlur=0;
         sbCtx.fillStyle='rgba(255,255,255,0.55)';sbCtx.font='bold 22px monospace';
         sbCtx.fillText(goals+' — '+saves,256,210);
@@ -1029,7 +984,7 @@ function PenaltyPitch(props){
     scene.add(gloveL);scene.add(gloveR);
 
     // ── Preload pose textures ──
-    var kTextures={idle:null,jump:null,hdive:null,hdiveR:null};
+    var kTextures={idle:null,jump:null,hdive:null};
     function loadKTex(key,url){
       var img=new Image();img.crossOrigin='anonymous';
       img.onload=function(){
@@ -1059,7 +1014,6 @@ function PenaltyPitch(props){
     }
     loadKTex('jump','/gk_jump_v3.png');
     loadKTex('hdive','/gk_hi_horiz.png');
-    loadKTex('hdiveR','/gk_hi_horiz_r.png');
 
     // Pending dive — appliqué dès que la texture est chargée
     var pendingDive=null;
@@ -1084,9 +1038,32 @@ function PenaltyPitch(props){
       }
     };
 
+    // ── Kicker — Lower-body Canvas Sprite (FIFA low-camera angle) ──
+    // ── Kicker — Real 3D Mixamo GLB Model ──
     var pMesh=new THREE.Object3D();
     pMesh.position.set(0,0,3.2);
     scene.add(pMesh);
+    (function(){
+      function doLoad(){
+        var dracoLoader=new window.DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+        var loader=new window.GLTFLoader();
+        loader.setDRACOLoader(dracoLoader);
+        loader.load('/kicker.glb',function(gltf){
+          var model=gltf.scene;
+          // Scale: bbox height=177cm → 1.8 world units
+          model.scale.set(0.0101,0.0101,0.0101);
+          // Back faces camera (camera z=5.5, goal z=-10)
+          model.rotation.y=Math.PI;
+          // Feet at ground: compute world bbox after scale, offset up
+          var box=new THREE.Box3().setFromObject(model);
+          model.position.y=-box.min.y;
+          pMesh.add(model);
+        },undefined,function(e){console.warn('kicker.glb error',e);});
+      }
+      if(window.GLTFLoader&&window.DRACOLoader){doLoad();}
+      else{window.addEventListener('loaders-ready',doLoad,{once:true});}
+    })();
 
         // ── Aim plane & crosshair ──
     var aimPlane=new THREE.Mesh(new THREE.PlaneGeometry(GW*2.6,GH*2.6),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
@@ -1181,27 +1158,30 @@ function PenaltyPitch(props){
         var ss=Math.max(0.08,1.12-ball.position.y*0.62);
         ballShadow.scale.set(ss,ss,1);ballShadow.material.opacity=0.28*ss;
 
-        // ── Keeper dive — smooth arc, stays in front of net ──
+        // ── Keeper dive — SPRITE ONLY, no rotation ──
         var ds=thr.keeperTarget===0?0:(thr.keeperTarget>0?1:-1);
-        var DIVE_START=4,DIVE_DUR=16;
-        var kf=thr.animFrame;
-        if(kf===DIVE_START){kSprite.setDive(ds);gloveL.visible=false;gloveR.visible=false;}
-        if(kf>=DIVE_START){
-          var dp=Math.min((kf-DIVE_START)/DIVE_DUR,1);
-          var ep=dp<0.5?2*dp*dp:-1+(4-2*dp)*dp; // ease-in-out
+        if(thr.animFrame===2){
+          kSpriteMesh.position.x=thr.keeperTarget;
           if(ds===0){
-            kSpriteMesh.position.x=0;
-            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.35;
-            kSpriteMesh.scale.set(1+0.15*Math.sin(ep*Math.PI),1,1);
+            // Centre : sprite portrait debout
+            kSpriteMesh.position.y=0.88;
+            kSpriteMesh.scale.set(1,1,1);
           } else {
-            kSpriteMesh.position.x=thr.keeperTarget*ep;
-            kSpriteMesh.position.y=0.88+Math.sin(ep*Math.PI)*0.65;
-            kSpriteMesh.scale.set(1+0.9*ep,1-0.28*ep,1);
+            // Gauche/droite : sprite horizontal 2688x1520 (ratio 1.77:1)
+            kSpriteMesh.position.y=0.85;
+            kSpriteMesh.scale.set(1.9,0.72,1);
           }
-          // Keep keeper in front of net — no z movement behind goal line
-          kSpriteMesh.position.z=GZ+0.7;
-          kShadow.position.z=GZ+0.7;
           kSpriteMesh.rotation.set(0,0,0);
+          kSprite.setDive(ds);
+          gloveL.visible=false;gloveR.visible=false;
+        }
+        if(thr.animFrame>=28){
+          gloveL.visible=false;gloveR.visible=false;
+        }
+        // Recul gardien sur plongeon latéral
+        if(ds!==0&&thr.animFrame>2){
+          kSpriteMesh.position.z+=(GZ-0.3-kSpriteMesh.position.z)*0.14;
+          kShadow.position.z=kSpriteMesh.position.z;
         }
 
         if(t>=1){
@@ -1221,29 +1201,16 @@ function PenaltyPitch(props){
             initSbConf();thr.sbResultActive='goal';
             if(thr.updateScoreboard)thr.updateScoreboard(gs,thr.sbSaves||0,'goal');
             for(var ri7=0;ri7<CNUM;ri7++){cPos[ri7*3]=tgt.x+(Math.random()-0.5)*GW*1.1;cPos[ri7*3+1]=GH*0.35+Math.random()*GH*1.5;cPos[ri7*3+2]=GZ+(Math.random()-0.5)*0.8;cVel[ri7]={x:(Math.random()-0.5)*0.28,y:Math.random()*0.14+0.05,z:(Math.random()-0.5)*0.1};}
-            cPosAttr.needsUpdate=true;playSound('goal');triggerFX('goal');
+            cPosAttr.needsUpdate=true;playSound('goal');
           } else {
             var sv=(thr.sbSaves||0)+1;thr.sbSaves=sv;
             initSbConf();thr.sbResultActive='saved';
             if(thr.updateScoreboard)thr.updateScoreboard(thr.sbGoals||0,sv,'saved');
-            playSound('save');triggerFX('save');
-            (function(){var _kd=thr.keeperTarget;var _mk=_kd===0?'center':'dive';var _lg=thr.lang||'en';var _lm=SAVE_MSGS_3D[_mk][_lg]||SAVE_MSGS_3D[_mk].en;window.setTimeout(function(){setSaveMsg(_lm[Math.floor(Math.random()*_lm.length)]);},50);})();
-            thr.savedKeeperSnap=null;thr.savedBounce=null;
-            if(thr.keeperTarget===0){
-              kSpriteMesh.position.y=0.88+0.35;kSpriteMesh.scale.set(1.08,1,1);
-              thr.catchSnap={x:0,y:1.65,z:GZ+0.55};
-              ball.position.set(0,2.75,GZ+0.55);ball.rotation.set(0,0,0);
-            }else{thr.catchSnap=null;}
+            playSound('save');
           }
           setResult(thr.result);
           thr.resultTime=Date.now(); // timestamp — reset dans animate, pas setTimeout
         }
-      }
-
-      // Lock ball in keeper hands during center catch result display
-      if(thr.phase==='result'&&thr.catchSnap){
-        ball.position.set(thr.catchSnap.x,thr.catchSnap.y,thr.catchSnap.z);
-        ball.rotation.set(0,0,0);
       }
 
       if(showConf){
@@ -1256,7 +1223,10 @@ function PenaltyPitch(props){
       } else {
         netMat.opacity=0.5;
       }
-      camera.lookAt(0,1.1,GZ);
+      // Camera smooth follow during shot (subtle horizontal pan)
+      var camTX=(thr.phase==='animating'||thr.phase==='result')?ball.position.x*0.16:0;
+      camLookX+=(camTX-camLookX)*0.07;
+      camera.lookAt(camLookX,1.1,GZ);
 
       // Kicker kick animation — lean forward then hide
       if(thr.phase==='animating'&&pMesh.visible){
@@ -1276,7 +1246,6 @@ function PenaltyPitch(props){
         ball.position.set(BS.x,BS.y,BS.z);ball.rotation.set(0,0,0);
         ballShadow.position.set(BS.x,0.011,BS.z);ballShadow.scale.set(1,1,1);
         kSpriteMesh.position.set(0,0.88,GZ+0.6);kSpriteMesh.rotation.z=0;kSpriteMesh.rotation.y=0;kSpriteMesh.scale.set(1,1,1);
-        thr.savedKeeperSnap=null;thr.savedBounce=null;thr.catchSnap=null;
         gloveL.visible=false;gloveR.visible=false;kSprite.setIdle();
         pMesh.visible=true;
         markerGrp.visible=false;showConf=false;confMat.opacity=0;
@@ -1287,7 +1256,6 @@ function PenaltyPitch(props){
           if(props.onShotDone)props.onShotDone(_scored);
           setResult(null);
           setPhase('idle');
-          setSaveMsg(null);
         },0);
       }
 
@@ -1317,7 +1285,7 @@ function PenaltyPitch(props){
       // Keeper AI: 3 options — left(-2.2), center(0), right(+2.2)
       var dirs=[-2.2,0,2.2];
       var cx=GW*0.13; // center threshold ±0.95 units
-      var diff=[0.65,0.75,0.83,0.90][roundIdx]||0.65;
+      var diff=[0.45,0.58,0.70,0.82][roundIdx]||0.45;
       var reaction=Math.max(0.28,Math.min(0.88,diff+(thr.power-0.5)*0.10));
       // correctSide: 0=left 1=center 2=right — matches where the shot goes
       var correctSide=thr.aimPoint.x>cx?2:thr.aimPoint.x<-cx?0:1;
@@ -1468,7 +1436,6 @@ function PenaltyPitch(props){
   var containerStyle=fullscreen?{position:'fixed',top:0,left:0,width:'100vw',height:vph+'px',zIndex:9999,background:'#000',cursor:'default',opacity:ready?1:0,transition:'opacity .3s'}:{height:190,borderRadius:12,overflow:'hidden',border:'2px solid rgba(212,175,55,0.3)',boxShadow:'0 0 32px rgba(0,0,0,0.7)',background:'#0d1b3e',cursor:'pointer',opacity:ready?1:0,transition:'opacity .4s'};
 
   return e('div',{style:{userSelect:'none'}},
-    e('div',{ref:vignetteRef,style:{position:'fixed',inset:0,opacity:0,pointerEvents:'none',zIndex:99999,transition:'opacity 0.08s ease'}}),
     e('div',{ref:containerRef,style:containerStyle,onMouseDown:handleMouseDown,onMouseMove:handleMouseMove,onMouseUp:handleMouseUp,onTouchStart:handleTouchStart,onTouchMove:handleTouchMove,onTouchEnd:handleTouchEnd}),
     // Overlay HORS du container — évite que preventDefault() tue les clics sur mobile
     fullscreen&&e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,pointerEvents:'none',zIndex:10000}},
@@ -1488,17 +1455,11 @@ function PenaltyPitch(props){
         },'➡')
       ),
       (phase==='aim')&&e('div',{style:{position:'absolute',bottom:118,left:'50%',transform:'translateX(-50%)',color:'rgba(255,255,255,0.7)',fontSize:13,letterSpacing:2,textAlign:'center',whiteSpace:'nowrap',textShadow:'0 2px 8px rgba(0,0,0,0.9)'}},(lang==='fr'?'OÙ TIREZ-VOUS ?':lang==='es'?'¿DÓNDE TIRAS?':lang==='pt'?'ONDE VAI CHUTAR?':lang==='it'?'DOVE TIRI?':lang==='de'?'WOHIN SCHIESST DU?':'WHERE DO YOU SHOOT?')),
+      result&&e('div',{style:{position:'absolute',top:'8%',left:'50%',transform:'translateX(-50%)',fontSize:52,fontWeight:900,letterSpacing:4,color:result==='goal'?'#ffe500':'#ff4444',textShadow:'0 0 40px '+(result==='goal'?'rgba(255,230,0,0.95)':'rgba(255,50,50,0.95)')+', 0 4px 14px rgba(0,0,0,1)',textAlign:'center',whiteSpace:'nowrap'}},result==='goal'?'⚽ GOAL !':'✋ SAVED !'),
       (!result&&phase==='idle'&&(props.shotsLeft||0)>0)&&e('button',{
         style:{position:'absolute',bottom:80,left:'50%',transform:'translateX(-50%)',background:'linear-gradient(135deg,#d4af37,#ff9900)',border:'none',borderRadius:14,padding:'16px 40px',fontSize:17,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 24px rgba(212,175,55,0.6)',letterSpacing:0.5,pointerEvents:'auto'},
         onClick:function(){var thr=threeRef.current;if(thr){thr.phase='aim';}setPhase('aim');}
-      },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':lang==='it'?'TIRARE':lang==='de'?'SCHIESSEN':'SHOOT')),
-      saveMsg&&e('div',{style:{position:'absolute',bottom:160,left:0,pointerEvents:'none',display:'flex',alignItems:'center',gap:0}},
-  e('div',{style:{width:5,height:44,background:'#00e676',borderRadius:'0 3px 3px 0'}}),
-  e('div',{style:{background:'rgba(0,0,0,0.78)',backdropFilter:'blur(6px)',padding:'10px 22px 10px 14px',borderRadius:'0 8px 8px 0',borderTop:'1px solid rgba(0,230,118,0.3)',borderBottom:'1px solid rgba(0,230,118,0.3)'}},
-    e('div',{style:{fontSize:11,fontWeight:700,color:'#00e676',letterSpacing:3,textTransform:'uppercase',marginBottom:2}},'🎙 COMMENTAIRE'),
-    e('div',{style:{fontSize:19,fontWeight:800,color:'#ffffff',letterSpacing:0.5,textShadow:'0 2px 8px rgba(0,0,0,0.8)',whiteSpace:'nowrap'}},saveMsg)
-  )
-)
+      },'⚽ '+(lang==='fr'?'TIRER':lang==='es'?'TIRAR':lang==='pt'?'BATER':lang==='it'?'TIRARE':lang==='de'?'SCHIESSEN':'SHOOT'))
     ),
     e('div',{style:{display:'flex',justifyContent:'center',gap:6,margin:'6px 0'}},
       [0,1,2,3,4].map(function(i){var h=(props.shotHistory||[])[i];return e('div',{key:i,style:{width:24,height:24,borderRadius:'50%',background:h?(h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)'):'rgba(255,255,255,0.08)',border:'2px solid '+(h?(h.scored?'#90ee90':'#ff6666'):'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:11}},h?(h.scored?'⚽':'✗'):'');})
@@ -2029,6 +1990,11 @@ function getStripeLink(lang){
   if(c==='usd')return STRIPE_USD;
   return STRIPE_EUR;
 }
+function handleProPurchase(lang){
+  var url=getStripeLink(lang);
+  if(window.Capacitor){window.open(url,'_system');}
+  else{window.location.href=url;}
+}
 function getPrice(lang){
   var c=_getCurrency();
   if(c==='brl')return 'R$14,90';
@@ -2441,7 +2407,7 @@ function App(){
   var sPT2=useState(0);var penTourRound=sPT2[0];var setPenTourRound=sPT2[1];
   var sPT3=useState('');var penTourName=sPT3[0];var setPenTourName=sPT3[1];
   var sPT4=useState(0);var penTourTotal=sPT4[0];var setPenTourTotal=sPT4[1];
-  var sPT5=useState(function(){try{if(new URLSearchParams(window.location.search).get('resetlb')==='1'){localStorage.removeItem('wc2026_pen_lb');return[];}return JSON.parse(localStorage.getItem('wc2026_pen_lb')||'[]');}catch(ex){return[];}});var penLeaderboard=sPT5[0];var setPenLeaderboard=sPT5[1];
+  var sPT5=useState(function(){try{return JSON.parse(localStorage.getItem('wc2026_pen_lb')||'[]');}catch(ex){return[];}});var penLeaderboard=sPT5[0];var setPenLeaderboard=sPT5[1];
   var sQ1=useState(0);var qcIdx=sQ1[0];var setQcIdx=sQ1[1];
   var sQ2=useState(0);var qcScore=sQ2[0];var setQcScore=sQ2[1];
   var sQ3=useState(null);var qcSelected=sQ3[0];var setQcSelected=sQ3[1];
@@ -2466,8 +2432,6 @@ function App(){
   var sP4=useState('');var favTeam=sP4[0];var setFavTeam=sP4[1];
   var sP5=useState(null);var compareTeam1=sP5[0];var setCompareTeam1=sP5[1];
   var sP6=useState(null);var compareTeam2=sP6[0];var setCompareTeam2=sP6[1];
-  var sMu=useState('A');var musicMode=sMu[0];var setMusicMode=sMu[1];
-  var audioRef=useRef(null);
   var sF1=useState([]);var fantasyTeam=sF1[0];var setFantasyTeam=sF1[1];
   var sF2=useState(null);var fantasyPos=sF2[0];var setFantasyPos=sF2[1];
   var sF3=useState(false);var fantasyDone=sF3[0];var setFantasyDone=sF3[1];
@@ -2557,23 +2521,6 @@ function App(){
     var i2=setInterval(fetchStandings,300000);
     return function(){clearInterval(i1);clearInterval(i2);};
   },[]);
-
-  // Music player
-  useEffect(function(){
-    if(audioRef.current){audioRef.current.pause();audioRef.current=null;}
-    if(musicMode==='off')return;
-    var src=musicMode==='A'?'Goals.mp3':'Ritmo da Torcida.mp3';
-    var a=new Audio(src);
-    a.loop=true;a.volume=0.20;
-    audioRef.current=a;
-    var p=a.play();
-    if(p&&p.catch)p.catch(function(){
-      function resume(){a.play().catch(function(){});}
-      document.addEventListener('touchstart',resume,{once:true});
-      document.addEventListener('click',resume,{once:true});
-    });
-    return function(){a.pause();audioRef.current=null;};
-  },[musicMode]);
 
   // Reset game when switching tabs
   useEffect(function(){
@@ -3077,14 +3024,8 @@ function App(){
           LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
-          e('button',{onClick:function(){setMusicMode(function(m){return m==='A'?'B':m==='B'?'off':'A';});},style:{
-            background:'rgba(0,0,0,0.3)',border:'1px solid rgba(212,175,55,0.35)',
-            borderRadius:7,padding:'3px 9px',cursor:'pointer',
-            color:musicMode==='off'?'rgba(212,175,55,0.4)':'#d4af37',
-            fontSize:10,fontWeight:'bold',letterSpacing:1
-          }},musicMode==='off'?'Off':musicMode==='A'?'♪ A':'♪ B'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
-          !premium&&e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',textDecoration:'none',display:'inline-block'}},'PRO - '+getPrice(lang)),
+          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
         )
       ),
@@ -3097,7 +3038,7 @@ function App(){
 
     !premium&&e('div',{style:{background:'linear-gradient(90deg,#1a1000,#3a2800,#1a1000)',borderBottom:'1px solid rgba(212,175,55,0.3)',padding:'7px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}},
       e('span',{style:{fontSize:11,color:G,flexShrink:1}},t.premiumBanner),
-      e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap',textDecoration:'none',display:'inline-block'}},t.premiumBtn+' - '+getPrice(lang))
+      e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap'}},t.premiumBtn+' - '+getPrice(lang))
     ),
 
     e('nav',{style:{position:'sticky',top:0,zIndex:20,background:'rgba(6,9,26,0.97)',backdropFilter:'blur(14px)',borderBottom:'2px solid rgba(212,175,55,0.2)',overflowX:'auto',WebkitOverflowScrolling:'touch',scrollbarWidth:'none'}},
@@ -3210,7 +3151,7 @@ function App(){
                 return e('div',{key:i,style:{width:20,height:20,borderRadius:5,background:c,opacity:0.6}});
               })
             ),
-            e('button',{onClick:function(){window.location.href=getStripeLink(lang);},style:{marginLeft:'auto',background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:9,padding:'6px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+            e('button',{onClick:function(){handleProPurchase(lang);},style:{marginLeft:'auto',background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:9,padding:'6px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
               '🔒 '+lang==='fr'?'Débloquer PRO':lang==='es'?'Desbloquear PRO':lang==='pt'?'Desbloquear PRO':'Unlock PRO'
             )
           )
@@ -3772,17 +3713,11 @@ function App(){
               left:keeperDir==='left'?'12%':keeperDir==='right'?'52%':'41%',
               width:58,height:90,
               transition:'all 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
-              WebkitTransition:'all 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
-              willChange:'transform, left, top',
               transform:shotResult==='saved'
-                ?'rotate(18deg)'
-                :keeperDir==='left'?'rotate(-30deg) scaleX(-1)':keeperDir==='right'?'rotate(30deg)':'rotate(0deg)',
-              WebkitTransform:shotResult==='saved'
                 ?'rotate(18deg)'
                 :keeperDir==='left'?'rotate(-30deg) scaleX(-1)':keeperDir==='right'?'rotate(30deg)':'rotate(0deg)',
               filter:shotResult==='goal'?'grayscale(0.9) opacity(0.5)':shotResult==='saved'?'drop-shadow(0 0 10px #ffd700)':'',
               transformOrigin:'center center',
-              WebkitTransformOrigin:'center center',
               zIndex:10
             },
             viewBox:'0 0 56 82',xmlns:'http://www.w3.org/2000/svg'
@@ -3867,7 +3802,7 @@ function App(){
             textShadow:'0 0 20px '+(shotResult==='goal'?'rgba(255,255,0,0.9)':'rgba(255,0,0,0.9)'),
             whiteSpace:'nowrap',
             zIndex:1000
-          }},shotResult==='goal'?(lang==='fr'?'⚽ BUT !!':lang==='es'?'⚽ GOL !!':lang==='pt'?'⚽ GOL !!':lang==='it'?'⚽ GOL !!':lang==='de'?'⚽ TOR !!':'⚽ GOAL !!'):(lang==='fr'?'🦂 ARRÊT !':lang==='es'?'🦂 PARADO !':lang==='pt'?'🦂 DEFESA !':lang==='it'?'🦂 PARATO !':lang==='de'?'🦂 GEHALTEN !':'🦂 SAVED !!')),
+          }},shotResult==='goal'?'⚽ GOAL !!':(lang==='fr'?'🦂 ARRETE !':lang==='es'?'🦂 PARADO !':lang==='pt'?'🦂 DEFENDIDO !':lang==='it'?'🦂 PARATO !':lang==='de'?'🦂 GEHALTEN !':'🦂 SAVED !!')),
 
           // Crowd
           shotResult==='goal'&&e('div',{style:{position:'absolute',bottom:4,left:0,right:0,textAlign:'center',fontSize:16,zIndex:50}},'🎉🎊🎉'),
@@ -3878,7 +3813,7 @@ function App(){
         combo>=2&&e('div',{style:{textAlign:'center',marginBottom:8}},
           e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.3),rgba(255,150,0,0.2))',border:'1px solid '+G,borderRadius:8,padding:'4px 16px',display:'inline-block',fontSize:12,fontWeight:'bold',color:G}},'🔥 COMBO x',combo,' !')
         ),
-        (penTourPhase!=='playing'&&gamePhase==='idle')&&e('button',{onClick:function(){setGamePhase('shooting');setTimer(3);},onTouchEnd:function(ev){ev.preventDefault();setGamePhase('shooting');setTimer(3);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+        (penTourPhase!=='playing'&&gamePhase==='idle')&&e('button',{onClick:function(){setGamePhase('shooting');setTimer(3);},style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
           lang==='fr'?'⚽ Commencer':lang==='es'?'⚽ Empezar':lang==='pt'?'⚽ Comecar':lang==='it'?'⚽ Inizia':lang==='de'?'⚽ Starten':'⚽ Start'
         ),
         (penTourPhase!=='playing'&&gamePhase==='shooting')&&e('div',null,
@@ -3926,7 +3861,7 @@ function App(){
         !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.06))',border:'1px solid '+G,borderRadius:12,padding:'16px',textAlign:'center'}},
           e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:8}},'🏆 PENALTY SHOOTOUT TOURNAMENT — PRO'),
           e('div',{style:{fontSize:24,marginBottom:8}},'🔒'),
-          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block'}},'🏆 PRO - '+getPrice(lang))
+          e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'🏆 PRO - '+getPrice(lang))
         ),
         premium&&(function(){
           var ROUNDS=[
@@ -4042,11 +3977,11 @@ function App(){
                   e('div',{style:{fontSize:44,marginBottom:6}},isChampion?'🏆':qualified?'✅':'❌'),
                   e('div',{style:{fontSize:16,fontWeight:'bold',color:qualified?'#90ee90':'#ff4444',marginBottom:4}},
                     isChampion?(lang==='fr'?'CHAMPION DU MONDE !':lang==='es'?'¡CAMPEÓN DEL MUNDO!':lang==='pt'?'CAMPEÃO DO MUNDO !':lang==='it'?'CAMPIONE DEL MONDO !':lang==='de'?'WELTMEISTER !':'WORLD CHAMPION !'):
-                    qualified?(lang==='fr'?'QUALIFIÉ !':lang==='es'?'¡CLASIFICADO!':lang==='pt'?'CLASSIFICADO !':lang==='it'?'QUALIFICATO !':lang==='de'?'QUALIFIZIERT !':'QUALIFIED !'):
-                    (lang==='fr'?'ÉLIMINÉ':lang==='es'?'ELIMINADO':lang==='pt'?'ELIMINADO':lang==='it'?'ELIMINATO':lang==='de'?'AUSGESCHIEDEN':'ELIMINATED')
+                    qualified?(lang==='fr'?'QUALIFIÉ !':lang==='es'?'¡CLASIFICADO!':lang==='pt'?'CLASSIFICADO !':'QUALIFIED !'):
+                    (lang==='fr'?'ÉLIMINÉ':lang==='es'?'ELIMINADO':lang==='pt'?'ELIMINADO':'ELIMINATED')
                   ),
                   e('div',{style:{fontSize:12,color:'#ccc',marginBottom:6}},gameScore,' / 5 — +',bonus,' pts'),
-                  e('div',{style:{fontSize:14,fontWeight:'bold',color:G}},(lang==='it'?'Totale: ':lang==='de'?'Gesamt: ':'Total: '),newTotal,' pts'),
+                  e('div',{style:{fontSize:14,fontWeight:'bold',color:G}},'Total: ',newTotal,' pts'),
                   qualified&&rd.bonus>0&&e('div',{style:{fontSize:10,color:'#90ee90',marginTop:3}},'⭐ Round bonus: +',rd.bonus,' pts'),
                   e('div',{style:{display:'flex',justifyContent:'center',gap:4,marginTop:8}},
                     shotHistory.map(function(h,i){return e('div',{key:i,style:{width:22,height:22,borderRadius:'50%',background:h.scored?'rgba(40,200,40,0.5)':'rgba(200,40,40,0.5)',border:'1px solid '+(h.scored?'#90ee90':'#ff6666'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:10}},h.scored?'⚽':'✗');})
@@ -4056,20 +3991,20 @@ function App(){
                   savePenLeaderboard(penTourName,newTotal,3);
                   setPenTourPhase('menu');
                 },style:{width:'100%',background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'13px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)',marginBottom:6}},
-                '🏆 '+(lang==='fr'?'SAUVEGARDER & CLASSEMENT':lang==='es'?'GUARDAR & RANKING':lang==='pt'?'SALVAR & RANKING':lang==='it'?'SALVA & CLASSIFICA':lang==='de'?'SPEICHERN & RANGLISTE':'SAVE & LEADERBOARD')),
+                '🏆 '+(lang==='fr'?'SAUVEGARDER & CLASSEMENT':lang==='es'?'GUARDAR & RANKING':lang==='pt'?'SALVAR & RANKING':'SAVE & LEADERBOARD')),
                 qualified&&!isChampion&&e('button',{onClick:function(){
                   setPenTourTotal(newTotal);
                   setPenTourRound(penTourRound+1);
                   startPenRound();
                 },style:{width:'100%',background:'linear-gradient(135deg,#90ee90,#228B22)',border:'none',borderRadius:12,padding:'13px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',marginBottom:6}},
-                '▶ '+(lang==='fr'?'PROCHAIN ROUND':lang==='es'?'SIGUIENTE RONDA':lang==='pt'?'PRÓXIMA RODADA':lang==='it'?'PROSSIMO ROUND':lang==='de'?'NÄCHSTE RUNDE':'NEXT ROUND')+' — '+(ROUNDS[penTourRound+1]&&(ROUNDS[penTourRound+1].name[lang]||ROUNDS[penTourRound+1].name.en)||'')),
+                '▶ '+(lang==='fr'?'PROCHAIN ROUND':lang==='es'?'SIGUIENTE RONDA':lang==='pt'?'PRÓXIMA RODADA':'NEXT ROUND')+' — '+(ROUNDS[penTourRound+1]&&(ROUNDS[penTourRound+1].name[lang]||ROUNDS[penTourRound+1].name.en)||'')),
                 !qualified&&e('button',{onClick:function(){
                   savePenLeaderboard(penTourName,newTotal,penTourRound);
                   setPenTourPhase('menu');
                 },style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'13px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',marginBottom:6}},
-                '🏅 '+(lang==='fr'?'SAUVEGARDER MON SCORE':lang==='es'?'GUARDAR MI SCORE':lang==='pt'?'SALVAR MEU SCORE':lang==='it'?'SALVA IL MIO PUNTEGGIO':lang==='de'?'ERGEBNIS SPEICHERN':'SAVE MY SCORE')),
+                '🏅 '+(lang==='fr'?'SAUVEGARDER MON SCORE':lang==='es'?'GUARDAR MI SCORE':lang==='pt'?'SALVAR MEU SCORE':'SAVE MY SCORE')),
                 e('button',{onClick:function(){setPenTourPhase('menu');},style:{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'9px 0',fontSize:11,color:'#6a86a0',cursor:'pointer'}},
-                '🏠 '+(lang==='fr'?'Menu':lang==='es'?'Menú':lang==='pt'?'Menu':lang==='it'?'Menu':lang==='de'?'Menü':'Menu'))
+                '🏠 '+(lang==='fr'?'Menu':lang==='es'?'Menú':lang==='pt'?'Menu':'Menu'))
               );
             })()
           );
@@ -4598,7 +4533,7 @@ function App(){
             e('div',null,'🔔 '+(lang==='fr'?'Alertes équipes favorites':'Favourite team alerts')),
             e('div',null,'🚫 '+(lang==='fr'?'Sans publicité':'Ad-free experience'))
           ),
-          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block',boxShadow:'0 4px 15px rgba(212,175,55,0.4)'}},
+          e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)'}},
             '🏆 PRO - '+getPrice(lang))
         ):null,
 

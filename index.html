@@ -16,14 +16,22 @@
 body{background:#08091a;color:#eee8d5;font-family:sans-serif;min-height:100vh}
 #root{min-height:100vh}
 select{-webkit-appearance:none;appearance:none}
-#splash-overlay{position:fixed;inset:0;background:#08091a;z-index:9999;transition:opacity 0.8s ease;display:flex;align-items:center;justify-content:center}
-#splash-overlay.hidden{opacity:0;pointer-events:none}
-#splash-icon{width:110px;height:110px;border-radius:24px;opacity:0;animation:iconIn 1s ease 0.3s forwards,iconOut 0.6s ease 1.6s forwards;z-index:2;position:relative}
-@keyframes iconIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
-@keyframes iconOut{from{opacity:1}to{opacity:0}}
-#splash-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;animation:bgIn 1s ease 2s forwards}
-@keyframes bgIn{from{opacity:0}to{opacity:1}}
 </style>
+<!-- Pro activation after Stripe payment -->
+<script>
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  if(params.get('pro')==='1'){
+    try{ localStorage.setItem('wc2026_pro','1'); }catch(e){}
+    window.location.href = 'worldcup2026://?pro=1';
+    setTimeout(function(){
+      document.open();
+      document.write('<div style="font-family:sans-serif;text-align:center;padding:60px 20px;background:#08091a;color:#d4af37;min-height:100vh"><div style="font-size:48px">🏆</div><h2 style="margin:20px 0">Pro activé !</h2><p style="color:#aaa">Revenez dans l\'application World Cup 2026</p></div>');
+      document.close();
+    }, 1500);
+  }
+})();
+</script>
 <!-- OneSignal -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
@@ -36,36 +44,16 @@ select{-webkit-appearance:none;appearance:none}
 </script>
 </head>
 <body>
-<div id="splash-overlay" onclick="closeSplash()">
-  <img id="splash-bg" alt="">
-  <img src="/icon-512.png" id="splash-icon" alt="WC 2026">
-</div>
-<script>
-(function(){
-  var lang=(navigator.language||'en').slice(0,2).toLowerCase();
-  var supported=['en','fr','es','de','pt','it'];
-  if(supported.indexOf(lang)===-1) lang='en';
-  var isMobile=window.innerWidth<=768;
-  var type=isMobile?'phone':'desktop';
-  document.getElementById('splash-bg').src='/public/splash-'+lang+'-'+type+'.png';
-})();
-function closeSplash(){
-  var s=document.getElementById('splash-overlay');
-  s.classList.add('hidden');
-  setTimeout(function(){s.style.display='none';},800);
-}
-</script>
 <div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.module.js"}}</script>
 <script type="module">
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/loaders/DRACOLoader.js';
 window.GLTFLoader=GLTFLoader;window.DRACOLoader=DRACOLoader;
 window.dispatchEvent(new Event('loaders-ready'));
 </script>
-<script src="/app.js?v=20260608k"></script>
+<script src="/app.js"></script>
 </body>
 </html>

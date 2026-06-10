@@ -34,8 +34,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        // Called when the app was launched with a url. Feel free to add additional processing here,
-        // but if you want the App API to support tracking app url opens, make sure to keep this call
+        if url.scheme == "worldcup2026" {
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            if components?.queryItems?.first(where: { $0.name == "pro" })?.value == "1" {
+                if let bridge = (window?.rootViewController as? CAPBridgeViewController)?.bridge {
+                    bridge.webView?.evaluateJavaScript(
+                        "localStorage.setItem('wc2026_pro','1');window.location.reload();",
+                        completionHandler: nil
+                    )
+                }
+            }
+        }
         return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
     }
 

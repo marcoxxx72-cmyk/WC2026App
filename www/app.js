@@ -1990,6 +1990,11 @@ function getStripeLink(lang){
   if(c==='usd')return STRIPE_USD;
   return STRIPE_EUR;
 }
+function handleProPurchase(lang){
+  var url=getStripeLink(lang);
+  if(window.Capacitor){window.open(url,'_system');}
+  else{window.location.href=url;}
+}
 function getPrice(lang){
   var c=_getCurrency();
   if(c==='brl')return 'R$14,90';
@@ -3020,7 +3025,7 @@ function App(){
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
-          !premium&&e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',textDecoration:'none',display:'inline-block'}},'PRO - '+getPrice(lang)),
+          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
         )
       ),
@@ -3033,7 +3038,7 @@ function App(){
 
     !premium&&e('div',{style:{background:'linear-gradient(90deg,#1a1000,#3a2800,#1a1000)',borderBottom:'1px solid rgba(212,175,55,0.3)',padding:'7px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}},
       e('span',{style:{fontSize:11,color:G,flexShrink:1}},t.premiumBanner),
-      e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap',textDecoration:'none',display:'inline-block'}},t.premiumBtn+' - '+getPrice(lang))
+      e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap'}},t.premiumBtn+' - '+getPrice(lang))
     ),
 
     e('nav',{style:{position:'sticky',top:0,zIndex:20,background:'rgba(6,9,26,0.97)',backdropFilter:'blur(14px)',borderBottom:'2px solid rgba(212,175,55,0.2)',overflowX:'auto',WebkitOverflowScrolling:'touch',scrollbarWidth:'none'}},
@@ -3146,7 +3151,7 @@ function App(){
                 return e('div',{key:i,style:{width:20,height:20,borderRadius:5,background:c,opacity:0.6}});
               })
             ),
-            e('button',{onClick:function(){window.location.href=getStripeLink(lang);},style:{marginLeft:'auto',background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:9,padding:'6px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+            e('button',{onClick:function(){handleProPurchase(lang);},style:{marginLeft:'auto',background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:9,padding:'6px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
               '🔒 '+lang==='fr'?'Débloquer PRO':lang==='es'?'Desbloquear PRO':lang==='pt'?'Desbloquear PRO':'Unlock PRO'
             )
           )
@@ -3856,7 +3861,7 @@ function App(){
         !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.06))',border:'1px solid '+G,borderRadius:12,padding:'16px',textAlign:'center'}},
           e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:8}},'🏆 PENALTY SHOOTOUT TOURNAMENT — PRO'),
           e('div',{style:{fontSize:24,marginBottom:8}},'🔒'),
-          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block'}},'🏆 PRO - '+getPrice(lang))
+          e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'🏆 PRO - '+getPrice(lang))
         ),
         premium&&(function(){
           var ROUNDS=[
@@ -4528,7 +4533,7 @@ function App(){
             e('div',null,'🔔 '+(lang==='fr'?'Alertes équipes favorites':'Favourite team alerts')),
             e('div',null,'🚫 '+(lang==='fr'?'Sans publicité':'Ad-free experience'))
           ),
-          e('a',{href:getStripeLink(lang),target:'_blank',rel:'noopener',style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',textDecoration:'none',display:'inline-block',boxShadow:'0 4px 15px rgba(212,175,55,0.4)'}},
+          e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)'}},
             '🏆 PRO - '+getPrice(lang))
         ):null,
 
