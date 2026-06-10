@@ -24,7 +24,11 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          node -e 'require("fs").writeFileSync("/tmp/asc_key.p8",(process.env.APP_STORE_CONNECT_PRIVATE_KEY||"").replace(/\\n/g,"\n"))'
+          echo "KEY_ID=${APP_STORE_CONNECT_KEY_IDENTIFIER}"
+          echo "ISSUER=${APP_STORE_CONNECT_ISSUER_ID}"
+          echo "KEY_LENGTH=${#APP_STORE_CONNECT_PRIVATE_KEY}"
+          node -e 'var k=process.env.APP_STORE_CONNECT_PRIVATE_KEY||""; k=k.replace(/\\r\\n|\\n/g,"\n").replace(/\r\n/g,"\n"); require("fs").writeFileSync("/tmp/asc_key.p8",k); console.log("Written bytes:",k.length,"lines:",k.split("\n").length)'
+          head -1 /tmp/asc_key.p8
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
