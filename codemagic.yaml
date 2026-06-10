@@ -7,7 +7,7 @@ workflows:
       app_store_connect: Codemagic
     environment:
       ios_signing:
-        distribution_type: app_store
+        distribution_type: ad_hoc
         bundle_identifier: com.marcocanal.worldcup2026
       node: latest
       xcode: latest
@@ -24,11 +24,7 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          echo "KEY_ID=${APP_STORE_CONNECT_KEY_IDENTIFIER}"
-          echo "ISSUER=${APP_STORE_CONNECT_ISSUER_ID}"
-          echo "KEY_LENGTH=${#APP_STORE_CONNECT_PRIVATE_KEY}"
-          node -e 'var k=process.env.APP_STORE_CONNECT_PRIVATE_KEY||""; k=k.replace(/\\r\\n|\\n/g,"\n").replace(/\r\n/g,"\n"); require("fs").writeFileSync("/tmp/asc_key.p8",k); console.log("Written bytes:",k.length,"lines:",k.split("\n").length)'
-          head -1 /tmp/asc_key.p8
+          xcode-project use-profiles
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
@@ -37,18 +33,11 @@ workflows:
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
             -allowProvisioningUpdates \
-            -authenticationKeyPath /tmp/asc_key.p8 \
-            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
-            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID" \
             DEVELOPMENT_TEAM=Y6F853GG9K
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
-            -exportOptionsPlist ios/App/ExportOptions-macOS.plist \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath /tmp/asc_key.p8 \
-            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
-            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
+            -exportOptionsPlist ios/App/ExportOptions-macOS.plist
     artifacts:
       - /tmp/App-macOS/*.pkg
     publishing:
