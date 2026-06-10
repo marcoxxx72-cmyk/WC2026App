@@ -37,7 +37,8 @@ workflows:
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
-            -exportOptionsPlist ios/App/ExportOptions-macOS.plist
+            -exportOptionsPlist ios/App/ExportOptions-macOS.plist \
+            -allowProvisioningUpdates
     artifacts:
       - /tmp/App-macOS/*.pkg
     publishing:
