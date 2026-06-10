@@ -24,7 +24,8 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          printf '%s' "$APP_STORE_CONNECT_PRIVATE_KEY" | sed 's/\\n/\n/g' > /tmp/asc_private_key.p8
+          printf '%b' "$APP_STORE_CONNECT_PRIVATE_KEY" > /tmp/asc_private_key.p8
+          echo "Key file: $(wc -c < /tmp/asc_private_key.p8) bytes, $(wc -l < /tmp/asc_private_key.p8) lines, first line: $(head -1 /tmp/asc_private_key.p8)"
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
