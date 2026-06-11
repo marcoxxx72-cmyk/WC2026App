@@ -1472,7 +1472,7 @@ function PenaltyPitch(props){
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-var FDATA_KEY = '756b5806bcc542e2bd2d3a09de10d732';
+var FDATA_KEY = '';
 var WC2026_ID = 2000;
 var ONESIGNAL_APP_ID = '29a090bc-9893-46a1-87a3-e3f162e2271d';
 var G = '#d4af37';
@@ -2554,18 +2554,14 @@ function App(){
   // Fetch live scores
   function fetchLiveScores(){
     setLiveLoading(true);
-    fetch('https://api.football-data.org/v4/competitions/'+WC2026_ID+'/matches?status=IN_PLAY,PAUSED,LIVE',{
-      headers:{'X-Auth-Token':FDATA_KEY}
-    })
+    fetch('/api/scores?status=IN_PLAY,PAUSED,LIVE')
     .then(function(r){return r.json();})
     .then(function(data){
       if(data.matches&&data.matches.length>0){
         setLiveScores(data.matches);
       } else {
         var today=new Date().toISOString().split('T')[0];
-        fetch('https://api.football-data.org/v4/competitions/'+WC2026_ID+'/matches?dateFrom='+today+'&dateTo='+today,{
-          headers:{'X-Auth-Token':FDATA_KEY}
-        })
+        fetch('/api/scores?dateFrom='+today+'&dateTo='+today)
         .then(function(r){return r.json();})
         .then(function(d){if(d.matches)setLiveScores(d.matches);setLiveLoading(false);})
         .catch(function(){setLiveLoading(false);});
@@ -2578,9 +2574,7 @@ function App(){
 
   // Fetch standings
   function fetchStandings(){
-    fetch('https://api.football-data.org/v4/competitions/'+WC2026_ID+'/standings',{
-      headers:{'X-Auth-Token':FDATA_KEY}
-    })
+    fetch('/api/standings')
     .then(function(r){return r.json();})
     .then(function(data){if(data.standings)setStandings(data.standings);})
     .catch(function(){});
