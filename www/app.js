@@ -2554,21 +2554,10 @@ function App(){
   // Fetch live scores
   function fetchLiveScores(){
     setLiveLoading(true);
-    fetch('/api/scores?status=IN_PLAY,PAUSED,LIVE')
+    var today=new Date().toISOString().split('T')[0];
+    fetch('/api/scores?dateFrom='+today+'&dateTo='+today)
     .then(function(r){return r.json();})
-    .then(function(data){
-      if(data.matches&&data.matches.length>0){
-        setLiveScores(data.matches);
-      } else {
-        var today=new Date().toISOString().split('T')[0];
-        fetch('/api/scores?dateFrom='+today+'&dateTo='+today)
-        .then(function(r){return r.json();})
-        .then(function(d){if(d.matches)setLiveScores(d.matches);setLiveLoading(false);})
-        .catch(function(){setLiveLoading(false);});
-        return;
-      }
-      setLiveLoading(false);
-    })
+    .then(function(d){if(d.matches)setLiveScores(d.matches);setLiveLoading(false);})
     .catch(function(){setLiveLoading(false);});
   }
 
