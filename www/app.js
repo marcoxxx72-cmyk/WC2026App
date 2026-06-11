@@ -1644,7 +1644,7 @@ var ALL_TEAMS = Object.values(GROUPS).reduce(function(a,g){return a.concat(g.tea
 // - FIXTURES -
 var FIXTURES = [
   // - JUNE 11 -
-  {date:'2026-06-11',time:'15:00',home:'Mexico',away:'South Africa',group:'A',stadium:'Estadio Azteca',city:'Mexico City'},
+  {date:'2026-06-11',time:'15:00',home:'Mexico',away:'South Africa',group:'A',stadium:'Estadio Azteca',city:'Mexico City',homeScore:2,awayScore:0},
   {date:'2026-06-11',time:'22:00',home:'South Korea',away:'Czechia',group:'A',stadium:'Estadio Akron',city:'Guadalajara'},
   // - JUNE 12 -
   {date:'2026-06-12',time:'15:00',home:'Canada',away:'Bosnia',group:'B',stadium:'BMO Field',city:'Toronto'},
@@ -3461,7 +3461,7 @@ function App(){
               ),
               e('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between'}},
                 e('div',{style:{flex:1,textAlign:'left',fontSize:13,fontWeight:f.home===activeTeam.team?'bold':'normal',color:f.home===activeTeam.team?G:'#eee8d5'}},tn(f.home,lang)),
-                e('div',{style:{padding:'4px 12px',background:'rgba(212,175,55,0.15)',borderRadius:8,fontSize:12,fontWeight:'bold',color:G,margin:'0 8px'}},'VS'),
+                e('div',{style:{padding:'4px 12px',background:(f.homeScore!=null)?'rgba(40,200,40,0.15)':'rgba(212,175,55,0.15)',borderRadius:8,fontSize:12,fontWeight:'bold',color:(f.homeScore!=null)?'#90ee90':G,margin:'0 8px'}},(f.homeScore!=null)?f.homeScore+' - '+f.awayScore:'VS'),
                 e('div',{style:{flex:1,textAlign:'right',fontSize:13,fontWeight:f.away===activeTeam.team?'bold':'normal',color:f.away===activeTeam.team?G:'#eee8d5'}},tn(f.away,lang))
               ),
               f.stadium&&e('div',{style:{fontSize:9,color:'#5a7090',marginTop:6}},f.stadium,' - ',f.city,' | 📺 ',getTV(f.home,lang)||getTV(f.away,lang)),
