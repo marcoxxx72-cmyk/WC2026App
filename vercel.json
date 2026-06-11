@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "www",
+  "outputDirectory": ".",
   "installCommand": "echo ok",
   "buildCommand": "echo ok",
   "headers": [
