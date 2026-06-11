@@ -785,8 +785,8 @@ function PenaltyPitch(props){
 
     // Advertising boards — modern digital-style
     var boardTex=makeCanvasTex(function(ctx,sw,sh){
-      var boards=['FIFA','ADIDAS','COCA‑COLA','QATAR','VISA','BUDWEISER','HYUNDAI','WANDA'];
-      var bColors=['#c8102e','#1c3f94','#f40009','#5c0d14','#1a1f71','#c8102e','#002c5f','#e53935'];
+      var boards=['ADIDAS','COCA‑COLA','VISA','BUDWEISER','HYUNDAI','WANDA','HISENSE','VIVO'];
+      var bColors=['#1c3f94','#f40009','#1a1f71','#c8102e','#002c5f','#e53935','#1565c0','#0a5498'];
       var nBoards=boards.length;
       for(var b=0;b<nBoards;b++){
         var bx=b*(sw/nBoards),bw=sw/nBoards;
@@ -821,7 +821,7 @@ function PenaltyPitch(props){
       sbCtx.strokeStyle='#444';sbCtx.lineWidth=6;sbCtx.strokeRect(4,4,504,248);
       sbCtx.fillStyle='#1a1a2e';sbCtx.fillRect(0,0,512,48);
       sbCtx.fillStyle='#f0c000';sbCtx.font='bold 18px monospace';
-      sbCtx.textAlign='center';sbCtx.fillText('FIFA WORLD CUP 2026',256,20);
+      sbCtx.textAlign='center';sbCtx.fillText('FOOTBALL 2026',256,20);
       var pn=thr&&thr.playerName?thr.playerName.toUpperCase():'';
       if(pn){sbCtx.fillStyle='#ffffff';sbCtx.font='bold 15px monospace';sbCtx.fillText('⚽ '+pn,256,40);}
       if(result){
@@ -1774,12 +1774,12 @@ var FIXTURES = [
 
 // - TRANSLATIONS -
 var T = {
-  en:{appTitle:'World Cup 2026',appSub:'USA - CANADA - MEXICO',nav:['Home','Groups','Fixtures','Predictions','Quiz','Players','Polls','Sim','Game','Fantasy','Predict'],countdown:'Countdown',timeUnits:['Days','Hours','Min','Sec'],keyInfo:['Host nations','Teams','Matches','Duration'],keyVals:['3 nations','48 teams','104 matches','Jun 11-Jul 19'],format:'Tournament Format',formatLines:['12 groups of 4 teams','1st + 2nd + 8 best 3rds = 32 teams','Round of 32 > 16 > QF > SF > Final','Opening: Estadio Azteca, Mexico City','Final: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GROUPS',hostLabel:'Host',groupLabel:'Group',myTeamLabel:'My Team',pickTeam:'Pick your team',pronoSub:'Who will reach the final?',pronoWinner:'World Champion 2026',pronoFinal:'Runner-up',pronoSemi:'Semi-finalists',pronoSave:'Save',pronoSaved:'Saved!',pronoReset:'Reset',pronoChoose:'Choose...',pronoMyPick:'My pick',quizSub:'Test your knowledge!',quizScore:'Score',quizNext:'Next question',quizFinish:'See result',quizRestart:'Play again',quizPerfect:'PERFECT! You are an expert!',quizGood:'Great job!',quizAvg:'Not bad!',quizBad:'Keep studying!',starsSub:'Players',pollTitle:'Polls',pollTotal:'votes',didYouKnow:'Did you know?',facts:['Italy miss WC 2026 for the 3rd consecutive time','Azteca hosts its 3rd World Cup','First-ever 48-team World Cup','First edition co-hosted by 3 countries','104 matches vs 64 in 2022','New IFAB rules in effect'],shareApp:'Share',shareCopied:'Link copied!',premiumBanner:'Go PREMIUM - Predictions + Stats + No ads',premiumBtn:'Unlock',fixturesTitle:'FIXTURES & RESULTS',fixturesAll:'All matches',fixturesMy:'My team only',noFixtures:'No fixtures found'},
-  fr:{appTitle:'Coupe du Monde 2026',appSub:'USA - CANADA - MEXIQUE',nav:['Accueil','Groupes','Calendrier','Pronostics','Quiz','Joueurs','Sondages','Sim','Jeu','Fantasy','Predict'],countdown:'Compte a rebours',timeUnits:['Jours','Heures','Min','Sec'],keyInfo:['Pays hotes','Equipes','Matchs','Duree'],keyVals:['3 nations','48 equipes','104 matchs','11 juin-19 juil.'],format:'Format du tournoi',formatLines:['12 groupes de 4 equipes','1er + 2e + 8 meilleurs 3es = 32 equipes','Tour des 32 > 16e > QF > SF > Finale','Ouverture: Estadio Azteca, Mexico','Finale: MetLife Stadium, New York'],groupsTitle:'48 EQUIPES - 12 GROUPES',hostLabel:'Pays hote',groupLabel:'Groupe',myTeamLabel:'Mon Equipe',pickTeam:'Choisir mon equipe',pronoSub:'Qui ira en finale?',pronoWinner:'Champion du Monde 2026',pronoFinal:'Finaliste',pronoSemi:'Demi-finales',pronoSave:'Sauvegarder',pronoSaved:'Sauvegarde!',pronoReset:'Reinitialiser',pronoChoose:'Choisir...',pronoMyPick:'Mon choix',quizSub:'Testez vos connaissances!',quizScore:'Score',quizNext:'Question suivante',quizFinish:'Voir mon resultat',quizRestart:'Rejouer',quizPerfect:'PARFAIT! Tu es un expert!',quizGood:'Tres bien!',quizAvg:'Pas mal!',quizBad:'Continue a reviser!',starsSub:'Joueurs',pollTitle:'Sondages',pollTotal:'votes',didYouKnow:'Le saviez-vous?',facts:["L Italie rate le Mondial 2026 pour la 3e fois consecutive","L Azteca accueille son 3e Mondial","1er Mondial a 48 equipes","1ere edition co-organisee par 3 pays","104 matchs contre 64 en 2022","Nouvelles regles IFAB effectives"],shareApp:'Partager',shareCopied:'Lien copie!',premiumBanner:'Passez PREMIUM - Pronostics + Stats + Sans pub',premiumBtn:'Debloquer',fixturesTitle:'CALENDRIER & RESULTATS',fixturesAll:'Tous les matchs',fixturesMy:'Mon equipe uniquement',noFixtures:'Aucun match trouve'},
-  es:{appTitle:'Copa del Mundo 2026',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Pronosticos','Quiz','Jugadores','Sondeos','Sim','Juego','Fantasy','Predict'],countdown:'Cuenta regresiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitriones','Equipos','Partidos','Duracion'],keyVals:['3 naciones','48 equipos','104 partidos','11 jun-19 jul'],format:'Formato del torneo',formatLines:['12 grupos de 4 equipos','1 + 2 + 8 mejores 3eros = 32 equipos','Ronda de 32 > 16avos > QF > SF > Final','Apertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nueva York'],groupsTitle:'48 EQUIPOS - 12 GRUPOS',hostLabel:'Anfitri',groupLabel:'Grupo',myTeamLabel:'Mi Equipo',pickTeam:'Elegir mi equipo',pronoSub:'Quien llegara a la final?',pronoWinner:'Campeon del Mundo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalistas',pronoSave:'Guardar',pronoSaved:'Guardado!',pronoReset:'Reiniciar',pronoChoose:'Elegir...',pronoMyPick:'Mi eleccion',quizSub:'Pon a prueba tus conocimientos!',quizScore:'Puntuacion',quizNext:'Siguiente',quizFinish:'Ver resultado',quizRestart:'Jugar de nuevo',quizPerfect:'Perfecto! Eres un experto!',quizGood:'Muy bien!',quizAvg:'Nada mal!',quizBad:'Sigue estudiando!',starsSub:'Jugadores',pollTitle:'Sondeos',pollTotal:'votos',didYouKnow:'Sabias que?',facts:['Italia se pierde el Mundial 2026 por 3a vez consecutiva','El Azteca acoge su 3er Mundial','El primer Mundial con 48 equipos','Primera edicion organizada por 3 paises','104 partidos frente a 64 en 2022','Nuevas reglas del IFAB en vigor'],shareApp:'Compartir',shareCopied:'Enlace copiado!',premiumBanner:'Hazte PREMIUM - Pronosticos + Estadisticas + Sin anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO Y RESULTADOS',fixturesAll:'Todos los partidos',fixturesMy:'Solo mi equipo',noFixtures:'No se encontraron partidos'},
-  pt:{appTitle:'Copa do Mundo 2026',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Palpites','Quiz','Jogadores','Enquetes','Sim','Jogo','Fantasy','Predict'],countdown:'Contagem regressiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitrioes','Selecoes','Jogos','Duracao'],keyVals:['3 nacoes','48 selecoes','104 jogos','11 jun-19 jul'],format:'Formato do torneio',formatLines:['12 grupos de 4 selecoes','1 + 2 + 8 melhores 3eiros = 32 equipes','Rodada de 32 > 16 > QF > SF > Final','Abertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nova York'],groupsTitle:'48 SELECOES - 12 GRUPOS',hostLabel:'Anfitriao',groupLabel:'Grupo',myTeamLabel:'Meu Time',pickTeam:'Escolher meu time',pronoSub:'Quem vai chegar a final?',pronoWinner:'Campeao do Mundo 2026',pronoFinal:'Vice-campeao',pronoSemi:'Semifinalistas',pronoSave:'Salvar',pronoSaved:'Salvo!',pronoReset:'Reiniciar',pronoChoose:'Escolher...',pronoMyPick:'Minha escolha',quizSub:'Teste seus conhecimentos!',quizScore:'Pontuacao',quizNext:'Proxima',quizFinish:'Ver resultado',quizRestart:'Jogar novamente',quizPerfect:'Perfeito! Voce e um expert!',quizGood:'Muito bem!',quizAvg:'Nada mal!',quizBad:'Continue estudando!',starsSub:'Jogadores',pollTitle:'Enquetes',pollTotal:'votos',didYouKnow:'Voce sabia?',facts:['A Italia perde a Copa 2026 pela 3a vez consecutiva','O Azteca sedia sua 3a Copa','Primeira Copa com 48 selecoes','Primeira edicao organizada por 3 paises','104 jogos contra 64 em 2022','Novas regras do IFAB em vigor'],shareApp:'Compartilhar',shareCopied:'Link copiado!',premiumBanner:'Seja PREMIUM - Palpites + Estatisticas + Sem anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO E RESULTADOS',fixturesAll:'Todos os jogos',fixturesMy:'Apenas meu time',noFixtures:'Nenhum jogo encontrado'},
-  it:{appTitle:'Coppa del Mondo 2026',appSub:'USA - CANADA - MESSICO',nav:['Home','Gruppi','Calendario','Pronostici','Quiz','Giocatori','Sondaggi','Sim','Gioco','Fantasy','Predict'],countdown:'Conto alla rovescia',timeUnits:['Giorni','Ore','Min','Sec'],keyInfo:['Paesi ospitanti','Squadre','Partite','Durata'],keyVals:['3 nazioni','48 squadre','104 partite','11 giu-19 lug'],format:'Formato del torneo',formatLines:['12 gironi da 4 squadre','1a + 2a + 8 migliori 3e = 32 squadre','Fase a 32 > 16 > QF > SF > Finale','Apertura: Estadio Azteca, Messico','Finale: MetLife Stadium, New York'],groupsTitle:'48 SQUADRE - 12 GIRONI',hostLabel:'Sede',groupLabel:'Girone',myTeamLabel:'La Mia Squadra',pickTeam:'Scegli la tua squadra',pronoSub:'Chi arrivera in finale?',pronoWinner:'Campione del Mondo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalisti',pronoSave:'Salva',pronoSaved:'Salvato!',pronoReset:'Azzera',pronoChoose:'Scegli...',pronoMyPick:'La mia scelta',quizSub:'Metti alla prova le tue conoscenze!',quizScore:'Punteggio',quizNext:'Domanda successiva',quizFinish:'Vedi risultato',quizRestart:'Gioca ancora',quizPerfect:'Perfetto! Sei un esperto!',quizGood:'Molto bene!',quizAvg:'Niente male!',quizBad:'Continua a studiare!',starsSub:'Giocatori',pollTitle:'Sondaggi',pollTotal:'voti',didYouKnow:'Lo sapevi?',facts:["L Italia non e al Mondiale 2026 per la 3a volta consecutiva","L Azteca ospita il suo 3o Mondiale","Primo Mondiale con 48 squadre","Prima edizione co-organizzata da 3 paesi","104 partite contro 64 nel 2022","Nuove regole IFAB in vigore"],shareApp:'Condividi',shareCopied:'Link copiato!',premiumBanner:'Diventa PREMIUM - Pronostici + Statistiche + Senza pub',premiumBtn:'Sblocca',fixturesTitle:'CALENDARIO E RISULTATI',fixturesAll:'Tutte le partite',fixturesMy:'Solo la mia squadra',noFixtures:'Nessuna partita trovata'},
-  de:{appTitle:'Weltmeisterschaft 2026',appSub:'USA - KANADA - MEXIKO',nav:['Start','Gruppen','Spielplan','Tipps','Quiz','Spieler','Umfragen','Sim','Spiel','Fantasy','Predict'],countdown:'Countdown',timeUnits:['Tage','Stunden','Min','Sek'],keyInfo:['Gastgeberlaender','Teams','Spiele','Dauer'],keyVals:['3 Nationen','48 Teams','104 Spiele','11. Jun-19. Jul'],format:'Turnierformat',formatLines:['12 Gruppen mit je 4 Teams','1. + 2. + 8 beste 3. = 32 Teams','Runde der 32 > 16 > VF > HF > Finale','Eroeffnung: Estadio Azteca, Mexiko','Finale: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GRUPPEN',hostLabel:'Gastgeber',groupLabel:'Gruppe',myTeamLabel:'Mein Team',pickTeam:'Mein Team auswaehlen',pronoSub:'Wer kommt ins Finale?',pronoWinner:'Weltmeister 2026',pronoFinal:'Finalist',pronoSemi:'Halbfinalisten',pronoSave:'Speichern',pronoSaved:'Gespeichert!',pronoReset:'Zuruecksetzen',pronoChoose:'Auswaehlen...',pronoMyPick:'Meine Wahl',quizSub:'Teste dein Wissen!',quizScore:'Punkte',quizNext:'Naechste Frage',quizFinish:'Ergebnis sehen',quizRestart:'Nochmal spielen',quizPerfect:'Perfekt! Du bist ein Experte!',quizGood:'Sehr gut!',quizAvg:'Nicht schlecht!',quizBad:'Weiter lernen!',starsSub:'Spieler',pollTitle:'Umfragen',pollTotal:'Stimmen',didYouKnow:'Wusstest du?',facts:['Italien verpasst die WM 2026 zum 3. Mal in Folge','Das Azteca beherbergt seine 3. WM','Erste WM mit 48 Teams','Erste WM von 3 Laendern gemeinsam ausgerichtet','104 Spiele gegen 64 in 2022','Neue IFAB-Regeln in Kraft'],shareApp:'Teilen',shareCopied:'Link kopiert!',premiumBanner:'PREMIUM werden - Tipps + Statistiken + Werbefrei',premiumBtn:'Freischalten',fixturesTitle:'SPIELPLAN & ERGEBNISSE',fixturesAll:'Alle Spiele',fixturesMy:'Nur mein Team',noFixtures:'Keine Spiele gefunden'}
+  en:{appTitle:'World Cup 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Home','Groups','Fixtures','Predictions','Quiz','Players','Polls','Sim','Game','Fantasy','Predict'],countdown:'Countdown',timeUnits:['Days','Hours','Min','Sec'],keyInfo:['Host nations','Teams','Matches','Duration'],keyVals:['3 nations','48 teams','104 matches','Jun 11-Jul 19'],format:'Tournament Format',formatLines:['12 groups of 4 teams','1st + 2nd + 8 best 3rds = 32 teams','Round of 32 > 16 > QF > SF > Final','Opening: Estadio Azteca, Mexico City','Final: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GROUPS',hostLabel:'Host',groupLabel:'Group',myTeamLabel:'My Team',pickTeam:'Pick your team',pronoSub:'Who will reach the final?',pronoWinner:'World Champion 2026',pronoFinal:'Runner-up',pronoSemi:'Semi-finalists',pronoSave:'Save',pronoSaved:'Saved!',pronoReset:'Reset',pronoChoose:'Choose...',pronoMyPick:'My pick',quizSub:'Test your knowledge!',quizScore:'Score',quizNext:'Next question',quizFinish:'See result',quizRestart:'Play again',quizPerfect:'PERFECT! You are an expert!',quizGood:'Great job!',quizAvg:'Not bad!',quizBad:'Keep studying!',starsSub:'Players',pollTitle:'Polls',pollTotal:'votes',didYouKnow:'Did you know?',facts:['Italy miss WC 2026 for the 3rd consecutive time','Azteca hosts its 3rd World Cup','First-ever 48-team World Cup','First edition co-hosted by 3 countries','104 matches vs 64 in 2022','New IFAB rules in effect'],shareApp:'Share',shareCopied:'Link copied!',premiumBanner:'Go PREMIUM - Predictions + Stats + No ads',premiumBtn:'Unlock',fixturesTitle:'FIXTURES & RESULTS',fixturesAll:'All matches',fixturesMy:'My team only',noFixtures:'No fixtures found'},
+  fr:{appTitle:'Coupe du Monde 2026 Fan App',appSub:'USA - CANADA - MEXIQUE',nav:['Accueil','Groupes','Calendrier','Pronostics','Quiz','Joueurs','Sondages','Sim','Jeu','Fantasy','Predict'],countdown:'Compte a rebours',timeUnits:['Jours','Heures','Min','Sec'],keyInfo:['Pays hotes','Equipes','Matchs','Duree'],keyVals:['3 nations','48 equipes','104 matchs','11 juin-19 juil.'],format:'Format du tournoi',formatLines:['12 groupes de 4 equipes','1er + 2e + 8 meilleurs 3es = 32 equipes','Tour des 32 > 16e > QF > SF > Finale','Ouverture: Estadio Azteca, Mexico','Finale: MetLife Stadium, New York'],groupsTitle:'48 EQUIPES - 12 GROUPES',hostLabel:'Pays hote',groupLabel:'Groupe',myTeamLabel:'Mon Equipe',pickTeam:'Choisir mon equipe',pronoSub:'Qui ira en finale?',pronoWinner:'Champion du Monde 2026',pronoFinal:'Finaliste',pronoSemi:'Demi-finales',pronoSave:'Sauvegarder',pronoSaved:'Sauvegarde!',pronoReset:'Reinitialiser',pronoChoose:'Choisir...',pronoMyPick:'Mon choix',quizSub:'Testez vos connaissances!',quizScore:'Score',quizNext:'Question suivante',quizFinish:'Voir mon resultat',quizRestart:'Rejouer',quizPerfect:'PARFAIT! Tu es un expert!',quizGood:'Tres bien!',quizAvg:'Pas mal!',quizBad:'Continue a reviser!',starsSub:'Joueurs',pollTitle:'Sondages',pollTotal:'votes',didYouKnow:'Le saviez-vous?',facts:["L Italie rate le Mondial 2026 pour la 3e fois consecutive","L Azteca accueille son 3e Mondial","1er Mondial a 48 equipes","1ere edition co-organisee par 3 pays","104 matchs contre 64 en 2022","Nouvelles regles IFAB effectives"],shareApp:'Partager',shareCopied:'Lien copie!',premiumBanner:'Passez PREMIUM - Pronostics + Stats + Sans pub',premiumBtn:'Debloquer',fixturesTitle:'CALENDRIER & RESULTATS',fixturesAll:'Tous les matchs',fixturesMy:'Mon equipe uniquement',noFixtures:'Aucun match trouve'},
+  es:{appTitle:'Copa del Mundo 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Pronosticos','Quiz','Jugadores','Sondeos','Sim','Juego','Fantasy','Predict'],countdown:'Cuenta regresiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitriones','Equipos','Partidos','Duracion'],keyVals:['3 naciones','48 equipos','104 partidos','11 jun-19 jul'],format:'Formato del torneo',formatLines:['12 grupos de 4 equipos','1 + 2 + 8 mejores 3eros = 32 equipos','Ronda de 32 > 16avos > QF > SF > Final','Apertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nueva York'],groupsTitle:'48 EQUIPOS - 12 GRUPOS',hostLabel:'Anfitri',groupLabel:'Grupo',myTeamLabel:'Mi Equipo',pickTeam:'Elegir mi equipo',pronoSub:'Quien llegara a la final?',pronoWinner:'Campeon del Mundo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalistas',pronoSave:'Guardar',pronoSaved:'Guardado!',pronoReset:'Reiniciar',pronoChoose:'Elegir...',pronoMyPick:'Mi eleccion',quizSub:'Pon a prueba tus conocimientos!',quizScore:'Puntuacion',quizNext:'Siguiente',quizFinish:'Ver resultado',quizRestart:'Jugar de nuevo',quizPerfect:'Perfecto! Eres un experto!',quizGood:'Muy bien!',quizAvg:'Nada mal!',quizBad:'Sigue estudiando!',starsSub:'Jugadores',pollTitle:'Sondeos',pollTotal:'votos',didYouKnow:'Sabias que?',facts:['Italia se pierde el Mundial 2026 por 3a vez consecutiva','El Azteca acoge su 3er Mundial','El primer Mundial con 48 equipos','Primera edicion organizada por 3 paises','104 partidos frente a 64 en 2022','Nuevas reglas del IFAB en vigor'],shareApp:'Compartir',shareCopied:'Enlace copiado!',premiumBanner:'Hazte PREMIUM - Pronosticos + Estadisticas + Sin anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO Y RESULTADOS',fixturesAll:'Todos los partidos',fixturesMy:'Solo mi equipo',noFixtures:'No se encontraron partidos'},
+  pt:{appTitle:'Copa do Mundo 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Palpites','Quiz','Jogadores','Enquetes','Sim','Jogo','Fantasy','Predict'],countdown:'Contagem regressiva',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitrioes','Selecoes','Jogos','Duracao'],keyVals:['3 nacoes','48 selecoes','104 jogos','11 jun-19 jul'],format:'Formato do torneio',formatLines:['12 grupos de 4 selecoes','1 + 2 + 8 melhores 3eiros = 32 equipes','Rodada de 32 > 16 > QF > SF > Final','Abertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nova York'],groupsTitle:'48 SELECOES - 12 GRUPOS',hostLabel:'Anfitriao',groupLabel:'Grupo',myTeamLabel:'Meu Time',pickTeam:'Escolher meu time',pronoSub:'Quem vai chegar a final?',pronoWinner:'Campeao do Mundo 2026',pronoFinal:'Vice-campeao',pronoSemi:'Semifinalistas',pronoSave:'Salvar',pronoSaved:'Salvo!',pronoReset:'Reiniciar',pronoChoose:'Escolher...',pronoMyPick:'Minha escolha',quizSub:'Teste seus conhecimentos!',quizScore:'Pontuacao',quizNext:'Proxima',quizFinish:'Ver resultado',quizRestart:'Jogar novamente',quizPerfect:'Perfeito! Voce e um expert!',quizGood:'Muito bem!',quizAvg:'Nada mal!',quizBad:'Continue estudando!',starsSub:'Jogadores',pollTitle:'Enquetes',pollTotal:'votos',didYouKnow:'Voce sabia?',facts:['A Italia perde a Copa 2026 pela 3a vez consecutiva','O Azteca sedia sua 3a Copa','Primeira Copa com 48 selecoes','Primeira edicao organizada por 3 paises','104 jogos contra 64 em 2022','Novas regras do IFAB em vigor'],shareApp:'Compartilhar',shareCopied:'Link copiado!',premiumBanner:'Seja PREMIUM - Palpites + Estatisticas + Sem anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO E RESULTADOS',fixturesAll:'Todos os jogos',fixturesMy:'Apenas meu time',noFixtures:'Nenhum jogo encontrado'},
+  it:{appTitle:'Coppa del Mondo 2026 Fan App',appSub:'USA - CANADA - MESSICO',nav:['Home','Gruppi','Calendario','Pronostici','Quiz','Giocatori','Sondaggi','Sim','Gioco','Fantasy','Predict'],countdown:'Conto alla rovescia',timeUnits:['Giorni','Ore','Min','Sec'],keyInfo:['Paesi ospitanti','Squadre','Partite','Durata'],keyVals:['3 nazioni','48 squadre','104 partite','11 giu-19 lug'],format:'Formato del torneo',formatLines:['12 gironi da 4 squadre','1a + 2a + 8 migliori 3e = 32 squadre','Fase a 32 > 16 > QF > SF > Finale','Apertura: Estadio Azteca, Messico','Finale: MetLife Stadium, New York'],groupsTitle:'48 SQUADRE - 12 GIRONI',hostLabel:'Sede',groupLabel:'Girone',myTeamLabel:'La Mia Squadra',pickTeam:'Scegli la tua squadra',pronoSub:'Chi arrivera in finale?',pronoWinner:'Campione del Mondo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalisti',pronoSave:'Salva',pronoSaved:'Salvato!',pronoReset:'Azzera',pronoChoose:'Scegli...',pronoMyPick:'La mia scelta',quizSub:'Metti alla prova le tue conoscenze!',quizScore:'Punteggio',quizNext:'Domanda successiva',quizFinish:'Vedi risultato',quizRestart:'Gioca ancora',quizPerfect:'Perfetto! Sei un esperto!',quizGood:'Molto bene!',quizAvg:'Niente male!',quizBad:'Continua a studiare!',starsSub:'Giocatori',pollTitle:'Sondaggi',pollTotal:'voti',didYouKnow:'Lo sapevi?',facts:["L Italia non e al Mondiale 2026 per la 3a volta consecutiva","L Azteca ospita il suo 3o Mondiale","Primo Mondiale con 48 squadre","Prima edizione co-organizzata da 3 paesi","104 partite contro 64 nel 2022","Nuove regole IFAB in vigore"],shareApp:'Condividi',shareCopied:'Link copiato!',premiumBanner:'Diventa PREMIUM - Pronostici + Statistiche + Senza pub',premiumBtn:'Sblocca',fixturesTitle:'CALENDARIO E RISULTATI',fixturesAll:'Tutte le partite',fixturesMy:'Solo la mia squadra',noFixtures:'Nessuna partita trovata'},
+  de:{appTitle:'WM 2026 Fan App',appSub:'USA - KANADA - MEXIKO',nav:['Start','Gruppen','Spielplan','Tipps','Quiz','Spieler','Umfragen','Sim','Spiel','Fantasy','Predict'],countdown:'Countdown',timeUnits:['Tage','Stunden','Min','Sek'],keyInfo:['Gastgeberlaender','Teams','Spiele','Dauer'],keyVals:['3 Nationen','48 Teams','104 Spiele','11. Jun-19. Jul'],format:'Turnierformat',formatLines:['12 Gruppen mit je 4 Teams','1. + 2. + 8 beste 3. = 32 Teams','Runde der 32 > 16 > VF > HF > Finale','Eroeffnung: Estadio Azteca, Mexiko','Finale: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GRUPPEN',hostLabel:'Gastgeber',groupLabel:'Gruppe',myTeamLabel:'Mein Team',pickTeam:'Mein Team auswaehlen',pronoSub:'Wer kommt ins Finale?',pronoWinner:'Weltmeister 2026',pronoFinal:'Finalist',pronoSemi:'Halbfinalisten',pronoSave:'Speichern',pronoSaved:'Gespeichert!',pronoReset:'Zuruecksetzen',pronoChoose:'Auswaehlen...',pronoMyPick:'Meine Wahl',quizSub:'Teste dein Wissen!',quizScore:'Punkte',quizNext:'Naechste Frage',quizFinish:'Ergebnis sehen',quizRestart:'Nochmal spielen',quizPerfect:'Perfekt! Du bist ein Experte!',quizGood:'Sehr gut!',quizAvg:'Nicht schlecht!',quizBad:'Weiter lernen!',starsSub:'Spieler',pollTitle:'Umfragen',pollTotal:'Stimmen',didYouKnow:'Wusstest du?',facts:['Italien verpasst die WM 2026 zum 3. Mal in Folge','Das Azteca beherbergt seine 3. WM','Erste WM mit 48 Teams','Erste WM von 3 Laendern gemeinsam ausgerichtet','104 Spiele gegen 64 in 2022','Neue IFAB-Regeln in Kraft'],shareApp:'Teilen',shareCopied:'Link kopiert!',premiumBanner:'PREMIUM werden - Tipps + Statistiken + Werbefrei',premiumBtn:'Freischalten',fixturesTitle:'SPIELPLAN & ERGEBNISSE',fixturesAll:'Alle Spiele',fixturesMy:'Nur mein Team',noFixtures:'Keine Spiele gefunden'}
 };
 
 
@@ -1963,13 +1963,15 @@ var POLLS = {
 };
 
 var SPONSORS = {
-  en:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'ESPN FC',icon:'📺',url:'https://www.espn.com/soccer'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  fr:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'beIN Sports',icon:'📺',url:'https://www.beinsports.com'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  es:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  pt:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'Sport TV',icon:'📺',url:'https://www.sporttv.pt'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  it:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'RAI Sport',icon:'📺',url:'https://www.raisport.rai.it'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}],
-  de:[{name:'FIFA 2026',icon:'🏆',url:'https://www.fifa.com/worldcup'},{name:'ARD Sport',icon:'📺',url:'https://www.sportschau.de'},{name:'Google Play',icon:'📱',url:'https://play.google.com'}]
+  en:[{name:'BBC Sport',icon:'📺',url:'https://www.bbc.co.uk/sport/football'},{name:'ITV',icon:'📺',url:'https://www.itv.com'},{name:'BBC iPlayer',icon:'▶️',url:'https://www.bbc.co.uk/iplayer'},{name:'ITVX',icon:'▶️',url:'https://www.itv.com/watch'}],
+  fr:[{name:'M6',icon:'📺',url:'https://www.6play.fr'},{name:'beIN Sports',icon:'📺',url:'https://www.beinsports.com/fr'}],
+  es:[{name:'RTVE',icon:'📺',url:'https://www.rtve.es/deportes/futbol'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com/es-ES'}],
+  pt:[{name:'Sport TV',icon:'📺',url:'https://www.sporttv.pt'},{name:'RTP',icon:'📺',url:'https://www.rtp.pt/desporto'}],
+  it:[{name:'RAI Sport',icon:'📺',url:'https://www.raisport.rai.it'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com/it-IT'}],
+  de:[{name:'ARD',icon:'📺',url:'https://www.sportschau.de'},{name:'ZDF',icon:'📺',url:'https://www.zdf.de/sport'}]
 }
+var _platform=(window.Capacitor&&window.Capacitor.getPlatform)?window.Capacitor.getPlatform():'web';
+var STORE_LINKS=_platform==='ios'?[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'}]:_platform==='android'?[{name:'Google Play',icon:'🤖',url:'https://play.google.com'}]:[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'},{name:'Google Play',icon:'🤖',url:'https://play.google.com'}];
 
 var STRIPE_EUR = 'https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02';
 var STRIPE_GBP = 'https://buy.stripe.com/bJeeVdaX3di1bYD3dbcjS03';
@@ -1990,10 +1992,48 @@ function getStripeLink(lang){
   if(c==='usd')return STRIPE_USD;
   return STRIPE_EUR;
 }
-function handleProPurchase(lang){
+async function handleProPurchase(lang){
+  var platform=window.Capacitor?window.Capacitor.getPlatform():'web';
+  if(platform==='ios'){
+    var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
+    if(!RC){alert(lang==='fr'?'Chargement...':'Loading...');return;}
+    try{
+      var off=await RC.getOfferings();
+      var pkg=off&&off.current&&off.current.availablePackages&&off.current.availablePackages[0];
+      if(!pkg){alert(lang==='fr'?'Produit non disponible. Réessayez plus tard.':'Product not available. Please try again later.');return;}
+      var res=await RC.purchasePackage({aPackage:pkg});
+      var active=res&&res.customerInfo&&res.customerInfo.entitlements&&res.customerInfo.entitlements.active;
+      if(active&&active['pro']){
+        try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
+        if(window._setPremium)window._setPremium(true);
+        else window.location.reload();
+      }
+    }catch(ex){
+      if(ex&&ex.userCancelled!==true&&ex&&ex.code!=='PURCHASE_CANCELLED'){
+        alert(ex.message||'Purchase error');
+      }
+    }
+    return;
+  }
   var url=getStripeLink(lang);
   if(window.Capacitor){window.open(url,'_system');}
   else{window.location.href=url;}
+}
+async function handleRestorePurchases(lang){
+  var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
+  if(!RC)return;
+  try{
+    var info=await RC.restorePurchases();
+    var active=info&&info.customerInfo&&info.customerInfo.entitlements&&info.customerInfo.entitlements.active;
+    if(active&&active['pro']){
+      try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
+      if(window._setPremium)window._setPremium(true);
+      else window.location.reload();
+      alert(lang==='fr'?'Achats restaurés !':lang==='es'?'Compras restauradas !':lang==='pt'?'Compras restauradas !':'Purchases restored !');
+    }else{
+      alert(lang==='fr'?'Aucun achat trouvé.':lang==='es'?'No se encontraron compras.':lang==='pt'?'Nenhuma compra encontrada.':'No purchases found.');
+    }
+  }catch(ex){alert(ex.message||'Restore error');}
 }
 function getPrice(lang){
   var c=_getCurrency();
@@ -2349,11 +2389,11 @@ function getTVInfo(lang){
 }
 
 function Card(props){
-  return e('div',{style:Object.assign({background:props.gold?'linear-gradient(135deg,rgba(212,175,55,0.14),rgba(184,150,62,0.07))':CB,border:'1px solid '+(props.gold?G:BD),borderRadius:14,padding:16},props.style||{})},props.children);
+  return e('div',{style:Object.assign({background:props.gold?'linear-gradient(135deg,rgba(212,175,55,0.14),rgba(184,150,62,0.07))':CB,border:'1px solid '+(props.gold?G:BD),borderRadius:16,padding:18,marginBottom:2},props.style||{})},props.children);
 }
 
 function App(){
-  var s1=useState(0);var tab=s1[0];var setTab=s1[1];
+  var s1=useState(function(){try{var p=new URLSearchParams(window.location.search);var t=parseInt(p.get('tab'));return(!isNaN(t)&&t>=0&&t<=10)?t:0;}catch(e){return 0;}});var tab=s1[0];var setTab=s1[1];
   var s2=useState('en');var lang=s2[0];var setLang=s2[1];
   var s3=useState('A');var selGroup=s3[0];var setSelGroup=s3[1];
   var s4=useState(function(){
@@ -2361,7 +2401,7 @@ function App(){
       if(new URLSearchParams(window.location.search).get('pro')==='1'){localStorage.setItem('wc2026_pro','1');return true;}
       return localStorage.getItem('wc2026_pro')==='1';
     }catch(e){return false;}
-  });var premium=s4[0];var setPremium=s4[1];
+  });var premium=s4[0];var setPremium=s4[1];window._setPremium=setPremium;
   var s5=useState(false);var shareCopied=s5[0];var setShareCopied=s5[1];
   var s6=useState('');var winner=s6[0];var setWinner=s6[1];
   var s7=useState('');var finalist=s7[0];var setFinalist=s7[1];
@@ -2446,6 +2486,39 @@ function App(){
   var s34=useState('A');var iSelGroup=s34[0];var setISelGroup=s34[1];
   var s28=useState(false);var tournLoading=s28[0];var setTournLoading=s28[1];
   var s29=useState('bracket');var simView=s29[0];var setSimView=s29[1];
+
+  // Onboarding
+  var sOB1=useState(function(){try{return localStorage.getItem('wc2026_onboarded')==='1';}catch(e){return false;}});var onboarded=sOB1[0];var setOnboarded=sOB1[1];
+  var sOB2=useState(0);var obSlide=sOB2[0];var setObSlide=sOB2[1];
+  function finishOnboarding(){try{localStorage.setItem('wc2026_onboarded','1');}catch(e){}setOnboarded(true);}
+
+  var sMus=useState(function(){try{return localStorage.getItem('wc2026_music')||'A';}catch(e){return 'A';}});var music=sMus[0];var setMusic=sMus[1];
+  var musicRef=useRef(null);
+  useEffect(function(){
+    if(music==='off'){
+      if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
+      return;
+    }
+    var src=music==='A'?'/Goals.mp3':'/RitmodaTorcida.mp3';
+    if(!musicRef.current||musicRef.current._wcsrc!==src){
+      if(musicRef.current){musicRef.current.pause();}
+      var a=new Audio(src);a._wcsrc=src;a.loop=true;a.volume=0.3;
+      musicRef.current=a;
+      a.play().catch(function(){
+        var startOnGesture=function(){
+          if(musicRef.current&&musicRef.current._wcsrc===src){
+            musicRef.current.play().catch(function(){});
+          }
+          document.removeEventListener('click',startOnGesture);
+          document.removeEventListener('touchstart',startOnGesture);
+        };
+        document.addEventListener('click',startOnGesture,{once:true});
+        document.addEventListener('touchstart',startOnGesture,{once:true});
+      });
+    }
+    try{localStorage.setItem('wc2026_music',music);}catch(e){}
+    return function(){};
+  },[music]);
 
   var t=T[lang];
   var defaultTeam=MY_TEAM[lang];
@@ -3016,6 +3089,45 @@ function App(){
   }
   function formatDate(d){var dt=new Date(d+'T12:00:00');return dt.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});}
 
+  var OB=[
+    {icon:'⚽',titles:{en:'Welcome to World Cup 2026',fr:'Bienvenue sur World Cup 2026',es:'Bienvenido al World Cup 2026',pt:'Bem-vindo ao World Cup 2026',it:'Benvenuto su World Cup 2026',de:'Willkommen bei World Cup 2026'},
+     subs:{en:'The ultimate fan app for the biggest World Cup in history — 48 teams, 104 matches across USA, Canada & Mexico.',fr:"L'app fan ultime pour la plus grande Coupe du Monde de l'histoire — 48 équipes, 104 matchs aux USA, Canada & Mexique.",es:'La app definitiva para el Mundial más grande — 48 equipos, 104 partidos en USA, Canadá y México.',pt:'O app definitivo para a maior Copa da história — 48 seleções, 104 jogos nos EUA, Canadá e México.',it:"L'app definitiva per il Mondiale più grande — 48 squadre, 104 partite in USA, Canada e Messico.",de:'Die ultimative App für die größte WM — 48 Teams, 104 Spiele in USA, Kanada und Mexiko.'},
+     detail:'🇺🇸 USA · 🇨🇦 CANADA · 🇲🇽 MEXIQUE'},
+    {icon:'📅',titles:{en:'Full Match Schedule',fr:'Calendrier Complet',es:'Calendario Completo',pt:'Calendário Completo',it:'Calendario Completo',de:'Vollständiger Spielplan'},
+     subs:{en:'Follow all 104 matches in real time. Group standings, fixtures, live scores and your personal match agenda.',fr:'Suivez les 104 matchs en temps réel. Classements, calendrier, scores live et votre agenda personnel.',es:'Sigue los 104 partidos en tiempo real. Grupos, calendario, marcadores en vivo y tu agenda personal.',pt:'Acompanhe os 104 jogos em tempo real. Grupos, calendário, placares ao vivo e sua agenda pessoal.',it:'Segui tutte le 104 partite in tempo reale. Gironi, calendario, risultati live e la tua agenda.',de:'Verfolge alle 104 Spiele in Echtzeit. Gruppen, Spielplan, Live-Ergebnisse und dein Spielagenda.'},
+     detail:'📊 48 équipes · 12 groupes · 16 stades'},
+    {icon:'🥅',titles:{en:'Quiz, Game & Predictions',fr:'Quiz, Jeu & Pronostics',es:'Quiz, Juego y Pronósticos',pt:'Quiz, Jogo e Palpites',it:'Quiz, Gioco e Pronostici',de:'Quiz, Spiel & Vorhersagen'},
+     subs:{en:'Test your football knowledge, take free kicks in 3D and predict the World Champion 2026.',fr:'Testez vos connaissances, jouez aux tirs francs en 3D et pronostiquez le Champion du Monde 2026.',es:'Pon a prueba tus conocimientos, lanza tiros libres en 3D y predice al Campeón del Mundo 2026.',pt:'Teste seus conhecimentos, bata faltas em 3D e preveja o Campeão do Mundo 2026.',it:'Metti alla prova le tue conoscenze, batti calci di punizione in 3D e pronostica il Campione 2026.',de:'Teste dein Wissen, schieße Freistöße in 3D und tippe den Weltmeister 2026.'},
+     detail:'🧠 Quiz · 🥅 Free Kick 3D · 🎯 Pronostics'},
+    {icon:'🏳️',titles:{en:'Pick Your Team',fr:'Choisissez Votre Équipe',es:'Elige Tu Equipo',pt:'Escolha Seu Time',it:'Scegli la Tua Squadra',de:'Wähle Dein Team'},
+     subs:{en:'Select your favourite country to personalise your experience — tailored fixtures, alerts and stats.',fr:'Choisissez votre pays favori pour personnaliser votre expérience — matchs, alertes et stats sur mesure.',es:'Elige tu país favorito para personalizar tu experiencia — partidos, alertas y estadísticas a medida.',pt:'Escolha seu país favorito para personalizar sua experiência — jogos, alertas e estatísticas personalizadas.',it:'Scegli il tuo paese preferito per personalizzare la tua esperienza — partite, avvisi e statistiche.',de:'Wähle dein Lieblingsland, um dein Erlebnis zu personalisieren — Spiele, Benachrichtigungen und Statistiken.'},
+     detail:'🌍 6 langues · PRO disponible · Mis à jour quotidiennement'}
+  ];
+
+  if(!onboarded) return e('div',{style:{position:'fixed',top:0,left:0,right:0,bottom:0,background:'linear-gradient(160deg,#020818,#061238 50%,#020818)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',zIndex:9999,padding:'30px 24px',fontFamily:"'Open Sans',sans-serif"}},
+    // Progress dots
+    e('div',{style:{display:'flex',gap:8,marginBottom:40}},
+      OB.map(function(_,i){return e('div',{key:i,style:{width:i===obSlide?24:8,height:8,borderRadius:4,background:i===obSlide?'#D4AF37':'rgba(255,255,255,0.2)',transition:'all 0.3s ease'}});})
+    ),
+    // Icon
+    e('div',{style:{fontSize:80,marginBottom:20,filter:'drop-shadow(0 0 30px rgba(212,175,55,0.4))'}},OB[obSlide].icon),
+    // Title
+    e('div',{style:{fontSize:28,fontWeight:900,color:'#fff',textAlign:'center',letterSpacing:0.5,marginBottom:12,lineHeight:1.2}},OB[obSlide].titles[lang]||OB[obSlide].titles.en),
+    // Sub
+    e('div',{style:{fontSize:15,color:'rgba(255,255,255,0.65)',textAlign:'center',lineHeight:1.6,maxWidth:340,marginBottom:20}},OB[obSlide].subs[lang]||OB[obSlide].subs.en),
+    // Detail badge
+    e('div',{style:{background:'rgba(212,175,55,0.1)',border:'1px solid rgba(212,175,55,0.25)',borderRadius:20,padding:'8px 18px',color:'#D4AF37',fontSize:12,fontWeight:600,letterSpacing:1,marginBottom:48}},OB[obSlide].detail),
+    // Buttons
+    e('div',{style:{display:'flex',flexDirection:'column',gap:12,width:'100%',maxWidth:320}},
+      e('button',{onClick:function(){if(obSlide<OB.length-1){setObSlide(obSlide+1);}else{finishOnboarding();}},style:{background:'linear-gradient(135deg,#D4AF37,#b8963e)',border:'none',borderRadius:14,padding:'15px',fontSize:16,fontWeight:800,color:'#020818',cursor:'pointer',boxShadow:'0 4px 20px rgba(212,175,55,0.4)'}},
+        obSlide<OB.length-1?({en:'Next →',fr:'Suivant →',es:'Siguiente →',pt:'Próximo →',it:'Avanti →',de:'Weiter →'}[lang]||'Next →'):({en:'Get Started !',fr:"C'est parti !",es:'¡Empezar!',pt:'Vamos lá!',it:'Iniziamo!',de:'Los geht\'s!'}[lang]||"Let's go!")
+      ),
+      e('button',{onClick:finishOnboarding,style:{background:'transparent',border:'none',padding:'10px',fontSize:13,color:'rgba(255,255,255,0.35)',cursor:'pointer'}},
+        {en:'Skip',fr:'Passer',es:'Saltar',pt:'Pular',it:'Salta',de:'Überspringen'}[lang]||'Skip'
+      )
+    )
+  );
+
   return e('div',{style:{minHeight:'100vh',background:'linear-gradient(160deg,'+DARK+',#0c1e44 50%,'+DARK+')',fontFamily:"'Open Sans',sans-serif",color:'#eee8d5'}},
 
     e('header',{style:{background:'linear-gradient(90deg,#060f24,#122860,#060f24)',borderBottom:'2px solid '+G,padding:'10px 14px'}},
@@ -3024,21 +3136,22 @@ function App(){
           LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
+          e('button',{onClick:function(){setMusic(music==='A'?'B':music==='B'?'off':'A');},style:{background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',letterSpacing:1}},music==='A'?'🎵 A':music==='B'?'🎵 B':'🎵 ⏹'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
-          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},'PRO - '+getPrice(lang)),
+          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},(window.Capacitor&&window.Capacitor.getPlatform()==='ios')?t.premiumBtn:'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
         )
       ),
       e('div',{style:{textAlign:'center'}},
         e('div',{style:{fontSize:24}},'⚽'),
         e('div',{style:{fontSize:18,fontWeight:'bold',letterSpacing:3,textTransform:'uppercase',background:'linear-gradient(90deg,'+G+',#fff8e0,'+G+')',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}},t.appTitle),
-        e('div',{style:{fontSize:10,color:'#7a96b0',letterSpacing:4,marginTop:2}},t.appSub)
+        e('div',{style:{fontSize:10,color:'#b0c8de',letterSpacing:4,marginTop:2}},t.appSub)
       )
     ),
 
-    !premium&&e('div',{style:{background:'linear-gradient(90deg,#1a1000,#3a2800,#1a1000)',borderBottom:'1px solid rgba(212,175,55,0.3)',padding:'7px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}},
+    !premium&&!(window.Capacitor&&window.Capacitor.getPlatform()==='ios')&&e('div',{style:{background:'linear-gradient(90deg,#1a1000,#3a2800,#1a1000)',borderBottom:'1px solid rgba(212,175,55,0.3)',padding:'7px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}},
       e('span',{style:{fontSize:11,color:G,flexShrink:1}},t.premiumBanner),
-      e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:8,padding:'5px 11px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap'}},t.premiumBtn+' - '+getPrice(lang))
+      e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'8px 16px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap',minHeight:44}},t.premiumBtn)
     ),
 
     e('nav',{style:{position:'sticky',top:0,zIndex:20,background:'rgba(6,9,26,0.97)',backdropFilter:'blur(14px)',borderBottom:'2px solid rgba(212,175,55,0.2)',overflowX:'auto',WebkitOverflowScrolling:'touch',scrollbarWidth:'none'}},
@@ -3061,12 +3174,13 @@ function App(){
           var on=tab===i;
           return e('button',{key:i,onClick:function(){setTab(i);},style:{
             background:on?'linear-gradient(135deg,'+m.c1+','+m.c2+')':'rgba(255,255,255,0.05)',
-            color:on?'#fff':'#6a86a0',
+            color:on?'#fff':'#a8bfd4',
             border:'1px solid '+(on?m.c2:'rgba(255,255,255,0.08)'),
-            borderRadius:10,padding:'7px 10px 6px',fontSize:9,cursor:'pointer',
+            borderRadius:10,padding:'8px 11px 7px',fontSize:9,cursor:'pointer',
             fontWeight:on?'bold':'normal',display:'flex',flexDirection:'column',
-            alignItems:'center',gap:3,minWidth:50,
-            transform:on?'scale(1.07)':'scale(1)',transition:'all 0.18s ease'
+            alignItems:'center',gap:3,minWidth:52,
+            transform:on?'scale(1.08)':'scale(1)',transition:'all 0.2s ease',
+            boxShadow:on?'0 2px 12px rgba(0,0,0,0.4)':'none'
           }},
             e('span',{style:{fontSize:15}},m.icon),
             e('span',null,label)
@@ -3075,7 +3189,7 @@ function App(){
       )
     ),
 
-    e('main',{style:{padding:'16px 13px',maxWidth:740,margin:'0 auto'}},
+    e('main',{style:{padding:'20px 16px',maxWidth:740,margin:'0 auto'}},
 
       // - HOME -
       tab===0?e('div',null,
@@ -3104,10 +3218,10 @@ function App(){
         // Pick your team banner
         e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.15),rgba(184,150,62,0.08))',border:'1px solid '+G,borderRadius:14,padding:'12px 16px',marginBottom:13,display:'flex',justifyContent:'space-between',alignItems:'center'}},
           e('div',null,
-            e('div',{style:{fontSize:10,color:'#6a86a0',marginBottom:3}},t.myTeamLabel),
+            e('div',{style:{fontSize:10,color:'#a8bfd4',marginBottom:3}},t.myTeamLabel),
             e('div',{style:{fontSize:16,fontWeight:'bold'}},activeTeam.flag,' ',tn(activeTeam.team,lang),activeTeam.group&&e('span',{style:{fontSize:11,color:G,marginLeft:8}},(lang==='fr'?'Groupe ':lang==='es'?'Grupo ':lang==='pt'?'Grupo ':lang==='de'?'Gruppe ':lang==='it'?'Gruppo ':'Group '),activeTeam.group))
           ),
-          e('button',{onClick:function(){setShowPickTeam(function(v){return !v;});},style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:9,padding:'7px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},t.pickTeam)
+          e('button',{onClick:function(){setShowPickTeam(function(v){return !v;});},style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:9,padding:'7px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',minHeight:44}},t.pickTeam)
         ),
 
         // Pick team modal
@@ -3161,7 +3275,7 @@ function App(){
         e('div',{style:{background:'linear-gradient(135deg,rgba(10,22,54,0.97),rgba(18,45,110,0.92))',border:'1.5px solid '+G,borderRadius:18,padding:'20px 16px',textAlign:'center',marginBottom:15}},
           e('div',{style:{fontSize:10,color:G,letterSpacing:3,marginBottom:12,textTransform:'uppercase'}},t.countdown),
           e('div',{style:{display:'flex',justifyContent:'center',gap:10}},
-            [cd.days,cd.hours,cd.minutes,cd.seconds].map(function(v,i){return e('div',{key:i,style:{textAlign:'center'}},e('div',{style:{background:'linear-gradient(160deg,'+G+',#b8963e)',borderRadius:10,padding:'9px 11px',fontSize:22,fontWeight:'bold',color:'#0a0a1a',minWidth:44}},pad(v)),e('div',{style:{fontSize:9,color:'#6a86a0',marginTop:4}},t.timeUnits[i]));})
+            [cd.days,cd.hours,cd.minutes,cd.seconds].map(function(v,i){return e('div',{key:i,style:{textAlign:'center'}},e('div',{style:{background:'linear-gradient(160deg,'+G+',#b8963e)',borderRadius:10,padding:'9px 11px',fontSize:22,fontWeight:'bold',color:'#0a0a1a',minWidth:44}},pad(v)),e('div',{style:{fontSize:9,color:'#a8bfd4',marginTop:4}},t.timeUnits[i]));})
           )
         ),
 
@@ -3170,8 +3284,8 @@ function App(){
           e('div',{style:{display:'flex',alignItems:'center',gap:8,marginBottom:8}},
             e('div',{style:{fontSize:16}},'📺'),
             e('div',{style:{fontSize:12,fontWeight:'bold',color:G}},
-              lang==='fr'?'Ou regarder la Coupe du Monde 2026':
-              lang==='es'?'Donde ver la Copa del Mundo 2026':
+              lang==='fr'?'Où regarder la Coupe du Monde 2026':
+              lang==='es'?'Dónde ver la Copa del Mundo 2026':
               lang==='pt'?'Onde assistir a Copa do Mundo 2026':
               lang==='it'?'Dove guardare la Coppa del Mondo 2026':
               lang==='de'?'Wo die WM 2026 sehen':
@@ -3187,13 +3301,13 @@ function App(){
               })
             )
           ),
-          e('div',{style:{fontSize:10,color:'#7a96b0',lineHeight:1.5}},getTVInfo(lang).note),
+          e('div',{style:{fontSize:10,color:'#b0c8de',lineHeight:1.5}},getTVInfo(lang).note),
           e('div',{style:{fontSize:9,color:'#5a7090',marginTop:4}},'📱 Stream: ',getTVInfo(lang).stream)
         ),
 
         // Key stats
         e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:9,marginBottom:13}},
-          t.keyInfo.map(function(label,i){return e(Card,{key:i,style:{textAlign:'center',padding:13}},e('div',{style:{fontSize:18}},['🌍','🏅','⚽','📅'][i]),e('div',{style:{fontSize:9,color:'#6a86a0',marginTop:3}},label),e('div',{style:{fontSize:13,fontWeight:'bold',color:G,marginTop:2}},t.keyVals[i]));})
+          t.keyInfo.map(function(label,i){return e(Card,{key:i,style:{textAlign:'center',padding:13}},e('div',{style:{fontSize:18}},['🌍','🏅','⚽','📅'][i]),e('div',{style:{fontSize:9,color:'#a8bfd4',marginTop:3}},label),e('div',{style:{fontSize:13,fontWeight:'bold',color:G,marginTop:2}},t.keyVals[i]));})
         ),
 
         // My team group
@@ -3231,7 +3345,7 @@ function App(){
 
       // - GROUPS -
       tab===1?e('div',null,
-        e('div',{style:{fontSize:10,color:G,marginBottom:12,textAlign:'center',letterSpacing:2}},t.groupsTitle),
+        e('div',{style:{fontSize:13,color:G,marginBottom:12,textAlign:'center',letterSpacing:2,fontWeight:'bold'}},t.groupsTitle),
         e('div',{style:{display:'flex',flexWrap:'wrap',gap:5,justifyContent:'center',marginBottom:15}},
           Object.keys(GROUPS).map(function(g){return e('button',{key:g,onClick:function(){setSelGroup(g);},style:{width:32,height:32,borderRadius:7,background:selGroup===g?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(10,20,50,0.88)',border:selGroup===g?'none':'1px solid rgba(212,175,55,0.24)',color:selGroup===g?'#0a0a1a':G,fontSize:12,fontWeight:'bold',cursor:'pointer'}},g);})
         ),
@@ -3245,10 +3359,10 @@ function App(){
               liveLoading?'⏳':lang==='fr'?'🔄 Actualiser':'🔄 Refresh'
             )
           ),
-          liveLoading&&e('div',{style:{textAlign:'center',padding:10,color:'#6a86a0',fontSize:11}},'⏳ Loading...'),
+          liveLoading&&e('div',{style:{textAlign:'center',padding:10,color:'#a8bfd4',fontSize:11}},'⏳ Loading...'),
           !liveLoading&&liveScores.length===0&&e('div',{style:{background:'rgba(212,175,55,0.05)',border:'1px solid rgba(212,175,55,0.15)',borderRadius:10,padding:12,textAlign:'center'}},
             e('div',{style:{fontSize:20,marginBottom:4}},'⚽'),
-            e('div',{style:{fontSize:10,color:'#6a86a0'}},lang==='fr'?'Pas de match en direct — Le Mondial commence le 11 juin !':lang==='es'?'Sin partidos — El Mundial empieza el 11 de junio !':lang==='pt'?'Sem jogos — O Mundial começa a 11 de junho !':lang==='de'?'Keine Spiele — WM beginnt am 11. Juni !':'No live matches — World Cup starts June 11!')
+            e('div',{style:{fontSize:10,color:'#a8bfd4'}},lang==='fr'?'Pas de match en direct — Le Mondial commence le 11 juin !':lang==='es'?'Sin partidos — El Mundial empieza el 11 de junio !':lang==='pt'?'Sem jogos — O Mundial começa a 11 de junho !':lang==='de'?'Keine Spiele — WM beginnt am 11. Juni !':'No live matches — World Cup starts June 11!')
           ),
           liveScores.length>0&&e('div',null,
             liveScores.slice(0,5).map(function(match,i){
@@ -3262,7 +3376,7 @@ function App(){
                 e('div',{style:{fontSize:10,color:'#eee',flex:1,textAlign:'right',paddingRight:6}},tn(home,lang)),
                 e('div',{style:{background:isLive?'rgba(255,0,0,0.15)':isDone?'rgba(212,175,55,0.1)':'rgba(255,255,255,0.05)',border:'1px solid '+(isLive?'rgba(255,80,80,0.4)':isDone?G:'rgba(255,255,255,0.1)'),borderRadius:6,padding:'4px 8px',textAlign:'center',minWidth:54}},
                   isLive&&e('div',{style:{fontSize:7,color:'#ff4444',fontWeight:'bold',letterSpacing:1}},'🔴 LIVE'),
-                  e('div',{style:{fontSize:12,fontWeight:'bold',color:isLive?'#ff8888':isDone?G:'#6a86a0'}},hg,' - ',ag)
+                  e('div',{style:{fontSize:12,fontWeight:'bold',color:isLive?'#ff8888':isDone?G:'#a8bfd4'}},hg,' - ',ag)
                 ),
                 e('div',{style:{fontSize:10,color:'#eee',flex:1,paddingLeft:6}},tn(away,lang))
               );
@@ -3273,18 +3387,18 @@ function App(){
         e(Card,{style:{marginBottom:14,border:'1px solid '+G,padding:'12px 8px'}},
           e('div',{style:{fontSize:14,fontWeight:'bold',color:G,marginBottom:10,textAlign:'center',letterSpacing:1}},
             t.groupLabel,' ',selGroup,
-            GROUPS[selGroup].host&&e('span',{style:{fontSize:9,color:'#6a86a0',marginLeft:8}},'(',t.hostLabel,': ',GROUPS[selGroup].hostName,')')
+            GROUPS[selGroup].host&&e('span',{style:{fontSize:9,color:'#a8bfd4',marginLeft:8}},'(',t.hostLabel,': ',GROUPS[selGroup].hostName,')')
           ),
           // Table header
           e('div',{style:{display:'grid',gridTemplateColumns:'1fr 24px 24px 24px 24px 24px 24px 24px 28px',gap:1,alignItems:'center',padding:'4px 6px',marginBottom:4,borderBottom:'1px solid rgba(212,175,55,0.3)'}},
-            e('div',{style:{fontSize:9,color:'#6a86a0',fontWeight:'bold'}},(lang==='fr'?'Équipe':lang==='es'?'Equipo':lang==='pt'?'Equipa':lang==='it'?'Squadra':lang==='de'?'Team':'Team')),
-            e('div',{style:{fontSize:9,color:'#6a86a0',fontWeight:'bold',textAlign:'center'}},'MP'),
-            e('div',{style:{fontSize:9,color:'#6a86a0',fontWeight:'bold',textAlign:'center'}},'W'),
-            e('div',{style:{fontSize:9,color:'#6a86a0',fontWeight:'bold',textAlign:'center'}},'D'),
-            e('div',{style:{fontSize:9,color:'#6a86a0',fontWeight:'bold',textAlign:'center'}},'L'),
-            e('div',{style:{fontSize:9,color:'#6a86a0',fontWeight:'bold',textAlign:'center'}},'GF'),
-            e('div',{style:{fontSize:9,color:'#6a86a0',fontWeight:'bold',textAlign:'center'}},'GA'),
-            e('div',{style:{fontSize:9,color:'#6a86a0',fontWeight:'bold',textAlign:'center'}},'GD'),
+            e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold'}},(lang==='fr'?'Équipe':lang==='es'?'Equipo':lang==='pt'?'Equipa':lang==='it'?'Squadra':lang==='de'?'Team':'Team')),
+            e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold',textAlign:'center'}},'MP'),
+            e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold',textAlign:'center'}},'W'),
+            e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold',textAlign:'center'}},'D'),
+            e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold',textAlign:'center'}},'L'),
+            e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold',textAlign:'center'}},'GF'),
+            e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold',textAlign:'center'}},'GA'),
+            e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold',textAlign:'center'}},'GD'),
             e('div',{style:{fontSize:9,color:G,fontWeight:'bold',textAlign:'center'}},'Pts')
           ),
           // Team rows
@@ -3310,9 +3424,9 @@ function App(){
           e('div',{style:{display:'flex',gap:12,marginTop:8,paddingTop:6,borderTop:'1px solid rgba(212,175,55,0.1)'}},
             e('div',{style:{display:'flex',alignItems:'center',gap:4}},
               e('div',{style:{width:10,height:10,borderRadius:2,background:'rgba(40,200,40,0.5)'}}),
-              e('span',{style:{fontSize:8,color:'#6a86a0'}},(lang==='fr'?'Qualifié':lang==='es'?'Clasificado':lang==='pt'?'Qualificado':lang==='it'?'Qualificato':lang==='de'?'Qualifiziert':'Qualified'))
+              e('span',{style:{fontSize:8,color:'#a8bfd4'}},(lang==='fr'?'Qualifié':lang==='es'?'Clasificado':lang==='pt'?'Qualificado':lang==='it'?'Qualificato':lang==='de'?'Qualifiziert':'Qualified'))
             ),
-            e('div',{style:{fontSize:8,color:'#6a86a0'}},(lang==='fr'?'MJ=Matchs J=Gagnés N=Nuls D=Défaites BP/BC=Buts DB=Diff':'MJ=Played W=Won D=Draw L=Lost GF/GA=Goals GD=Diff'))
+            e('div',{style:{fontSize:8,color:'#a8bfd4'}},(lang==='fr'?'MJ=Matchs J=Gagnés N=Nuls D=Défaites BP/BC=Buts DB=Diff':'MJ=Played W=Won D=Draw L=Lost GF/GA=Goals GD=Diff'))
           )
         ),
         e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7}},
@@ -3322,16 +3436,16 @@ function App(){
 
       // - FIXTURES -
       tab===2?e('div',null,
-        e('div',{style:{fontSize:10,color:G,marginBottom:12,textAlign:'center',letterSpacing:2}},t.fixturesTitle),
+        e('div',{style:{fontSize:13,color:G,marginBottom:12,textAlign:'center',letterSpacing:2,fontWeight:'bold'}},t.fixturesTitle),
         e('div',{style:{display:'flex',gap:6,marginBottom:14,justifyContent:'center',flexWrap:'wrap'}},
-          e('button',{onClick:function(){setFixtureMyOnly(false);setAgendaOnly(false);},style:{background:(!fixtureMyOnly&&!agendaOnly)?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:(!fixtureMyOnly&&!agendaOnly)?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:(!fixtureMyOnly&&!agendaOnly)?'#0a0a1a':'#9bb0c8',cursor:'pointer'}},t.fixturesAll),
-          e('button',{onClick:function(){setFixtureMyOnly(true);setAgendaOnly(false);},style:{background:(fixtureMyOnly&&!agendaOnly)?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:(fixtureMyOnly&&!agendaOnly)?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:(fixtureMyOnly&&!agendaOnly)?'#0a0a1a':'#9bb0c8',cursor:'pointer'}},activeTeam.flag+' '+t.fixturesMy),
-          e('button',{onClick:function(){setAgendaOnly(true);setFixtureMyOnly(false);},style:{background:agendaOnly?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:agendaOnly?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:agendaOnly?'#0a0a1a':'#9bb0c8',cursor:'pointer',display:'flex',alignItems:'center',gap:4}},
+          e('button',{onClick:function(){setFixtureMyOnly(false);setAgendaOnly(false);},style:{background:(!fixtureMyOnly&&!agendaOnly)?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:(!fixtureMyOnly&&!agendaOnly)?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:(!fixtureMyOnly&&!agendaOnly)?'#0a0a1a':'#9bb0c8',cursor:'pointer',minHeight:44}},t.fixturesAll),
+          e('button',{onClick:function(){setFixtureMyOnly(true);setAgendaOnly(false);},style:{background:(fixtureMyOnly&&!agendaOnly)?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:(fixtureMyOnly&&!agendaOnly)?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:(fixtureMyOnly&&!agendaOnly)?'#0a0a1a':'#9bb0c8',cursor:'pointer',minHeight:44}},activeTeam.flag+' '+t.fixturesMy),
+          e('button',{onClick:function(){setAgendaOnly(true);setFixtureMyOnly(false);},style:{background:agendaOnly?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:agendaOnly?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:9,padding:'7px 12px',fontSize:11,fontWeight:'bold',color:agendaOnly?'#0a0a1a':'#9bb0c8',cursor:'pointer',display:'flex',alignItems:'center',gap:4,minHeight:44}},
             '⭐ '+(lang==='fr'?'Mon Agenda':lang==='es'?'Mi Agenda':lang==='pt'?'Minha Agenda':lang==='it'?'La Mia Agenda':lang==='de'?'Mein Plan':'My Schedule'),
             e('span',{style:{background:agendaOnly?'rgba(0,0,0,0.3)':'rgba(212,175,55,0.25)',borderRadius:8,padding:'1px 6px',fontSize:9}},agenda.length+(premium?'':'/'+MAX_AGENDA))
           )
         ),
-        filteredFixtures.length===0&&e('div',{style:{textAlign:'center',color:'#6a86a0',padding:30}},t.noFixtures),
+        filteredFixtures.length===0&&e('div',{style:{textAlign:'center',color:'#a8bfd4',padding:30}},t.noFixtures),
         e('div',{style:{display:'flex',flexDirection:'column',gap:8}},
           filteredFixtures.map(function(f,i){
             var isMyMatch=f.home===activeTeam.team||f.away===activeTeam.team;
@@ -3339,7 +3453,7 @@ function App(){
             var agendaFull=!premium&&agenda.length>=MAX_AGENDA&&!isInAgenda;
             return e(Card,{key:i,style:{padding:'12px 14px',border:'1px solid '+(isInAgenda?G:isMyMatch?G:BD),background:isInAgenda?'linear-gradient(135deg,rgba(212,175,55,0.10),rgba(184,150,62,0.04))':isMyMatch?'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.05))':CB}},
               e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}},
-                e('div',{style:{fontSize:9,color:isMyMatch?G:'#6a86a0'}},formatDate(f.date),' ',f.time,' ET',f.group&&' - '+(['R32','R16','QF','SF','3P','FIN'].indexOf(f.group)>=0?phaseLabel(f.group,lang):t.groupLabel+' '+f.group)),
+                e('div',{style:{fontSize:9,color:isMyMatch?G:'#a8bfd4'}},formatDate(f.date),' ',f.time,' ET',f.group&&' - '+(['R32','R16','QF','SF','3P','FIN'].indexOf(f.group)>=0?phaseLabel(f.group,lang):t.groupLabel+' '+f.group)),
                 e('div',{style:{display:'flex',alignItems:'center',gap:6}},
                   isMyMatch&&e('span',{style:{fontSize:9,color:G,background:'rgba(212,175,55,0.15)',padding:'2px 6px',borderRadius:6}},t.myTeamLabel),
                   e('button',{onClick:function(ev){ev.stopPropagation();if(!agendaFull)toggleAgenda(f);},title:agendaFull?'Limite atteinte (5 matchs)':'',style:{background:'none',border:'none',cursor:agendaFull?'not-allowed':'pointer',fontSize:16,opacity:agendaFull?0.35:1,padding:'0 2px',lineHeight:1}},isInAgenda?'⭐':'☆')
@@ -3376,14 +3490,14 @@ function App(){
           )
         ),
         e('div',{style:{display:'flex',gap:10}},
-          e('button',{onClick:savePronto,style:{flex:2,background:pronoSaved?'linear-gradient(135deg,#2d7a2d,#3a9e3a)':'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:pronoSaved?'#fff':'#0a0a1a',cursor:'pointer'}},pronoSaved?t.pronoSaved:t.pronoSave),
-          e('button',{onClick:function(){setWinner('');setFinalist('');setSemi1('');setSemi2('');},style:{flex:1,background:'rgba(255,60,60,0.12)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:10,padding:'12px 0',fontSize:12,color:'#ff6b6b',cursor:'pointer'}},t.pronoReset)
+          e('button',{onClick:savePronto,style:{flex:2,background:pronoSaved?'linear-gradient(135deg,#2d7a2d,#3a9e3a)':'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'12px 0',fontSize:13,fontWeight:'bold',color:pronoSaved?'#fff':'#0a0a1a',cursor:'pointer',minHeight:44}},pronoSaved?t.pronoSaved:t.pronoSave),
+          e('button',{onClick:function(){setWinner('');setFinalist('');setSemi1('');setSemi2('');},style:{flex:1,background:'rgba(255,60,60,0.12)',border:'1px solid rgba(255,60,60,0.3)',borderRadius:10,padding:'12px 0',fontSize:12,color:'#ff6b6b',cursor:'pointer',minHeight:44}},t.pronoReset)
         )
       ):null,
 
       // - QUIZ -
             tab===5?e('div',null,
-        e('div',{style:{fontSize:10,color:G,marginBottom:14,textAlign:'center',letterSpacing:2}},t.starsSub),
+        e('div',{style:{fontSize:13,color:G,marginBottom:14,textAlign:'center',letterSpacing:2,fontWeight:'bold'}},t.starsSub),
         e('div',{style:{display:'flex',flexDirection:'column',gap:10}},
           STARS.map(function(s,i){
             return e(Card,{key:s.name,gold:i<3,style:{display:'flex',gap:14,alignItems:'center'}},
@@ -3394,13 +3508,13 @@ function App(){
                   e('span',null,s.flag),
                   e('span',{style:{fontSize:9,padding:'2px 6px',borderRadius:8,background:'rgba(212,175,55,0.15)',color:G,fontWeight:'bold'}},s.pos)
                 ),
-                e('div',{style:{fontSize:10,color:'#6a86a0',marginBottom:4}},s.club,' - Gr.',s.group,' - ',s.age,'y'),
+                e('div',{style:{fontSize:10,color:'#a8bfd4',marginBottom:4}},s.club,' - Gr.',s.group,' - ',s.age,'y'),
                 e('div',{style:{fontSize:10,color:'#a0b8cc',marginBottom:6}},s.stat),
                 e('div',{style:{marginTop:6}},
                   // Rating badge
                   e('div',{style:{display:'flex',alignItems:'center',gap:6,marginBottom:6}},
                     e('span',{style:{fontSize:11,color:G,fontWeight:'bold',background:'rgba(212,175,55,0.15)',padding:'2px 8px',borderRadius:8}},s.rating+' ⭐'),
-                    e('span',{style:{fontSize:9,color:'#6a86a0'}},(lang==='fr'?'Note globale':lang==='es'?'Nota global':lang==='de'?'Gesamtnote':'Overall'))
+                    e('span',{style:{fontSize:9,color:'#a8bfd4'}},(lang==='fr'?'Note globale':lang==='es'?'Nota global':lang==='de'?'Gesamtnote':'Overall'))
                   ),
                   // Stats bars
                   s.pac&&e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'2px 10px'}},
@@ -3433,7 +3547,7 @@ function App(){
 
       // - POLLS -
       tab===6?e('div',null,
-        e('div',{style:{fontSize:10,color:G,marginBottom:14,textAlign:'center'}},t.pollTitle),
+        e('div',{style:{fontSize:13,color:G,marginBottom:14,textAlign:'center',fontWeight:'bold',letterSpacing:2}},t.pollTitle),
         e('div',{style:{display:'flex',flexDirection:'column',gap:14}},
           polls.map(function(poll){
             var voted=pollVotes[poll.id]!==undefined;
@@ -3476,11 +3590,11 @@ function App(){
                   var label=isMe&&poll.hasOther&&i===poll.opts.length-1&&pollOtherVoted[poll.id]
                     ?(lang==='fr'?'Autre: ':lang==='es'?'Otro: ':lang==='pt'?'Outro: ':lang==='it'?'Altro: ':lang==='de'?'Andere: ':'Other: ')+pollOtherVoted[poll.id]:opt;
                   return e('div',{key:i},
-                    e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:4}},e('span',{style:{color:isMe?G:'#c0d0dc'}},isMe?'> ':'',label),e('span',{style:{color:isWin?G:'#6a86a0',fontWeight:isWin?'bold':'normal'}},pct,'%')),
+                    e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:11,marginBottom:4}},e('span',{style:{color:isMe?G:'#c0d0dc'}},isMe?'> ':'',label),e('span',{style:{color:isWin?G:'#a8bfd4',fontWeight:isWin?'bold':'normal'}},pct,'%')),
                     e('div',{style:{height:7,background:'rgba(255,255,255,0.07)',borderRadius:4,overflow:'hidden'}},e('div',{style:{width:pct+'%',height:'100%',background:isMe?'linear-gradient(90deg,'+G+',#ff9900)':isWin?'rgba(212,175,55,0.5)':'rgba(100,150,200,0.4)',borderRadius:4,transition:'width 0.6s'}}))
                   );
                 }),
-                e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:4}},total.toLocaleString(),' ',t.pollTotal)
+                e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:4}},total.toLocaleString(),' ',t.pollTotal)
               )
             );
           })
@@ -3531,12 +3645,12 @@ function App(){
 
               // Table header
               e('div',{style:{display:'grid',gridTemplateColumns:'58px 1fr 30px 10px 30px 1fr',gap:2,padding:'4px 4px 6px',borderBottom:'1px solid rgba(212,175,55,0.3)',marginBottom:4}},
-                e('div',{style:{fontSize:8,color:'#6a86a0'}},lang==='fr'?'DATE':lang==='es'?'FECHA':lang==='pt'?'DATA':lang==='it'?'DATA':lang==='de'?'DATUM':'DATE'),
-                e('div',{style:{fontSize:8,color:'#6a86a0',textAlign:'right'}},lang==='fr'?'DOMICILE':lang==='es'?'LOCAL':lang==='pt'?'CASA':lang==='it'?'CASA':lang==='de'?'HEIM':'HOME'),
+                e('div',{style:{fontSize:8,color:'#a8bfd4'}},lang==='fr'?'DATE':lang==='es'?'FECHA':lang==='pt'?'DATA':lang==='it'?'DATA':lang==='de'?'DATUM':'DATE'),
+                e('div',{style:{fontSize:8,color:'#a8bfd4',textAlign:'right'}},lang==='fr'?'DOMICILE':lang==='es'?'LOCAL':lang==='pt'?'CASA':lang==='it'?'CASA':lang==='de'?'HEIM':'HOME'),
                 e('div',{style:{fontSize:8,color:G,textAlign:'center'}},''),
-                e('div',{style:{fontSize:8,color:'#6a86a0',textAlign:'center'}},'-'),
+                e('div',{style:{fontSize:8,color:'#a8bfd4',textAlign:'center'}},'-'),
                 e('div',{style:{fontSize:8,color:G,textAlign:'center'}},''),
-                e('div',{style:{fontSize:8,color:'#6a86a0'}},lang==='fr'?'EXTÉRIEUR':lang==='es'?'VISITANTE':lang==='pt'?'FORA':lang==='it'?'TRASFERTA':lang==='de'?'GAST':'AWAY')
+                e('div',{style:{fontSize:8,color:'#a8bfd4'}},lang==='fr'?'EXTÉRIEUR':lang==='es'?'VISITANTE':lang==='pt'?'FORA':lang==='it'?'TRASFERTA':lang==='de'?'GAST':'AWAY')
               ),
 
               // Matches by date
@@ -3561,13 +3675,13 @@ function App(){
                   var tvCh=getTV(m.home,lang)||getTV(m.away,lang);
                   return e('div',{key:m.id,style:{padding:'5px 4px',borderBottom:'1px solid rgba(255,255,255,0.06)',background:m.played?'rgba(40,160,40,0.06)':'transparent'}},
                     e('div',{style:{display:'grid',gridTemplateColumns:'58px 1fr 30px 10px 30px 1fr',gap:2,alignItems:'center'}},
-                      e('div',{style:{fontSize:8,color:'#6a86a0',lineHeight:1.3}},dayStr,' ',item.time?item.time:''),
+                      e('div',{style:{fontSize:8,color:'#a8bfd4',lineHeight:1.3}},dayStr,' ',item.time?item.time:''),
                       e('div',{style:{fontSize:10,fontWeight:homeWin?'bold':'normal',color:homeWin?G:'#eee',textAlign:'right',overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis'}},tn(m.home,lang)),
                       e('input',{type:'number',min:0,max:9,
                         value:m.goalsHome===null?'':m.goalsHome,
                         onChange:function(ev){setMatchScore(m.id,parseInt(ev.target.value)||0,m.goalsAway===null?0:m.goalsAway);},
                         style:{width:30,height:26,textAlign:'center',background:'rgba(10,20,50,0.95)',color:G,border:'1px solid '+(m.played?'rgba(40,200,40,0.5)':G),borderRadius:5,fontSize:14,fontWeight:'bold'}}),
-                      e('div',{style:{fontSize:9,color:'#6a86a0',textAlign:'center'}},'-'),
+                      e('div',{style:{fontSize:9,color:'#a8bfd4',textAlign:'center'}},'-'),
                       e('input',{type:'number',min:0,max:9,
                         value:m.goalsAway===null?'':m.goalsAway,
                         onChange:function(ev){setMatchScore(m.id,m.goalsHome===null?0:m.goalsHome,parseInt(ev.target.value)||0);},
@@ -3586,10 +3700,10 @@ function App(){
             iGroupStandings[iSelGroup]&&e(Card,{style:{marginBottom:10,padding:'12px 14px'}},
               e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:8}},t.groupLabel+' '+iSelGroup+' - Classement'),
               e('div',{style:{display:'grid',gridTemplateColumns:'24px 1fr 36px 36px',gap:4,padding:'4px 0',borderBottom:'1px solid rgba(212,175,55,0.2)',marginBottom:4}},
-                e('div',{style:{fontSize:8,color:'#6a86a0'}},'#'),
-                e('div',{style:{fontSize:8,color:'#6a86a0'}},''),
-                e('div',{style:{fontSize:8,color:'#6a86a0',textAlign:'center'}},'Pts'),
-                e('div',{style:{fontSize:8,color:'#6a86a0',textAlign:'center'}},'GD')
+                e('div',{style:{fontSize:8,color:'#a8bfd4'}},'#'),
+                e('div',{style:{fontSize:8,color:'#a8bfd4'}},''),
+                e('div',{style:{fontSize:8,color:'#a8bfd4',textAlign:'center'}},'Pts'),
+                e('div',{style:{fontSize:8,color:'#a8bfd4',textAlign:'center'}},'GD')
               ),
               iGroupStandings[iSelGroup].teams.map(function(team,i){
                 var pts=iGroupStandings[iSelGroup].pts[team];
@@ -3598,7 +3712,7 @@ function App(){
                   e('div',{style:{width:20,height:20,borderRadius:4,background:i<2?G:'rgba(212,175,55,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,fontWeight:'bold',color:i<2?'#0a0a1a':G}},i+1),
                   e('div',{style:{fontSize:11,color:i<2?'#eee':'#888',overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis'}},tn(team,lang)),
                   e('div',{style:{fontSize:11,fontWeight:'bold',color:G,textAlign:'center'}},pts),
-                  e('div',{style:{fontSize:10,color:'#6a86a0',textAlign:'center'}},(gd>0?'+':'')+gd)
+                  e('div',{style:{fontSize:10,color:'#a8bfd4',textAlign:'center'}},(gd>0?'+':'')+gd)
                 );
               })
             ),
@@ -3614,7 +3728,7 @@ function App(){
                 var homeWin=m.played&&m.goalsHome>m.goalsAway;
                 var awayWin=m.played&&m.goalsAway>m.goalsHome;
                 return e('div',{key:m.id,style:{marginBottom:10,padding:'8px 10px',background:'rgba(0,0,0,0.2)',borderRadius:9,border:'1px solid '+(m.played?'rgba(40,200,40,0.3)':BD)}},
-                  m.label&&e('div',{style:{fontSize:9,color:'#6a86a0',marginBottom:4,textAlign:'center'}},m.label),
+                  m.label&&e('div',{style:{fontSize:9,color:'#a8bfd4',marginBottom:4,textAlign:'center'}},m.label),
                   (m.home&&m.home!=='TBD')&&e('div',{style:{fontSize:8,color:'rgba(212,175,55,0.55)',marginBottom:5,textAlign:'center'}},'📺 ',getTV(m.home,lang)||getTV(m.away,lang)),
                   e('div',{style:{display:'grid',gridTemplateColumns:'1fr 32px 10px 32px 1fr',gap:4,alignItems:'center'}},
                     e('div',{style:{fontSize:11,fontWeight:homeWin?'bold':'normal',color:homeWin?G:'#eee',textAlign:'right',overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis'}},tn(m.home,lang)),
@@ -3625,7 +3739,7 @@ function App(){
                         setIMatches(function(prev){return prev.map(function(x){return x.id===m.id?Object.assign({},x,{goalsHome:gh,played:x.goalsAway!==null&&x.goalsAway!==undefined}):x;});});
                       },
                       style:{width:32,height:28,textAlign:'center',background:'rgba(10,20,50,0.95)',color:G,border:'1px solid '+G,borderRadius:6,fontSize:14,fontWeight:'bold'}}),
-                    e('div',{style:{fontSize:10,color:'#6a86a0',textAlign:'center'}},'-'),
+                    e('div',{style:{fontSize:10,color:'#a8bfd4',textAlign:'center'}},'-'),
                     e('input',{type:'number',min:0,max:9,
                       value:m.goalsAway===null?'':m.goalsAway,
                       onChange:function(ev){
@@ -3663,22 +3777,22 @@ function App(){
       tab===8?e('div',{style:{paddingBottom:16}},
         e('div',{style:{textAlign:'center',marginBottom:10}},
           e('div',{style:{fontSize:13,fontWeight:'bold',color:G,letterSpacing:1}},(lang==='fr'?'⚽ JEU DE PENALTY':lang==='es'?'⚽ JUEGO DE PENALES':lang==='pt'?'⚽ JOGO DE PENALTIS':lang==='it'?'⚽ RIGORI':lang==='de'?'⚽ ELFMETERSCHIESSEN':'⚽ PENALTY GAME')),
-          e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
+          e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:3}},
             lang==='fr'?'5 tirs - Battez Higuita !':lang==='es'?'5 penaltis - Vence a Higuita !':lang==='pt'?'5 penaltis - Venca Higuita !':lang==='it'?'5 rigori - Batti Higuita !':lang==='de'?'5 Elfmeter - Bezwinge Higuita !':'5 penalties - Beat Higuita!'
           )
         ),
         e('div',{style:{display:'flex',justifyContent:'center',gap:10,marginBottom:10}},
           e('div',{style:{textAlign:'center',background:'rgba(40,160,40,0.2)',border:'1px solid rgba(40,200,40,0.4)',borderRadius:10,padding:'7px 14px'}},
             e('div',{style:{fontSize:20,fontWeight:'bold',color:'#90ee90'}},'⚽ ',gameScore),
-            e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'BUTS':lang==='es'?'GOLES':lang==='pt'?'GOLOS':lang==='it'?'GOL':lang==='de'?'TORE':'GOALS')
+            e('div',{style:{fontSize:9,color:'#a8bfd4'}},lang==='fr'?'BUTS':lang==='es'?'GOLES':lang==='pt'?'GOLOS':lang==='it'?'GOL':lang==='de'?'TORE':'GOALS')
           ),
           e('div',{style:{textAlign:'center',background:'rgba(212,175,55,0.1)',border:'1px solid '+G,borderRadius:10,padding:'7px 14px'}},
             e('div',{style:{fontSize:20,fontWeight:'bold',color:G}},shotsLeft),
-            e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'RESTANTS':lang==='es'?'RESTANTES':lang==='pt'?'RESTANTES':lang==='it'?'RIMASTI':lang==='de'?'VERBLEIBEND':'LEFT')
+            e('div',{style:{fontSize:9,color:'#a8bfd4'}},lang==='fr'?'RESTANTS':lang==='es'?'RESTANTES':lang==='pt'?'RESTANTES':lang==='it'?'RIMASTI':lang==='de'?'VERBLEIBEND':'LEFT')
           ),
           e('div',{style:{textAlign:'center',background:'rgba(200,40,40,0.2)',border:'1px solid rgba(200,60,60,0.4)',borderRadius:10,padding:'7px 14px'}},
             e('div',{style:{fontSize:20,fontWeight:'bold',color:'#ff8888'}},'✗ ',gameMiss),
-            e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'ARRÊTÉS':lang==='es'?'PARADOS':lang==='pt'?'DEFENDIDOS':lang==='it'?'PARATI':lang==='de'?'GEHALTEN':'SAVED')
+            e('div',{style:{fontSize:9,color:'#a8bfd4'}},lang==='fr'?'ARRÊTÉS':lang==='es'?'PARADOS':lang==='pt'?'DEFENDIDOS':lang==='it'?'PARATI':lang==='de'?'GEHALTEN':'SAVED')
           )
         ),
         e('div',{style:{display:'flex',justifyContent:'center',gap:5,marginBottom:10}},
@@ -3820,9 +3934,9 @@ function App(){
           e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8,padding:'0 4px'}},
             e('div',{style:{display:'flex',alignItems:'center',gap:5}},
               e('div',{style:{width:34,height:34,borderRadius:'50%',background:timer<=1?'rgba(200,40,40,0.3)':timer===2?'rgba(255,165,0,0.3)':'rgba(40,200,40,0.3)',border:'2px solid '+(timer<=1?'#ff6b6b':timer===2?'orange':'#90ee90'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,fontWeight:'bold',color:timer<=1?'#ff6b6b':timer===2?'orange':'#90ee90'}},timer),
-              e('div',{style:{fontSize:9,color:'#6a86a0'}},'sec')
+              e('div',{style:{fontSize:9,color:'#a8bfd4'}},'sec')
             ),
-            e('div',{style:{fontSize:10,color:'#6a86a0'}},lang==='fr'?'Ou tirez ?':lang==='es'?'Donde ?':lang==='pt'?'Para onde ?':lang==='it'?'Dove ?':lang==='de'?'Wohin ?':'Shoot where?')
+            e('div',{style:{fontSize:10,color:'#a8bfd4'}},lang==='fr'?'Ou tirez ?':lang==='es'?'Donde ?':lang==='pt'?'Para onde ?':lang==='it'?'Dove ?':lang==='de'?'Wohin ?':'Shoot where?')
           ),
           e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}},
             ['left','center','right'].map(function(dir){
@@ -3861,7 +3975,7 @@ function App(){
         !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.06))',border:'1px solid '+G,borderRadius:12,padding:'16px',textAlign:'center'}},
           e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:8}},'🏆 PENALTY SHOOTOUT TOURNAMENT — PRO'),
           e('div',{style:{fontSize:24,marginBottom:8}},'🔒'),
-          e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'🏆 PRO - '+getPrice(lang))
+          e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'🏆 PRO'+(window.Capacitor&&window.Capacitor.getPlatform()==='ios'?'':' - '+getPrice(lang)))
         ),
         premium&&(function(){
           var ROUNDS=[
@@ -3877,7 +3991,7 @@ function App(){
           if(penTourPhase==='menu')return e('div',null,
             e('div',{style:{textAlign:'center',marginBottom:14}},
               e('div',{style:{fontSize:16,fontWeight:'bold',color:G,letterSpacing:1}},'🏆 '+(lang==='fr'?'TOURNOI DE PENALTIES':lang==='es'?'TORNEO DE PENALES':lang==='pt'?'TORNEIO DE PENALTIS':lang==='it'?'TORNEO DI RIGORI':lang==='de'?'ELFMETER-TURNIER':'PENALTY TOURNAMENT')),
-              e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:4}},lang==='fr'?'4 rounds • Gardiens légendaires • Classement mondial':lang==='es'?'4 rondas • Porteros legendarios • Ranking mundial':lang==='pt'?'4 rodadas • Goleiros lendários • Ranking mundial':'4 rounds • Legendary keepers • World ranking')
+              e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:4}},lang==='fr'?'4 rounds • Gardiens légendaires • Classement mondial':lang==='es'?'4 rondas • Porteros legendarios • Ranking mundial':lang==='pt'?'4 rodadas • Goleiros lendários • Ranking mundial':'4 rounds • Legendary keepers • World ranking')
             ),
             // Round preview
             e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:6,marginBottom:14}},
@@ -3885,7 +3999,7 @@ function App(){
                 return e('div',{key:i,style:{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'10px 8px',textAlign:'center'}},
                   e('div',{style:{fontSize:9,fontWeight:'bold',color:r.color,letterSpacing:1,marginBottom:3}},(r.name[lang]||r.name.en)),
                   e('div',{style:{fontSize:14,marginBottom:2}},r.keeper.split(' ')[0]),
-                  e('div',{style:{fontSize:9,color:'#6a86a0'}},'Need ',r.need,'/5')
+                  e('div',{style:{fontSize:9,color:'#a8bfd4'}},'Need ',r.need,'/5')
                 );
               })
             ),
@@ -3895,7 +4009,7 @@ function App(){
             // Leaderboard
             e('div',{style:{background:'rgba(10,15,40,0.8)',border:'1px solid rgba(212,175,55,0.3)',borderRadius:12,padding:10}},
               e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:8,textAlign:'center'}},'🏅 '+(lang==='fr'?'CLASSEMENT MONDIAL':lang==='es'?'RANKING MUNDIAL':lang==='pt'?'RANKING MUNDIAL':'WORLD RANKING')),
-              penLeaderboard.length===0&&e('div',{style:{textAlign:'center',color:'#6a86a0',fontSize:10,padding:8}},lang==='fr'?'Sois le premier champion !':lang==='es'?'Sé el primer campeón !':lang==='pt'?'Seja o primeiro campeão !':'Be the first champion!'),
+              penLeaderboard.length===0&&e('div',{style:{textAlign:'center',color:'#a8bfd4',fontSize:10,padding:8}},lang==='fr'?'Sois le premier champion !':lang==='es'?'Sé el primer campeón !':lang==='pt'?'Seja o primeiro campeão !':'Be the first champion!'),
               penLeaderboard.slice(0,8).map(function(entry,i){
                 return e('div',{key:i,style:{display:'grid',gridTemplateColumns:'22px 1fr 45px 44px 32px',gap:4,alignItems:'center',padding:'5px 4px',background:i===0?'rgba(212,175,55,0.12)':'transparent',borderRadius:6,marginBottom:2}},
                   e('div',{style:{fontSize:12,textAlign:'center'}},i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1),
@@ -3912,14 +4026,14 @@ function App(){
           if(penTourPhase==='name')return e('div',{style:{textAlign:'center'}},
             e('div',{style:{fontSize:48,marginBottom:8}},'⚽'),
             e('div',{style:{fontSize:14,fontWeight:'bold',color:G,marginBottom:4}},lang==='fr'?'Qui êtes-vous ?':lang==='es'?'¿Quién eres ?':lang==='pt'?'Quem és você ?':'Who are you?'),
-            e('div',{style:{fontSize:10,color:'#6a86a0',marginBottom:14}},lang==='fr'?'Votre nom apparaîtra au classement mondial':lang==='es'?'Tu nombre aparecerá en el ranking mundial':lang==='pt'?'Seu nome aparecerá no ranking mundial':'Your name will appear on the world ranking'),
+            e('div',{style:{fontSize:10,color:'#a8bfd4',marginBottom:14}},lang==='fr'?'Votre nom apparaîtra au classement mondial':lang==='es'?'Tu nombre aparecerá en el ranking mundial':lang==='pt'?'Seu nome aparecerá no ranking mundial':'Your name will appear on the world ranking'),
             e('input',{type:'text',maxLength:16,placeholder:lang==='fr'?'Votre prénom...':lang==='es'?'Tu nombre...':lang==='pt'?'Seu nome...':'Your name...',value:penTourName,onChange:function(ev){setPenTourName(ev.target.value);},style:{width:'100%',background:'rgba(10,20,50,0.95)',color:'#eee',border:'2px solid '+G,borderRadius:10,padding:'12px 14px',fontSize:15,marginBottom:12,textAlign:'center',boxSizing:'border-box'}}),
             e('button',{onClick:function(){
               if(!penTourName.trim())return;
               setPenTourRound(0);setPenTourTotal(0);setPenTourPhase('playing');startPenRound();
             },style:{width:'100%',background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 0',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)',marginBottom:8}},
             '🏆 '+(lang==='fr'?'JOUER !':lang==='es'?'¡JUGAR!':lang==='pt'?'JOGAR !':'PLAY !')),
-            e('button',{onClick:function(){setPenTourPhase('menu');},style:{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'10px 0',fontSize:11,color:'#6a86a0',cursor:'pointer'}},'← '+(lang==='fr'?'Retour':lang==='es'?'Volver':lang==='pt'?'Voltar':'Back'))
+            e('button',{onClick:function(){setPenTourPhase('menu');},style:{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'10px 0',fontSize:11,color:'#a8bfd4',cursor:'pointer'}},'← '+(lang==='fr'?'Retour':lang==='es'?'Volver':lang==='pt'?'Voltar':'Back'))
           );
 
           // ── PLAYING ─────────────────────────────────────────────
@@ -3929,10 +4043,10 @@ function App(){
               e('div',null,
                 e('div',{style:{fontSize:9,color:rd.color,fontWeight:'bold',letterSpacing:1}},(rd.name[lang]||rd.name.en)),
                 e('div',{style:{fontSize:10,color:'#9bb0c8',marginTop:2}},rd.keeper),
-                e('div',{style:{fontSize:9,color:'#6a86a0',marginTop:1}},'Need ',rd.need,'/5 to qualify')
+                e('div',{style:{fontSize:9,color:'#a8bfd4',marginTop:1}},'Need ',rd.need,'/5 to qualify')
               ),
               e('div',{style:{textAlign:'right'}},
-                e('div',{style:{fontSize:10,color:'#6a86a0'}},'🏅 Total'),
+                e('div',{style:{fontSize:10,color:'#a8bfd4'}},'🏅 Total'),
                 e('div',{style:{fontSize:18,fontWeight:'bold',color:G}},penTourTotal,' pts'),
                 e('div',{style:{fontSize:9,color:'#9bb0c8'}},penTourName)
               )
@@ -3943,7 +4057,7 @@ function App(){
                 return e('div',{key:i,style:{display:'flex',flexDirection:'column',alignItems:'center',gap:2}},
                   e('div',{style:{width:28,height:28,borderRadius:'50%',background:i<penTourRound?'rgba(40,200,40,0.4)':i===penTourRound?('rgba(212,175,55,0.4)'):('rgba(255,255,255,0.06)'),border:'2px solid '+(i<penTourRound?'#90ee90':i===penTourRound?G:'rgba(255,255,255,0.15)'),display:'flex',alignItems:'center',justifyContent:'center',fontSize:12}},
                   i<penTourRound?'✅':i===penTourRound?'⚽':'○'),
-                  e('div',{style:{fontSize:7,color:'#6a86a0'}},r.short||(r.name[lang]||r.name.en).split(' ')[0])
+                  e('div',{style:{fontSize:7,color:'#a8bfd4'}},r.short||(r.name[lang]||r.name.en).split(' ')[0])
                 );
               })
             ),
@@ -4003,7 +4117,7 @@ function App(){
                   setPenTourPhase('menu');
                 },style:{width:'100%',background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:12,padding:'13px 0',fontSize:13,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',marginBottom:6}},
                 '🏅 '+(lang==='fr'?'SAUVEGARDER MON SCORE':lang==='es'?'GUARDAR MI SCORE':lang==='pt'?'SALVAR MEU SCORE':'SAVE MY SCORE')),
-                e('button',{onClick:function(){setPenTourPhase('menu');},style:{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'9px 0',fontSize:11,color:'#6a86a0',cursor:'pointer'}},
+                e('button',{onClick:function(){setPenTourPhase('menu');},style:{width:'100%',background:'transparent',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'9px 0',fontSize:11,color:'#a8bfd4',cursor:'pointer'}},
                 '🏠 '+(lang==='fr'?'Menu':lang==='es'?'Menú':lang==='pt'?'Menu':'Menu'))
               );
             })()
@@ -4017,7 +4131,7 @@ function App(){
       tab===4?e('div',null,
         e('div',{style:{textAlign:'center',marginBottom:14}},
           e('div',{style:{fontSize:14,fontWeight:'bold',color:G,letterSpacing:2}},(lang==='fr'?'🏆 QUIZ CHAMPIONNAT':lang==='es'?'🏆 QUIZ CAMPEONATO':lang==='pt'?'🏆 QUIZ CAMPEONATO':lang==='it'?'🏆 QUIZ CAMPIONATO':lang==='de'?'🏆 QUIZ MEISTERSCHAFT':'🏆 QUIZ CHAMPIONSHIP')),
-          e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
+          e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:3}},
             lang==='fr'?'30 questions sur l histoire de la Coupe du Monde !':
             lang==='es'?'30 preguntas sobre la historia del Mundial !':
             lang==='pt'?'30 perguntas sobre a historia da Copa do Mundo !':
@@ -4090,12 +4204,12 @@ function App(){
                     levelKey==='medium'?'🟡 '+(lang==='fr'?'EXPERT':'EXPERT'):
                     '🔴 '+(lang==='fr'?'CLASSE MONDIALE':'WORLD CLASS')
                   ),
-                  e('div',{style:{fontSize:10,color:'#6a86a0'}},'Q ',qcIdx+1,' / 10'),
+                  e('div',{style:{fontSize:10,color:'#a8bfd4'}},'Q ',qcIdx+1,' / 10'),
                   e('div',{style:{fontSize:9,color:'#5a7090',marginTop:2}},'📚 ',q.cat)
                 ),
                 e('div',{style:{textAlign:'right'}},
                   e('div',{style:{fontSize:18,fontWeight:'bold',color:G}},qcScore),
-                  e('div',{style:{fontSize:9,color:'#6a86a0'}},'pts'),
+                  e('div',{style:{fontSize:9,color:'#a8bfd4'}},'pts'),
                   e('div',{style:{fontSize:9,color:levelColor}},'+',q.pts,' pts')
                 )
               ),
@@ -4163,7 +4277,7 @@ function App(){
                 e('div',{style:{height:7,background:'rgba(255,255,255,0.1)',borderRadius:4,marginBottom:8,overflow:'hidden'}},
                   e('div',{style:{width:pct+'%',height:'100%',background:'linear-gradient(90deg,'+G+',#ff9900)',borderRadius:4}})
                 ),
-                e('div',{style:{fontSize:11,color:'#eee'}},
+                e('div',{style:{fontSize:13,color:'#eee'}},
                   pct>=90?(lang==='fr'?'CHAMPION DU MONDE !':lang==='es'?'CAMPEON DEL MUNDO !':lang==='pt'?'CAMPEAO DO MUNDO !':lang==='it'?'CAMPIONE DEL MONDO !':lang==='de'?'WELTMEISTER !':'WORLD CHAMPION!'):
                   pct>=70?(lang==='fr'?'Excellent ! Super connaissance !':'Excellent! Great knowledge!'):
                   pct>=50?(lang==='fr'?'Pas mal ! Continue !':'Not bad! Keep going!'):
@@ -4182,10 +4296,10 @@ function App(){
               ),
               e('div',{style:{background:CB,border:'1px solid '+G,borderRadius:12,padding:10,marginBottom:10}},
                 e('div',{style:{fontSize:12,fontWeight:'bold',color:G,marginBottom:8,textAlign:'center'}},'🏆 '+(lang==='fr'?'CLASSEMENT':lang==='es'?'RANKING':lang==='pt'?'RANKING':lang==='it'?'CLASSIFICA':lang==='de'?'RANGLISTE':'LEADERBOARD')),
-                leaderboard.length===0&&e('div',{style:{textAlign:'center',color:'#6a86a0',fontSize:10,padding:6}},lang==='fr'?'Sois le premier !':lang==='es'?'Se el primero !':lang==='pt'?'Seja o primeiro !':lang==='it'?'Sii il primo !':lang==='de'?'Sei der Erste !':'Be the first!'),
+                leaderboard.length===0&&e('div',{style:{textAlign:'center',color:'#a8bfd4',fontSize:10,padding:6}},lang==='fr'?'Sois le premier !':lang==='es'?'Se el primero !':lang==='pt'?'Seja o primeiro !':lang==='it'?'Sii il primo !':lang==='de'?'Sei der Erste !':'Be the first!'),
                 leaderboard.length>0&&e('div',null,
                   e('div',{style:{display:'grid',gridTemplateColumns:'20px 1fr 40px 32px 24px',gap:3,padding:'2px 4px',borderBottom:'1px solid rgba(212,175,55,0.2)',marginBottom:4}},
-                    ['#','Name','Pts','%','Lvl'].map(function(h){return e('div',{key:h,style:{fontSize:8,color:'#6a86a0',textAlign:h==='Name'?'left':'center'}},h);})
+                    ['#','Name','Pts','%','Lvl'].map(function(h){return e('div',{key:h,style:{fontSize:8,color:'#a8bfd4',textAlign:h==='Name'?'left':'center'}},h);})
                   ),
                   leaderboard.map(function(entry,i){
                     return e('div',{key:i,style:{display:'grid',gridTemplateColumns:'20px 1fr 40px 32px 24px',gap:3,alignItems:'center',padding:'5px 4px',background:i===0?'rgba(212,175,55,0.1)':'transparent',borderRadius:5,marginBottom:2}},
@@ -4203,7 +4317,7 @@ function App(){
                   return e('button',{key:lvl.r,onClick:function(){setQcRound(lvl.r);setQcIdx(0);setQcScore(0);setQcSelected(null);setQcAnswered(false);setQcPhase('playing');setShowLeaderboard(false);setPlayerName('');},style:{background:CB,border:'1px solid '+BD,borderRadius:8,padding:'8px 4px',fontSize:10,color:'#9bb0c8',cursor:'pointer'}},lvl.icon,' ',lvl.lbl);
                 })
               ),
-              e('button',{onClick:function(){setQcPhase('idle');setQcScore(0);setQcIdx(0);setQcSelected(null);setQcAnswered(false);setShowLeaderboard(false);setPlayerName('');},style:{width:'100%',background:'rgba(255,255,255,0.05)',border:'1px solid '+BD,borderRadius:8,padding:'9px 0',fontSize:11,color:'#6a86a0',cursor:'pointer'}},'🏠 Menu')
+              e('button',{onClick:function(){setQcPhase('idle');setQcScore(0);setQcIdx(0);setQcSelected(null);setQcAnswered(false);setShowLeaderboard(false);setPlayerName('');},style:{width:'100%',background:'rgba(255,255,255,0.05)',border:'1px solid '+BD,borderRadius:8,padding:'9px 0',fontSize:11,color:'#a8bfd4',cursor:'pointer'}},'🏠 Menu')
             );
           })()
         )
@@ -4283,7 +4397,7 @@ function App(){
             // HEADER
             e('div',{style:{textAlign:'center',marginBottom:10}},
               e('div',{style:{fontSize:13,fontWeight:'bold',color:'#d4af37',letterSpacing:2}},(lang==='fr'?'⭐ FANTASY COUPE DU MONDE':lang==='es'?'⭐ FANTASY COPA MUNDIAL':lang==='pt'?'⭐ FANTASY COPA DO MUNDO':lang==='it'?'⭐ FANTASY COPPA DEL MONDO':lang==='de'?'⭐ FANTASY WELTMEISTERSCHAFT':'⭐ FANTASY WORLD CUP')),
-              e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:2}},
+              e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:2}},
                 lang==='fr'?'Composez votre equipe de reve !':
                 lang==='es'?'Compone tu equipo de suenos !':
                 lang==='pt'?'Monte seu time dos sonhos !':'Build your dream team !')
@@ -4297,7 +4411,7 @@ function App(){
                   if(!fantasyDone){setFantasyFormation(f);setFantasyTeam([]);setFantasyPos(null);}
                 },style:{
                   background:active?'linear-gradient(135deg,#1565c0,#42a5f5)':'rgba(255,255,255,0.06)',
-                  color:active?'#fff':'#6a86a0',
+                  color:active?'#fff':'#a8bfd4',
                   border:'1px solid '+(active?'#42a5f5':'rgba(255,255,255,0.1)'),
                   borderRadius:8,padding:'5px 10px',fontSize:10,cursor:'pointer',fontWeight:active?'bold':'normal'
                 }},f);
@@ -4468,7 +4582,7 @@ function App(){
                     e('span',{style:{fontSize:15}},s.flag),
                     e('div',null,
                       e('div',{style:{fontSize:10,fontWeight:'bold',color:'#eee',lineHeight:1.2}},s.name),
-                      e('div',{style:{fontSize:8,color:'#6a86a0'}},s.club||''),
+                      e('div',{style:{fontSize:8,color:'#a8bfd4'}},s.club||''),
                       e('div',{style:{fontSize:9,color:'#d4af37'}},s.rating+' ⭐')
                     )
                   );
@@ -4479,7 +4593,7 @@ function App(){
             ),
 
             // PROGRESS + BUTTONS
-            e('div',{style:{textAlign:'center',fontSize:10,color:fantasyTeam.length>=11?'#90ee90':'#6a86a0',marginBottom:8}},
+            e('div',{style:{textAlign:'center',fontSize:10,color:fantasyTeam.length>=11?'#90ee90':'#a8bfd4',marginBottom:8}},
               (lang==='fr'?'Joueurs sélectionnés':lang==='es'?'Jugadores':lang==='pt'?'Jogadores':'Players')+
               ': '+fantasyTeam.length+'/'+allSlots.length+' '+(fantasyTeam.length>=allSlots.length?'✅':'')
             ),
@@ -4492,7 +4606,7 @@ function App(){
               },style:{flex:2,background:fantasyTeam.length>=allSlots.length?'linear-gradient(135deg,#d4af37,#ff9900)':'rgba(212,175,55,0.1)',
                 border:'2px solid '+(fantasyTeam.length>=allSlots.length?'#d4af37':'rgba(212,175,55,0.2)'),
                 borderRadius:12,padding:'13px 0',fontSize:12,fontWeight:'bold',
-                color:fantasyTeam.length>=allSlots.length?'#0a0a1a':'#6a86a0',cursor:fantasyTeam.length>=allSlots.length?'pointer':'default',transition:'all 0.3s'}},
+                color:fantasyTeam.length>=allSlots.length?'#0a0a1a':'#a8bfd4',cursor:fantasyTeam.length>=allSlots.length?'pointer':'default',transition:'all 0.3s'}},
                 fantasyTeam.length<allSlots.length
                   ?(lang==='fr'?'Sélectionner '+fantasyTeam.length+'/'+allSlots.length:lang==='es'?'Selecciona '+fantasyTeam.length+'/'+allSlots.length:'Select '+fantasyTeam.length+'/'+allSlots.length)
                   :fantasyDone?'✅ '+(lang==='fr'?'Equipe sauvegardée !':'Team saved !')
@@ -4515,7 +4629,7 @@ function App(){
         // PRO HEADER
         e('div',{style:{textAlign:'center',marginBottom:12}},
           e('div',{style:{fontSize:14,fontWeight:'bold',color:G,letterSpacing:2}},'🏆 PRO FEATURES'),
-          e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:3}},
+          e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:3}},
             lang==='fr'?'Accès exclusif membres PRO':lang==='es'?'Acceso exclusivo miembros PRO':lang==='pt'?'Acesso exclusivo membros PRO':lang==='it'?'Accesso esclusivo membri PRO':lang==='de'?'Exklusiver PRO-Zugang':'Exclusive PRO members access'
           )
         ),
@@ -4534,7 +4648,9 @@ function App(){
             e('div',null,'🚫 '+(lang==='fr'?'Sans publicité':'Ad-free experience'))
           ),
           e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)'}},
-            '🏆 PRO - '+getPrice(lang))
+            '🏆 PRO'+(window.Capacitor&&window.Capacitor.getPlatform()==='ios'?'':' - '+getPrice(lang))),
+          (window.Capacitor&&window.Capacitor.getPlatform()==='ios')&&e('button',{onClick:function(){handleRestorePurchases(lang);},style:{marginTop:12,background:'transparent',border:'1px solid rgba(212,175,55,0.4)',borderRadius:10,padding:'8px 20px',fontSize:11,color:'#a8bfd4',cursor:'pointer'}},
+            lang==='fr'?'Restaurer mes achats':lang==='es'?'Restaurar compras':lang==='pt'?'Restaurar compras':'Restore purchases')
         ):null,
 
         premium?e('div',null,
@@ -4571,7 +4687,7 @@ function App(){
           // ── STADIUMS ──
           proTab===0&&e('div',null,
             e('div',{style:{fontSize:11,color:G,fontWeight:'bold',marginBottom:10,textAlign:'center'}},
-              '🏟️ '+(lang==='fr'?'16 STADES — COUPE DU MONDE 2026':'16 STADIUMS — WORLD CUP 2026')
+              '🏟️ '+(lang==='fr'?'16 STADES — COUPE DU MONDE 2026':lang==='es'?'16 ESTADIOS — COPA DEL MUNDO 2026':lang==='pt'?'16 ESTÁDIOS — COPA DO MUNDO 2026':lang==='it'?'16 STADI — COPPA DEL MONDO 2026':lang==='de'?'16 STADIEN — WM 2026':'16 STADIUMS — WORLD CUP 2026')
             ),
             STADIUMS.map(function(s,i){
               return e('div',{key:i,
@@ -4580,7 +4696,7 @@ function App(){
                 e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center'}},
                   e('div',null,
                     e('div',{style:{fontSize:12,fontWeight:'bold',color:G}},' ',s.flag,' ',s.name),
-                    e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:2}},s.city,' • ',s.cap.toLocaleString(),' seats'),
+                    e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:2}},s.city,' • ',s.cap.toLocaleString(),' seats'),
                     e('div',{style:{fontSize:10,color:s.alt>1000?'#ff9944':s.alt>500?'#ffcc44':'#5a7090'}},
                       s.matches,' matches',s.final?' • 🏆 FINAL':'',
                       ' • 🏔️ ',s.alt,'m',s.alt>1000?' ⚠️':''
@@ -4600,7 +4716,7 @@ function App(){
                     e('span',{style:{background:s.alt>1000?'rgba(255,100,0,0.15)':s.alt>500?'rgba(255,200,0,0.1)':'rgba(100,150,255,0.1)',border:'1px solid '+(s.alt>1000?'rgba(255,100,0,0.5)':s.alt>500?'rgba(255,200,0,0.4)':'rgba(100,150,255,0.3)'),borderRadius:8,padding:'4px 10px',fontSize:9,color:s.alt>1000?'#ff9944':s.alt>500?'#ffdd44':'#99bbff'}},
                       '🏔️ '+({en:'Altitude',fr:'Altitude',es:'Altitud',pt:'Altitude',it:'Altitudine',de:'Höhe'}[lang]||'Altitude')+': '+s.alt+'m'+(s.alt>1000?' ⚠️':''))
                   ),
-                  e('div',{style:{fontSize:9,color:'#6a86a0',marginBottom:6,fontWeight:'bold',textTransform:'uppercase',letterSpacing:1}},
+                  e('div',{style:{fontSize:9,color:'#a8bfd4',marginBottom:6,fontWeight:'bold',textTransform:'uppercase',letterSpacing:1}},
                     {en:'Key Facts',fr:'Points Clés',es:'Datos Clave',pt:'Factos Chave',it:'Fatti Chiave',de:'Fakten'}[lang]||'Key Facts'),
                   s.facts.map(function(fact,fi){
                     return e('div',{key:fi,style:{fontSize:10,color:'#a0b8cc',padding:'4px 0',borderBottom:fi<2?'1px solid rgba(255,255,255,0.05)':'none'}},'• '+fact);
@@ -4624,7 +4740,7 @@ function App(){
                     e('div',{style:{fontSize:36}},leg.flag),
                     e('div',null,
                       e('div',{style:{fontSize:13,fontWeight:'bold',color:G}},leg.name),
-                      e('div',{style:{fontSize:10,color:'#6a86a0'}},' ',leg.pos,' • ',leg.years),
+                      e('div',{style:{fontSize:10,color:'#a8bfd4'}},' ',leg.pos,' • ',leg.years),
                       e('div',{style:{fontSize:10,color:'#90ee90'}},'🏆 ',leg.wc,'x WC • ⚽ ',leg.wc_goals,' WC goals')
                     )
                   ),
@@ -4634,15 +4750,15 @@ function App(){
                   e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,marginBottom:10}},
                     e('div',{style:{textAlign:'center',background:'rgba(212,175,55,0.1)',borderRadius:8,padding:8}},
                       e('div',{style:{fontSize:16,fontWeight:'bold',color:G}},leg.caps),
-                      e('div',{style:{fontSize:9,color:'#6a86a0'}},'CAPS')
+                      e('div',{style:{fontSize:9,color:'#a8bfd4'}},'CAPS')
                     ),
                     e('div',{style:{textAlign:'center',background:'rgba(40,160,40,0.1)',borderRadius:8,padding:8}},
                       e('div',{style:{fontSize:16,fontWeight:'bold',color:'#90ee90'}},leg.goals),
-                      e('div',{style:{fontSize:9,color:'#6a86a0'}},lang==='fr'?'BUTS':lang==='es'?'GOLES':lang==='pt'?'GOLOS':lang==='it'?'GOL':lang==='de'?'TORE':'GOALS')
+                      e('div',{style:{fontSize:9,color:'#a8bfd4'}},lang==='fr'?'BUTS':lang==='es'?'GOLES':lang==='pt'?'GOLOS':lang==='it'?'GOL':lang==='de'?'TORE':'GOALS')
                     ),
                     e('div',{style:{textAlign:'center',background:'rgba(255,150,0,0.1)',borderRadius:8,padding:8}},
                       e('div',{style:{fontSize:16,fontWeight:'bold',color:'orange'}},leg.wc),
-                      e('div',{style:{fontSize:9,color:'#6a86a0'}},'WC TITLES')
+                      e('div',{style:{fontSize:9,color:'#a8bfd4'}},'WC TITLES')
                     )
                   ),
                   e('div',{style:{background:'rgba(10,20,50,0.8)',borderRadius:10,padding:'10px 12px',marginBottom:8,fontStyle:'italic'}},
@@ -4669,7 +4785,7 @@ function App(){
             e('div',{style:{fontSize:11,color:G,fontWeight:'bold',marginBottom:10,textAlign:'center'}},
               '🌤️ '+(lang==='fr'?'MÉTÉO EN DIRECT — VILLES HÔTES':'LIVE WEATHER — HOST CITIES')
             ),
-            e('div',{style:{fontSize:9,color:'#6a86a0',textAlign:'center',marginBottom:10}},
+            e('div',{style:{fontSize:9,color:'#a8bfd4',textAlign:'center',marginBottom:10}},
               liveWeather
                 ? (lang==='fr'?'Données en temps réel OpenWeatherMap':'Live data via OpenWeatherMap')
                 : liveWeatherLoading
@@ -4683,7 +4799,7 @@ function App(){
                 e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}},
                   e('div',null,
                     e('div',{style:{fontSize:12,fontWeight:'bold',color:'#eee8d5'}},city),
-                    e('div',{style:{fontSize:10,color:'#6a86a0',textTransform:'capitalize'}},w.condition)
+                    e('div',{style:{fontSize:10,color:'#a8bfd4',textTransform:'capitalize'}},w.condition)
                   ),
                   e('div',{style:{textAlign:'right'}},
                     e('div',{style:{fontSize:28}},w.icon),
@@ -4708,7 +4824,7 @@ function App(){
             ),
             e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12}},
               e('div',null,
-                e('div',{style:{fontSize:9,color:'#6a86a0',marginBottom:4}},lang==='fr'?'Équipe 1':'Team 1'),
+                e('div',{style:{fontSize:9,color:'#a8bfd4',marginBottom:4}},lang==='fr'?'Équipe 1':'Team 1'),
                 e('select',{value:compareTeam1||'',onChange:function(ev){setCompareTeam1(ev.target.value);},
                   style:{width:'100%',background:CB,color:'#eee',border:'1px solid '+G,borderRadius:8,padding:'8px',fontSize:11}},
                   e('option',{value:''},'-- Select --'),
@@ -4716,7 +4832,7 @@ function App(){
                 )
               ),
               e('div',null,
-                e('div',{style:{fontSize:9,color:'#6a86a0',marginBottom:4}},lang==='fr'?'Équipe 2':'Team 2'),
+                e('div',{style:{fontSize:9,color:'#a8bfd4',marginBottom:4}},lang==='fr'?'Équipe 2':'Team 2'),
                 e('select',{value:compareTeam2||'',onChange:function(ev){setCompareTeam2(ev.target.value);},
                   style:{width:'100%',background:CB,color:'#eee',border:'1px solid '+G,borderRadius:8,padding:'8px',fontSize:11}},
                   e('option',{value:''},'-- Select --'),
@@ -4738,12 +4854,12 @@ function App(){
                   e('div',{style:{display:'flex',justifyContent:'space-between',marginBottom:12}},
                     e('div',{style:{textAlign:'center'}},
                       e('div',{style:{fontSize:22,fontWeight:'bold',color:G}},compareTeam1),
-                      e('div',{style:{fontSize:10,color:'#6a86a0'}},'Rating: ',t1.ovr)
+                      e('div',{style:{fontSize:10,color:'#a8bfd4'}},'Rating: ',t1.ovr)
                     ),
-                    e('div',{style:{fontSize:20,color:'#6a86a0',alignSelf:'center'}},'VS'),
+                    e('div',{style:{fontSize:20,color:'#a8bfd4',alignSelf:'center'}},'VS'),
                     e('div',{style:{textAlign:'center'}},
                       e('div',{style:{fontSize:22,fontWeight:'bold',color:G}},compareTeam2),
-                      e('div',{style:{fontSize:10,color:'#6a86a0'}},'Rating: ',t2.ovr)
+                      e('div',{style:{fontSize:10,color:'#a8bfd4'}},'Rating: ',t2.ovr)
                     )
                   ),
                   cats.map(function(cat,ci){
@@ -4754,9 +4870,9 @@ function App(){
                     var pct2=100-pct1;
                     return e('div',{key:ci,style:{marginBottom:10}},
                       e('div',{style:{display:'flex',justifyContent:'space-between',fontSize:10,color:'#9bb0c8',marginBottom:4}},
-                        e('span',{style:{fontWeight:'bold',color:v1>v2?G:'#6a86a0'}},v1),
+                        e('span',{style:{fontWeight:'bold',color:v1>v2?G:'#a8bfd4'}},v1),
                         e('span',null,cat.icon,' ',cat.label),
-                        e('span',{style:{fontWeight:'bold',color:v2>v1?G:'#6a86a0'}},v2)
+                        e('span',{style:{fontWeight:'bold',color:v2>v1?G:'#a8bfd4'}},v2)
                       ),
                       e('div',{style:{display:'flex',height:8,borderRadius:4,overflow:'hidden'}},
                         e('div',{style:{width:pct1+'%',background:v1>=v2?G:'rgba(255,255,255,0.2)',transition:'width 0.5s'}}),
@@ -4772,7 +4888,7 @@ function App(){
                 );
               })()
             ),
-            (!compareTeam1||!compareTeam2)&&e('div',{style:{textAlign:'center',padding:20,color:'#6a86a0',fontSize:11}},
+            (!compareTeam1||!compareTeam2)&&e('div',{style:{textAlign:'center',padding:20,color:'#a8bfd4',fontSize:11}},
               lang==='fr'?'Sélectionne 2 équipes pour comparer !':'Select 2 teams to compare!'
             )
           ),
@@ -4816,7 +4932,7 @@ function App(){
             e('div',{style:{fontSize:11,color:G,fontWeight:'bold',marginBottom:4,textAlign:'center'}},
               '🗺️ '+({en:'16 HOST CITIES — WORLD CUP 2026',fr:'16 VILLES HÔTES — COUPE DU MONDE 2026',es:'16 CIUDADES SEDE — COPA DEL MUNDO 2026',pt:'16 CIDADES SEDE — COPA DO MUNDO 2026',it:'16 CITTÀ OSPITANTI — COPPA DEL MONDO 2026',de:'16 GASTGEBERSTÄDTE — WM 2026'}[lang]||'16 HOST CITIES — WORLD CUP 2026')
             ),
-            e('div',{style:{fontSize:9,color:'#6a86a0',textAlign:'center',marginBottom:10}},
+            e('div',{style:{fontSize:9,color:'#a8bfd4',textAlign:'center',marginBottom:10}},
               {en:'Practical guide for fans travelling to matches',fr:'Guide pratique pour les fans qui voyagent aux matchs',es:'Guía práctica para aficionados que viajan a los partidos',pt:'Guia prático para adeptos que viajam aos jogos',it:'Guida pratica per i tifosi che viaggiano alle partite',de:'Praktischer Leitfaden für Fans, die zu Spielen reisen'}[lang]||'Practical guide for fans'
             ),
             CITY_GUIDE.map(function(c,i){
@@ -4828,7 +4944,7 @@ function App(){
                     e('div',{style:{fontSize:28}},c.flag),
                     e('div',null,
                       e('div',{style:{fontSize:13,fontWeight:'bold',color:G}},c.city),
-                      e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:1}},c.stadium,' • ',c.cap.toLocaleString(),' seats'),
+                      e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:1}},c.stadium,' • ',c.cap.toLocaleString(),' seats'),
                       e('div',{style:{fontSize:9,color:'rgba(212,175,55,0.5)',marginTop:1}},'🕐 ',c.tz,' • ✈️ ',c.airport)
                     )
                   ),
@@ -4878,7 +4994,7 @@ function App(){
                     e('div',{style:{fontSize:32,lineHeight:1}},s.flag),
                     e('div',null,
                       e('div',{style:{fontSize:13,fontWeight:'bold',color:G}},s.title[lang]||s.title.en),
-                      e('div',{style:{fontSize:10,color:'#6a86a0',marginTop:2}},s.sub[lang]||s.sub.en),
+                      e('div',{style:{fontSize:10,color:'#a8bfd4',marginTop:2}},s.sub[lang]||s.sub.en),
                       e('div',{style:{fontSize:9,color:'rgba(212,175,55,0.5)',marginTop:2}},'📅 ',s.year)
                     )
                   ),
@@ -4916,9 +5032,9 @@ function App(){
     !premium&&e('div',{style:{background:'rgba(2,5,15,0.95)',borderTop:'1px solid rgba(212,175,55,0.15)',padding:'8px 14px',textAlign:'center'}},
       e('div',{style:{fontSize:8,color:'#3a5070',marginBottom:4}},'ADVERTISEMENT'),
       e('div',{style:{borderTop:'1px solid rgba(212,175,55,0.1)',padding:'10px 16px',display:'flex',justifyContent:'center',gap:10,flexWrap:'wrap'}},
-        (sponsors||SPONSORS.en).map(function(s){
+        (sponsors||SPONSORS.en).concat(STORE_LINKS).map(function(s){
           return e('a',{key:s.name,href:s.url,target:'_blank',rel:'noopener',
-            style:{display:'flex',alignItems:'center',gap:5,background:'rgba(255,255,255,0.04)',border:'1px solid rgba(212,175,55,0.12)',borderRadius:16,padding:'5px 12px',textDecoration:'none',color:'#6a86a0',fontSize:10}},
+            style:{display:'flex',alignItems:'center',gap:5,background:'rgba(255,255,255,0.04)',border:'1px solid rgba(212,175,55,0.12)',borderRadius:16,padding:'5px 12px',textDecoration:'none',color:'#a8bfd4',fontSize:10}},
             e('span',null,s.icon),' ',e('span',null,s.name));
         })
       ),

@@ -54,6 +54,25 @@ import {DRACOLoader} from 'https://cdn.jsdelivr.net/npm/three@0.152.0/examples/j
 window.GLTFLoader=GLTFLoader;window.DRACOLoader=DRACOLoader;
 window.dispatchEvent(new Event('loaders-ready'));
 </script>
+<script src="/rc.js"></script>
 <script src="/app.js"></script>
+<script>
+(function(){
+  document.addEventListener('DOMContentLoaded',function(){
+    var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
+    if(!isIOS||!window.RCCapacitor||!window.RCCapacitor.Purchases)return;
+    var RC=window.RCCapacitor.Purchases;
+    RC.configure({apiKey:'appl_GXcUUucxHJtVOrEQMAMwOCSlETj'}).then(function(){
+      return RC.getCustomerInfo();
+    }).then(function(info){
+      var active=info&&info.customerInfo&&info.customerInfo.entitlements&&info.customerInfo.entitlements.active;
+      if(active&&active['pro']){
+        try{localStorage.setItem('wc2026_pro','1');}catch(e){}
+        if(window._setPremium)window._setPremium(true);
+      }
+    }).catch(function(){});
+  });
+})();
+</script>
 </body>
 </html>
