@@ -9,6 +9,8 @@ workflows:
       ios_signing:
         distribution_type: ad_hoc
         bundle_identifier: com.marcocanal.worldcup2026
+      groups:
+        - signing
       node: latest
       xcode: latest
       cocoapods: default
@@ -25,6 +27,15 @@ workflows:
           keychain initialize
           keychain add-certificates
           xcode-project use-profiles
+          echo "$MAC_INSTALLER_P12" | base64 --decode > /tmp/mac_installer.p12
+          security import /tmp/mac_installer.p12 \
+            -k ~/Library/Keychains/login.keychain-db \
+            -P "$MAC_INSTALLER_PWD" \
+            -T /usr/bin/codesign \
+            -T /usr/bin/xcodebuild \
+            -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple: -s \
+            -k "" ~/Library/Keychains/login.keychain-db
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
