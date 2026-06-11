@@ -1,4 +1,7 @@
 {
+  "outputDirectory": "www",
+  "installCommand": "echo ok",
+  "buildCommand": "echo ok",
   "headers": [
     {
       "source": "/.well-known/(.*)",
