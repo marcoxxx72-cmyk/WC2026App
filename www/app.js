@@ -2038,7 +2038,7 @@ async function handleRestorePurchases(lang){
 function getPrice(lang){
   var c=_getCurrency();
   if(c==='brl')return 'R$14,90';
-  if(c==='gbp')return '£2.49';
+  if(c==='gbp')return '£1.99';
   if(c==='usd')return '$2.99';
   return '€2,99';
 }
