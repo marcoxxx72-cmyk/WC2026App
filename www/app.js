@@ -3384,25 +3384,34 @@ function App(){
             e('div',{style:{fontSize:9,color:'#a8bfd4',fontWeight:'bold',textAlign:'center'}},'GD'),
             e('div',{style:{fontSize:9,color:G,fontWeight:'bold',textAlign:'center'}},'Pts')
           ),
-          // Team rows
-          GROUPS[selGroup].teams.map(function(team,i){
-            var isMyTeam=team===activeTeam.team;
-            var isQual=i<2;
-            return e('div',{key:team,style:{display:'grid',gridTemplateColumns:'1fr 24px 24px 24px 24px 24px 24px 24px 28px',gap:1,alignItems:'center',padding:'6px 6px',background:isMyTeam?'rgba(212,175,55,0.14)':isQual?'rgba(40,100,40,0.12)':'rgba(255,255,255,0.03)',borderRadius:6,marginBottom:3,border:'1px solid '+(isMyTeam?G:isQual?'rgba(40,200,40,0.2)':'rgba(255,255,255,0.05)')}},
-              e('div',{style:{display:'flex',alignItems:'center',gap:5}},
-                e('div',{style:{width:16,height:16,borderRadius:3,background:isMyTeam?G:isQual?'rgba(40,200,40,0.5)':'rgba(212,175,55,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:'bold',color:isMyTeam?'#0a0a1a':isQual?'#fff':G,flexShrink:0}},i+1),
-                e('div',{style:{fontSize:10,fontWeight:isMyTeam?'bold':'normal',color:isMyTeam?G:'#eee',overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis'}},tn(team,lang),isMyTeam?' ⭐':'')
-              ),
-              e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center'}},'0'),
-              e('div',{style:{fontSize:10,color:'#90ee90',textAlign:'center'}},'0'),
-              e('div',{style:{fontSize:10,color:'#aaa',textAlign:'center'}},'0'),
-              e('div',{style:{fontSize:10,color:'#ff8888',textAlign:'center'}},'0'),
-              e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center'}},'0'),
-              e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center'}},'0'),
-              e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center'}},'0'),
-              e('div',{style:{fontSize:11,fontWeight:'bold',color:G,textAlign:'center'}},'0')
-            );
-          }),
+          // Team rows — use API standings if available
+          (function(){
+            var apiGroup=standings.find(function(s){return s.group==='Group '+selGroup;});
+            var apiMap={};
+            if(apiGroup)apiGroup.table.forEach(function(r){apiMap[r.team.name]=r;});
+            var teams=apiGroup?apiGroup.table.map(function(r){return r.team.name;}):GROUPS[selGroup].teams;
+            return teams.map(function(team,i){
+              var st=apiMap[team]||{};
+              var mp=st.playedGames||0;var w=st.won||0;var d=st.draw||0;var l=st.lost||0;
+              var gf=st.goalsFor||0;var ga=st.goalsAgainst||0;var gd=st.goalDifference||0;var pts=st.points||0;
+              var isMyTeam=team===activeTeam.team;
+              var isQual=i<2;
+              return e('div',{key:team,style:{display:'grid',gridTemplateColumns:'1fr 24px 24px 24px 24px 24px 24px 24px 28px',gap:1,alignItems:'center',padding:'6px 6px',background:isMyTeam?'rgba(212,175,55,0.14)':isQual?'rgba(40,100,40,0.12)':'rgba(255,255,255,0.03)',borderRadius:6,marginBottom:3,border:'1px solid '+(isMyTeam?G:isQual?'rgba(40,200,40,0.2)':'rgba(255,255,255,0.05)')}},
+                e('div',{style:{display:'flex',alignItems:'center',gap:5}},
+                  e('div',{style:{width:16,height:16,borderRadius:3,background:isMyTeam?G:isQual?'rgba(40,200,40,0.5)':'rgba(212,175,55,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:'bold',color:isMyTeam?'#0a0a1a':isQual?'#fff':G,flexShrink:0}},i+1),
+                  e('div',{style:{fontSize:10,fontWeight:isMyTeam?'bold':'normal',color:isMyTeam?G:'#eee',overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis'}},tn(team,lang),isMyTeam?' ⭐':'')
+                ),
+                e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center'}},mp),
+                e('div',{style:{fontSize:10,color:'#90ee90',textAlign:'center'}},w),
+                e('div',{style:{fontSize:10,color:'#aaa',textAlign:'center'}},d),
+                e('div',{style:{fontSize:10,color:'#ff8888',textAlign:'center'}},l),
+                e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center'}},gf),
+                e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center'}},ga),
+                e('div',{style:{fontSize:10,color:'#9bb0c8',textAlign:'center'}},gd),
+                e('div',{style:{fontSize:11,fontWeight:'bold',color:G,textAlign:'center'}},pts)
+              );
+            });
+          })(),
           // Legend
           e('div',{style:{display:'flex',gap:12,marginTop:8,paddingTop:6,borderTop:'1px solid rgba(212,175,55,0.1)'}},
             e('div',{style:{display:'flex',alignItems:'center',gap:4}},
