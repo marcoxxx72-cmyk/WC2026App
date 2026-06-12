@@ -1,5 +1,34 @@
 {
   "name": "wc2026-app",
   "version": "1.0.0",
-  "type": "module"
+  "type": "module",
+  "description": "[README.md](https://github.com/user-attachments/files/26852980/README.md)[Uploadi# WC 2026 - World Cup Fan App ⚽🏆",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcoxxx72-cmyk/WC2026App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcoxxx72-cmyk/WC2026App/issues"
+  },
+  "homepage": "https://github.com/marcoxxx72-cmyk/WC2026App#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@capacitor/cli": "^5.7.8",
+    "@capacitor/core": "^5.7.8",
+    "@capacitor/ios": "^5.7.8",
+    "@capacitor/splash-screen": "^8.0.1",
+    "@revenuecat/purchases-capacitor": "^13.1.7",
+    "@revenuecat/purchases-capacitor-ui": "^13.1.7",
+    "puppeteer": "^25.1.0"
+  }
 }

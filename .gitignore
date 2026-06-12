@@ -1,2 +1,6 @@
 .vercel
 gk_*.png
+
+# Backup files
+*.backup*
+*_backup_*
