@@ -2472,6 +2472,7 @@ function App(){
   var sMus=useState(function(){try{return localStorage.getItem('wc2026_music')||'A';}catch(e){return 'A';}});var music=sMus[0];var setMusic=sMus[1];
   var musicRef=useRef(null);
   useEffect(function(){
+    try{localStorage.setItem('wc2026_music',music);}catch(e){}
     if(music==='off'){
       if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
       return;
@@ -2481,20 +2482,8 @@ function App(){
       if(musicRef.current){musicRef.current.pause();}
       var a=new Audio(src);a._wcsrc=src;a.loop=true;a.volume=0.3;
       musicRef.current=a;
-      a.play().catch(function(){
-        var startOnGesture=function(){
-          if(musicRef.current&&musicRef.current._wcsrc===src){
-            musicRef.current.play().catch(function(){});
-          }
-          document.removeEventListener('click',startOnGesture);
-          document.removeEventListener('touchstart',startOnGesture);
-        };
-        document.addEventListener('click',startOnGesture,{once:true});
-        document.addEventListener('touchstart',startOnGesture,{once:true});
-      });
+      a.play().catch(function(){});
     }
-    try{localStorage.setItem('wc2026_music',music);}catch(e){}
-    return function(){};
   },[music]);
 
   var t=T[lang];
@@ -3100,7 +3089,21 @@ function App(){
           LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
         ),
         e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
-          e('button',{onClick:function(){setMusic(music==='A'?'B':music==='B'?'off':'A');},style:{background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',letterSpacing:1}},music==='A'?'🎵 A':music==='B'?'🎵 B':'🎵 ⏹'),
+          e('button',{onClick:function(){
+            var next=music==='A'?'B':music==='B'?'off':'A';
+            if(next==='off'){
+              if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
+            } else {
+              var src=next==='A'?'/Goals.mp3':'/RitmodaTorcida.mp3';
+              if(!musicRef.current||musicRef.current._wcsrc!==src){
+                if(musicRef.current)musicRef.current.pause();
+                var a=new Audio(src);a._wcsrc=src;a.loop=true;a.volume=0.3;
+                musicRef.current=a;
+              }
+              musicRef.current.play().catch(function(){});
+            }
+            setMusic(next);
+          },style:{background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',letterSpacing:1}},music==='A'?'🎵 A':music==='B'?'🎵 B':'🎵 ⏹'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
           !premium&&e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},(window.Capacitor&&window.Capacitor.getPlatform()==='ios')?t.premiumBtn:'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
