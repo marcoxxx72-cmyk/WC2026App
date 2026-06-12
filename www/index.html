@@ -44,7 +44,6 @@ select{-webkit-appearance:none;appearance:none}
 </script>
 </head>
 <body>
-<style>@keyframes sp{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}</style>
 <div id="splash" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#08091a center center/cover no-repeat;z-index:9999;transition:opacity .5s ease;cursor:pointer"></div>
 <div id="root"></div>
 <script>
@@ -60,6 +59,16 @@ select{-webkit-appearance:none;appearance:none}
   sp.style.backgroundImage="url('/public/splash-"+lang+"-"+suffix+".png')";
 
   function hide(){
+    // Start music on user gesture (unlocks autoplay)
+    try{
+      var mu=localStorage.getItem('wc2026_music');
+      if(mu!=='off'){
+        var src=(mu==='B')?'/RitmodaTorcida.mp3':'/Goals.mp3';
+        var a=new Audio(src);a.loop=true;a.volume=0.3;a._wcsrc=src;
+        a.play().catch(function(){});
+        window._wcMusic=a;
+      }
+    }catch(e){}
     sp.style.opacity='0';
     setTimeout(function(){sp.style.display='none';},500);
   }

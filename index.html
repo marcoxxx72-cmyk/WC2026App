@@ -58,8 +58,17 @@ select{-webkit-appearance:none;appearance:none}
   var suffix=window.innerWidth>=1024?'desktop':'phone';
   sp.style.backgroundImage="url('/public/splash-"+lang+"-"+suffix+".png')";
 
-  // Hide on any tap/click
   function hide(){
+    // Start music on user gesture (unlocks autoplay)
+    try{
+      var mu=localStorage.getItem('wc2026_music');
+      if(mu!=='off'){
+        var src=(mu==='B')?'/RitmodaTorcida.mp3':'/Goals.mp3';
+        var a=new Audio(src);a.loop=true;a.volume=0.3;a._wcsrc=src;
+        a.play().catch(function(){});
+        window._wcMusic=a;
+      }
+    }catch(e){}
     sp.style.opacity='0';
     setTimeout(function(){sp.style.display='none';},500);
   }

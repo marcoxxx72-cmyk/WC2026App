@@ -2489,9 +2489,14 @@ function App(){
     try{localStorage.setItem('wc2026_music',music);}catch(e){}
     if(music==='off'){
       if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
+      if(window._wcMusic){window._wcMusic.pause();window._wcMusic=null;}
       return;
     }
     var src=music==='A'?'/Goals.mp3':'/RitmodaTorcida.mp3';
+    // Reuse audio already started from splash tap gesture
+    if(window._wcMusic&&window._wcMusic._wcsrc===src){
+      musicRef.current=window._wcMusic;window._wcMusic=null;return;
+    }
     if(!musicRef.current||musicRef.current._wcsrc!==src){
       if(musicRef.current){musicRef.current.pause();}
       var a=new Audio(src);a._wcsrc=src;a.loop=true;a.volume=0.3;
