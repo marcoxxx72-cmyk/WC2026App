@@ -1974,51 +1974,25 @@ var SPONSORS = {
 var _platform=(window.Capacitor&&window.Capacitor.getPlatform)?window.Capacitor.getPlatform():'web';
 var STORE_LINKS=_platform==='ios'?[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'}]:_platform==='android'?[{name:'Google Play',icon:'🤖',url:'https://play.google.com'}]:[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'},{name:'Google Play',icon:'🤖',url:'https://play.google.com'}];
 
-var STRIPE_EUR = 'https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02';
-var STRIPE_GBP = 'https://buy.stripe.com/bJeeVdaX3di1bYD3dbcjS03';
-var STRIPE_USD = 'https://buy.stripe.com/00wdR9ghnfq93s7bJHcjS04';
-var STRIPE_BRL = 'https://buy.stripe.com/aFa9ATaX37XH4wbfZXcjS05';
-function _getCurrency(){
-  var loc=(navigator.language||'').toLowerCase();
-  if(loc.startsWith('pt-br'))return 'brl';
-  if(loc.startsWith('en-gb'))return 'gbp';
-  if(loc.startsWith('en'))return 'usd';
-  if(loc.startsWith('es')&&loc!=='es-es'&&!loc.startsWith('es-es'))return 'usd';
-  return 'eur';
-}
-function getStripeLink(lang){
-  var c=_getCurrency();
-  if(c==='brl')return STRIPE_BRL;
-  if(c==='gbp')return STRIPE_GBP;
-  if(c==='usd')return STRIPE_USD;
-  return STRIPE_EUR;
-}
 async function handleProPurchase(lang){
-  var platform=window.Capacitor?window.Capacitor.getPlatform():'web';
-  if(platform==='ios'){
-    var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
-    if(!RC){alert(lang==='fr'?'Chargement...':'Loading...');return;}
-    try{
-      var off=await RC.getOfferings();
-      var pkg=off&&off.current&&off.current.availablePackages&&off.current.availablePackages[0];
-      if(!pkg){alert(lang==='fr'?'Produit non disponible. Réessayez plus tard.':'Product not available. Please try again later.');return;}
-      var res=await RC.purchasePackage({aPackage:pkg});
-      var active=res&&res.customerInfo&&res.customerInfo.entitlements&&res.customerInfo.entitlements.active;
-      if(active&&active['pro']){
-        try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
-        if(window._setPremium)window._setPremium(true);
-        else window.location.reload();
-      }
-    }catch(ex){
-      if(ex&&ex.userCancelled!==true&&ex&&ex.code!=='PURCHASE_CANCELLED'){
-        alert(ex.message||'Purchase error');
-      }
+  var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
+  if(!RC){alert(lang==='fr'?'Chargement...':'Loading...');return;}
+  try{
+    var off=await RC.getOfferings();
+    var pkg=off&&off.current&&off.current.availablePackages&&off.current.availablePackages[0];
+    if(!pkg){alert(lang==='fr'?'Produit non disponible. Réessayez plus tard.':'Product not available. Please try again later.');return;}
+    var res=await RC.purchasePackage({aPackage:pkg});
+    var active=res&&res.customerInfo&&res.customerInfo.entitlements&&res.customerInfo.entitlements.active;
+    if(active&&active['pro']){
+      try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
+      if(window._setPremium)window._setPremium(true);
+      else window.location.reload();
     }
-    return;
+  }catch(ex){
+    if(ex&&ex.userCancelled!==true&&ex&&ex.code!=='PURCHASE_CANCELLED'){
+      alert(ex.message||'Purchase error');
+    }
   }
-  var url=getStripeLink(lang);
-  if(window.Capacitor){window.open(url,'_system');}
-  else{window.location.href=url;}
 }
 async function handleRestorePurchases(lang){
   var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
