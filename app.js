@@ -2492,6 +2492,8 @@ function App(){
       if(window._wcMusic){window._wcMusic.pause();window._wcMusic=null;}
       return;
     }
+    // Splash still visible — music will be started by the tap handler, not here
+    if(window._wcSplashUp)return;
     var src=music==='A'?'/Goals.mp3':'/RitmodaTorcida.mp3';
     // Reuse audio already started from splash tap gesture
     if(window._wcMusic&&window._wcMusic._wcsrc===src){

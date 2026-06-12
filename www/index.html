@@ -47,6 +47,7 @@ select{-webkit-appearance:none;appearance:none}
 <div id="splash" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#08091a center center/cover no-repeat;z-index:9999;transition:opacity .5s ease;cursor:pointer"></div>
 <div id="root"></div>
 <script>
+window._wcSplashUp=true;
 (function(){
   var sp=document.getElementById('splash');
 
@@ -59,8 +60,10 @@ select{-webkit-appearance:none;appearance:none}
   sp.style.backgroundImage="url('/public/splash-"+lang+"-"+suffix+".png')";
 
   function hide(){
-    // Start music on user gesture (unlocks autoplay)
+    window._wcSplashUp=false;
+    // Stop any music React may have queued, then start fresh on this gesture
     try{
+      if(window._wcMusic){window._wcMusic.pause();window._wcMusic=null;}
       var mu=localStorage.getItem('wc2026_music');
       if(mu!=='off'){
         var src=(mu==='B')?'/RitmodaTorcida.mp3':'/Goals.mp3';
