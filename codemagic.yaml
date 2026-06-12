@@ -7,7 +7,7 @@ workflows:
       app_store_connect: Codemagic
     environment:
       ios_signing:
-        distribution_type: ad_hoc
+        distribution_type: mac_app_store
         bundle_identifier: com.marcocanal.worldcup2026
       groups:
         - signing
@@ -96,6 +96,41 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_testflight: true
+      email:
+        recipients:
+          - marcoxxx72@gmail.com
+
+  # NOTE: Before this workflow can run, the Android platform must be added to the project:
+  #   npx cap add android
+  # Commit the generated android/ folder before triggering this workflow.
+  android-app-store:
+    name: Android App Store (Google Play)
+    max_build_duration: 120
+    instance_type: mac_mini_m1
+    environment:
+      node: latest
+      # TODO: Add google_play group with service account credentials once available
+      # groups:
+      #   - google_play
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install
+      - name: Sync Capacitor Android platform
+        script: |
+          # Requires the android/ folder to exist (npx cap add android must have been run first)
+          npx cap sync android
+      - name: Build Android App Bundle (AAB)
+        script: |
+          cd android
+          ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/bundle/release/*.aab
+    publishing:
+      # TODO: Configure Google Play credentials before enabling this block
+      # google_play:
+      #   credentials: $GPLAY_SERVICE_ACCOUNT_JSON
+      #   track: internal
       email:
         recipients:
           - marcoxxx72@gmail.com
