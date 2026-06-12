@@ -2,21 +2,60 @@ PODS:
   - Capacitor (5.7.8):
     - CapacitorCordova
   - CapacitorCordova (5.7.8)
+  - CapacitorSplashScreen (8.0.1):
+    - Capacitor
+  - PurchasesHybridCommon (18.14.1):
+    - RevenueCat (= 5.78.0)
+  - PurchasesHybridCommonUI (18.14.1):
+    - PurchasesHybridCommon (= 18.14.1)
+    - RevenueCatUI (= 5.78.0)
+  - RevenueCat (5.78.0)
+  - RevenuecatPurchasesCapacitor (13.1.7):
+    - Capacitor
+    - PurchasesHybridCommon (= 18.14.1)
+  - RevenuecatPurchasesCapacitorUi (13.1.7):
+    - Capacitor
+    - PurchasesHybridCommonUI (= 18.14.1)
+  - RevenueCatUI (5.78.0):
+    - RevenueCat (= 5.78.0)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
+  - "RevenuecatPurchasesCapacitor (from `../../node_modules/@revenuecat/purchases-capacitor`)"
+  - "RevenuecatPurchasesCapacitorUi (from `../../node_modules/@revenuecat/purchases-capacitor-ui`)"
+
+SPEC REPOS:
+  trunk:
+    - PurchasesHybridCommon
+    - PurchasesHybridCommonUI
+    - RevenueCat
+    - RevenueCatUI
 
 EXTERNAL SOURCES:
   Capacitor:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
+  CapacitorSplashScreen:
+    :path: "../../node_modules/@capacitor/splash-screen"
+  RevenuecatPurchasesCapacitor:
+    :path: "../../node_modules/@revenuecat/purchases-capacitor"
+  RevenuecatPurchasesCapacitorUi:
+    :path: "../../node_modules/@revenuecat/purchases-capacitor-ui"
 
 SPEC CHECKSUMS:
   Capacitor: 9686e5711b48a1aa84671ede795d0175848abcba
   CapacitorCordova: 31ab98dca2ddcee051027a1afe7e8c85c82f7297
+  CapacitorSplashScreen: 4b46c72298db552b3c57ce021ef028b6dc7f1fa7
+  PurchasesHybridCommon: 825e4e748b62c919bc4cb4032b0d1e452409bd74
+  PurchasesHybridCommonUI: 536abdfc64b82adcbb9ba352630722a4a1270571
+  RevenueCat: f3641992451c1426da8d8d1466cec3bbdb765962
+  RevenuecatPurchasesCapacitor: 4c30ee2136ae1b0020b34f743f738b2929497827
+  RevenuecatPurchasesCapacitorUi: d6a1fea5e63cb2d1e5eefade696cc8dfe9f26cbc
+  RevenueCatUI: 32998f100fe73f1d0172df7eef4f0dd1bc781a05
 
-PODFILE CHECKSUM: 8ab55909c5de2b217f9841e5e5b329f5ec901553
+PODFILE CHECKSUM: 5e250ab9e61a628ff77499e8c0c9d5e1da11e3c7
 
 COCOAPODS: 1.16.2

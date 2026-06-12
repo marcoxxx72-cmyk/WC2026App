@@ -1974,8 +1974,15 @@ var SPONSORS = {
 var _platform=(window.Capacitor&&window.Capacitor.getPlatform)?window.Capacitor.getPlatform():'web';
 var STORE_LINKS=_platform==='ios'?[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'}]:_platform==='android'?[{name:'Google Play',icon:'🤖',url:'https://play.google.com'}]:[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'},{name:'Google Play',icon:'🤖',url:'https://play.google.com'}];
 
+function isMacCatalyst(){
+  return !!(window.Capacitor&&window.Capacitor.isNativePlatform()&&/Mac/i.test(navigator.platform||''));
+}
 async function handleProPurchase(lang){
   var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
+  if(isMacCatalyst()){
+    window.open('https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02','_blank');
+    return;
+  }
   if(!RC){
     var loc=(navigator.language||'').toLowerCase();
     var stripeUrl;
@@ -3126,7 +3133,7 @@ function App(){
             setMusic(next);
           },style:{background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',letterSpacing:1}},music==='A'?'🎵 A':music==='B'?'🎵 B':'🔇'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
-          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},(window.Capacitor&&window.Capacitor.getPlatform()==='ios')?t.premiumBtn:'PRO - '+getPrice(lang)),
+          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},isMacCatalyst()?'☕ Buy me a coffee':(window.Capacitor&&window.Capacitor.getPlatform()==='ios')?t.premiumBtn:'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
         )
       ),
