@@ -2011,10 +2011,12 @@ async function handleRestorePurchases(lang){
   }catch(ex){alert(ex.message||'Restore error');}
 }
 function getPrice(lang){
-  var c=_getCurrency();
-  if(c==='brl')return 'R$14,90';
-  if(c==='gbp')return '£1.99';
-  if(c==='usd')return '$2.99';
+  var loc=(navigator.language||'').toLowerCase();
+  if(loc.indexOf('pt-br')>=0||loc.indexOf('pt_br')>=0)return 'R$14,90';
+  if(loc.indexOf('en-gb')>=0||loc.indexOf('en_gb')>=0)return '£1.99';
+  if(loc.indexOf('en-us')>=0||loc.indexOf('en-ca')>=0||loc.indexOf('en-au')>=0)return '$2.99';
+  if(lang==='pt')return 'R$14,90';
+  if(lang==='en')return '$2.99';
   return '€2,99';
 }
 
