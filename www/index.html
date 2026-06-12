@@ -45,12 +45,11 @@ select{-webkit-appearance:none;appearance:none}
 </head>
 <body>
 <style>@keyframes sp{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}</style>
-<div id="splash" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#08091a center center/cover no-repeat;z-index:9999;transition:opacity .5s ease"></div>
+<div id="splash" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#08091a center center/cover no-repeat;z-index:9999;transition:opacity .5s ease;cursor:pointer"></div>
 <div id="root"></div>
 <script>
 (function(){
   var sp=document.getElementById('splash');
-  var root=document.getElementById('root');
 
   var saved='';try{saved=localStorage.getItem('wc2026_lang')||'';}catch(e){}
   var nav=(navigator.language||'').toLowerCase().slice(0,2);
@@ -60,15 +59,12 @@ select{-webkit-appearance:none;appearance:none}
   var suffix=window.innerWidth>=1024?'desktop':'phone';
   sp.style.backgroundImage="url('/public/splash-"+lang+"-"+suffix+".png')";
 
-  var done=false;var MIN=2500;var t0=Date.now();
   function hide(){
-    if(done)return;done=true;
-    var wait=Math.max(0,MIN-(Date.now()-t0));
-    setTimeout(function(){sp.style.opacity='0';setTimeout(function(){sp.style.display='none';},500);},wait);
+    sp.style.opacity='0';
+    setTimeout(function(){sp.style.display='none';},500);
   }
-  var ob=new MutationObserver(function(){if(root.children.length>0){hide();ob.disconnect();}});
-  ob.observe(root,{childList:true,subtree:true});
-  setTimeout(hide,10000);
+  sp.addEventListener('click',hide);
+  sp.addEventListener('touchstart',hide,{passive:true});
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
