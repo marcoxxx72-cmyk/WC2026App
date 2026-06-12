@@ -56,7 +56,13 @@ select{-webkit-appearance:none;appearance:none}
   var sp=document.getElementById('splash');
   var root=document.getElementById('root');
   var done=false;
-  function hide(){if(done)return;done=true;sp.style.opacity='0';setTimeout(function(){sp.style.display='none';},420);}
+  var MIN=1400;
+  var t0=Date.now();
+  function hide(){
+    if(done)return;done=true;
+    var wait=Math.max(0,MIN-(Date.now()-t0));
+    setTimeout(function(){sp.style.opacity='0';setTimeout(function(){sp.style.display='none';},420);},wait);
+  }
   var ob=new MutationObserver(function(){if(root.children.length>0){hide();ob.disconnect();}});
   ob.observe(root,{childList:true,subtree:true});
   setTimeout(hide,8000);
