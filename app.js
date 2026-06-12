@@ -1979,7 +1979,9 @@ async function handleProPurchase(lang){
   if(!RC){
     var loc=(navigator.language||'').toLowerCase();
     var stripeUrl;
-    if(loc.indexOf('en-gb')>=0||loc.indexOf('en_gb')>=0){
+    if(loc.indexOf('pt-br')>=0||loc.indexOf('pt_br')>=0){
+      stripeUrl='https://buy.stripe.com/aFa9ATaX37XH4wbfZXcjS05';
+    } else if(loc.indexOf('en-gb')>=0||loc.indexOf('en_gb')>=0){
       stripeUrl='https://buy.stripe.com/bJeeVdaX3di1bYD3dbcjS03';
     } else if(loc.indexOf('en-us')>=0||loc.indexOf('en-ca')>=0||loc.indexOf('en-au')>=0||lang==='en'){
       stripeUrl='https://buy.stripe.com/00wdR9ghnfq93s7bJHcjS04';
