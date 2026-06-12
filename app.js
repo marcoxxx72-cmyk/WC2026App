@@ -2502,6 +2502,7 @@ function App(){
   function fid(f){return f.date+'|'+f.home+'|'+f.away;}
   function toggleAgenda(f){var id=fid(f);setAgenda(function(prev){var has=prev.indexOf(id)>=0;if(has)return prev.filter(function(x){return x!==id;});if(!premium&&prev.length>=MAX_AGENDA)return prev;var next=prev.concat([id]);try{localStorage.setItem('wc2026_agenda',JSON.stringify(next));}catch(e){}return next;});}
   var filteredFixtures=agendaOnly?FIXTURES.filter(function(f){return agenda.indexOf(fid(f))>=0;}):fixtureMyOnly?FIXTURES.filter(function(f){return f.home===activeTeam.team||f.away===activeTeam.team;}):FIXTURES;
+  var apiScoreMap=(function(){var m={};liveScores.forEach(function(s){if(!s.score||s.score.fullTime.home===null)return;var sc={h:s.score.fullTime.home,a:s.score.fullTime.away,status:s.status};var hn=s.homeTeam.name;var an=s.awayTeam.name;m[hn+'|'+an]=sc;var hs2=s.homeTeam.shortName;var as2=s.awayTeam.shortName;if(hs2&&as2)m[hs2+'|'+as2]=sc;});return m;})();
   var questions=QUIZ[lang];
   var polls=POLLS[lang];
   var sponsors=SPONSORS[lang];
@@ -2526,11 +2527,14 @@ function App(){
     }
   },[]);
 
-  // Fetch live scores
+  // Fetch live scores + last 2 days of results
   function fetchLiveScores(){
     setLiveLoading(true);
-    var today=new Date().toISOString().split('T')[0];
-    fetch(API_BASE+'/api/scores?dateFrom='+today+'&dateTo='+today)
+    var today=new Date();
+    var past=new Date(today);past.setDate(past.getDate()-2);
+    var todayStr=today.toISOString().split('T')[0];
+    var pastStr=past.toISOString().split('T')[0];
+    fetch(API_BASE+'/api/scores?dateFrom='+pastStr+'&dateTo='+todayStr)
     .then(function(r){return r.json();})
     .then(function(d){if(d.matches)setLiveScores(d.matches);setLiveLoading(false);})
     .catch(function(){setLiveLoading(false);});
@@ -3320,7 +3324,7 @@ function App(){
           liveLoading&&e('div',{style:{textAlign:'center',padding:10,color:'#a8bfd4',fontSize:11}},'⏳ Loading...'),
           !liveLoading&&liveScores.length===0&&e('div',{style:{background:'rgba(212,175,55,0.05)',border:'1px solid rgba(212,175,55,0.15)',borderRadius:10,padding:12,textAlign:'center'}},
             e('div',{style:{fontSize:20,marginBottom:4}},'⚽'),
-            e('div',{style:{fontSize:10,color:'#a8bfd4'}},lang==='fr'?'Pas de match en direct — Le Mondial commence le 11 juin !':lang==='es'?'Sin partidos — El Mundial empieza el 11 de junio !':lang==='pt'?'Sem jogos — O Mundial começa a 11 de junho !':lang==='de'?'Keine Spiele — WM beginnt am 11. Juni !':'No live matches — World Cup starts June 11!')
+            e('div',{style:{fontSize:10,color:'#a8bfd4'}},lang==='fr'?'Aucun match sur les 2 derniers jours':lang==='es'?'Sin partidos recientes':lang==='pt'?'Sem jogos recentes':lang==='de'?'Keine Spiele in den letzten 2 Tagen':'No matches in the last 2 days')
           ),
           liveScores.length>0&&e('div',null,
             liveScores.slice(0,5).map(function(match,i){
@@ -3361,7 +3365,7 @@ function App(){
           ),
           // Team rows — use API standings if available
           (function(){
-            var apiGroup=standings.find(function(s){return s.group==='Group '+selGroup;});
+            var apiGroup=standings.find(function(s){if(!s.group)return false;var n=s.group.replace('GROUP_','').replace('Group ','');return n===selGroup;});
             var apiMap={};
             if(apiGroup)apiGroup.table.forEach(function(r){apiMap[r.team.name]=r;});
             var teams=apiGroup?apiGroup.table.map(function(r){return r.team.name;}):GROUPS[selGroup].teams;
@@ -3428,7 +3432,7 @@ function App(){
               ),
               e('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between'}},
                 e('div',{style:{flex:1,textAlign:'left',fontSize:13,fontWeight:f.home===activeTeam.team?'bold':'normal',color:f.home===activeTeam.team?G:'#eee8d5'}},tn(f.home,lang)),
-                e('div',{style:{padding:'4px 12px',background:(f.homeScore!=null)?'rgba(40,200,40,0.15)':'rgba(212,175,55,0.15)',borderRadius:8,fontSize:12,fontWeight:'bold',color:(f.homeScore!=null)?'#90ee90':G,margin:'0 8px'}},(f.homeScore!=null)?f.homeScore+' - '+f.awayScore:'VS'),
+                (function(){var api=apiScoreMap[f.home+'|'+f.away];var hs=api?api.h:(f.homeScore!=null?f.homeScore:null);var as2=api?api.a:(f.awayScore!=null?f.awayScore:null);var isLiveNow=api&&(api.status==='IN_PLAY'||api.status==='PAUSED');var hasSc=hs!==null;return e('div',{style:{padding:'4px 12px',background:isLiveNow?'rgba(255,50,50,0.15)':hasSc?'rgba(40,200,40,0.15)':'rgba(212,175,55,0.15)',borderRadius:8,fontSize:12,fontWeight:'bold',color:isLiveNow?'#ff8888':hasSc?'#90ee90':G,margin:'0 8px',textAlign:'center'}},isLiveNow?e('span',{style:{fontSize:7,display:'block',color:'#ff4444',letterSpacing:1}},'🔴 LIVE'):null,hasSc?hs+' - '+as2:'VS');})(),
                 e('div',{style:{flex:1,textAlign:'right',fontSize:13,fontWeight:f.away===activeTeam.team?'bold':'normal',color:f.away===activeTeam.team?G:'#eee8d5'}},tn(f.away,lang))
               ),
               f.stadium&&e('div',{style:{fontSize:9,color:'#5a7090',marginTop:6}},f.stadium,' - ',f.city,' | 📺 ',getTV(f.home,lang)||getTV(f.away,lang)),
