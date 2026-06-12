@@ -1473,6 +1473,7 @@ function PenaltyPitch(props){
 // ─────────────────────────────────────────────────────────────────────────────
 
 var FDATA_KEY = '';
+var API_BASE=(window.Capacitor&&window.Capacitor.getPlatform()!=='web')?'https://wc-2026-app.vercel.app':'';
 var WC2026_ID = 2000;
 var ONESIGNAL_APP_ID = '29a090bc-9893-46a1-87a3-e3f162e2271d';
 var G = '#d4af37';
@@ -2555,7 +2556,7 @@ function App(){
   function fetchLiveScores(){
     setLiveLoading(true);
     var today=new Date().toISOString().split('T')[0];
-    fetch('/api/scores?dateFrom='+today+'&dateTo='+today)
+    fetch(API_BASE+'/api/scores?dateFrom='+today+'&dateTo='+today)
     .then(function(r){return r.json();})
     .then(function(d){if(d.matches)setLiveScores(d.matches);setLiveLoading(false);})
     .catch(function(){setLiveLoading(false);});
@@ -2563,7 +2564,7 @@ function App(){
 
   // Fetch standings
   function fetchStandings(){
-    fetch('/api/standings')
+    fetch(API_BASE+'/api/standings')
     .then(function(r){return r.json();})
     .then(function(data){if(data.standings)setStandings(data.standings);})
     .catch(function(){});
