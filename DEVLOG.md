@@ -130,13 +130,37 @@ macOS Catalyst  → Stripe € (☕ Buy me a coffee, pas de PRO complet)
 
 ## Tâches en suspens
 
-- [ ] Récupérer `splash-en-desktop-ultimatefan.png` (créé par autre Claude dans Downloads) → copier dans `public/splash-desktop.png` → commit → deploy
-- [ ] Terminer test build macOS Catalyst dans Xcode (après pod install)
-- [ ] Commit + deploy changements macOS (Podfile, bouton ☕)
-- [ ] Décider stratégie unlock macOS : juste "café" ou vrai PRO ?
-- [ ] Configurer le lien Stripe macOS avec URL de vérification (actuellement redirige directement sans vérification)
-- [ ] Stripe : vérifier que les 4 Payment Links ont bien l'URL de succès correcte
+### 🎨 Splash screens
+- [ ] EN desktop → `splash-en-desktop-ultimatefan.png` dans Downloads (créé par autre Claude) → copier dans `public/splash-desktop.png` → commit → deploy
+- [ ] ES desktop → supprimé, à recréer dans le style "Ultimate Fan App"
+- [ ] Vérifier affichage de tous les splashs sur web (DE, FR, IT, PT)
+- [ ] Vérifier splashs iOS dans Xcode (Assets.xcassets)
+
+### 🍎 Apple / iOS
 - [ ] Attendre réponse Apple pour Build #15
+- [ ] Dès validation → publier sur l'App Store
+
+### 🖥️ macOS (Mac Catalyst)
+- [ ] Tester build dans Xcode après pod install (12 erreurs RevenueCat à vérifier)
+- [ ] Commit + deploy changements macOS (Podfile, bouton ☕)
+- [ ] Soumettre sur le Mac App Store via Codemagic
+
+### 🤖 Android
+- [ ] Configurer workflow Android dans codemagic.yaml
+- [ ] Générer AAB signé
+- [ ] Soumettre sur Google Play Store
+
+### 💳 Stripe
+- [ ] Vérifier que les 4 Payment Links ont l'URL de succès correcte
+- [ ] Tester le flux complet en fenêtre incognito
+- [ ] Configurer vérification Stripe pour le lien macOS ☕
+
+### 🚀 Lancement
+- [ ] App Store iOS ← en attente Apple
+- [ ] Mac App Store ← à soumettre
+- [ ] Google Play ← à configurer
+- [ ] Web PWA ← ✅ live
+- [ ] Communication / réseaux sociaux
 
 ---
 
