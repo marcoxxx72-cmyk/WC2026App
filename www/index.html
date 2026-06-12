@@ -45,27 +45,30 @@ select{-webkit-appearance:none;appearance:none}
 </head>
 <body>
 <style>@keyframes sp{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}</style>
-<div id="splash" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#08091a;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s ease">
-  <div style="font-size:64px;animation:sp 1.4s ease-in-out infinite">⚽</div>
-  <div style="color:#d4af37;font-size:18px;font-weight:bold;letter-spacing:3px;margin-top:16px">WORLD CUP 2026</div>
-  <div style="color:#a8bfd4;font-size:11px;margin-top:10px;letter-spacing:1px">Loading...</div>
-</div>
+<div id="splash" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#08091a center center/cover no-repeat;z-index:9999;transition:opacity .5s ease"></div>
 <div id="root"></div>
 <script>
 (function(){
   var sp=document.getElementById('splash');
   var root=document.getElementById('root');
-  var done=false;
-  var MIN=1400;
-  var t0=Date.now();
+
+  var saved='';try{saved=localStorage.getItem('wc2026_lang')||'';}catch(e){}
+  var nav=(navigator.language||'').toLowerCase().slice(0,2);
+  var map={fr:'fr',es:'es',pt:'pt',it:'it',de:'de'};
+  var lang=saved||(map[nav]||'en');
+
+  var suffix=window.innerWidth>=1024?'desktop':'phone';
+  sp.style.backgroundImage="url('/public/splash-"+lang+"-"+suffix+".png')";
+
+  var done=false;var MIN=2500;var t0=Date.now();
   function hide(){
     if(done)return;done=true;
     var wait=Math.max(0,MIN-(Date.now()-t0));
-    setTimeout(function(){sp.style.opacity='0';setTimeout(function(){sp.style.display='none';},420);},wait);
+    setTimeout(function(){sp.style.opacity='0';setTimeout(function(){sp.style.display='none';},500);},wait);
   }
   var ob=new MutationObserver(function(){if(root.children.length>0){hide();ob.disconnect();}});
   ob.observe(root,{childList:true,subtree:true});
-  setTimeout(hide,8000);
+  setTimeout(hide,10000);
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>

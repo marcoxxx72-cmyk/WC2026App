@@ -2371,7 +2371,7 @@ function Card(props){
 
 function App(){
   var s1=useState(function(){try{var p=new URLSearchParams(window.location.search);var t=parseInt(p.get('tab'));return(!isNaN(t)&&t>=0&&t<=10)?t:0;}catch(e){return 0;}});var tab=s1[0];var setTab=s1[1];
-  var s2=useState('en');var lang=s2[0];var setLang=s2[1];
+  var s2=useState(function(){try{return localStorage.getItem('wc2026_lang')||'en';}catch(e){return 'en';}});var lang=s2[0];var setLang=s2[1];
   var s3=useState('A');var selGroup=s3[0];var setSelGroup=s3[1];
   var s4=useState(function(){
     try{
@@ -2569,7 +2569,7 @@ function App(){
     }
   },[tab]);
 
-  function changeLang(code){setLang(code);setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);setMyTeam(null);}
+  function changeLang(code){setLang(code);try{localStorage.setItem('wc2026_lang',code);}catch(e){}setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);setMyTeam(null);}
   function handleAnswer(i){if(answered)return;setSelected(i);setAnswered(true);if(i===questions[qIdx].a)setScore(function(s){return s+1;});}
   function nextQ(){if(qIdx<questions.length-1){setQIdx(function(q){return q+1;});setSelected(null);setAnswered(false);}else setQuizDone(true);}
   function resetQuiz(){setQIdx(0);setSelected(null);setScore(0);setQuizDone(false);setAnswered(false);}
