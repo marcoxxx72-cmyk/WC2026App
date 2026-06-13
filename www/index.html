@@ -23,12 +23,17 @@ select{-webkit-appearance:none;appearance:none}
   var params = new URLSearchParams(window.location.search);
   if(params.get('pro')==='1'){
     try{ localStorage.setItem('wc2026_pro','1'); }catch(e){}
-    window.location.href = 'worldcup2026://?pro=1';
-    setTimeout(function(){
-      document.open();
-      document.write('<div style="font-family:sans-serif;text-align:center;padding:60px 20px;background:#08091a;color:#d4af37;min-height:100vh"><div style="font-size:48px">🏆</div><h2 style="margin:20px 0">Pro activé !</h2><p style="color:#aaa">Revenez dans l\'application World Cup 2026</p></div>');
-      document.close();
-    }, 1500);
+    var isNative = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+    if(isNative){
+      window.location.href = 'worldcup2026://?pro=1';
+      setTimeout(function(){
+        document.open();
+        document.write('<div style="font-family:sans-serif;text-align:center;padding:60px 20px;background:#08091a;color:#d4af37;min-height:100vh"><div style="font-size:48px">🏆</div><h2 style="margin:20px 0">Pro activé !</h2><p style="color:#aaa">Revenez dans l\'application World Cup 2026</p></div>');
+        document.close();
+      }, 1500);
+    } else {
+      window.location.replace('/');
+    }
   }
 })();
 </script>
@@ -96,14 +101,15 @@ window.dispatchEvent(new Event('loaders-ready'));
     if(!isIOS||!window.RCCapacitor||!window.RCCapacitor.Purchases)return;
     var RC=window.RCCapacitor.Purchases;
     RC.configure({apiKey:'appl_GXcUUucxHJtVOrEQMAMwOCSlETj'}).then(function(){
+      window._rcReady=true;
       return RC.getCustomerInfo();
     }).then(function(info){
       var active=info&&info.customerInfo&&info.customerInfo.entitlements&&info.customerInfo.entitlements.active;
-      if(active&&active['pro']){
+      if(active&&active['pro_access']){
         try{localStorage.setItem('wc2026_pro','1');}catch(e){}
         if(window._setPremium)window._setPremium(true);
       }
-    }).catch(function(){});
+    }).catch(function(){window._rcReady=true;});
   });
 })();
 </script>
