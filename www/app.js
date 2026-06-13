@@ -821,7 +821,7 @@ function PenaltyPitch(props){
       sbCtx.strokeStyle='#444';sbCtx.lineWidth=6;sbCtx.strokeRect(4,4,504,248);
       sbCtx.fillStyle='#1a1a2e';sbCtx.fillRect(0,0,512,48);
       sbCtx.fillStyle='#f0c000';sbCtx.font='bold 18px monospace';
-      sbCtx.textAlign='center';sbCtx.fillText('FOOTBALL 2026',256,20);
+      sbCtx.textAlign='center';sbCtx.fillText('WORLD CUP 2026',256,20);
       var pn=thr&&thr.playerName?thr.playerName.toUpperCase():'';
       if(pn){sbCtx.fillStyle='#ffffff';sbCtx.font='bold 15px monospace';sbCtx.fillText('⚽ '+pn,256,40);}
       if(result){
@@ -1787,7 +1787,7 @@ var T = {
 // QUIZ CHAMPIONSHIP - 3 levels, 50 real WC history questions
 var QUIZ_CHAMPIONSHIP = {
   easy:[
-    {q:'Which country won the first FIFA World Cup in 1930?',opts:['Brazil','Argentina','Uruguay','Italy'],a:2,pts:5,cat:'History'},
+    {q:'Which country won the first World Cup in 1930?',opts:['Brazil','Argentina','Uruguay','Italy'],a:2,pts:5,cat:'History'},
     {q:'How many times has Brazil won the World Cup?',opts:['3','4','5','6'],a:2,pts:5,cat:'Winners'},
     {q:'Who is the all-time top scorer in World Cup history?',opts:['Pele','Ronaldo','Klose','Maradona'],a:2,pts:5,cat:'Records'},
     {q:'Which country hosted the 2022 World Cup?',opts:['UAE','Saudi Arabia','Qatar','Bahrain'],a:2,pts:5,cat:'Hosts'},
@@ -1862,7 +1862,7 @@ var QUIZ_CHAMPIONSHIP = {
     {q:'Most consecutive WC wins (11) held by?',opts:['Germany','France','Brazil','Argentina'],a:2,pts:20,cat:'Records'},
     {q:'Name of the 1966 World Cup mascot?',opts:['Willie','Fuleco','Zakumi','Pique'],a:0,pts:20,cat:'Mascots'},
     {q:'Who scored 2 goals in the 2002 WC Final?',opts:['Ronaldinho','Rivaldo','Ronaldo R9','Roberto Carlos'],a:2,pts:20,cat:'History'},
-    {q:'Italy held WC title record 16 years due to?',opts:['Dominance','Cold War','World War II','FIFA ban'],a:2,pts:20,cat:'History'},
+    {q:'Italy held WC title record 16 years due to?',opts:['Dominance','Cold War','World War II','Football ban'],a:2,pts:20,cat:'History'},
     {q:'First WC co-hosted by two countries?',opts:['1998','2002','2006','2010'],a:1,pts:20,cat:'History'},
     {q:'Fastest red card in WC history (52 seconds)?',opts:['Batista','Caszely','Zidane','Keane'],a:0,pts:20,cat:'Records'},
     {q:'Which country withdrew from 1950 WC to play barefoot?',opts:['Haiti','Bolivia','India','Peru'],a:2,pts:20,cat:'History'},
@@ -1988,9 +1988,9 @@ async function handleProPurchase(lang){
     window.open('https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02','_blank');
     return;
   }
-  if(!RC){
+  var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
+  if(!RC||!window._rcReady){
     // On iOS, never redirect to Stripe — IAP only (App Store guideline 3.1.1)
-    var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
     if(isIOS){alert(lang==='fr'?'Chargement en cours, réessayez dans un instant.':'Loading, please try again in a moment.');return;}
     var loc=(navigator.language||'').toLowerCase();
     var stripeUrl;
@@ -2021,7 +2021,7 @@ async function handleProPurchase(lang){
     if(!pkg){alert(lang==='fr'?'Produit non disponible. Réessayez plus tard.':'Product not available. Please try again later.');resetBtns();return;}
     var res=await RC.purchasePackage({aPackage:pkg});
     var active=res&&res.customerInfo&&res.customerInfo.entitlements&&res.customerInfo.entitlements.active;
-    if(active&&active['pro']){
+    if(active&&active['pro_access']){
       try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
       if(window._setPremium)window._setPremium(true);
       else window.location.reload();
@@ -2041,7 +2041,7 @@ async function handleRestorePurchases(lang){
   try{
     var info=await RC.restorePurchases();
     var active=info&&info.customerInfo&&info.customerInfo.entitlements&&info.customerInfo.entitlements.active;
-    if(active&&active['pro']){
+    if(active&&active['pro_access']){
       try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
       if(window._setPremium)window._setPremium(true);
       else window.location.reload();
@@ -5082,8 +5082,8 @@ function App(){
       )
     ),
 
-    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:9,color:'#2e4460',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},'World Cup 2026 Fan App - ',premium?'PRO':'Free')))
-  );
+    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:9,color:'#2e4460',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,'World Cup 2026 Fan App - ',premium?'PRO':'Free'),e('div',{style:{marginTop:2,opacity:0.6}},'Unofficial fan app · Not affiliated with any football organization')))
+  ;
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
