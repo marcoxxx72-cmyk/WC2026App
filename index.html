@@ -96,14 +96,15 @@ window.dispatchEvent(new Event('loaders-ready'));
     if(!isIOS||!window.RCCapacitor||!window.RCCapacitor.Purchases)return;
     var RC=window.RCCapacitor.Purchases;
     RC.configure({apiKey:'appl_GXcUUucxHJtVOrEQMAMwOCSlETj'}).then(function(){
+      window._rcReady=true;
       return RC.getCustomerInfo();
     }).then(function(info){
       var active=info&&info.customerInfo&&info.customerInfo.entitlements&&info.customerInfo.entitlements.active;
-      if(active&&active['pro']){
+      if(active&&active['pro_access']){
         try{localStorage.setItem('wc2026_pro','1');}catch(e){}
         if(window._setPremium)window._setPremium(true);
       }
-    }).catch(function(){});
+    }).catch(function(){window._rcReady=true;});
   });
 })();
 </script>

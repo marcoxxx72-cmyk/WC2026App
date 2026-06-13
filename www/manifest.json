@@ -1,7 +1,7 @@
 {
   "name": "World Cup 2026",
   "short_name": "WC 2026",
-  "description": "The ultimate FIFA World Cup 2026 Fan App - Groups, Predictions, Quiz, Stars. EN | FR | ES | PT | IT | DE",
+  "description": "The ultimate World Cup 2026 Fan App - Groups, Predictions, Quiz, Stars. EN | FR | ES | PT | IT | DE",
   "id": "com.marco72.mundial2026",
   "start_url": "/",
   "display": "standalone",
