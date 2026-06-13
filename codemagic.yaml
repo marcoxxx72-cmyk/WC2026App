@@ -21,15 +21,17 @@ workflows:
           pod install
       - name: Set up signing
         script: |
-          # Create a dedicated build keychain (standard CI approach)
+          # Fresh build keychain
+          security delete-keychain build.keychain 2>/dev/null || true
           security create-keychain -p "" build.keychain
-          security list-keychains -d user -s build.keychain
+          security list-keychains -d user -s build.keychain ~/Library/Keychains/login.keychain-db
           security default-keychain -s build.keychain
           security unlock-keychain -p "" build.keychain
           security set-keychain-settings -t 3600 -u build.keychain
-          # Install provisioning profile
+          # Install provisioning profile - write plist to file to extract UUID
           echo "$MAC_PROVISIONING_PROFILE" | base64 --decode > /tmp/mac_catalyst.provisionprofile
-          UUID=$(openssl smime -verify -inform DER -in /tmp/mac_catalyst.provisionprofile -noverify 2>/dev/null | plutil -extract UUID raw -)
+          openssl smime -verify -inform DER -in /tmp/mac_catalyst.provisionprofile -noverify > /tmp/profile.plist 2>/dev/null
+          UUID=$(plutil -extract UUID raw /tmp/profile.plist 2>/dev/null)
           if [ -z "$UUID" ]; then
             UUID=$(grep -aEo '[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}' /tmp/mac_catalyst.provisionprofile | head -1)
           fi
@@ -40,9 +42,11 @@ workflows:
           # Import Mac App Distribution certificate
           echo "$MAC_APP_P12" | base64 --decode > /tmp/mac_app.p12
           security import /tmp/mac_app.p12 -k build.keychain -P "$MAC_APP_PWD" -A -t cert -f pkcs12
+          echo "Mac App cert import status: $?"
           # Import Mac Installer Distribution certificate
           echo "$MAC_INSTALLER_P12" | base64 --decode > /tmp/mac_installer.p12
           security import /tmp/mac_installer.p12 -k build.keychain -P "$MAC_INSTALLER_PWD" -A -t cert -f pkcs12
+          echo "Mac Installer cert import status: $?"
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" build.keychain
           echo "=== Available signing identities ==="
           security find-identity -v -p codesigning
