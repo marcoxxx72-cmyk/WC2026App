@@ -23,9 +23,12 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          # Install Mac Catalyst provisioning profile
+          # Decode profile and install it using its UUID as filename (required by Xcode)
+          echo "$MAC_PROVISIONING_PROFILE" | base64 --decode > /tmp/mac_catalyst.provisionprofile
+          UUID=$(security cms -D -i /tmp/mac_catalyst.provisionprofile | plutil -extract UUID raw -)
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "$MAC_PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/mac_catalyst.provisionprofile
+          cp /tmp/mac_catalyst.provisionprofile ~/Library/MobileDevice/Provisioning\ Profiles/${UUID}.provisionprofile
+          echo "Installed Mac Catalyst profile UUID: ${UUID}"
           # Import Mac Installer Distribution certificate
           echo "$MAC_INSTALLER_P12" | base64 --decode > /tmp/mac_installer.p12
           security import /tmp/mac_installer.p12 \
@@ -38,14 +41,16 @@ workflows:
             -k "" ~/Library/Keychains/login.keychain-db
       - name: Build macOS (Mac Catalyst)
         script: |
+          UUID=$(security cms -D -i /tmp/mac_catalyst.provisionprofile | plutil -extract UUID raw -)
           xcodebuild clean archive \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
             CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
             DEVELOPMENT_TEAM=Y6F853GG9K \
-            PROVISIONING_PROFILE_SPECIFIER="WC2026 Mac Catalyst Distribution"
+            PROVISIONING_PROFILE="${UUID}"
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
