@@ -21,44 +21,15 @@ workflows:
           pod install
       - name: Set up signing
         script: |
-          KEYCHAIN_PATH="$HOME/Library/Keychains/build.keychain-db"
-          KEYCHAIN_PASS="cmbuild2026"
-          # Create keychain with known password
-          security create-keychain -p "$KEYCHAIN_PASS" "$KEYCHAIN_PATH"
-          security set-keychain-settings -lut 7200 "$KEYCHAIN_PATH"
-          security unlock-keychain -p "$KEYCHAIN_PASS" "$KEYCHAIN_PATH"
-          # Set as default + add to search list
-          security default-keychain -s "$KEYCHAIN_PATH"
-          security list-keychains -d user -s "$KEYCHAIN_PATH" "$HOME/Library/Keychains/login.keychain-db"
-          # Import Mac App Distribution cert + private key
-          printf '%s' "$MAC_APP_P12" | base64 --decode > /tmp/mac_app.p12
-          echo "P12 size: $(wc -c < /tmp/mac_app.p12) bytes"
-          security import /tmp/mac_app.p12 -P "$MAC_APP_PWD" -A -k "$KEYCHAIN_PATH" 2>&1
-          echo "Mac App import exit: $?"
-          # Import Mac Installer cert if available
-          if [ -n "$MAC_INSTALLER_P12" ]; then
-            printf '%s' "$MAC_INSTALLER_P12" | base64 --decode > /tmp/mac_installer.p12
-            security import /tmp/mac_installer.p12 -P "$MAC_INSTALLER_PWD" -A -k "$KEYCHAIN_PATH" 2>&1
-            echo "Mac Installer import exit: $?"
-          fi
-          # Grant codesign access to private keys
-          security set-key-partition-list -S "apple-tool:,apple:,codesign:" -s -k "$KEYCHAIN_PASS" "$KEYCHAIN_PATH" 2>&1
-          echo "Partition list exit: $?"
-          # Install provisioning profile
-          printf '%s' "$MAC_PROVISIONING_PROFILE" | base64 --decode > /tmp/mac_catalyst.provisionprofile
-          openssl smime -verify -inform DER -in /tmp/mac_catalyst.provisionprofile -noverify > /tmp/profile.plist 2>/dev/null
-          UUID=$(plutil -extract UUID raw /tmp/profile.plist 2>/dev/null)
-          echo "Profile UUID: ${UUID}"
-          echo "$UUID" > /tmp/profile_uuid
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp /tmp/mac_catalyst.provisionprofile ~/Library/MobileDevice/Provisioning\ Profiles/${UUID}.provisionprofile
-          echo "=== Signing identities (all) ==="
-          security find-identity -p codesigning
-          echo "=== Signing identities (valid only) ==="
+          keychain initialize
+          keychain add-certificates
+          echo "=== Certs disponibles ==="
           security find-identity -v -p codesigning
+          xcode-project use-profiles
+          echo "=== Profils installés ==="
+          ls ~/Library/MobileDevice/Provisioning\ Profiles/ 2>/dev/null || echo "Aucun profil trouvé"
       - name: Build macOS (Mac Catalyst)
         script: |
-          UUID=$(cat /tmp/profile_uuid)
           xcodebuild clean archive \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
@@ -66,8 +37,7 @@ workflows:
             -archivePath /tmp/App-macOS.xcarchive \
             CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="3rd Party Mac Developer Application" \
-            DEVELOPMENT_TEAM=Y6F853GG9K \
-            PROVISIONING_PROFILE="${UUID}"
+            DEVELOPMENT_TEAM=Y6F853GG9K
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
