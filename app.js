@@ -5039,15 +5039,24 @@ function App(){
         ):null
         ):null,
 
+    e('div',{style:{borderTop:'1px solid rgba(212,175,55,0.1)',padding:'10px 16px',display:'flex',justifyContent:'center',gap:10,flexWrap:'wrap'}},
+      (sponsors||SPONSORS.en).map(function(s){
+        return e('a',{key:s.name,href:s.url,target:'_blank',rel:'noopener',
+          style:{display:'flex',alignItems:'center',gap:5,background:'rgba(255,255,255,0.04)',border:'1px solid rgba(212,175,55,0.12)',borderRadius:16,padding:'5px 12px',textDecoration:'none',color:'#a8bfd4',fontSize:10}},
+          e('span',null,s.icon),' ',e('span',null,s.name));
+      })
+    ),
+
     !premium&&e('div',{style:{background:'rgba(2,5,15,0.95)',borderTop:'1px solid rgba(212,175,55,0.15)',padding:'8px 14px',textAlign:'center'}},
       e('div',{style:{fontSize:8,color:'#3a5070',marginBottom:4}},'ADVERTISEMENT'),
-      e('div',{style:{borderTop:'1px solid rgba(212,175,55,0.1)',padding:'10px 16px',display:'flex',justifyContent:'center',gap:10,flexWrap:'wrap'}},
-        (sponsors||SPONSORS.en).concat(STORE_LINKS).map(function(s){
+      e('div',{style:{display:'flex',justifyContent:'center',gap:10,flexWrap:'wrap'}},
+        STORE_LINKS.map(function(s){
           return e('a',{key:s.name,href:s.url,target:'_blank',rel:'noopener',
             style:{display:'flex',alignItems:'center',gap:5,background:'rgba(255,255,255,0.04)',border:'1px solid rgba(212,175,55,0.12)',borderRadius:16,padding:'5px 12px',textDecoration:'none',color:'#a8bfd4',fontSize:10}},
             e('span',null,s.icon),' ',e('span',null,s.name));
         })
-      ),
+      )
+    ),
 
     e('footer',{style:{textAlign:'center',padding:'10px',fontSize:9,color:'#2e4460',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},'World Cup 2026 Fan App - ',premium?'PRO':'Free')))
   );
