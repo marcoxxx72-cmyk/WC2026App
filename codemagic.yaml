@@ -21,34 +21,22 @@ workflows:
           pod install
       - name: Set up signing
         script: |
-          # Fresh build keychain (absolute path)
-          KEYCHAIN="$HOME/Library/Keychains/build.keychain-db"
-          security delete-keychain "$KEYCHAIN" 2>/dev/null || true
-          security create-keychain -p "" "$KEYCHAIN"
-          security list-keychains -d user -s "$KEYCHAIN" "$HOME/Library/Keychains/login.keychain-db"
-          security default-keychain -s "$KEYCHAIN"
-          security unlock-keychain -p "" "$KEYCHAIN"
-          security set-keychain-settings -t 3600 -u "$KEYCHAIN"
-          # Install provisioning profile - write plist to file to extract UUID
+          keychain initialize
+          # Install provisioning profile
           echo "$MAC_PROVISIONING_PROFILE" | base64 --decode > /tmp/mac_catalyst.provisionprofile
           openssl smime -verify -inform DER -in /tmp/mac_catalyst.provisionprofile -noverify > /tmp/profile.plist 2>/dev/null
           UUID=$(plutil -extract UUID raw /tmp/profile.plist 2>/dev/null)
-          if [ -z "$UUID" ]; then
-            UUID=$(grep -aEo '[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}' /tmp/mac_catalyst.provisionprofile | head -1)
-          fi
           echo "Profile UUID: ${UUID}"
           echo "$UUID" > /tmp/profile_uuid
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp /tmp/mac_catalyst.provisionprofile ~/Library/MobileDevice/Provisioning\ Profiles/${UUID}.provisionprofile
           # Import Mac App Distribution certificate
           echo "$MAC_APP_P12" | base64 --decode > /tmp/mac_app.p12
-          security import /tmp/mac_app.p12 -k "$KEYCHAIN" -P "$MAC_APP_PWD" -A -t cert -f pkcs12
-          echo "Mac App cert import status: $?"
+          security import /tmp/mac_app.p12 -P "$MAC_APP_PWD" -A -k $CM_KEYCHAIN_PATH
           # Import Mac Installer Distribution certificate
           echo "$MAC_INSTALLER_P12" | base64 --decode > /tmp/mac_installer.p12
-          security import /tmp/mac_installer.p12 -k "$KEYCHAIN" -P "$MAC_INSTALLER_PWD" -A -t cert -f pkcs12
-          echo "Mac Installer cert import status: $?"
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" "$KEYCHAIN"
+          security import /tmp/mac_installer.p12 -P "$MAC_INSTALLER_PWD" -A -k $CM_KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" $CM_KEYCHAIN_PATH
           echo "=== Available signing identities ==="
           security find-identity -v -p codesigning
       - name: Build macOS (Mac Catalyst)
