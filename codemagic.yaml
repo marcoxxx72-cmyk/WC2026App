@@ -23,7 +23,10 @@ workflows:
         script: |
           keychain initialize
           keychain add-certificates
-          xcode-project use-profiles
+          # Install Mac Catalyst provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$MAC_PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/mac_catalyst.provisionprofile
+          # Import Mac Installer Distribution certificate
           echo "$MAC_INSTALLER_P12" | base64 --decode > /tmp/mac_installer.p12
           security import /tmp/mac_installer.p12 \
             -k ~/Library/Keychains/login.keychain-db \
@@ -40,8 +43,9 @@ workflows:
             -scheme App \
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
-            -allowProvisioningUpdates \
-            DEVELOPMENT_TEAM=Y6F853GG9K
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM=Y6F853GG9K \
+            PROVISIONING_PROFILE_SPECIFIER="WC2026 Mac Catalyst Distribution"
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
