@@ -22,10 +22,11 @@ workflows:
       - name: Set up signing
         script: |
           keychain initialize
+          echo "$CERTIFICATE_PRIVATE_KEY" > /tmp/cert_key.pem
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform MAC_OS \
             --type MAC_APP_STORE \
-            --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
+            --certificate-key=@file:/tmp/cert_key.pem \
             --create
           keychain add-certificates
           xcode-project use-profiles
