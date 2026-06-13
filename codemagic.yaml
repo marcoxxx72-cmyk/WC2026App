@@ -22,16 +22,21 @@ workflows:
       - name: Set up signing
         script: |
           keychain initialize
-          # Install provisioning profile (UUID-based filename required by Xcode)
+          # Install provisioning profile
           echo "$MAC_PROVISIONING_PROFILE" | base64 --decode > /tmp/mac_catalyst.provisionprofile
-          UUID=$(security cms -D -i /tmp/mac_catalyst.provisionprofile | plutil -extract UUID raw -)
+          # Extract UUID (openssl fallback for newer macOS)
+          UUID=$(openssl smime -verify -inform DER -in /tmp/mac_catalyst.provisionprofile -noverify 2>/dev/null | plutil -extract UUID raw -)
+          if [ -z "$UUID" ]; then
+            UUID=$(grep -aEo '[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}' /tmp/mac_catalyst.provisionprofile | head -1)
+          fi
+          echo "Profile UUID: ${UUID}"
+          echo "$UUID" > /tmp/profile_uuid
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp /tmp/mac_catalyst.provisionprofile ~/Library/MobileDevice/Provisioning\ Profiles/${UUID}.provisionprofile
-          echo "Installed Mac Catalyst profile UUID: ${UUID}"
-          # Import Mac App Distribution certificate (3rd Party Mac Developer Application)
+          # Import Mac App Distribution certificate into Codemagic keychain
           echo "$MAC_APP_P12" | base64 --decode > /tmp/mac_app.p12
           security import /tmp/mac_app.p12 \
-            -k ~/Library/Keychains/login.keychain-db \
+            -k $CM_KEYCHAIN_PATH \
             -P "$MAC_APP_PWD" \
             -T /usr/bin/codesign \
             -T /usr/bin/xcodebuild \
@@ -39,18 +44,18 @@ workflows:
           # Import Mac Installer Distribution certificate
           echo "$MAC_INSTALLER_P12" | base64 --decode > /tmp/mac_installer.p12
           security import /tmp/mac_installer.p12 \
-            -k ~/Library/Keychains/login.keychain-db \
+            -k $CM_KEYCHAIN_PATH \
             -P "$MAC_INSTALLER_PWD" \
             -T /usr/bin/codesign \
             -T /usr/bin/xcodebuild \
             -T /usr/bin/security
-          security set-key-partition-list -S apple-tool:,apple: -s \
-            -k "" ~/Library/Keychains/login.keychain-db
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s \
+            -k "" $CM_KEYCHAIN_PATH
           echo "=== Available signing identities ==="
           security find-identity -v -p codesigning
       - name: Build macOS (Mac Catalyst)
         script: |
-          UUID=$(security cms -D -i /tmp/mac_catalyst.provisionprofile | plutil -extract UUID raw -)
+          UUID=$(cat /tmp/profile_uuid)
           xcodebuild clean archive \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
