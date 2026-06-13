@@ -1977,7 +1977,9 @@ var STORE_LINKS=_platform==='ios'?[{name:'App Store',icon:'🍎',url:'https://ap
 function isMacCatalyst(){
   return !!(window.Capacitor&&window.Capacitor.isNativePlatform()&&/Mac/i.test(navigator.platform||''));
 }
+var _wcPurchasing=false;
 async function handleProPurchase(lang){
+  if(_wcPurchasing)return;
   var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
   if(isMacCatalyst()){
     window.open('https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02','_blank');
@@ -1998,10 +2000,19 @@ async function handleProPurchase(lang){
     window.location.href=stripeUrl;
     return;
   }
+  _wcPurchasing=true;
+  // Show loading on all Pro buttons
+  var btns=document.querySelectorAll('[data-pro-btn]');
+  btns.forEach(function(b){b.setAttribute('data-pro-orig',b.textContent);b.textContent='⏳ Loading...';b.disabled=true;});
+  function resetBtns(){
+    _wcPurchasing=false;
+    btns.forEach(function(b){var orig=b.getAttribute('data-pro-orig');if(orig)b.textContent=orig;b.disabled=false;});
+  }
   try{
-    var off=await RC.getOfferings();
+    var timeout=new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'));},15000);});
+    var off=await Promise.race([RC.getOfferings(),timeout]);
     var pkg=off&&off.current&&off.current.availablePackages&&off.current.availablePackages[0];
-    if(!pkg){alert(lang==='fr'?'Produit non disponible. Réessayez plus tard.':'Product not available. Please try again later.');return;}
+    if(!pkg){alert(lang==='fr'?'Produit non disponible. Réessayez plus tard.':'Product not available. Please try again later.');resetBtns();return;}
     var res=await RC.purchasePackage({aPackage:pkg});
     var active=res&&res.customerInfo&&res.customerInfo.entitlements&&res.customerInfo.entitlements.active;
     if(active&&active['pro']){
@@ -2010,10 +2021,13 @@ async function handleProPurchase(lang){
       else window.location.reload();
     }
   }catch(ex){
-    if(ex&&ex.userCancelled!==true&&ex&&ex.code!=='PURCHASE_CANCELLED'){
+    if(ex&&ex.message==='timeout'){
+      alert(lang==='fr'?'La connexion a pris trop de temps. Réessayez.':'Connection timed out. Please try again.');
+    } else if(ex&&ex.userCancelled!==true&&ex.code!=='PURCHASE_CANCELLED'){
       alert(ex.message||'Purchase error');
     }
   }
+  resetBtns();
 }
 async function handleRestorePurchases(lang){
   var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
@@ -2198,28 +2212,19 @@ var STARS = [
   {name:'Edin Dzeko',flag:'🇧🇦',club:'Fenerbahce',pos:'FW',age:38,stat:'Bosnia legend',rating:80,pac:78,sho:80,pas:70,dri:76,def_:40,phy:60},
   {name:'Loic Mbe Soh',flag:'🇨🇲',club:'Nottm Forest',pos:'FW',age:23,stat:'Cameroon rising star',rating:80,pac:78,sho:80,pas:70,dri:76,def_:40,phy:60},
 ];
-// - FIFA CARD STYLE - World Cup 2026 -
+// - WC 2026 Player Badge -
 function PlayerAvatar(props){
   var s=props.star;
-  var isGold=s.rating>=96;
-  var isSilver=s.rating>=94&&s.rating<96;
-  var isBronze=s.rating>=92&&s.rating<94;
-  var cardBg=isGold?'linear-gradient(160deg,#f5e06e,#d4af37,#b8963e)':
-             isSilver?'linear-gradient(160deg,#e8e8e8,#c0c0c0,#a8a8a8)':
-             isBronze?'linear-gradient(160deg,#e8a857,#cd7f32,#a86520)':
-             'linear-gradient(160deg,#2a5ab8,#1a3a6b,#0f2040)';
-  var textColor=isGold||isSilver||isBronze?'#0a0a1a':'#ffffff';
-  var borderColor=isGold?'rgba(255,240,100,0.8)':isSilver?'rgba(255,255,255,0.6)':isBronze?'rgba(255,180,80,0.6)':'rgba(100,150,255,0.3)';
-  var cardLabel=isGold?'GOLD WC':isSilver?'SILVER WC':isBronze?'BRONZE WC':'WORLD CUP';
-  return e('div',{style:{width:72,height:98,borderRadius:10,background:cardBg,flexShrink:0,display:'flex',flexDirection:'column',alignItems:'center',padding:'5px 4px 4px',boxShadow:'0 6px 20px rgba(0,0,0,0.6)',position:'relative',border:'2px solid '+borderColor}},
-    e('div',{style:{fontSize:6,color:textColor,opacity:0.75,letterSpacing:0.5,marginBottom:1,fontWeight:'bold'}},cardLabel),
-    e('div',{style:{fontSize:22,fontWeight:'bold',color:textColor,lineHeight:1}},s.rating),
-    e('div',{style:{fontSize:8,color:textColor,opacity:0.9,marginBottom:2,fontWeight:'bold'}},s.pos),
+  var stars=s.rating>=96?'★★★':s.rating>=93?'★★':'★';
+  var accentColor=s.rating>=96?'#d4af37':s.rating>=93?'#a8c8f0':'#7ab0ff';
+  return e('div',{style:{width:72,height:98,borderRadius:10,background:'linear-gradient(160deg,#0d1b3e,#08091a)',flexShrink:0,display:'flex',flexDirection:'column',alignItems:'center',padding:'5px 4px 4px',boxShadow:'0 6px 20px rgba(0,0,0,0.6)',position:'relative',border:'2px solid '+accentColor}},
+    e('div',{style:{fontSize:9,color:accentColor,letterSpacing:1,marginBottom:1}},stars),
     e('div',{style:{fontSize:20,marginBottom:2}},s.flag),
-    e('div',{style:{width:'80%',height:1,background:textColor,opacity:0.25,marginBottom:2}}),
-    e('div',{style:{fontSize:7,fontWeight:'bold',color:textColor,textAlign:'center',lineHeight:1.3,maxWidth:68,overflow:'hidden'}},s.name.split(' ').slice(-1)[0].toUpperCase()),
-    e('div',{style:{fontSize:6,color:textColor,opacity:0.7,marginTop:1}},s.club.substring(0,12)),
-    isGold&&e('div',{style:{position:'absolute',top:2,right:3,fontSize:9}},'★')
+    e('div',{style:{fontSize:8,color:'#fff',opacity:0.9,marginBottom:1,fontWeight:'bold'}},s.pos),
+    e('div',{style:{width:'80%',height:1,background:accentColor,opacity:0.4,marginBottom:3}}),
+    e('div',{style:{fontSize:7,fontWeight:'bold',color:'#fff',textAlign:'center',lineHeight:1.3,maxWidth:68,overflow:'hidden'}},s.name.split(' ').slice(-1)[0].toUpperCase()),
+    e('div',{style:{fontSize:6,color:'#a8bfd4',marginTop:1}},s.club.substring(0,12)),
+    e('div',{style:{position:'absolute',bottom:4,right:4,fontSize:8,color:accentColor,fontWeight:'bold',opacity:0.8}},s.rating)
   );
 }
 
@@ -3133,7 +3138,7 @@ function App(){
             setMusic(next);
           },style:{background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',letterSpacing:1}},music==='A'?'🎵 A':music==='B'?'🎵 B':'🔇'),
           e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
-          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},isMacCatalyst()?'☕ Buy me a coffee':(window.Capacitor&&window.Capacitor.getPlatform()==='ios')?t.premiumBtn:'PRO - '+getPrice(lang)),
+          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},'data-pro-btn':true,style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},isMacCatalyst()?'☕ Buy me a coffee':(window.Capacitor&&window.Capacitor.getPlatform()==='ios')?t.premiumBtn:'PRO - '+getPrice(lang)),
           premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
         )
       ),
@@ -3146,7 +3151,7 @@ function App(){
 
     !premium&&!(window.Capacitor&&window.Capacitor.getPlatform()==='ios')&&e('div',{style:{background:'linear-gradient(90deg,#1a1000,#3a2800,#1a1000)',borderBottom:'1px solid rgba(212,175,55,0.3)',padding:'7px 14px',display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}},
       e('span',{style:{fontSize:11,color:G,flexShrink:1}},t.premiumBanner),
-      e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'8px 16px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap',minHeight:44}},t.premiumBtn)
+      e('button',{onClick:function(){handleProPurchase(lang);},'data-pro-btn':true,style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'8px 16px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap',minHeight:44}},t.premiumBtn)
     ),
 
     e('nav',{style:{position:'sticky',top:0,zIndex:20,background:'rgba(6,9,26,0.97)',backdropFilter:'blur(14px)',borderBottom:'2px solid rgba(212,175,55,0.2)',overflowX:'auto',WebkitOverflowScrolling:'touch',scrollbarWidth:'none'}},
@@ -3260,7 +3265,7 @@ function App(){
                 return e('div',{key:i,style:{width:20,height:20,borderRadius:5,background:c,opacity:0.6}});
               })
             ),
-            e('button',{onClick:function(){handleProPurchase(lang);},style:{marginLeft:'auto',background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:9,padding:'6px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
+            e('button',{onClick:function(){handleProPurchase(lang);},'data-pro-btn':true,style:{marginLeft:'auto',background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:9,padding:'6px 14px',fontSize:11,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},
               '🔒 '+lang==='fr'?'Débloquer PRO':lang==='es'?'Desbloquear PRO':lang==='pt'?'Desbloquear PRO':'Unlock PRO'
             )
           )
@@ -3524,12 +3529,12 @@ function App(){
                   // Stats bars
                   s.pac&&e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'2px 10px'}},
                     [
-                      {k:'PAC',label:lang==='fr'?'⚡ Vitesse':lang==='es'?'⚡ Velocidad':lang==='de'?'⚡ Tempo':'⚡ Pace',v:s.pac,color:'#90ee90'},
-                      {k:'SHO',label:lang==='fr'?'🎯 Tir':lang==='es'?'🎯 Disparo':lang==='de'?'🎯 Schuss':'🎯 Shooting',v:s.sho,color:'#d4af37'},
-                      {k:'PAS',label:lang==='fr'?'🔁 Passe':lang==='es'?'🔁 Pase':lang==='de'?'🔁 Pass':'🔁 Passing',v:s.pas,color:'#7ab0ff'},
-                      {k:'DRI',label:lang==='fr'?'🎪 Dribble':lang==='es'?'🎪 Regate':lang==='de'?'🎪 Dribbling':'🎪 Dribbling',v:s.dri,color:'#ff9900'},
-                      {k:'DEF',label:lang==='fr'?'🛡️ Defense':lang==='es'?'🛡️ Defensa':lang==='de'?'🛡️ Abwehr':'🛡️ Defence',v:s.def_,color:'#ff6b6b'},
-                      {k:'PHY',label:lang==='fr'?'💪 Physique':lang==='es'?'💪 Fisico':lang==='de'?'💪 Physis':'💪 Physical',v:s.phy,color:'#9b59b6'}
+                      {k:'SPD',label:lang==='fr'?'⚡ Vitesse':lang==='es'?'⚡ Velocidad':lang==='de'?'⚡ Tempo':'⚡ Speed',v:s.pac,color:'#90ee90'},
+                      {k:'FIN',label:lang==='fr'?'🎯 Tir':lang==='es'?'🎯 Disparo':lang==='de'?'🎯 Schuss':'🎯 Finishing',v:s.sho,color:'#d4af37'},
+                      {k:'VIS',label:lang==='fr'?'🔁 Passe':lang==='es'?'🔁 Pase':lang==='de'?'🔁 Pass':'🔁 Vision',v:s.pas,color:'#7ab0ff'},
+                      {k:'SKL',label:lang==='fr'?'🎪 Dribble':lang==='es'?'🎪 Regate':lang==='de'?'🎪 Dribbling':'🎪 Skill',v:s.dri,color:'#ff9900'},
+                      {k:'TAC',label:lang==='fr'?'🛡️ Défense':lang==='es'?'🛡️ Defensa':lang==='de'?'🛡️ Abwehr':'🛡️ Tackling',v:s.def_,color:'#ff6b6b'},
+                      {k:'STR',label:lang==='fr'?'💪 Physique':lang==='es'?'💪 Físico':lang==='de'?'💪 Stärke':'💪 Strength',v:s.phy,color:'#9b59b6'}
                     ].map(function(stat){
                       return e('div',{key:stat.k,style:{marginBottom:3}},
                         e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:1}},
@@ -3980,7 +3985,7 @@ function App(){
         !premium&&e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.06))',border:'1px solid '+G,borderRadius:12,padding:'16px',textAlign:'center'}},
           e('div',{style:{fontSize:11,fontWeight:'bold',color:G,marginBottom:8}},'🏆 PENALTY SHOOTOUT TOURNAMENT — PRO'),
           e('div',{style:{fontSize:24,marginBottom:8}},'🔒'),
-          e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'🏆 PRO'+(window.Capacitor&&window.Capacitor.getPlatform()==='ios'?'':' - '+getPrice(lang)))
+          e('button',{onClick:function(){handleProPurchase(lang);},'data-pro-btn':true,style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:10,padding:'10px 24px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer'}},'🏆 PRO'+(window.Capacitor&&window.Capacitor.getPlatform()==='ios'?'':' - '+getPrice(lang)))
         ),
         premium&&(function(){
           var ROUNDS=[
@@ -4652,7 +4657,7 @@ function App(){
             e('div',null,'🔔 '+(lang==='fr'?'Alertes équipes favorites':'Favourite team alerts')),
             e('div',null,'🚫 '+(lang==='fr'?'Sans publicité':'Ad-free experience'))
           ),
-          e('button',{onClick:function(){handleProPurchase(lang);},style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)'}},
+          e('button',{onClick:function(){handleProPurchase(lang);},'data-pro-btn':true,style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:12,padding:'14px 32px',fontSize:14,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',boxShadow:'0 4px 15px rgba(212,175,55,0.4)'}},
             '🏆 PRO'+(window.Capacitor&&window.Capacitor.getPlatform()==='ios'?'':' - '+getPrice(lang))),
           (window.Capacitor&&window.Capacitor.getPlatform()==='ios')&&e('button',{onClick:function(){handleRestorePurchases(lang);},style:{marginTop:12,background:'transparent',border:'1px solid rgba(212,175,55,0.4)',borderRadius:10,padding:'8px 20px',fontSize:11,color:'#a8bfd4',cursor:'pointer'}},
             lang==='fr'?'Restaurer mes achats':lang==='es'?'Restaurar compras':lang==='pt'?'Restaurar compras':'Restore purchases')
