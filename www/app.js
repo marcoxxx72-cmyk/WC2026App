@@ -1965,8 +1965,11 @@ var POLLS = {
 
 var SPONSORS = {
   en:[{name:'BBC Sport',icon:'📺',url:'https://www.bbc.co.uk/sport/football'},{name:'ITV',icon:'📺',url:'https://www.itv.com'},{name:'BBC iPlayer',icon:'▶️',url:'https://www.bbc.co.uk/iplayer'},{name:'ITVX',icon:'▶️',url:'https://www.itv.com/watch'}],
+  'en-us':[{name:'Fox Sports',icon:'📺',url:'https://www.foxsports.com'},{name:'FS1',icon:'📺',url:'https://www.foxsports.com'},{name:'Telemundo',icon:'📺',url:'https://www.telemundo.com'},{name:'Peacock',icon:'▶️',url:'https://www.peacocktv.com'},{name:'Fubo TV',icon:'▶️',url:'https://www.fubo.tv'}],
+  'en-ca':[{name:'TSN',icon:'📺',url:'https://www.tsn.ca'},{name:'CTV',icon:'📺',url:'https://www.ctv.ca'},{name:'RDS',icon:'📺',url:'https://www.rds.ca'}],
   fr:[{name:'M6',icon:'📺',url:'https://www.6play.fr'},{name:'beIN Sports',icon:'📺',url:'https://www.beinsports.com/fr'}],
   es:[{name:'RTVE',icon:'📺',url:'https://www.rtve.es/deportes/futbol'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com/es-ES'}],
+  'es-mx':[{name:'TV Azteca',icon:'📺',url:'https://www.tvazteca.com'},{name:'Canal 5',icon:'📺',url:'https://www.televisa.com'},{name:'TUDN',icon:'📺',url:'https://www.tudn.com'}],
   pt:[{name:'Sport TV',icon:'📺',url:'https://www.sporttv.pt'},{name:'RTP',icon:'📺',url:'https://www.rtp.pt/desporto'}],
   it:[{name:'RAI Sport',icon:'📺',url:'https://www.raisport.rai.it'},{name:'DAZN',icon:'📺',url:'https://www.dazn.com/it-IT'}],
   de:[{name:'ARD',icon:'📺',url:'https://www.sportschau.de'},{name:'ZDF',icon:'📺',url:'https://www.zdf.de/sport'}]
@@ -1986,6 +1989,9 @@ async function handleProPurchase(lang){
     return;
   }
   if(!RC){
+    // On iOS, never redirect to Stripe — IAP only (App Store guideline 3.1.1)
+    var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
+    if(isIOS){alert(lang==='fr'?'Chargement en cours, réessayez dans un instant.':'Loading, please try again in a moment.');return;}
     var loc=(navigator.language||'').toLowerCase();
     var stripeUrl;
     if(loc.indexOf('pt-br')>=0||loc.indexOf('pt_br')>=0){
@@ -2331,6 +2337,24 @@ var TV_INFO = {
     paid:['BBC iPlayer','ITVX'],
     note:'All 104 matches FREE on BBC & ITV. No subscription needed!',
     stream:'BBC iPlayer / ITVX'
+  },
+  us:{
+    free:['Fox','Telemundo'],
+    paid:['FS1','Peacock','Fubo TV'],
+    note:'All 104 matches on Fox/FS1 (EN) & Telemundo (ES). Stream on Peacock or Fubo TV.',
+    stream:'Fox Sports App / Peacock / Fubo TV'
+  },
+  ca:{
+    free:['CTV','TSN'],
+    paid:['RDS','TVA Sports'],
+    note:'All matches on TSN & CTV (EN), RDS & TVA Sports (FR). Streaming on TSN Direct.',
+    stream:'TSN Direct / RDS Direct'
+  },
+  mx:{
+    free:['TV Azteca','Canal 5'],
+    paid:['TUDN','Sky Sports MX'],
+    note:'Todos los partidos en TV Azteca y Televisa. Cobertura completa en TUDN.',
+    stream:'Azteca Deportes App / TUDN App'
   },
   fr:{
     free:['M6'],
