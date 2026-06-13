@@ -22,12 +22,10 @@ workflows:
       - name: Set up signing
         script: |
           keychain initialize
-          keychain add-certificates
-          echo "=== Certs disponibles ==="
-          security find-identity -v -p codesigning
-          xcode-project use-profiles
-          echo "=== Profils installés ==="
-          ls ~/Library/MobileDevice/Provisioning\ Profiles/ 2>/dev/null || echo "Aucun profil trouvé"
+          echo "$APP_STORE_CONNECT_PRIVATE_KEY" > /tmp/AuthKey.p8
+          echo "ASC Key ID: $APP_STORE_CONNECT_KEY_IDENTIFIER"
+          echo "ASC Issuer: $APP_STORE_CONNECT_ISSUER_ID"
+          echo "AuthKey size: $(wc -c < /tmp/AuthKey.p8) bytes"
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
@@ -35,13 +33,20 @@ workflows:
             -scheme App \
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
-            CODE_SIGN_STYLE=Manual \
-            CODE_SIGN_IDENTITY="3rd Party Mac Developer Application" \
-            DEVELOPMENT_TEAM=Y6F853GG9K
+            CODE_SIGN_STYLE=Automatic \
+            DEVELOPMENT_TEAM=Y6F853GG9K \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath /tmp/AuthKey.p8 \
+            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
-            -exportOptionsPlist ios/App/ExportOptions-macOS.plist
+            -exportOptionsPlist ios/App/ExportOptions-macOS.plist \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath /tmp/AuthKey.p8 \
+            -authenticationKeyID "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
     artifacts:
       - /tmp/App-macOS/*.pkg
     publishing:
