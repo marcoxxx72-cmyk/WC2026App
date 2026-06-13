@@ -6,7 +6,7 @@ workflows:
     integrations:
       app_store_connect: Codemagic
     environment:
-      ios_signing:
+      macos_signing:
         distribution_type: app_store
         bundle_identifier: com.marcocanal.worldcup2026
       groups:
