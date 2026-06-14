@@ -43,7 +43,7 @@ workflows:
             --certificate-key=@file:/tmp/cert_key.pem \
             --certificates-dir "$CERTS_DIR" \
             --create
-          # Créer cert Mac Installer Distribution dans le bon dossier (scannée par keychain add-certificates)
+          # Créer cert Mac Installer Distribution avec notre clé persistante
           echo "=== Creating MAC_INSTALLER_DISTRIBUTION cert ==="
           app-store-connect certificates create \
             --type MAC_INSTALLER_DISTRIBUTION \
@@ -51,14 +51,27 @@ workflows:
             --save \
             --certificates-dir "$CERTS_DIR" \
             2>&1 || true
-          # Filet de sécurité : si certificates create a sauvegardé ailleurs, copier dans le bon dossier
-          find ~/ /tmp -name "MAC_INSTALLER*.p12" -newer /tmp/signing_marker 2>/dev/null | while read P12; do
-            DEST="$CERTS_DIR/$(basename $P12)"
-            [ "$P12" != "$DEST" ] && cp "$P12" "$DEST" 2>/dev/null && echo "Copié: $P12 → $CERTS_DIR" || true
-          done
+          # Récupérer le cert depuis l'API et créer le P12 avec la même clé (CM_MAC_CERT_KEY)
+          echo "=== Building installer P12 from API cert content ==="
+          CERT_CONTENT=$(app-store-connect list-certificates \
+            --type MAC_INSTALLER_DISTRIBUTION --json 2>/dev/null | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); c=d[0] if d else {}; attrs=c.get('attributes',c); print(attrs.get('certificateContent',''))" 2>/dev/null || echo "")
+          echo "Cert content size: ${#CERT_CONTENT} chars"
+          if [ -n "$CERT_CONTENT" ]; then
+            echo "$CERT_CONTENT" | base64 --decode > /tmp/installer_api.cer
+            openssl x509 -in /tmp/installer_api.cer -inform DER -out /tmp/installer_api.pem 2>/dev/null
+            openssl pkcs12 -export \
+              -inkey /tmp/cert_key.pem \
+              -in /tmp/installer_api.pem \
+              -out "$CERTS_DIR/MAC_INSTALLER_api.p12" \
+              -passout pass: \
+              -name "3rd Party Mac Developer Installer" 2>/dev/null && \
+              echo "P12 from API: OK ✓" || echo "P12 from API: FAILED"
+          else
+            echo "Cert content vide — tentative via --save uniquement"
+          fi
           echo "=== P12 dans CERTS_DIR ==="
-          ls -la "$CERTS_DIR"/*.p12 2>/dev/null || echo "Aucun P12 dans $CERTS_DIR"
-          # keychain add-certificates gère l'import ET les droits d'accès avec le bon mot de passe keychain
+          ls -la "$CERTS_DIR"/*.p12 2>/dev/null || echo "Aucun P12"
           keychain add-certificates
           xcode-project use-profiles
           echo "=== Certs disponibles ==="
