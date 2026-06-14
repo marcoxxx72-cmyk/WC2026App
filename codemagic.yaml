@@ -89,6 +89,7 @@ workflows:
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
             CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
             DEVELOPMENT_TEAM=Y6F853GG9K \
             2>&1 | tee /tmp/xcodebuild.log
           grep -E "error:|ARCHIVE SUCCEEDED" /tmp/xcodebuild.log | head -50 || true
