@@ -27,7 +27,7 @@ workflows:
           # Clé privée persistante (stockée dans Codemagic, jamais regénérée)
           echo "$CM_MAC_CERT_KEY" > /tmp/cert_key.pem
           # Supprimer les anciens certs pour libérer le quota
-          for TYPE in MAC_APP_DISTRIBUTION MAC_INSTALLER_DISTRIBUTION DISTRIBUTION; do
+          for TYPE in MAC_APP_DISTRIBUTION MAC_INSTALLER_DISTRIBUTION; do
             app-store-connect list-certificates --type $TYPE --json 2>/dev/null | \
               python3 -c "import sys,json; [print(c['id']) for c in json.load(sys.stdin) if c.get('id')]" 2>/dev/null | \
               while read CERT_ID; do
@@ -143,6 +143,10 @@ workflows:
       - name: Set up signing
         script: |
           keychain initialize
+          app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
+            --platform IOS \
+            --type IOS_APP_STORE \
+            --create
           keychain add-certificates
           xcode-project use-profiles
       - name: Build iOS IPA
