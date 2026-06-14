@@ -24,25 +24,14 @@ workflows:
           keychain initialize
           # Clé privée persistante (stockée dans Codemagic, jamais regénérée)
           echo "$CM_MAC_CERT_KEY" > /tmp/cert_key.pem
-          # Supprimer les anciens certs via JSON pour libérer le quota
-          python3 << 'PYEOF'
-import subprocess, json
-for cert_type in ['MAC_APP_DISTRIBUTION', 'DISTRIBUTION']:
-    r = subprocess.run(
-        ['app-store-connect', 'list-certificates', '--type', cert_type, '--json'],
-        capture_output=True, text=True
-    )
-    try:
-        data = json.loads(r.stdout)
-        certs = data if isinstance(data, list) else []
-        for cert in certs:
-            cid = cert.get('id', '')
-            if cid:
-                print(f"Deleting {cert_type}: {cid}")
-                subprocess.run(['app-store-connect', 'delete-certificate', '--certificate-id', cid], capture_output=True)
-    except Exception as e:
-        print(f"Could not parse {cert_type} certs: {e}")
-PYEOF
+          # Supprimer les anciens certs pour libérer le quota
+          for TYPE in MAC_APP_DISTRIBUTION DISTRIBUTION; do
+            app-store-connect list-certificates --type $TYPE --json 2>/dev/null | \
+              python3 -c "import sys,json; [print(c['id']) for c in json.load(sys.stdin) if c.get('id')]" 2>/dev/null | \
+              while read CERT_ID; do
+                [ -n "$CERT_ID" ] && app-store-connect delete-certificate --certificate-id "$CERT_ID" 2>&1 || true
+              done
+          done
           # Créer le cert avec notre clé persistante (409 = déjà existant = OK)
           app-store-connect certificates create \
             --type MAC_APP_DISTRIBUTION \
