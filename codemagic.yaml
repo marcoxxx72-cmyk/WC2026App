@@ -23,12 +23,14 @@ workflows:
         script: |
           keychain initialize
           openssl genrsa -out /tmp/cert_key.pem 2048
-          # Créer un cert MAC_APP_DISTRIBUTION (requis par Xcode 26 pour Mac Catalyst)
-          app-store-connect create-certificate \
+          # Révoquer les anciens certs (quotas épuisés — clés perdues à chaque build)
+          app-store-connect revoke-certificates --type MAC_APP_DISTRIBUTION || true
+          app-store-connect revoke-certificates --type DISTRIBUTION || true
+          # Créer un cert MAC_APP_DISTRIBUTION + profil MAC_APP_STORE
+          app-store-connect certificates create \
             --type MAC_APP_DISTRIBUTION \
             --certificate-key=@file:/tmp/cert_key.pem \
             --save
-          # Créer le profil MAC_APP_STORE en utilisant notre cert
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform MAC_OS \
             --type MAC_APP_STORE \
@@ -40,7 +42,7 @@ workflows:
           security find-identity -v -p codesigning
           echo "=== Profils installés ==="
           ls ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/ 2>/dev/null || echo "Aucun profil"
-          echo "=== CODE_SIGN settings dans project.pbxproj ==="
+          echo "=== CODE_SIGN settings ==="
           grep -E "CODE_SIGN_STYLE|CODE_SIGN_IDENTITY|PROVISIONING_PROFILE" ios/App/App.xcodeproj/project.pbxproj || true
       - name: Build macOS (Mac Catalyst)
         script: |
