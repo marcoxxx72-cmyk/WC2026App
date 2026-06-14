@@ -165,12 +165,7 @@ workflows:
           PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
           PROFILE_PATH=$(ls "$PROFILES_DIR"/*.mobileprovision 2>/dev/null | head -1)
           echo "Profile path: $PROFILE_PATH"
-          PROFILE_UUID=$(python3 -c "
-          import plistlib, subprocess, sys
-          data = subprocess.check_output(['security','cms','-D','-i', sys.argv[1]])
-          plist = plistlib.loads(data)
-          print(plist['UUID'])
-          " "$PROFILE_PATH" 2>/dev/null)
+          PROFILE_UUID=$(security cms -D -i "$PROFILE_PATH" 2>/dev/null | python3 -c "import sys,plistlib; d=plistlib.load(sys.stdin.buffer); print(d['UUID'])")
           echo "UUID: $PROFILE_UUID"
           if [ -z "$PROFILE_UUID" ]; then echo "ERREUR: UUID vide" && exit 1; fi
           xcodebuild clean archive \
@@ -183,12 +178,7 @@ workflows:
             CODE_SIGN_IDENTITY="Apple Distribution" \
             DEVELOPMENT_TEAM=Y6F853GG9K \
             PROVISIONING_PROFILE="$PROFILE_UUID"
-          PROFILE_NAME=$(python3 -c "
-import plistlib, subprocess, sys
-data = subprocess.check_output(['security','cms','-D','-i', sys.argv[1]])
-plist = plistlib.loads(data)
-print(plist['Name'])
-" "$PROFILE_PATH" 2>/dev/null)
+          PROFILE_NAME=$(security cms -D -i "$PROFILE_PATH" 2>/dev/null | python3 -c "import sys,plistlib; d=plistlib.load(sys.stdin.buffer); print(d['Name'])")
           echo "Profile name: $PROFILE_NAME"
           cat > /tmp/ExportOptions-iOS.plist << PLIST
 <?xml version="1.0" encoding="UTF-8"?>
