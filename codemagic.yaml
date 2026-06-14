@@ -51,16 +51,15 @@ workflows:
             --save \
             --certificates-dir "$CERTS_DIR" \
             2>&1 || true
-          # Importer les certs via keychain add-certificates
-          keychain add-certificates
-          # Filet de sécurité : importer manuellement TOUS les P12 créés dans ce step
-          KEYCHAIN=$(security default-keychain 2>/dev/null | xargs | tr -d '"')
-          echo "=== Force-import tous les P12 du step ==="
-          find ~/ /tmp -name "*.p12" -newer /tmp/signing_marker 2>/dev/null | while read P12; do
-            echo "Import: $P12"
-            security import "$P12" -k "$KEYCHAIN" -T /usr/bin/codesign -T /usr/bin/productbuild -A 2>&1 || true
+          # Filet de sécurité : si certificates create a sauvegardé ailleurs, copier dans le bon dossier
+          find ~/ /tmp -name "MAC_INSTALLER*.p12" -newer /tmp/signing_marker 2>/dev/null | while read P12; do
+            DEST="$CERTS_DIR/$(basename $P12)"
+            [ "$P12" != "$DEST" ] && cp "$P12" "$DEST" 2>/dev/null && echo "Copié: $P12 → $CERTS_DIR" || true
           done
-          security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN" 2>&1 || true
+          echo "=== P12 dans CERTS_DIR ==="
+          ls -la "$CERTS_DIR"/*.p12 2>/dev/null || echo "Aucun P12 dans $CERTS_DIR"
+          # keychain add-certificates gère l'import ET les droits d'accès avec le bon mot de passe keychain
+          keychain add-certificates
           xcode-project use-profiles
           echo "=== Certs disponibles ==="
           security find-identity -v -p codesigning
@@ -84,7 +83,18 @@ workflows:
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
-            -exportOptionsPlist ios/App/ExportOptions-macOS.plist
+            -exportOptionsPlist ios/App/ExportOptions-macOS.plist \
+            2>&1 | tee /tmp/export.log; EXPORT_STATUS=${PIPESTATUS[0]}
+          echo "=== Dernières lignes export log ==="
+          tail -50 /tmp/export.log || true
+          echo "=== xcdistributionlogs (productbuild details) ==="
+          find /var/folders -name "*.xcdistributionlogs" -type d 2>/dev/null | sort | tail -1 | while read D; do
+            find "$D" -type f 2>/dev/null | while read F; do
+              echo "--- $F ---"
+              cat "$F" 2>/dev/null
+            done
+          done
+          exit $EXPORT_STATUS
     artifacts:
       - /tmp/App-macOS/*.pkg
     publishing:
