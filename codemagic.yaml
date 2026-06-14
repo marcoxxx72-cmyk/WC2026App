@@ -37,6 +37,7 @@ workflows:
           xcodebuild clean archive \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
+            -configuration Release \
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
             CODE_SIGN_STYLE=Automatic \
