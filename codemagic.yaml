@@ -29,11 +29,10 @@ workflows:
             --certificate-key=@file:/tmp/cert_key.pem \
             --create
           keychain add-certificates
-          xcode-project use-profiles
           echo "=== Certs disponibles ==="
           security find-identity -v -p codesigning
           echo "=== Profils installés ==="
-          ls ~/Library/MobileDevice/Provisioning\ Profiles/ 2>/dev/null || echo "Aucun profil"
+          ls ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/ 2>/dev/null || echo "Aucun profil"
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
@@ -42,8 +41,7 @@ workflows:
             -configuration Release \
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
-            CODE_SIGN_STYLE=Manual \
-            CODE_SIGN_IDENTITY="Apple Distribution" \
+            CODE_SIGN_STYLE=Automatic \
             DEVELOPMENT_TEAM=Y6F853GG9K
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
