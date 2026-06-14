@@ -126,9 +126,8 @@ workflows:
     integrations:
       app_store_connect: Codemagic
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.marcocanal.worldcup2026
+      groups:
+        - signing
       node: latest
       xcode: latest
       cocoapods: default
@@ -143,15 +142,53 @@ workflows:
       - name: Set up signing
         script: |
           keychain initialize
+          echo "$CM_MAC_CERT_KEY" > /tmp/cert_key.pem
+          CERTS_DIR="$HOME/Library/Developer/Xcode/UserData/Certificates"
+          PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$CERTS_DIR" "$PROFILES_DIR"
+          app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
+            --platform IOS \
+            --type IOS_APP_STORE \
+            --certificate-key=@file:/tmp/cert_key.pem \
+            --certificates-dir "$CERTS_DIR" \
+            --profiles-dir "$PROFILES_DIR" \
+            --create
+          echo "=== P12 ==="
+          ls "$CERTS_DIR"/*.p12 2>/dev/null || echo "Aucun P12"
+          echo "=== Profiles ==="
+          ls "$PROFILES_DIR"/*.mobileprovision 2>/dev/null || echo "Aucun profil"
           keychain add-certificates
-          xcode-project use-profiles
+          echo "=== Signing identities ==="
+          security find-identity -v -p codesigning
       - name: Build iOS IPA
         script: |
-          xcode-project build-ipa \
-            --workspace ios/App/App.xcworkspace \
-            --scheme App
+          PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          PROFILE_PATH=$(ls "$PROFILES_DIR"/*.mobileprovision 2>/dev/null | head -1)
+          echo "Profile path: $PROFILE_PATH"
+          PROFILE_UUID=$(python3 -c "
+          import plistlib, subprocess, sys
+          data = subprocess.check_output(['security','cms','-D','-i', sys.argv[1]])
+          plist = plistlib.loads(data)
+          print(plist['UUID'])
+          " "$PROFILE_PATH" 2>/dev/null)
+          echo "UUID: $PROFILE_UUID"
+          if [ -z "$PROFILE_UUID" ]; then echo "ERREUR: UUID vide" && exit 1; fi
+          xcodebuild clean archive \
+            -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath /tmp/App-iOS.xcarchive \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            DEVELOPMENT_TEAM=Y6F853GG9K \
+            PROVISIONING_PROFILE="$PROFILE_UUID"
+          xcodebuild -exportArchive \
+            -archivePath /tmp/App-iOS.xcarchive \
+            -exportPath /tmp/App-iOS \
+            -exportOptionsPlist ios/App/ExportOptions-iOS.plist
     artifacts:
-      - build/ios/ipa/*.ipa
+      - /tmp/App-iOS/*.ipa
     publishing:
       app_store_connect:
         auth: integration
