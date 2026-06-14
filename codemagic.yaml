@@ -23,22 +23,25 @@ workflows:
         script: |
           keychain initialize
           openssl genrsa -out /tmp/cert_key.pem 2048
+          # Créer explicitement un cert MAC_APP_DISTRIBUTION (requis par Xcode 26 pour Mac Catalyst)
+          app-store-connect certificates create \
+            --type MAC_APP_DISTRIBUTION \
+            --certificate-key=@file:/tmp/cert_key.pem \
+            --save
+          # Créer le profil MAC_APP_STORE en utilisant notre cert
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform MAC_OS \
             --type MAC_APP_STORE \
             --certificate-key=@file:/tmp/cert_key.pem \
             --create
           keychain add-certificates
+          xcode-project use-profiles
           echo "=== Certs disponibles ==="
           security find-identity -v -p codesigning
           echo "=== Profils installés ==="
           ls ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/ 2>/dev/null || echo "Aucun profil"
       - name: Build macOS (Mac Catalyst)
         script: |
-          PROFILE_FILE=$(ls ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/MAC_APP_STORE_*.provisionprofile 2>/dev/null | head -1)
-          security cms -D -i "$PROFILE_FILE" > /tmp/profile.plist 2>/dev/null
-          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print :UUID" /tmp/profile.plist)
-          echo "Profile UUID: $PROFILE_UUID"
           xcodebuild clean archive \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
@@ -46,8 +49,6 @@ workflows:
             -destination "platform=macOS,variant=Mac Catalyst" \
             -archivePath /tmp/App-macOS.xcarchive \
             CODE_SIGN_STYLE=Manual \
-            CODE_SIGN_IDENTITY="Apple Distribution" \
-            PROVISIONING_PROFILE="$PROFILE_UUID" \
             DEVELOPMENT_TEAM=Y6F853GG9K
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
