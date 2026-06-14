@@ -23,9 +23,15 @@ workflows:
         script: |
           keychain initialize
           openssl genrsa -out /tmp/cert_key.pem 2048
-          # Révoquer les anciens certs (quotas épuisés — clés perdues à chaque build)
-          app-store-connect revoke-certificates --type MAC_APP_DISTRIBUTION || true
-          app-store-connect revoke-certificates --type DISTRIBUTION || true
+          # Supprimer les anciens certs dont on n'a plus les clés privées
+          # list-certificates affiche les IDs — on les parse et supprime
+          for TYPE in MAC_APP_DISTRIBUTION DISTRIBUTION; do
+            app-store-connect list-certificates --type $TYPE 2>&1 | \
+              grep -oE '[A-Z0-9]{8,12}' | while read CERT_ID; do
+                echo "Deleting $TYPE cert: $CERT_ID"
+                app-store-connect delete-certificate --certificate-id "$CERT_ID" 2>&1 || true
+              done
+          done
           # Créer un cert MAC_APP_DISTRIBUTION + profil MAC_APP_STORE
           app-store-connect certificates create \
             --type MAC_APP_DISTRIBUTION \
