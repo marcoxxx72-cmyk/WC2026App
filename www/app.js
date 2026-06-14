@@ -1479,15 +1479,15 @@ var ONESIGNAL_APP_ID = '29a090bc-9893-46a1-87a3-e3f162e2271d';
 var G = '#d4af37';
 var DARK = '#08091a';
 var BG_THEMES = {
-  blue:    {label:'🔵 Bleu',     bg:'linear-gradient(160deg,#08091a,#0c1e44 50%,#08091a)', hd:'linear-gradient(90deg,#060f24,#122860,#060f24)', nav:'rgba(6,9,26,0.97)'},
-  obsidian:{label:'🌑 Obsidienne',bg:'linear-gradient(160deg,#080610,#120e1c 50%,#080610)', hd:'linear-gradient(90deg,#060410,#100c1c,#060410)', nav:'rgba(4,3,8,0.97)'},
-  silex:   {label:'🪨 Silex',    bg:'linear-gradient(160deg,#0e0c09,#1c1a14 50%,#0e0c09)', hd:'linear-gradient(90deg,#0c0a07,#1a1810,#0c0a07)', nav:'rgba(7,6,4,0.97)'},
-  petrol:  {label:'🌊 Pétrole',  bg:'linear-gradient(160deg,#040d12,#0c2030 50%,#040d12)', hd:'linear-gradient(90deg,#030a0f,#0a1c28,#030a0f)', nav:'rgba(2,7,10,0.97)'},
-  prune:   {label:'🍇 Prune',    bg:'linear-gradient(160deg,#0e0820,#1a103a 50%,#0e0820)', hd:'linear-gradient(90deg,#0c0620,#18102e,#0c0620)', nav:'rgba(6,4,14,0.97)'},
-  carbon:  {label:'⚙️ Carbone',  bg:'linear-gradient(160deg,#0e0f12,#1c1e24 50%,#0e0f12)', hd:'linear-gradient(90deg,#0a0b0e,#181a20,#0a0b0e)', nav:'rgba(7,8,10,0.97)'},
-  wine:    {label:'🍷 Vieux Vin',bg:'linear-gradient(160deg,#120508,#24090e 50%,#120508)', hd:'linear-gradient(90deg,#100407,#200810,#100407)', nav:'rgba(8,2,4,0.97)'},
-  leather: {label:'🟤 Cuir',     bg:'linear-gradient(160deg,#110906,#201610 50%,#110906)', hd:'linear-gradient(90deg,#0e0704,#1c1208,#0e0704)', nav:'rgba(7,5,3,0.97)'},
-  emerald: {label:'🌿 Émeraude', bg:'linear-gradient(160deg,#050e08,#0a1e10 50%,#050e08)', hd:'linear-gradient(90deg,#040c07,#091a0e,#040c07)', nav:'rgba(2,6,4,0.97)'}
+  blue:    {label:'🔵 Bleu',     bg:'linear-gradient(160deg,#08091a,#0c1e44 50%,#08091a)', hd:'linear-gradient(90deg,#0a1840,#1e3e8a,#0a1840)', nav:'rgba(6,9,26,0.97)'},
+  obsidian:{label:'🌑 Obsidienne',bg:'linear-gradient(160deg,#080610,#120e1c 50%,#080610)', hd:'linear-gradient(90deg,#0c0820,#2a1458,#0c0820)', nav:'rgba(4,3,8,0.97)'},
+  silex:   {label:'🪨 Silex',    bg:'linear-gradient(160deg,#0e0c09,#1c1a14 50%,#0e0c09)', hd:'linear-gradient(90deg,#1a1810,#2e2818,#1a1810)', nav:'rgba(7,6,4,0.97)'},
+  petrol:  {label:'🌊 Pétrole',  bg:'linear-gradient(160deg,#040d12,#0c2030 50%,#040d12)', hd:'linear-gradient(90deg,#06182a,#103050,#06182a)', nav:'rgba(2,7,10,0.97)'},
+  prune:   {label:'🍇 Prune',    bg:'linear-gradient(160deg,#0e0820,#1a103a 50%,#0e0820)', hd:'linear-gradient(90deg,#120a30,#2e1460,#120a30)', nav:'rgba(6,4,14,0.97)'},
+  carbon:  {label:'⚙️ Carbone',  bg:'linear-gradient(160deg,#0e0f12,#1c1e24 50%,#0e0f12)', hd:'linear-gradient(90deg,#14161c,#282c38,#14161c)', nav:'rgba(7,8,10,0.97)'},
+  wine:    {label:'🍷 Vieux Vin',bg:'linear-gradient(160deg,#120508,#24090e 50%,#120508)', hd:'linear-gradient(90deg,#1e0608,#4a0e14,#1e0608)', nav:'rgba(8,2,4,0.97)'},
+  leather: {label:'🟤 Cuir',     bg:'linear-gradient(160deg,#110906,#201610 50%,#110906)', hd:'linear-gradient(90deg,#1c1208,#342210,#1c1208)', nav:'rgba(7,5,3,0.97)'},
+  emerald: {label:'🌿 Émeraude', bg:'linear-gradient(160deg,#050e08,#0a1e10 50%,#050e08)', hd:'linear-gradient(90deg,#081c0c,#143820,#081c0c)', nav:'rgba(2,6,4,0.97)'}
 };
 var TEAM_COLORS = {
   'Argentina':'#74ACDF','Australia':'#FFD700','Austria':'#ED2939','Belgium':'#EF3340',
@@ -2537,6 +2537,7 @@ function App(){
   var sMus=useState(function(){try{return localStorage.getItem('wc2026_music')||'A';}catch(e){return 'A';}});var music=sMus[0];var setMusic=sMus[1];
   var sSet=useState(false);var settingsOpen=sSet[0];var setSettingsOpen=sSet[1];
   var sBgT=useState(function(){try{var k=localStorage.getItem('wc2026_bgt');return(k&&BG_THEMES[k])?k:'blue';}catch(e){return 'blue';}});var bgTheme=sBgT[0];var setBgTheme=sBgT[1];
+  var sBgB=useState(function(){try{var v=parseFloat(localStorage.getItem('wc2026_bgb'));return isNaN(v)?1:v;}catch(e){return 1;}});var bgBright=sBgB[0];var setBgBright=sBgB[1];
   var CUR_THEME=BG_THEMES[bgTheme]||BG_THEMES.blue;
   var musicRef=useRef(null);
   useEffect(function(){
@@ -3206,11 +3207,19 @@ function App(){
               return e('button',{key:key,onClick:function(){setBgTheme(key);try{localStorage.setItem('wc2026_bgt',key);}catch(e){}},style:{background:bgTheme===key?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:bgTheme===key?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 12px',cursor:'pointer',color:bgTheme===key?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:bgTheme===key?'bold':'normal',minHeight:36}},th.label);
             })
           )
+        ),
+        e('div',{},
+          e('div',{style:{fontSize:10,color:'rgba(212,175,55,0.7)',letterSpacing:2,fontWeight:'bold',marginBottom:10,marginTop:14}},lang==='fr'?'💡 LUMINOSITÉ':lang==='de'?'💡 HELLIGKEIT':lang==='it'?'💡 LUMINOSITÀ':lang==='es'||lang==='pt'?'💡 BRILLO':'💡 BRIGHTNESS'),
+          e('div',{style:{display:'flex',gap:6}},
+            [{v:0.6,l:'🌑'},{v:1,l:'🌗'},{v:1.5,l:'☀️'},{v:2,l:'💡'}].map(function(b){
+              return e('button',{key:b.v,onClick:function(){setBgBright(b.v);try{localStorage.setItem('wc2026_bgb',String(b.v));}catch(e){}},style:{background:bgBright===b.v?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:bgBright===b.v?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 18px',cursor:'pointer',color:bgBright===b.v?'#0a0a1a':'#9bb0c8',fontSize:16,fontWeight:bgBright===b.v?'bold':'normal',minHeight:36}},b.l);
+            })
+          )
         )
       )
     ),
 
-    e('header',{style:{background:CUR_THEME.hd,borderBottom:'2px solid '+G,padding:'10px 14px',paddingTop:'max(10px, env(safe-area-inset-top))'}},
+    e('header',{style:{background:CUR_THEME.hd,borderBottom:'2px solid '+G,padding:'10px 14px',paddingTop:'max(10px, env(safe-area-inset-top))',filter:'brightness('+bgBright+')'}},
       e('div',{style:{display:'flex',alignItems:'center',gap:6,marginBottom:8}},
         e('button',{onClick:function(){setSettingsOpen(true);},style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:G,fontSize:11,fontWeight:'bold'}},'⚙️'),
         e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:'📤'),
