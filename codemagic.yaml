@@ -21,6 +21,8 @@ workflows:
           pod install
       - name: Set up signing
         script: |
+          # Marquer le début pour retrouver les P12 créés dans ce step
+          touch /tmp/signing_marker
           keychain initialize
           # Clé privée persistante (stockée dans Codemagic, jamais regénérée)
           echo "$CM_MAC_CERT_KEY" > /tmp/cert_key.pem
@@ -33,25 +35,32 @@ workflows:
               done
           done
           # Fetch profil Mac Catalyst App Store + cert Apple Distribution
+          CERTS_DIR=~/Library/Developer/Xcode/UserData/Certificates
+          mkdir -p "$CERTS_DIR"
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform IOS \
             --type MAC_CATALYST_APP_STORE \
             --certificate-key=@file:/tmp/cert_key.pem \
+            --certificates-dir "$CERTS_DIR" \
             --create
-          # Fetch cert Mac Installer Distribution (pour signer le .pkg)
-          echo "=== Fetching MAC_INSTALLER_DISTRIBUTION cert ==="
-          app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
-            --platform MAC_OS \
-            --type MAC_INSTALLER_DISTRIBUTION \
-            --certificate-key=@file:/tmp/cert_key.pem \
-            --create 2>&1 || true
-          # Fallback : création directe si le fetch a échoué
-          echo "=== Creating MAC_INSTALLER_DISTRIBUTION cert (fallback) ==="
+          # Créer cert Mac Installer Distribution dans le bon dossier (scannée par keychain add-certificates)
+          echo "=== Creating MAC_INSTALLER_DISTRIBUTION cert ==="
           app-store-connect certificates create \
             --type MAC_INSTALLER_DISTRIBUTION \
             --certificate-key=@file:/tmp/cert_key.pem \
-            --save 2>&1; true
+            --save \
+            --certificates-dir "$CERTS_DIR" \
+            2>&1 || true
+          # Importer les certs via keychain add-certificates
           keychain add-certificates
+          # Filet de sécurité : importer manuellement TOUS les P12 créés dans ce step
+          KEYCHAIN=$(security default-keychain 2>/dev/null | xargs | tr -d '"')
+          echo "=== Force-import tous les P12 du step ==="
+          find ~/ /tmp -name "*.p12" -newer /tmp/signing_marker 2>/dev/null | while read P12; do
+            echo "Import: $P12"
+            security import "$P12" -k "$KEYCHAIN" -T /usr/bin/codesign -T /usr/bin/productbuild -A 2>&1 || true
+          done
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN" 2>&1 || true
           xcode-project use-profiles
           echo "=== Certs disponibles ==="
           security find-identity -v -p codesigning
