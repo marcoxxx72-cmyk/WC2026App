@@ -23,8 +23,8 @@ workflows:
         script: |
           keychain initialize
           openssl genrsa -out /tmp/cert_key.pem 2048
-          # Créer explicitement un cert MAC_APP_DISTRIBUTION (requis par Xcode 26 pour Mac Catalyst)
-          app-store-connect certificates create \
+          # Créer un cert MAC_APP_DISTRIBUTION (requis par Xcode 26 pour Mac Catalyst)
+          app-store-connect create-certificate \
             --type MAC_APP_DISTRIBUTION \
             --certificate-key=@file:/tmp/cert_key.pem \
             --save
@@ -40,6 +40,8 @@ workflows:
           security find-identity -v -p codesigning
           echo "=== Profils installés ==="
           ls ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/ 2>/dev/null || echo "Aucun profil"
+          echo "=== CODE_SIGN settings dans project.pbxproj ==="
+          grep -E "CODE_SIGN_STYLE|CODE_SIGN_IDENTITY|PROVISIONING_PROFILE" ios/App/App.xcodeproj/project.pbxproj || true
       - name: Build macOS (Mac Catalyst)
         script: |
           xcodebuild clean archive \
@@ -50,8 +52,8 @@ workflows:
             -archivePath /tmp/App-macOS.xcarchive \
             CODE_SIGN_STYLE=Manual \
             DEVELOPMENT_TEAM=Y6F853GG9K \
-            2>&1 | tee /tmp/xcodebuild.log; \
-          grep -E "error:|swift compiler error" /tmp/xcodebuild.log | head -50 || true; \
+            2>&1 | tee /tmp/xcodebuild.log
+          grep -E "error:|ARCHIVE SUCCEEDED" /tmp/xcodebuild.log | head -50 || true
           ls /tmp/App-macOS.xcarchive 2>/dev/null || (echo "=== ARCHIVE NOT FOUND ===" && exit 1)
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
