@@ -28,6 +28,8 @@ post_install do |installer|
       # Disable code signing for all Pod targets (avoids provisioning profile conflicts)
       config.build_settings['CODE_SIGNING_REQUIRED'] = 'NO'
       config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+      # Force Swift 5 mode — Xcode 26 enables Swift 6 by default which breaks some pods
+      config.build_settings['SWIFT_VERSION'] = '5.0'
     end
     next unless target.name.include?('Revenuecat') || target.name.include?('RevenueCat') || target.name.include?('PurchasesHybridCommon')
     target.build_configurations.each do |config|
