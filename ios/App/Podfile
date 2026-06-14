@@ -32,7 +32,9 @@ post_install do |installer|
     next unless target.name.include?('Revenuecat') || target.name.include?('RevenueCat') || target.name.include?('PurchasesHybridCommon')
     target.build_configurations.each do |config|
       config.build_settings['EXCLUDED_ARCHS[sdk=maccatalyst*]'] = 'arm64 x86_64'
+      config.build_settings['EXCLUDED_ARCHS[sdk=macosx*]'] = 'arm64 x86_64'
       config.build_settings['SUPPORTS_MACCATALYST'] = 'NO'
+      config.build_settings['SUPPORTED_PLATFORMS'] = 'iphoneos iphonesimulator'
     end
   end
 end
