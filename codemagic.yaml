@@ -32,23 +32,25 @@ workflows:
                 [ -n "$CERT_ID" ] && app-store-connect delete-certificate --certificate-id "$CERT_ID" 2>&1 || true
               done
           done
-          # Créer les deux certs Mac nécessaires (409 = déjà existant = OK)
-          echo "=== Creating MAC_APP_DISTRIBUTION ==="
-          app-store-connect certificates create \
-            --type MAC_APP_DISTRIBUTION \
-            --certificate-key=@file:/tmp/cert_key.pem \
-            --save 2>&1; true
-          echo "=== Creating MAC_INSTALLER_DISTRIBUTION ==="
-          app-store-connect certificates create \
-            --type MAC_INSTALLER_DISTRIBUTION \
-            --certificate-key=@file:/tmp/cert_key.pem \
-            --save 2>&1; true
-          # Fetch profil Mac Catalyst App Store (pas MAC_OS — c'est une app Catalyst)
+          # Fetch profil Mac Catalyst App Store + cert Apple Distribution
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform IOS \
             --type MAC_CATALYST_APP_STORE \
             --certificate-key=@file:/tmp/cert_key.pem \
             --create
+          # Fetch cert Mac Installer Distribution (pour signer le .pkg)
+          echo "=== Fetching MAC_INSTALLER_DISTRIBUTION cert ==="
+          app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
+            --platform MAC_OS \
+            --type MAC_INSTALLER_DISTRIBUTION \
+            --certificate-key=@file:/tmp/cert_key.pem \
+            --create 2>&1 || true
+          # Fallback : création directe si le fetch a échoué
+          echo "=== Creating MAC_INSTALLER_DISTRIBUTION cert (fallback) ==="
+          app-store-connect certificates create \
+            --type MAC_INSTALLER_DISTRIBUTION \
+            --certificate-key=@file:/tmp/cert_key.pem \
+            --save 2>&1; true
           keychain add-certificates
           xcode-project use-profiles
           echo "=== Certs disponibles ==="
