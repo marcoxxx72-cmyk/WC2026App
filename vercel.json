@@ -1,6 +1,6 @@
 {
   "outputDirectory": "www",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "echo ok",
   "buildCommand": "echo ok",
   "headers": [
     {
