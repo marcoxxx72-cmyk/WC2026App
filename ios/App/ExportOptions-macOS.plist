@@ -7,17 +7,8 @@
 	<key>destination</key>
 	<string>export</string>
 	<key>signingStyle</key>
-	<string>manual</string>
+	<string>automatic</string>
 	<key>teamID</key>
 	<string>Y6F853GG9K</string>
-	<key>signingCertificate</key>
-	<string>3rd Party Mac Developer Application</string>
-	<key>installerSigningCertificate</key>
-	<string>3rd Party Mac Developer Installer</string>
-	<key>provisioningProfiles</key>
-	<dict>
-		<key>com.marcocanal.worldcup2026</key>
-		<string>World Cup 2026 mac_app_store 1781440628</string>
-	</dict>
 </dict>
 </plist>
