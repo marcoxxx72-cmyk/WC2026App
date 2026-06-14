@@ -165,7 +165,7 @@ workflows:
           PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
           PROFILE_PATH=$(ls "$PROFILES_DIR"/*.mobileprovision 2>/dev/null | head -1)
           echo "Profile path: $PROFILE_PATH"
-          PROFILE_UUID=$(security cms -D -i "$PROFILE_PATH" 2>/dev/null | python3 -c "import sys,plistlib; d=plistlib.load(sys.stdin.buffer); print(d['UUID'])")
+          PROFILE_UUID=$(security cms -D -i "$PROFILE_PATH" 2>/dev/null | python3 -c "import sys,plistlib; d=plistlib.loads(sys.stdin.buffer.read()); print(d['UUID'])")
           echo "UUID: $PROFILE_UUID"
           if [ -z "$PROFILE_UUID" ]; then echo "ERREUR: UUID vide" && exit 1; fi
           xcodebuild clean archive \
@@ -178,7 +178,7 @@ workflows:
             CODE_SIGN_IDENTITY="Apple Distribution" \
             DEVELOPMENT_TEAM=Y6F853GG9K \
             PROVISIONING_PROFILE="$PROFILE_UUID"
-          PROFILE_NAME=$(security cms -D -i "$PROFILE_PATH" 2>/dev/null | python3 -c "import sys,plistlib; d=plistlib.load(sys.stdin.buffer); print(d['Name'])")
+          PROFILE_NAME=$(security cms -D -i "$PROFILE_PATH" 2>/dev/null | python3 -c "import sys,plistlib; d=plistlib.loads(sys.stdin.buffer.read()); print(d['Name'])")
           echo "Profile name: $PROFILE_NAME"
           python3 -c "import plistlib; plistlib.dump({'method':'app-store-connect','teamID':'Y6F853GG9K','uploadSymbols':True,'compileBitcode':False,'provisioningProfiles':{'com.marcocanal.worldcup2026':'$PROFILE_NAME'}},open('/tmp/ExportOptions-iOS.plist','wb'))"
           xcodebuild -exportArchive \
