@@ -22,21 +22,32 @@ workflows:
       - name: Set up signing
         script: |
           keychain initialize
-          openssl genrsa -out /tmp/cert_key.pem 2048
-          # Supprimer les anciens certs dont on n'a plus les clés privées
-          # list-certificates affiche les IDs — on les parse et supprime
-          for TYPE in MAC_APP_DISTRIBUTION DISTRIBUTION; do
-            app-store-connect list-certificates --type $TYPE 2>&1 | \
-              grep -oE '[A-Z0-9]{8,12}' | while read CERT_ID; do
-                echo "Deleting $TYPE cert: $CERT_ID"
-                app-store-connect delete-certificate --certificate-id "$CERT_ID" 2>&1 || true
-              done
-          done
-          # Créer un cert MAC_APP_DISTRIBUTION + profil MAC_APP_STORE
+          # Clé privée persistante (stockée dans Codemagic, jamais regénérée)
+          echo "$CM_MAC_CERT_KEY" > /tmp/cert_key.pem
+          # Supprimer les anciens certs via JSON pour libérer le quota
+          python3 << 'PYEOF'
+import subprocess, json
+for cert_type in ['MAC_APP_DISTRIBUTION', 'DISTRIBUTION']:
+    r = subprocess.run(
+        ['app-store-connect', 'list-certificates', '--type', cert_type, '--json'],
+        capture_output=True, text=True
+    )
+    try:
+        data = json.loads(r.stdout)
+        certs = data if isinstance(data, list) else []
+        for cert in certs:
+            cid = cert.get('id', '')
+            if cid:
+                print(f"Deleting {cert_type}: {cid}")
+                subprocess.run(['app-store-connect', 'delete-certificate', '--certificate-id', cid], capture_output=True)
+    except Exception as e:
+        print(f"Could not parse {cert_type} certs: {e}")
+PYEOF
+          # Créer le cert avec notre clé persistante (409 = déjà existant = OK)
           app-store-connect certificates create \
             --type MAC_APP_DISTRIBUTION \
             --certificate-key=@file:/tmp/cert_key.pem \
-            --save
+            --save 2>&1 || echo "Cert creation error (may already exist — OK)"
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform MAC_OS \
             --type MAC_APP_STORE \

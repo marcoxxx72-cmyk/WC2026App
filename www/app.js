@@ -1478,6 +1478,17 @@ var WC2026_ID = 2000;
 var ONESIGNAL_APP_ID = '29a090bc-9893-46a1-87a3-e3f162e2271d';
 var G = '#d4af37';
 var DARK = '#08091a';
+var BG_THEMES = {
+  blue:    {label:'🔵 Bleu',     bg:'linear-gradient(160deg,#08091a,#0c1e44 50%,#08091a)', hd:'linear-gradient(90deg,#060f24,#122860,#060f24)', nav:'rgba(6,9,26,0.97)'},
+  obsidian:{label:'🌑 Obsidienne',bg:'linear-gradient(160deg,#080610,#120e1c 50%,#080610)', hd:'linear-gradient(90deg,#060410,#100c1c,#060410)', nav:'rgba(4,3,8,0.97)'},
+  silex:   {label:'🪨 Silex',    bg:'linear-gradient(160deg,#0e0c09,#1c1a14 50%,#0e0c09)', hd:'linear-gradient(90deg,#0c0a07,#1a1810,#0c0a07)', nav:'rgba(7,6,4,0.97)'},
+  petrol:  {label:'🌊 Pétrole',  bg:'linear-gradient(160deg,#040d12,#0c2030 50%,#040d12)', hd:'linear-gradient(90deg,#030a0f,#0a1c28,#030a0f)', nav:'rgba(2,7,10,0.97)'},
+  prune:   {label:'🍇 Prune',    bg:'linear-gradient(160deg,#0e0820,#1a103a 50%,#0e0820)', hd:'linear-gradient(90deg,#0c0620,#18102e,#0c0620)', nav:'rgba(6,4,14,0.97)'},
+  carbon:  {label:'⚙️ Carbone',  bg:'linear-gradient(160deg,#0e0f12,#1c1e24 50%,#0e0f12)', hd:'linear-gradient(90deg,#0a0b0e,#181a20,#0a0b0e)', nav:'rgba(7,8,10,0.97)'},
+  wine:    {label:'🍷 Vieux Vin',bg:'linear-gradient(160deg,#120508,#24090e 50%,#120508)', hd:'linear-gradient(90deg,#100407,#200810,#100407)', nav:'rgba(8,2,4,0.97)'},
+  leather: {label:'🟤 Cuir',     bg:'linear-gradient(160deg,#110906,#201610 50%,#110906)', hd:'linear-gradient(90deg,#0e0704,#1c1208,#0e0704)', nav:'rgba(7,5,3,0.97)'},
+  emerald: {label:'🌿 Émeraude', bg:'linear-gradient(160deg,#050e08,#0a1e10 50%,#050e08)', hd:'linear-gradient(90deg,#040c07,#091a0e,#040c07)', nav:'rgba(2,6,4,0.97)'}
+};
 var TEAM_COLORS = {
   'Argentina':'#74ACDF','Australia':'#FFD700','Austria':'#ED2939','Belgium':'#EF3340',
   'Bosnia':'#003087','Brazil':'#009C3B','Canada':'#FF0000','Cape Verde':'#003893',
@@ -1646,10 +1657,10 @@ var ALL_TEAMS = Object.values(GROUPS).reduce(function(a,g){return a.concat(g.tea
 var FIXTURES = [
   // - JUNE 11 -
   {date:'2026-06-11',time:'15:00',home:'Mexico',away:'South Africa',group:'A',stadium:'Estadio Azteca',city:'Mexico City',homeScore:2,awayScore:0},
-  {date:'2026-06-11',time:'22:00',home:'South Korea',away:'Czechia',group:'A',stadium:'Estadio Akron',city:'Guadalajara'},
+  {date:'2026-06-11',time:'22:00',home:'South Korea',away:'Czechia',group:'A',stadium:'Estadio Akron',city:'Guadalajara',homeScore:2,awayScore:1},
   // - JUNE 12 -
-  {date:'2026-06-12',time:'15:00',home:'Canada',away:'Bosnia',group:'B',stadium:'BMO Field',city:'Toronto'},
-  {date:'2026-06-12',time:'21:00',home:'USA',away:'Paraguay',group:'D',stadium:'SoFi Stadium',city:'Los Angeles'},
+  {date:'2026-06-12',time:'15:00',home:'Canada',away:'Bosnia',group:'B',stadium:'BMO Field',city:'Toronto',homeScore:1,awayScore:1},
+  {date:'2026-06-12',time:'21:00',home:'USA',away:'Paraguay',group:'D',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:4,awayScore:1},
   // - JUNE 13 -
   {date:'2026-06-13',time:'15:00',home:'Qatar',away:'Switzerland',group:'B',stadium:'Levis Stadium',city:'San Francisco'},
   {date:'2026-06-13',time:'18:00',home:'Brazil',away:'Morocco',group:'C',stadium:'MetLife Stadium',city:'New York'},
@@ -1985,7 +1996,11 @@ async function handleProPurchase(lang){
   if(_wcPurchasing)return;
   var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
   if(isMacCatalyst()){
-    window.open('https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02','_blank');
+    var loc=(navigator.language||'').toLowerCase();
+    var macUrl=(loc.indexOf('en-gb')>=0||loc.indexOf('en_gb')>=0)
+      ?'https://buy.stripe.com/dRm4gz0ip91L6EjeVTcjS07'
+      :'https://buy.stripe.com/eVqcN5d5bb9Td2H3dbcjS06';
+    window.open(macUrl,'_blank');
     return;
   }
   var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
@@ -2520,6 +2535,9 @@ function App(){
   function finishOnboarding(){try{localStorage.setItem('wc2026_onboarded','1');}catch(e){}setOnboarded(true);}
 
   var sMus=useState(function(){try{return localStorage.getItem('wc2026_music')||'A';}catch(e){return 'A';}});var music=sMus[0];var setMusic=sMus[1];
+  var sSet=useState(false);var settingsOpen=sSet[0];var setSettingsOpen=sSet[1];
+  var sBgT=useState(function(){try{var k=localStorage.getItem('wc2026_bgt');return(k&&BG_THEMES[k])?k:'blue';}catch(e){return 'blue';}});var bgTheme=sBgT[0];var setBgTheme=sBgT[1];
+  var CUR_THEME=BG_THEMES[bgTheme]||BG_THEMES.blue;
   var musicRef=useRef(null);
   useEffect(function(){
     try{localStorage.setItem('wc2026_music',music);}catch(e){}
@@ -2550,7 +2568,21 @@ function App(){
   function fid(f){return f.date+'|'+f.home+'|'+f.away;}
   function toggleAgenda(f){var id=fid(f);setAgenda(function(prev){var has=prev.indexOf(id)>=0;if(has)return prev.filter(function(x){return x!==id;});if(!premium&&prev.length>=MAX_AGENDA)return prev;var next=prev.concat([id]);try{localStorage.setItem('wc2026_agenda',JSON.stringify(next));}catch(e){}return next;});}
   var filteredFixtures=agendaOnly?FIXTURES.filter(function(f){return agenda.indexOf(fid(f))>=0;}):fixtureMyOnly?FIXTURES.filter(function(f){return f.home===activeTeam.team||f.away===activeTeam.team;}):FIXTURES;
-  var apiScoreMap=(function(){var m={};liveScores.forEach(function(s){if(!s.score||s.score.fullTime.home===null)return;var sc={h:s.score.fullTime.home,a:s.score.fullTime.away,status:s.status};var hn=s.homeTeam.name;var an=s.awayTeam.name;m[hn+'|'+an]=sc;var hs2=s.homeTeam.shortName;var as2=s.awayTeam.shortName;if(hs2&&as2)m[hs2+'|'+as2]=sc;});return m;})();
+  var apiScoreMap=(function(){
+    var aliases={'Bosnia-Herzegovina':'Bosnia','Bosnia-H.':'Bosnia','Bosnia & Herzegovina':'Bosnia','Korea Republic':'South Korea','Côte D\'Ivoire':'Ivory Coast','Cote D\'Ivoire':'Ivory Coast','DR Congo':'DR Congo','United States':'USA','USA':'USA'};
+    function norm(n){return aliases[n]||n;}
+    var m={};
+    liveScores.forEach(function(s){
+      if(!s.score||s.score.fullTime.home===null)return;
+      var sc={h:s.score.fullTime.home,a:s.score.fullTime.away,status:s.status};
+      var hn=s.homeTeam.name,an=s.awayTeam.name;
+      m[hn+'|'+an]=sc;
+      m[norm(hn)+'|'+norm(an)]=sc;
+      var hs2=s.homeTeam.shortName,as2=s.awayTeam.shortName;
+      if(hs2&&as2){m[hs2+'|'+as2]=sc;m[norm(hs2)+'|'+norm(as2)]=sc;}
+    });
+    return m;
+  })();
   var questions=QUIZ[lang];
   var polls=POLLS[lang];
   var sponsors=SPONSORS[lang];
@@ -3098,6 +3130,7 @@ function App(){
     });
   }
   function formatDate(d){var dt=new Date(d+'T12:00:00');return dt.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});}
+  function etToLocalTime(dateStr,timeStr){try{var dt=new Date(dateStr+'T'+timeStr+':00-04:00');return dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',hour12:false});}catch(e){return timeStr;}}
 
   var OB=[
     {icon:'⚽',titles:{en:'Welcome to World Cup 2026',fr:'Bienvenue sur World Cup 2026',es:'Bienvenido al World Cup 2026',pt:'Bem-vindo ao World Cup 2026',it:'Benvenuto su World Cup 2026',de:'Willkommen bei World Cup 2026'},
@@ -3138,33 +3171,51 @@ function App(){
     )
   );
 
-  return e('div',{style:{minHeight:'100vh',background:'linear-gradient(160deg,'+DARK+',#0c1e44 50%,'+DARK+')',fontFamily:"'Open Sans',sans-serif",color:'#eee8d5'}},
+  return e('div',{style:{minHeight:'100vh',background:CUR_THEME.bg,fontFamily:"'Open Sans',sans-serif",color:'#eee8d5'}},
 
-    e('header',{style:{background:'linear-gradient(90deg,#060f24,#122860,#060f24)',borderBottom:'2px solid '+G,padding:'10px 14px',paddingTop:'max(10px, env(safe-area-inset-top))'}},
-      e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}},
-        e('div',{style:{display:'flex',gap:4}},
-          LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 8px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:lang===l.code?'bold':'normal'}},l.label);})
+    settingsOpen&&e('div',{onClick:function(){setSettingsOpen(false);},style:{position:'fixed',inset:0,zIndex:200,background:'rgba(0,0,0,0.6)',backdropFilter:'blur(4px)'}},
+      e('div',{onClick:function(ev){ev.stopPropagation();},style:{position:'absolute',top:0,left:0,right:0,background:CUR_THEME.hd,borderBottom:'2px solid '+G,padding:'max(14px,env(safe-area-inset-top)) 16px 20px',maxHeight:'85vh',overflowY:'auto'}},
+        e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:18}},
+          e('div',{style:{fontSize:14,fontWeight:'bold',color:G,letterSpacing:2}},lang==='fr'?'⚙️ RÉGLAGES':lang==='es'||lang==='pt'?'⚙️ AJUSTES':lang==='de'?'⚙️ EINSTELLUNGEN':lang==='it'?'⚙️ IMPOSTAZIONI':'⚙️ SETTINGS'),
+          e('button',{onClick:function(){setSettingsOpen(false);},style:{background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:7,padding:'4px 10px',color:'#aaa',fontSize:13,cursor:'pointer'}},'✕')
         ),
-        e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
-          e('button',{onClick:function(){
-            var next=music==='A'?'B':music==='B'?'off':'A';
-            if(next==='off'){
-              if(musicRef.current){musicRef.current.pause();musicRef.current=null;}
-            } else {
-              var src=next==='A'?'/Goals.mp3':'/RitmodaTorcida.mp3';
-              if(!musicRef.current||musicRef.current._wcsrc!==src){
-                if(musicRef.current)musicRef.current.pause();
-                var a=new Audio(src);a._wcsrc=src;a.loop=true;a.volume=0.3;
-                musicRef.current=a;
-              }
-              musicRef.current.play().catch(function(){});
-            }
-            setMusic(next);
-          },style:{background:'linear-gradient(135deg,#d4af37,#b8963e)',border:'none',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold',letterSpacing:1}},music==='A'?'🎵 A':music==='B'?'🎵 B':'🔇'),
-          e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'3px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:t.shareApp),
-          !premium&&e('button',{onClick:function(){handleProPurchase(lang);},'data-pro-btn':true,style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},isMacCatalyst()?'☕ Buy me a coffee':(window.Capacitor&&window.Capacitor.getPlatform()==='ios')?t.premiumBtn:'PRO - '+getPrice(lang)),
-          premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO')
+        e('div',{style:{marginBottom:18}},
+          e('div',{style:{fontSize:10,color:'rgba(212,175,55,0.7)',letterSpacing:2,fontWeight:'bold',marginBottom:10}},lang==='fr'?'🌐 LANGUE':lang==='es'?'🌐 IDIOMA':lang==='pt'?'🌐 IDIOMA':lang==='de'?'🌐 SPRACHE':lang==='it'?'🌐 LINGUA':'🌐 LANGUAGE'),
+          e('div',{style:{display:'flex',gap:6,flexWrap:'wrap'}},
+            LANGS.map(function(l){return e('button',{key:l.code,onClick:function(){changeLang(l.code);},style:{background:lang===l.code?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:lang===l.code?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 14px',cursor:'pointer',color:lang===l.code?'#0a0a1a':'#9bb0c8',fontSize:12,fontWeight:lang===l.code?'bold':'normal',minHeight:36}},l.label);})
+          )
+        ),
+        e('div',{style:{marginBottom:18}},
+          e('div',{style:{fontSize:10,color:'rgba(212,175,55,0.7)',letterSpacing:2,fontWeight:'bold',marginBottom:10}},lang==='fr'?'🎵 MUSIQUE':lang==='de'?'🎵 MUSIK':lang==='it'?'🎵 MUSICA':'🎵 MUSIC'),
+          e('div',{style:{display:'flex',gap:6}},
+            ['A','B','off'].map(function(m){
+              var lbl=m==='A'?'🎵 Goals':m==='B'?'🎵 Ritmo':'🔇 '+(lang==='fr'?'Muet':lang==='de'?'Stumm':lang==='es'||lang==='pt'?'Mudo':lang==='it'?'Muto':'Mute');
+              return e('button',{key:m,onClick:function(){
+                if(m==='off'){if(musicRef.current){musicRef.current.pause();musicRef.current=null;}}
+                else{var src=m==='A'?'/Goals.mp3':'/RitmodaTorcida.mp3';if(!musicRef.current||musicRef.current._wcsrc!==src){if(musicRef.current)musicRef.current.pause();var a=new Audio(src);a._wcsrc=src;a.loop=true;a.volume=0.3;musicRef.current=a;}musicRef.current.play().catch(function(){});}
+                setMusic(m);
+              },style:{background:music===m?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:music===m?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 14px',cursor:'pointer',color:music===m?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:music===m?'bold':'normal',minHeight:36}},lbl);
+            })
+          )
+        ),
+        e('div',{},
+          e('div',{style:{fontSize:10,color:'rgba(212,175,55,0.7)',letterSpacing:2,fontWeight:'bold',marginBottom:10}},lang==='fr'?'🎨 THÈME':lang==='de'?'🎨 DESIGN':lang==='it'?'🎨 TEMA':lang==='es'||lang==='pt'?'🎨 TEMA':'🎨 THEME'),
+          e('div',{style:{display:'flex',gap:6,flexWrap:'wrap'}},
+            Object.keys(BG_THEMES).map(function(key){
+              var th=BG_THEMES[key];
+              return e('button',{key:key,onClick:function(){setBgTheme(key);try{localStorage.setItem('wc2026_bgt',key);}catch(e){}},style:{background:bgTheme===key?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:bgTheme===key?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 12px',cursor:'pointer',color:bgTheme===key?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:bgTheme===key?'bold':'normal',minHeight:36}},th.label);
+            })
+          )
         )
+      )
+    ),
+
+    e('header',{style:{background:CUR_THEME.hd,borderBottom:'2px solid '+G,padding:'10px 14px',paddingTop:'max(10px, env(safe-area-inset-top))'}},
+      e('div',{style:{display:'flex',alignItems:'center',gap:6,marginBottom:8}},
+        e('button',{onClick:function(){setSettingsOpen(true);},style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:G,fontSize:11,fontWeight:'bold'}},'⚙️'),
+        e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:'📤'),
+        !premium&&e('button',{onClick:function(){handleProPurchase(lang);},'data-pro-btn':true,style:{background:'linear-gradient(135deg,'+G+',#ff9900)',border:'none',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#0a0a1a',fontSize:11,fontWeight:'bold'}},isMacCatalyst()?(lang==='fr'?'☕ Offre-moi un café':lang==='es'?'☕ Invítame a un café':lang==='it'?'☕ Offrimi un caffè':lang==='de'?'☕ Kauf mir einen Kaffee':lang==='pt'?'☕ Me pague um café':'☕ Buy me a coffee'):(window.Capacitor&&window.Capacitor.getPlatform()==='ios')?t.premiumBtn:'PRO ⭐'),
+        premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO ⭐')
       ),
       e('div',{style:{textAlign:'center'}},
         e('div',{style:{fontSize:24}},'⚽'),
@@ -3178,7 +3229,7 @@ function App(){
       e('button',{onClick:function(){handleProPurchase(lang);},'data-pro-btn':true,style:{background:'linear-gradient(135deg,'+G+',#b8963e)',border:'none',borderRadius:10,padding:'8px 16px',fontSize:12,fontWeight:'bold',color:'#0a0a1a',cursor:'pointer',whiteSpace:'nowrap',minHeight:44}},t.premiumBtn)
     ),
 
-    e('nav',{style:{position:'sticky',top:0,zIndex:20,background:'rgba(6,9,26,0.97)',backdropFilter:'blur(14px)',borderBottom:'2px solid rgba(212,175,55,0.2)',overflowX:'auto',WebkitOverflowScrolling:'touch',scrollbarWidth:'none'}},
+    e('nav',{style:{position:'sticky',top:0,zIndex:20,background:CUR_THEME.nav,backdropFilter:'blur(14px)',borderBottom:'2px solid rgba(212,175,55,0.2)',overflowX:'auto',WebkitOverflowScrolling:'touch',scrollbarWidth:'none'}},
       e('div',{id:'wc-nav-inner',style:{display:'flex',gap:4,padding:'8px 10px'}},
         t.nav.map(function(label,i){
           var TM=[
@@ -3487,7 +3538,7 @@ function App(){
             var agendaFull=!premium&&agenda.length>=MAX_AGENDA&&!isInAgenda;
             return e(Card,{key:i,style:{padding:'12px 14px',border:'1px solid '+(isInAgenda?G:isMyMatch?G:BD),background:isInAgenda?'linear-gradient(135deg,rgba(212,175,55,0.10),rgba(184,150,62,0.04))':isMyMatch?'linear-gradient(135deg,rgba(212,175,55,0.12),rgba(184,150,62,0.05))':CB}},
               e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}},
-                e('div',{style:{fontSize:9,color:isMyMatch?G:'#a8bfd4'}},formatDate(f.date),' ',f.time,' ET',f.group&&' - '+(['R32','R16','QF','SF','3P','FIN'].indexOf(f.group)>=0?phaseLabel(f.group,lang):t.groupLabel+' '+f.group)),
+                e('div',{style:{fontSize:9,color:isMyMatch?G:'#a8bfd4'}},formatDate(f.date),' ',etToLocalTime(f.date,f.time),f.group&&' - '+(['R32','R16','QF','SF','3P','FIN'].indexOf(f.group)>=0?phaseLabel(f.group,lang):t.groupLabel+' '+f.group)),
                 e('div',{style:{display:'flex',alignItems:'center',gap:6}},
                   isMyMatch&&e('span',{style:{fontSize:9,color:G,background:'rgba(212,175,55,0.15)',padding:'2px 6px',borderRadius:6}},t.myTeamLabel),
                   e('button',{onClick:function(ev){ev.stopPropagation();if(!agendaFull)toggleAgenda(f);},title:agendaFull?'Limite atteinte (5 matchs)':'',style:{background:'none',border:'none',cursor:agendaFull?'not-allowed':'pointer',fontSize:16,opacity:agendaFull?0.35:1,padding:'0 2px',lineHeight:1}},isInAgenda?'⭐':'☆')
@@ -5083,7 +5134,7 @@ function App(){
     ),
 
     e('footer',{style:{textAlign:'center',padding:'10px',fontSize:9,color:'#2e4460',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,'World Cup 2026 Fan App - ',premium?'PRO':'Free'),e('div',{style:{marginTop:2,opacity:0.6}},'Unofficial fan app · Not affiliated with any football organization')))
-  ;
+  );
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
