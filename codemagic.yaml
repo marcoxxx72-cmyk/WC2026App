@@ -21,10 +21,8 @@ workflows:
           pod install
       - name: Set up signing
         script: |
-          echo "=== CERT_KEY_B64 length: ${#CERT_KEY_B64} ==="
-          env | grep -E "^CERT" | sed 's/=.*/=***/' || echo "Aucune variable CERT trouvée"
           keychain initialize
-          echo "$CERT_KEY_B64" | base64 --decode > /tmp/cert_key.pem
+          openssl genrsa -out /tmp/cert_key.pem 2048
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform MAC_OS \
             --type MAC_APP_STORE \
