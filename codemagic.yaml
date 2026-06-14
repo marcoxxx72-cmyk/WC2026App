@@ -180,27 +180,7 @@ workflows:
             PROVISIONING_PROFILE="$PROFILE_UUID"
           PROFILE_NAME=$(security cms -D -i "$PROFILE_PATH" 2>/dev/null | python3 -c "import sys,plistlib; d=plistlib.load(sys.stdin.buffer); print(d['Name'])")
           echo "Profile name: $PROFILE_NAME"
-          cat > /tmp/ExportOptions-iOS.plist << PLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>method</key>
-    <string>app-store-connect</string>
-    <key>teamID</key>
-    <string>Y6F853GG9K</string>
-    <key>uploadSymbols</key>
-    <true/>
-    <key>compileBitcode</key>
-    <false/>
-    <key>provisioningProfiles</key>
-    <dict>
-        <key>com.marcocanal.worldcup2026</key>
-        <string>$PROFILE_NAME</string>
-    </dict>
-</dict>
-</plist>
-PLIST
+          python3 -c "import plistlib; plistlib.dump({'method':'app-store-connect','teamID':'Y6F853GG9K','uploadSymbols':True,'compileBitcode':False,'provisioningProfiles':{'com.marcocanal.worldcup2026':'$PROFILE_NAME'}},open('/tmp/ExportOptions-iOS.plist','wb'))"
           xcodebuild -exportArchive \
             -archivePath /tmp/App-iOS.xcarchive \
             -exportPath /tmp/App-iOS \
