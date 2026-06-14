@@ -25,21 +25,31 @@ workflows:
           # Clé privée persistante (stockée dans Codemagic, jamais regénérée)
           echo "$CM_MAC_CERT_KEY" > /tmp/cert_key.pem
           # Supprimer les anciens certs pour libérer le quota
-          for TYPE in MAC_APP_DISTRIBUTION DISTRIBUTION; do
+          for TYPE in MAC_APP_DISTRIBUTION MAC_INSTALLER_DISTRIBUTION DISTRIBUTION; do
             app-store-connect list-certificates --type $TYPE --json 2>/dev/null | \
               python3 -c "import sys,json; [print(c['id']) for c in json.load(sys.stdin) if c.get('id')]" 2>/dev/null | \
               while read CERT_ID; do
                 [ -n "$CERT_ID" ] && app-store-connect delete-certificate --certificate-id "$CERT_ID" 2>&1 || true
               done
           done
-          # Créer le cert avec notre clé persistante (409 = déjà existant = OK)
+          # Créer les deux certs Mac nécessaires (409 = déjà existant = OK)
           app-store-connect certificates create \
             --type MAC_APP_DISTRIBUTION \
             --certificate-key=@file:/tmp/cert_key.pem \
-            --save 2>&1 || echo "Cert creation error (may already exist — OK)"
+            --save 2>&1 || echo "MAC_APP_DISTRIBUTION: may already exist"
+          app-store-connect certificates create \
+            --type MAC_INSTALLER_DISTRIBUTION \
+            --certificate-key=@file:/tmp/cert_key.pem \
+            --save 2>&1 || echo "MAC_INSTALLER_DISTRIBUTION: may already exist"
+          # Fetch profils App Store + Installer Distribution
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform MAC_OS \
             --type MAC_APP_STORE \
+            --certificate-key=@file:/tmp/cert_key.pem \
+            --create
+          app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
+            --platform MAC_OS \
+            --type MAC_INSTALLER_DISTRIBUTION \
             --certificate-key=@file:/tmp/cert_key.pem \
             --create
           keychain add-certificates
