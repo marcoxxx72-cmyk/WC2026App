@@ -25,12 +25,22 @@ post_install do |installer|
   assertDeploymentTarget(installer)
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      # Disable code signing for all Pod targets (avoids provisioning profile conflicts)
       config.build_settings['CODE_SIGNING_REQUIRED'] = 'NO'
       config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
-      # Force Swift 5 mode — Xcode 26 enables Swift 6 by default which breaks some pods
       config.build_settings['SWIFT_VERSION'] = '5.0'
     end
-    # RevenueCat 4.x+ supporte Mac Catalyst nativement — pas besoin d'exclusion
+  end
+  # Patch PurchasesPlugin.swift: presentCodeRedemptionSheet() indisponible sur Mac Catalyst
+  plugin_file = File.join(__dir__, '../../node_modules/@revenuecat/purchases-capacitor/ios/Sources/RevenuecatPurchasesCapacitor/PurchasesPlugin.swift')
+  if File.exist?(plugin_file)
+    content = File.read(plugin_file)
+    unless content.include?('#if !targetEnvironment(macCatalyst)')
+      patched = content.gsub(
+        /^(\s*)(.*presentCodeRedemptionSheet\(\).*)$/,
+        "\\1#if !targetEnvironment(macCatalyst)\n\\1\\2\n\\1#endif"
+      )
+      File.write(plugin_file, patched)
+      puts 'Patched presentCodeRedemptionSheet for Mac Catalyst'
+    end
   end
 end
