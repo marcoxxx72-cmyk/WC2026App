@@ -1989,7 +1989,7 @@ var _platform=(window.Capacitor&&window.Capacitor.getPlatform)?window.Capacitor.
 var STORE_LINKS=_platform==='ios'?[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'}]:_platform==='android'?[{name:'Google Play',icon:'🤖',url:'https://play.google.com'}]:[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'},{name:'Google Play',icon:'🤖',url:'https://play.google.com'}];
 
 function isMacCatalyst(){
-  return !!(window.Capacitor&&window.Capacitor.isNativePlatform()&&/Mac/i.test(navigator.platform||''));
+  return !!(window.Capacitor&&window.Capacitor.isNativePlatform()&&/Mac/i.test(navigator.platform||'')&&navigator.maxTouchPoints===0);
 }
 var _wcPurchasing=false;
 async function handleProPurchase(lang){
@@ -2003,10 +2003,10 @@ async function handleProPurchase(lang){
     window.open(macUrl,'_blank');
     return;
   }
-  var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
+  var isNativeIOS=window.Capacitor&&window.Capacitor.isNativePlatform()&&!isMacCatalyst();
   if(!RC||!window._rcReady){
     // On iOS, never redirect to Stripe — IAP only (App Store guideline 3.1.1)
-    if(isIOS){alert(lang==='fr'?'Chargement en cours, réessayez dans un instant.':'Loading, please try again in a moment.');return;}
+    if(isNativeIOS){alert(lang==='fr'?'Chargement en cours, réessayez dans un instant.':'Loading, please try again in a moment.');return;}
     var loc=(navigator.language||'').toLowerCase();
     var stripeUrl;
     if(loc.indexOf('pt-br')>=0||loc.indexOf('pt_br')>=0){
