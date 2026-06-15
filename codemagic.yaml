@@ -45,12 +45,8 @@ workflows:
           # Cert déjà sur Apple Developer — on le reconstruit avec CM_MAC_CERT_KEY
           CERT_B64=$(app-store-connect list-certificates \
             --type MAC_INSTALLER_DISTRIBUTION --json 2>/dev/null | \
-            python3 -c "
-import sys, json
-d = json.load(sys.stdin)
-attrs = d[0].get('attributes', d[0]) if d else {}
-print(attrs.get('certificateContent', ''))
-" 2>/dev/null || echo "")
+            python3 -c "import sys,json; d=json.load(sys.stdin); a=d[0].get('attributes',d[0]) if d else {}; print(a.get('certificateContent',''))" \
+            2>/dev/null || echo "")
           echo "Installer cert taille: ${#CERT_B64} chars"
           if [ -n "$CERT_B64" ]; then
             echo "$CERT_B64" | base64 --decode > /tmp/installer.cer
