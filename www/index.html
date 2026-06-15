@@ -62,7 +62,9 @@ window._wcSplashUp=true;
   var lang=saved||(map[nav]||'en');
 
   var suffix=window.innerWidth>=1024?'desktop':'phone';
-  sp.style.backgroundImage="url('/public/splash-"+lang+"-"+suffix+".png')";
+  var isNativeApp=!!(window.Capacitor&&window.Capacitor.isNativePlatform());
+  var splashSuffix=isNativeApp?('-'+suffix+'-ios'):('-'+suffix);
+  sp.style.backgroundImage="url('/public/splash-"+lang+splashSuffix+".png')";
 
   function hide(){
     window._wcSplashUp=false;
