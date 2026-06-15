@@ -3450,7 +3450,7 @@ function App(){
             e('div',{style:{fontSize:10,color:'#a8bfd4'}},lang==='fr'?'Aucun match sur les 2 derniers jours':lang==='es'?'Sin partidos recientes':lang==='pt'?'Sem jogos recentes':lang==='de'?'Keine Spiele in den letzten 2 Tagen':'No matches in the last 2 days')
           ),
           liveScores.length>0&&e('div',null,
-            liveScores.slice(0,5).map(function(match,i){
+            liveScores.slice().sort(function(a,b){return new Date(b.utcDate)-new Date(a.utcDate);}).slice(0,5).map(function(match,i){
               var home=match.homeTeam.shortName||match.homeTeam.name;
               var away=match.awayTeam.shortName||match.awayTeam.name;
               var hg=match.score.fullTime.home!==null?match.score.fullTime.home:'-';
@@ -3524,7 +3524,37 @@ function App(){
           )
         ),
         e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7}},
-          Object.entries(GROUPS).map(function(entry){var g=entry[0];var data=entry[1];var hasMyTeam=data.teams.indexOf(activeTeam.team)>=0;return e('div',{key:g,onClick:function(){setSelGroup(g);},style:{background:hasMyTeam?'rgba(212,175,55,0.12)':g===selGroup?'rgba(212,175,55,0.09)':'rgba(10,20,50,0.8)',border:'1px solid '+(hasMyTeam?G:g===selGroup?G:BD),borderRadius:10,padding:10,cursor:'pointer'}},e('div',{style:{fontSize:10,fontWeight:'bold',color:G,marginBottom:5}},t.groupLabel,' ',g,hasMyTeam&&' ⭐'),data.teams.map(function(team){return e('div',{key:team,style:{fontSize:9,color:team===activeTeam.team?G:'#90aabf',marginBottom:2,fontWeight:team===activeTeam.team?'bold':'normal'}},tn(team,lang));}));})
+          Object.entries(GROUPS).map(function(entry){
+            var g=entry[0];var data=entry[1];
+            var hasMyTeam=data.teams.indexOf(activeTeam.team)>=0;
+            var apiGroup=standings.find(function(s){if(!s.group)return false;var n=s.group.replace('GROUP_','').replace('Group ','');return n===g;});
+            var rows=apiGroup?apiGroup.table:data.teams.map(function(t){return {team:{name:t},playedGames:0,won:0,draw:0,points:0};});
+            return e('div',{key:g,onClick:function(){setSelGroup(g);},style:{background:hasMyTeam?'rgba(212,175,55,0.12)':g===selGroup?'rgba(212,175,55,0.09)':'rgba(10,20,50,0.8)',border:'1px solid '+(hasMyTeam?G:g===selGroup?G:BD),borderRadius:10,padding:10,cursor:'pointer'}},
+              e('div',{style:{fontSize:10,fontWeight:'bold',color:G,marginBottom:5}},t.groupLabel,' ',g,hasMyTeam&&' ⭐'),
+              e('div',{style:{display:'grid',gridTemplateColumns:'1fr 20px 20px 20px 24px',gap:1,marginBottom:3,paddingBottom:3,borderBottom:'1px solid rgba(212,175,55,0.15)'}},
+                e('span',{style:{fontSize:7,color:'#5a7090'}},''),
+                e('span',{style:{fontSize:7,color:'#5a7090',textAlign:'center'}},'MP'),
+                e('span',{style:{fontSize:7,color:'#5a7090',textAlign:'center'}},'W'),
+                e('span',{style:{fontSize:7,color:'#5a7090',textAlign:'center'}},'D'),
+                e('span',{style:{fontSize:7,color:'#5a7090',textAlign:'center',fontWeight:'bold'}},'Pts')
+              ),
+              rows.map(function(row,i){
+                var team=row.team.name;
+                var isMyTeam=team===activeTeam.team;
+                var isQual=i<2;
+                return e('div',{key:team,style:{display:'grid',gridTemplateColumns:'1fr 20px 20px 20px 24px',gap:1,alignItems:'center',padding:'2px 0',borderRadius:3,background:isMyTeam?'rgba(212,175,55,0.1)':isQual?'rgba(30,80,30,0.25)':'transparent'}},
+                  e('div',{style:{display:'flex',alignItems:'center',gap:3}},
+                    e('div',{style:{width:10,height:10,borderRadius:2,background:isQual?'rgba(40,180,40,0.6)':'rgba(212,175,55,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:6,color:isQual?'#fff':'#d4af37',fontWeight:'bold',flexShrink:0}},i+1),
+                    e('div',{style:{fontSize:8,color:isMyTeam?G:'#90aabf',fontWeight:isMyTeam?'bold':'normal',overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis',maxWidth:62}},tn(team,lang),(isMyTeam?' ⭐':''))
+                  ),
+                  e('span',{style:{fontSize:8,color:'#7a9ab5',textAlign:'center'}},row.playedGames||0),
+                  e('span',{style:{fontSize:8,color:'#7a9ab5',textAlign:'center'}},row.won||0),
+                  e('span',{style:{fontSize:8,color:'#7a9ab5',textAlign:'center'}},row.draw||0),
+                  e('span',{style:{fontSize:9,fontWeight:'bold',color:G,textAlign:'center'}},row.points||0)
+                );
+              })
+            );
+          })
         )
       ):null,
 
