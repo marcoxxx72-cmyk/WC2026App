@@ -116,20 +116,7 @@ workflows:
 
           # ── EXPORT .pkg ──────────────────────────────────────────────────────
           # Générer ExportOptions dynamiquement avec le bon profil
-          python3 -c "
-import plistlib
-d = {
-  'method': 'app-store-connect',
-  'destination': 'export',
-  'signingStyle': 'manual',
-  'teamID': 'Y6F853GG9K',
-  'signingCertificate': 'Apple Distribution',
-  'installerSigningCertificate': '3rd Party Mac Developer Installer',
-  'provisioningProfiles': {'com.marcocanal.worldcup2026': '$PROFILE_NAME'}
-}
-plistlib.dump(d, open('/tmp/ExportOptions-macOS.plist','wb'))
-print('ExportOptions généré avec profil: $PROFILE_NAME')
-"
+          python3 -c "import plistlib; plistlib.dump({'method':'app-store-connect','destination':'export','signingStyle':'manual','teamID':'Y6F853GG9K','signingCertificate':'Apple Distribution','installerSigningCertificate':'3rd Party Mac Developer Installer','provisioningProfiles':{'com.marcocanal.worldcup2026':'$PROFILE_NAME'}},open('/tmp/ExportOptions-macOS.plist','wb')); print('ExportOptions OK: $PROFILE_NAME')"
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
