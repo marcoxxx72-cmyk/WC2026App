@@ -115,10 +115,25 @@ workflows:
           echo "=== ARCHIVE RÉUSSI ✓ ==="
 
           # ── EXPORT .pkg ──────────────────────────────────────────────────────
+          # Générer ExportOptions dynamiquement avec le bon profil
+          python3 -c "
+import plistlib
+d = {
+  'method': 'app-store-connect',
+  'destination': 'export',
+  'signingStyle': 'manual',
+  'teamID': 'Y6F853GG9K',
+  'signingCertificate': 'Apple Distribution',
+  'installerSigningCertificate': '3rd Party Mac Developer Installer',
+  'provisioningProfiles': {'com.marcocanal.worldcup2026': '$PROFILE_NAME'}
+}
+plistlib.dump(d, open('/tmp/ExportOptions-macOS.plist','wb'))
+print('ExportOptions généré avec profil: $PROFILE_NAME')
+"
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
-            -exportOptionsPlist ios/App/ExportOptions-macOS.plist \
+            -exportOptionsPlist /tmp/ExportOptions-macOS.plist \
             2>&1 | tee /tmp/export.log
           EXPORT_STATUS=${PIPESTATUS[0]}
           tail -30 /tmp/export.log || true
