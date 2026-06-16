@@ -2005,21 +2005,33 @@ async function handleProPurchase(lang){
   }
   var isNativeIOS=window.Capacitor&&window.Capacitor.isNativePlatform()&&!isMacCatalyst();
   if(!RC||!window._rcReady){
-    // On iOS, never redirect to Stripe — IAP only (App Store guideline 3.1.1)
-    if(isNativeIOS){alert(lang==='fr'?'Chargement en cours, réessayez dans un instant.':'Loading, please try again in a moment.');return;}
-    var loc=(navigator.language||'').toLowerCase();
-    var stripeUrl;
-    if(loc.indexOf('pt-br')>=0||loc.indexOf('pt_br')>=0){
-      stripeUrl='https://buy.stripe.com/aFa9ATaX37XH4wbfZXcjS05';
-    } else if(loc.indexOf('en-gb')>=0||loc.indexOf('en_gb')>=0){
-      stripeUrl='https://buy.stripe.com/fZu6oH6GNcdX7In8xvcjS01';
-    } else if(loc.indexOf('en-us')>=0||loc.indexOf('en-ca')>=0||loc.indexOf('en-au')>=0||lang==='en'){
-      stripeUrl='https://buy.stripe.com/00wdR9ghnfq93s7bJHcjS04';
+    if(isNativeIOS){
+      // Wait up to 5s for RevenueCat to finish initializing before giving up
+      var _wt=0;
+      while(_wt<5000&&(!window.RCCapacitor||!window.RCCapacitor.Purchases||!window._rcReady)){
+        await new Promise(function(r){setTimeout(r,500);});
+        _wt+=500;
+      }
+      RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
+      if(!RC||!window._rcReady){
+        alert(lang==='fr'?'Boutique non disponible. Réessayez dans un instant.':'Store unavailable. Please try again in a moment.');
+        return;
+      }
     } else {
-      stripeUrl='https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02';
+      var loc=(navigator.language||'').toLowerCase();
+      var stripeUrl;
+      if(loc.indexOf('pt-br')>=0||loc.indexOf('pt_br')>=0){
+        stripeUrl='https://buy.stripe.com/aFa9ATaX37XH4wbfZXcjS05';
+      } else if(loc.indexOf('en-gb')>=0||loc.indexOf('en_gb')>=0){
+        stripeUrl='https://buy.stripe.com/fZu6oH6GNcdX7In8xvcjS01';
+      } else if(loc.indexOf('en-us')>=0||loc.indexOf('en-ca')>=0||loc.indexOf('en-au')>=0||lang==='en'){
+        stripeUrl='https://buy.stripe.com/00wdR9ghnfq93s7bJHcjS04';
+      } else {
+        stripeUrl='https://buy.stripe.com/8x2dR9e9f6TDbYD297cjS02';
+      }
+      window.location.href=stripeUrl;
+      return;
     }
-    window.location.href=stripeUrl;
-    return;
   }
   _wcPurchasing=true;
   // Show loading on all Pro buttons
@@ -3229,7 +3241,8 @@ function App(){
       e('div',{style:{textAlign:'center'}},
         e('div',{style:{fontSize:24}},'⚽'),
         e('div',{style:{fontSize:18,fontWeight:'bold',letterSpacing:3,textTransform:'uppercase',background:'linear-gradient(90deg,'+G+',#fff8e0,'+G+')',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}},t.appTitle),
-        e('div',{style:{fontSize:10,color:'#b0c8de',letterSpacing:4,marginTop:2}},t.appSub)
+        e('div',{style:{fontSize:10,color:'#b0c8de',letterSpacing:4,marginTop:2}},t.appSub),
+        e('div',{style:{fontSize:9,color:'rgba(176,200,222,0.6)',letterSpacing:1,marginTop:3}},lang==='fr'?'App non officielle · Non affiliée à la FIFA':'Unofficial fan app · Not affiliated with FIFA')
       )
     ),
 
@@ -5170,7 +5183,7 @@ function App(){
       )
     ),
 
-    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:9,color:'#2e4460',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,'World Cup 2026 Fan App - ',premium?'PRO':'Free'),e('div',{style:{marginTop:2,opacity:0.6}},'Unofficial fan app · Not affiliated with any football organization')))
+    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:10,color:'#4a6a8a',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,'World Cup 2026 Fan App - ',premium?'PRO':'Free'),e('div',{style:{marginTop:3,color:'#6a8aaa'}},'Unofficial fan app · Not affiliated with FIFA or any official organization')))
   );
 }
 
