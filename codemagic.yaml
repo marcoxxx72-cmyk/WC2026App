@@ -118,76 +118,75 @@ workflows:
             || (echo "=== ARCHIVE ÉCHOUÉ ===" && exit 1)
           echo "=== ARCHIVE RÉUSSI ✓ ==="
 
-          # ── Débloquer cert installer pour productbuild (errSecInteractionNotAllowed) ──
+          # ── Keychain perso pour productbuild (partition list avec mot de passe connu) ──
           keychain add-certificates
           CM_KC=$(ls "$HOME/Library/codemagic-cli-tools/keychains/"*.keychain-db 2>/dev/null | head -1)
-          echo "Keychain Codemagic: $CM_KC"
-
-          # Créer keychain perso avec mot de passe connu
           OUR_KC="/tmp/wc2026_signing.keychain-db"
           OUR_PWD="wc2026sign"
           security delete-keychain "$OUR_KC" 2>/dev/null || true
-          security create-keychain -p "$OUR_PWD" "$OUR_KC" && echo "Keychain créé ✓"
+          security create-keychain -p "$OUR_PWD" "$OUR_KC"
           security unlock-keychain -p "$OUR_PWD" "$OUR_KC"
           security set-keychain-settings -t 7200 -u "$OUR_KC"
-
-          # Extraire cert installer depuis le keychain Codemagic (encore déverrouillé)
           security find-certificate -c "3rd Party Mac Developer Installer" \
             -a -p "$CM_KC" > /tmp/installer_cert.pem 2>/dev/null || true
-          if grep -q "BEGIN CERTIFICATE" /tmp/installer_cert.pem; then
-            echo "Cert extrait ✓"
-            openssl pkcs12 -export \
-              -out /tmp/installer_pkg.p12 \
-              -inkey /tmp/cert_key.pem \
-              -in /tmp/installer_cert.pem \
-              -passout pass:"$OUR_PWD" && echo "P12 créé ✓"
-            security import /tmp/installer_pkg.p12 \
-              -k "$OUR_KC" -P "$OUR_PWD" -A && echo "Import OK ✓"
-            # set-key-partition-list avec notre mot de passe CONNU → garanti
-            security set-key-partition-list -S apple-tool:,apple: -s -k "$OUR_PWD" "$OUR_KC" \
-              && echo "Partition list OK ✓"
-            # SUPPRIMER le cert du keychain Codemagic (déverrouillé) → productbuild
-            # n'a plus d'autre choix que notre keychain
-            security delete-certificate -c "3rd Party Mac Developer Installer" \
-              "$CM_KC" 2>/dev/null \
-              && echo "Cert supprimé de Codemagic ✓" \
-              || echo "Suppression impossible (on continue)"
-            # Mettre notre keychain en premier dans toutes les listes
-            security list-keychains -s "$OUR_KC" ~/Library/Keychains/login.keychain-db "$CM_KC"
-            security default-keychain -s "$OUR_KC"
-            echo "Keychains:" && security list-keychains
-          else
-            echo "ERREUR: cert installer non trouvé"
-          fi
-          echo "=== Identités disponibles pour export ==="
-          security find-identity -v
+          openssl pkcs12 -export -out /tmp/installer_pkg.p12 \
+            -inkey /tmp/cert_key.pem -in /tmp/installer_cert.pem \
+            -passout pass:"$OUR_PWD" 2>/dev/null && echo "P12 installer créé ✓"
+          security import /tmp/installer_pkg.p12 -k "$OUR_KC" -P "$OUR_PWD" -A \
+            && echo "Import keychain perso OK ✓"
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$OUR_PWD" "$OUR_KC" \
+            && echo "Partition list OK ✓"
+          security list-keychains -s "$OUR_KC" ~/Library/Keychains/login.keychain-db "$CM_KC"
 
-          # ── EXPORT .pkg ──────────────────────────────────────────────────────
-          python3 -c "import plistlib; plistlib.dump({'method':'app-store-connect','signingStyle':'manual','teamID':'Y6F853GG9K','signingCertificate':'Apple Distribution','installerSigningCertificate':'3rd Party Mac Developer Installer','provisioningProfiles':{'com.marcocanal.worldcup2026':'$PROFILE_NAME'}},open('/tmp/ExportOptions-macOS.plist','wb')); print('ExportOptions OK: $PROFILE_NAME')"
-          xcodebuild -exportArchive \
-            -archivePath /tmp/App-macOS.xcarchive \
-            -exportPath /tmp/App-macOS \
-            -exportOptionsPlist /tmp/ExportOptions-macOS.plist \
-            2>&1 | tee /tmp/export.log
-          EXPORT_STATUS=${PIPESTATUS[0]}
-          if [ $EXPORT_STATUS -ne 0 ]; then
-            # ── Résumé erreurs (à la fin = visible dans les 50 dernières lignes) ─
-            DISTLOG=$(find /var/folders -name "*.xcdistributionlogs" -maxdepth 6 2>/dev/null | tail -1)
-            echo "=== EXPORT LOG — lignes d'erreur ==="
-            grep -iE "error:|: error|productbuild|codesign" /tmp/export.log \
-              | grep -v "Enabling\|noerror\|0 error" | head -20 || true
-            echo "=== DISTRIBUTION LOG — lignes d'erreur ==="
-            [ -n "$DISTLOG" ] && find "$DISTLOG" -type f \
-              | xargs grep -hiE "error|fail|productbuild|codesign" 2>/dev/null \
-              | grep -v "Evaluating\|Applying\|errors: (null)\|certificateKinds\|issueDate" \
-              | head -30 || true
-            echo "=== DISTRIBUTION LOG — 30 dernières lignes ==="
-            [ -n "$DISTLOG" ] && find "$DISTLOG" -type f | sort | xargs cat 2>/dev/null | tail -30 || true
-          else
-            echo "=== EXPORT RÉUSSI ✓ ==="
-            ls /tmp/App-macOS/*.pkg 2>/dev/null || true
-          fi
-          exit $EXPORT_STATUS
+          # ── EXPORT MANUEL — bypass xcodebuild -exportArchive ─────────────────
+          # xcodebuild resette le keychain list dans son subprocess et productbuild
+          # ne peut pas accéder à la clé privée → on fait tout depuis notre shell
+          PROFILES_DIR="$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles"
+          PROFILE_PATH=$(ls "$PROFILES_DIR"/*.provisionprofile 2>/dev/null | head -1)
+          APP_ARCHIVE="/tmp/App-macOS.xcarchive/Products/Applications/App.app"
+          STAGING="/tmp/App-macOS-staging"
+          rm -rf "$STAGING" && mkdir -p "$STAGING" /tmp/App-macOS
+          cp -R "$APP_ARCHIVE" "$STAGING/"
+          STAGING_APP="$STAGING/App.app"
+
+          # Extraire les entitlements de distribution depuis le profil
+          security cms -D -i "$PROFILE_PATH" > /tmp/profile_decoded.plist 2>/dev/null
+          /usr/libexec/PlistBuddy -c "Print :Entitlements" /tmp/profile_decoded.plist -x \
+            > /tmp/dist_entitlements.plist 2>/dev/null && echo "Entitlements extraits ✓"
+
+          # Re-signer tous les frameworks (ordre inverse — du plus profond au plus haut)
+          find "$STAGING_APP/Contents/Frameworks" \
+            \( -name "*.framework" -o -name "*.dylib" \) | sort -r | while read fw; do
+            codesign --force \
+              --sign "Apple Distribution: Jean-Marc Canal (Y6F853GG9K)" \
+              --preserve-metadata=identifier,flags,runtime \
+              --generate-entitlement-der \
+              "$fw" 2>&1 | grep -v "replacing existing" || true
+          done
+          echo "Frameworks re-signés ✓"
+
+          # Re-signer le bundle principal avec les entitlements de distribution
+          codesign --force \
+            --sign "Apple Distribution: Jean-Marc Canal (Y6F853GG9K)" \
+            --entitlements /tmp/dist_entitlements.plist \
+            --generate-entitlement-der \
+            --options runtime \
+            "$STAGING_APP" && echo "App re-signée ✓"
+
+          # Vérifier la signature
+          codesign --verify --deep --strict "$STAGING_APP" && echo "Vérification OK ✓"
+
+          # Créer le .pkg depuis notre shell (pas le subprocess xcodebuild)
+          # Notre keychain perso a apple-tool: partition → productbuild peut signer
+          /usr/bin/productbuild \
+            --sign "3rd Party Mac Developer Installer: Jean-Marc Canal (Y6F853GG9K)" \
+            --component "$STAGING_APP" /Applications \
+            /tmp/App-macOS/App.pkg \
+            && echo "=== .PKG CRÉÉ ✓ ===" \
+            || { echo "=== PRODUCTBUILD ÉCHEC ==="; exit 1; }
+
+          pkgutil --check-signature /tmp/App-macOS/App.pkg || true
+          ls -lh /tmp/App-macOS/App.pkg
 
     artifacts:
       - /tmp/App-macOS/*.pkg
