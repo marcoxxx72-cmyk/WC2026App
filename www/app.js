@@ -1662,12 +1662,12 @@ var FIXTURES = [
   {date:'2026-06-12',time:'15:00',home:'Canada',away:'Bosnia',group:'B',stadium:'BMO Field',city:'Toronto',homeScore:1,awayScore:1},
   {date:'2026-06-12',time:'21:00',home:'USA',away:'Paraguay',group:'D',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:4,awayScore:1},
   // - JUNE 13 -
-  {date:'2026-06-13',time:'15:00',home:'Qatar',away:'Switzerland',group:'B',stadium:'Levis Stadium',city:'San Francisco'},
-  {date:'2026-06-13',time:'18:00',home:'Brazil',away:'Morocco',group:'C',stadium:'MetLife Stadium',city:'New York'},
+  {date:'2026-06-13',time:'15:00',home:'Qatar',away:'Switzerland',group:'B',stadium:'Levis Stadium',city:'San Francisco',homeScore:1,awayScore:1},
+  {date:'2026-06-13',time:'18:00',home:'Brazil',away:'Morocco',group:'C',stadium:'MetLife Stadium',city:'New York',homeScore:1,awayScore:1},
   {date:'2026-06-13',time:'21:00',home:'Haiti',away:'Scotland',group:'C',stadium:'Gillette Stadium',city:'Boston'},
   {date:'2026-06-14',time:'00:00',home:'Australia',away:'Turkey',group:'D',stadium:'BC Place',city:'Vancouver'},
   // - JUNE 14 -
-  {date:'2026-06-14',time:'15:00',home:'Germany',away:'Curacao',group:'E',stadium:'NRG Stadium',city:'Houston'},
+  {date:'2026-06-14',time:'15:00',home:'Germany',away:'Curacao',group:'E',stadium:'NRG Stadium',city:'Houston',homeScore:7,awayScore:1},
   {date:'2026-06-14',time:'18:00',home:'Netherlands',away:'Japan',group:'F',stadium:'AT&T Stadium',city:'Dallas'},
   {date:'2026-06-14',time:'21:00',home:'Ivory Coast',away:'Ecuador',group:'E',stadium:'Lincoln Financial',city:'Philadelphia'},
   // - JUNE 15 -
