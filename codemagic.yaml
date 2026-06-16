@@ -133,19 +133,22 @@ workflows:
             -exportOptionsPlist /tmp/ExportOptions-macOS.plist \
             2>&1 | tee /tmp/export.log
           EXPORT_STATUS=${PIPESTATUS[0]}
-          # Toujours montrer les erreurs du log principal
-          echo "=== Erreurs export.log ==="
-          grep -iE "error|fail|productbuild|codesign" /tmp/export.log | head -40 || true
-          # En cas d'échec : dump complet des logs de distribution Xcode
           if [ $EXPORT_STATUS -ne 0 ]; then
-            echo "=== Distribution logs (complet) ==="
+            # ── Résumé erreurs (à la fin = visible dans les 50 dernières lignes) ─
             DISTLOG=$(find /var/folders -name "*.xcdistributionlogs" -maxdepth 6 2>/dev/null | tail -1)
-            if [ -n "$DISTLOG" ]; then
-              find "$DISTLOG" -type f | sort | while read f; do
-                echo "### $f ###"
-                cat "$f" 2>/dev/null || true
-              done | head -500
-            fi
+            echo "=== EXPORT LOG — lignes d'erreur ==="
+            grep -iE "error:|: error|productbuild|codesign" /tmp/export.log \
+              | grep -v "Enabling\|noerror\|0 error" | head -20 || true
+            echo "=== DISTRIBUTION LOG — lignes d'erreur ==="
+            [ -n "$DISTLOG" ] && find "$DISTLOG" -type f \
+              | xargs grep -hiE "error|fail|productbuild|codesign" 2>/dev/null \
+              | grep -v "Evaluating\|Applying\|errors: (null)\|certificateKinds\|issueDate" \
+              | head -30 || true
+            echo "=== DISTRIBUTION LOG — 30 dernières lignes ==="
+            [ -n "$DISTLOG" ] && find "$DISTLOG" -type f | sort | xargs cat 2>/dev/null | tail -30 || true
+          else
+            echo "=== EXPORT RÉUSSI ✓ ==="
+            ls /tmp/App-macOS/*.pkg 2>/dev/null || true
           fi
           exit $EXPORT_STATUS
 
