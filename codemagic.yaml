@@ -144,31 +144,11 @@ workflows:
               && echo "Partition list OK ✓" || echo "WARN: partition list ÉCHEC"
           else
             echo "Mot de passe introuvable → fallback login keychain"
-            # Approche 2 : exporter le cert installer, recréer P12 avec mot de passe connu
-            security export -k "$CM_KC" -t certs -f pemseq -o /tmp/exported_certs.pem 2>/dev/null || true
-            python3 -c "
-import subprocess, re, sys
-try:
-    content = open('/tmp/exported_certs.pem').read()
-    certs = re.findall(r'-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----', content, re.DOTALL)
-    found = False
-    for cert in certs:
-        r = subprocess.run(['openssl','x509','-noout','-subject'], input=cert.encode(), capture_output=True)
-        subj = r.stdout.decode()
-        if 'Installer' in subj:
-            open('/tmp/installer_cert.pem','w').write(cert)
-            print('Cert installer trouve:', subj.strip())
-            found = True
-            break
-    if not found:
-        print('Certs disponibles:')
-        for c in certs:
-            r = subprocess.run(['openssl','x509','-noout','-subject'], input=c.encode(), capture_output=True)
-            print(' ', r.stdout.decode().strip())
-except Exception as e:
-    print('Erreur:', e)
-"
-            if [ -f /tmp/installer_cert.pem ]; then
+            # Approche 2 : trouver le cert installer directement + reimporter avec -A
+            security find-certificate -c "3rd Party Mac Developer Installer" \
+              -a -p "$CM_KC" > /tmp/installer_cert.pem 2>/dev/null || true
+            if grep -q "BEGIN CERTIFICATE" /tmp/installer_cert.pem 2>/dev/null; then
+              echo "Cert installer exporté ✓"
               openssl pkcs12 -export \
                 -out /tmp/installer_fresh.p12 \
                 -inkey /tmp/cert_key.pem \
@@ -182,7 +162,8 @@ except Exception as e:
               security set-key-partition-list -S apple-tool:,apple: -s -k "" \
                 ~/Library/Keychains/login.keychain-db 2>/dev/null || true
             else
-              echo "ERREUR: cert installer introuvable dans le keychain"
+              echo "ERREUR: cert installer non trouvé dans le keychain"
+              security find-certificate -c "Installer" -a "$CM_KC" 2>/dev/null | head -5 || true
             fi
           fi
           echo "=== Identités disponibles pour export ==="
