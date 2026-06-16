@@ -821,7 +821,7 @@ function PenaltyPitch(props){
       sbCtx.strokeStyle='#444';sbCtx.lineWidth=6;sbCtx.strokeRect(4,4,504,248);
       sbCtx.fillStyle='#1a1a2e';sbCtx.fillRect(0,0,512,48);
       sbCtx.fillStyle='#f0c000';sbCtx.font='bold 18px monospace';
-      sbCtx.textAlign='center';sbCtx.fillText('WORLD CUP 2026',256,20);
+      sbCtx.textAlign='center';sbCtx.fillText(_platform==='ios'?'WC26':'WORLD CUP 2026',256,20);
       var pn=thr&&thr.playerName?thr.playerName.toUpperCase():'';
       if(pn){sbCtx.fillStyle='#ffffff';sbCtx.font='bold 15px monospace';sbCtx.fillText('⚽ '+pn,256,40);}
       if(result){
@@ -2668,7 +2668,7 @@ function App(){
   function handleVote(pid,oi,votes){if(pollVotes[pid]!==undefined)return;var nc=Object.assign({},pollCounts);nc[pid]=votes.map(function(v,i){return i===oi?v+1:v;});setPollCounts(nc);var nv=Object.assign({},pollVotes);nv[pid]=oi;setPollVotes(nv);}
   function getPV(pid,dv){return pollCounts[pid]||dv;}
   function savePronto(){setPronoSaved(true);setTimeout(function(){setPronoSaved(false);},2000);}
-  function handleShare(){if(navigator.share){navigator.share({title:'World Cup 2026',url:window.location.href});}else if(navigator.clipboard){navigator.clipboard.writeText(window.location.href);setShareCopied(true);setTimeout(function(){setShareCopied(false);},2000);}}
+  function handleShare(){if(navigator.share){navigator.share({title:_platform==='ios'?'WC26 Fan App':'World Cup 2026',url:window.location.href});}else if(navigator.clipboard){navigator.clipboard.writeText(window.location.href);setShareCopied(true);setTimeout(function(){setShareCopied(false);},2000);}}
   function pad(n){return String(n||0).padStart(2,'0');}
 
   function formatFullDate(dateStr,langCode){
@@ -3168,7 +3168,7 @@ function App(){
     // Icon
     e('div',{style:{fontSize:80,marginBottom:20,filter:'drop-shadow(0 0 30px rgba(212,175,55,0.4))'}},OB[obSlide].icon),
     // Title
-    e('div',{style:{fontSize:28,fontWeight:900,color:'#fff',textAlign:'center',letterSpacing:0.5,marginBottom:12,lineHeight:1.2}},OB[obSlide].titles[lang]||OB[obSlide].titles.en),
+    e('div',{style:{fontSize:28,fontWeight:900,color:'#fff',textAlign:'center',letterSpacing:0.5,marginBottom:12,lineHeight:1.2}},_platform==='ios'?(OB[obSlide].titles[lang]||OB[obSlide].titles.en).replace('World Cup 2026','WC26').replace('Copa del Mundo 2026','WC26').replace('Copa do Mundo 2026','WC26').replace('Coppa del Mondo 2026','WC26').replace('Coupe du Monde 2026','WC26'):(OB[obSlide].titles[lang]||OB[obSlide].titles.en)),
     // Sub
     e('div',{style:{fontSize:15,color:'rgba(255,255,255,0.65)',textAlign:'center',lineHeight:1.6,maxWidth:340,marginBottom:20}},OB[obSlide].subs[lang]||OB[obSlide].subs.en),
     // Detail badge
@@ -3240,7 +3240,7 @@ function App(){
       ),
       e('div',{style:{textAlign:'center'}},
         e('div',{style:{fontSize:24}},'⚽'),
-        e('div',{style:{fontSize:18,fontWeight:'bold',letterSpacing:3,textTransform:'uppercase',background:'linear-gradient(90deg,'+G+',#fff8e0,'+G+')',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}},t.appTitle),
+        e('div',{style:{fontSize:18,fontWeight:'bold',letterSpacing:3,textTransform:'uppercase',background:'linear-gradient(90deg,'+G+',#fff8e0,'+G+')',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}},_platform==='ios'?'WC26 Fan App':t.appTitle),
         e('div',{style:{fontSize:10,color:'#b0c8de',letterSpacing:4,marginTop:2}},t.appSub),
         e('div',{style:{fontSize:9,color:'rgba(176,200,222,0.6)',letterSpacing:1,marginTop:3}},lang==='fr'?'App non officielle · Non affiliée à la FIFA':'Unofficial fan app · Not affiliated with FIFA')
       )
@@ -3371,7 +3371,7 @@ function App(){
         // Countdown
         e('div',{style:{background:'linear-gradient(135deg,rgba(10,22,54,0.97),rgba(18,45,110,0.92))',border:'1.5px solid '+G,borderRadius:18,padding:'20px 16px',textAlign:'center',marginBottom:15}},
           e('div',{style:{fontSize:10,color:G,letterSpacing:3,marginBottom:4,textTransform:'uppercase'}},t.countdown),
-          e('div',{style:{fontSize:11,color:'#a8bfd4',marginBottom:12}},t.countdownSub),
+          e('div',{style:{fontSize:11,color:'#a8bfd4',marginBottom:12}},_platform==='ios'?t.countdownSub.replace('🏆','⚽'):t.countdownSub),
           e('div',{style:{display:'flex',justifyContent:'center',gap:10}},
             [cd.days,cd.hours,cd.minutes,cd.seconds].map(function(v,i){return e('div',{key:i,style:{textAlign:'center'}},e('div',{style:{background:'linear-gradient(160deg,'+G+',#b8963e)',borderRadius:10,padding:'9px 11px',fontSize:22,fontWeight:'bold',color:'#0a0a1a',minWidth:44}},pad(v)),e('div',{style:{fontSize:9,color:'#a8bfd4',marginTop:4}},t.timeUnits[i]));})
           )
@@ -3387,7 +3387,7 @@ function App(){
               lang==='pt'?'Onde assistir a Copa do Mundo 2026':
               lang==='it'?'Dove guardare la Coppa del Mondo 2026':
               lang==='de'?'Wo die WM 2026 sehen':
-              'Where to Watch World Cup 2026'
+              _platform==='ios'?'Where to Watch WC26':'Where to Watch World Cup 2026'
             )
           ),
           e('div',{style:{display:'flex',gap:8,flexWrap:'wrap',marginBottom:6}},
@@ -3740,7 +3740,7 @@ function App(){
 
       // - INTERACTIVE TOURNAMENT TAB -
       tab===7?e('div',null,
-        e('div',{style:{fontSize:12,color:G,fontWeight:'bold',textAlign:'center',marginBottom:12,letterSpacing:2}},('🏆 '+(lang==='fr'?'COUPE DU MONDE 2026 - TOURNOI INTERACTIF':lang==='es'?'COPA DEL MUNDO 2026 - TORNEO INTERACTIVO':lang==='pt'?'COPA DO MUNDO 2026 - TORNEIO INTERATIVO':lang==='it'?'COPPA DEL MONDO 2026 - TORNEO INTERATTIVO':lang==='de'?'WM 2026 - INTERAKTIVES TURNIER':'WORLD CUP 2026 - INTERACTIVE TOURNAMENT'))),
+        e('div',{style:{fontSize:12,color:G,fontWeight:'bold',textAlign:'center',marginBottom:12,letterSpacing:2}},(_platform==='ios'?'⚽ WC26 - INTERACTIVE TOURNAMENT':('🏆 '+(lang==='fr'?'COUPE DU MONDE 2026 - TOURNOI INTERACTIF':lang==='es'?'COPA DEL MUNDO 2026 - TORNEO INTERACTIVO':lang==='pt'?'COPA DO MUNDO 2026 - TORNEIO INTERATIVO':lang==='it'?'COPPA DEL MONDO 2026 - TORNEO INTERATTIVO':lang==='de'?'WM 2026 - INTERAKTIVES TURNIER':'WORLD CUP 2026 - INTERACTIVE TOURNAMENT')))),
 
         // START screen
         iPhase==='idle'&&e('div',{style:{textAlign:'center',marginBottom:16}},
@@ -3899,7 +3899,7 @@ function App(){
         // CHAMPION screen
         iPhase==='done'&&e('div',{style:{textAlign:'center',marginBottom:16}},
           e('div',{style:{background:'linear-gradient(135deg,rgba(212,175,55,0.3),rgba(184,150,62,0.15))',border:'2px solid '+G,borderRadius:18,padding:'24px 16px',marginBottom:14}},
-            e('div',{style:{fontSize:12,color:G,letterSpacing:3,marginBottom:8}},'🏆 WORLD CUP 2026 CHAMPION'),
+            e('div',{style:{fontSize:12,color:G,letterSpacing:3,marginBottom:8}},_platform==='ios'?'⚽ WC26 CHAMPION':'🏆 WORLD CUP 2026 CHAMPION'),
             e('div',{style:{fontSize:40,marginBottom:6}},'🥇'),
             e('div',{style:{fontSize:26,fontWeight:'bold',color:G}},tn(iChampion,lang)),
             e('div',{style:{fontSize:12,color:'#eee',marginTop:6}},'WORLD CHAMPION 2026 !')
@@ -5065,7 +5065,7 @@ function App(){
           // ── GUIDE VILLES HÔTES ──
           proTab===7&&e('div',null,
             e('div',{style:{fontSize:11,color:G,fontWeight:'bold',marginBottom:4,textAlign:'center'}},
-              '🗺️ '+({en:'16 HOST CITIES — WORLD CUP 2026',fr:'16 VILLES HÔTES — COUPE DU MONDE 2026',es:'16 CIUDADES SEDE — COPA DEL MUNDO 2026',pt:'16 CIDADES SEDE — COPA DO MUNDO 2026',it:'16 CITTÀ OSPITANTI — COPPA DEL MONDO 2026',de:'16 GASTGEBERSTÄDTE — WM 2026'}[lang]||'16 HOST CITIES — WORLD CUP 2026')
+              '🗺️ '+(_platform==='ios'?'16 HOST CITIES — WC26':({en:'16 HOST CITIES — WORLD CUP 2026',fr:'16 VILLES HÔTES — COUPE DU MONDE 2026',es:'16 CIUDADES SEDE — COPA DEL MUNDO 2026',pt:'16 CIDADES SEDE — COPA DO MUNDO 2026',it:'16 CITTÀ OSPITANTI — COPPA DEL MONDO 2026',de:'16 GASTGEBERSTÄDTE — WM 2026'}[lang]||'16 HOST CITIES — WORLD CUP 2026'))
             ),
             e('div',{style:{fontSize:9,color:'#a8bfd4',textAlign:'center',marginBottom:10}},
               {en:'Practical guide for fans travelling to matches',fr:'Guide pratique pour les fans qui voyagent aux matchs',es:'Guía práctica para aficionados que viajan a los partidos',pt:'Guia prático para adeptos que viajam aos jogos',it:'Guida pratica per i tifosi che viaggiano alle partite',de:'Praktischer Leitfaden für Fans, die zu Spielen reisen'}[lang]||'Practical guide for fans'
@@ -5183,7 +5183,7 @@ function App(){
       )
     ),
 
-    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:10,color:'#4a6a8a',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,'World Cup 2026 Fan App - ',premium?'PRO':'Free'),e('div',{style:{marginTop:3,color:'#6a8aaa'}},'Unofficial fan app · Not affiliated with FIFA or any official organization')))
+    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:10,color:'#4a6a8a',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,(_platform==='ios'?'WC26 Fan App - ':'World Cup 2026 Fan App - '),premium?'PRO':'Free'),e('div',{style:{marginTop:3,color:'#6a8aaa'}},'Unofficial fan app · Not affiliated with FIFA or any official organization')))
   );
 }
 
