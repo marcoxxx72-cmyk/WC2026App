@@ -144,11 +144,10 @@ workflows:
               && echo "Partition list OK ✓" || echo "WARN: partition list ÉCHEC"
           else
             echo "Mot de passe introuvable → fallback login keychain"
-            # Approche 2 : exporter le cert installer du keychain Codemagic,
-            # recréer un P12 avec mot de passe connu, importer dans le login keychain
-            security export -k "$CM_KC" -t certs -f pemseq -o /tmp/exported_certs.pem 2>/dev/null && \
-            python3 - << 'PYEOF'
-import subprocess, re
+            # Approche 2 : exporter le cert installer, recréer P12 avec mot de passe connu
+            security export -k "$CM_KC" -t certs -f pemseq -o /tmp/exported_certs.pem 2>/dev/null || true
+            python3 -c "
+import subprocess, re, sys
 try:
     content = open('/tmp/exported_certs.pem').read()
     certs = re.findall(r'-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----', content, re.DOTALL)
@@ -156,18 +155,19 @@ try:
     for cert in certs:
         r = subprocess.run(['openssl','x509','-noout','-subject'], input=cert.encode(), capture_output=True)
         subj = r.stdout.decode()
-        if 'Developer Installer' in subj or 'Installer' in subj:
+        if 'Installer' in subj:
             open('/tmp/installer_cert.pem','w').write(cert)
-            print(f'Cert installer trouvé: {subj.strip()}')
-            found = True; break
+            print('Cert installer trouve:', subj.strip())
+            found = True
+            break
     if not found:
-        print('Certs dispo:')
+        print('Certs disponibles:')
         for c in certs:
             r = subprocess.run(['openssl','x509','-noout','-subject'], input=c.encode(), capture_output=True)
             print(' ', r.stdout.decode().strip())
 except Exception as e:
-    print(f'Erreur: {e}')
-PYEOF
+    print('Erreur:', e)
+"
             if [ -f /tmp/installer_cert.pem ]; then
               openssl pkcs12 -export \
                 -out /tmp/installer_fresh.p12 \
