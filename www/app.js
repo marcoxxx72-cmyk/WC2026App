@@ -2008,13 +2008,13 @@ async function handleProPurchase(lang){
     if(isNativeIOS){
       // Wait up to 5s for RevenueCat to finish initializing before giving up
       var _wt=0;
-      while(_wt<5000&&(!window.RCCapacitor||!window.RCCapacitor.Purchases||!window._rcReady)){
+      while(_wt<10000&&(!window.RCCapacitor||!window.RCCapacitor.Purchases||!window._rcReady)){
         await new Promise(function(r){setTimeout(r,500);});
         _wt+=500;
       }
       RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
       if(!RC||!window._rcReady){
-        alert(lang==='fr'?'Boutique non disponible. Réessayez dans un instant.':'Store unavailable. Please try again in a moment.');
+        alert(({fr:'Assurez-vous d\'être connecté à l\'App Store, puis réessayez.',es:'Asegúrate de estar conectado a la App Store e inténtalo de nuevo.',pt:'Certifique-se de estar conectado à App Store e tente novamente.',it:'Assicurati di essere connesso all\'App Store e riprova.',de:'Stelle sicher, dass du im App Store angemeldet bist, und versuche es erneut.'}[lang])||'Ensure you\'re signed into the App Store, then try again.');
         return;
       }
     } else {
@@ -2048,7 +2048,7 @@ async function handleProPurchase(lang){
     if(!pkg){alert(lang==='fr'?'Produit non disponible. Réessayez plus tard.':'Product not available. Please try again later.');resetBtns();return;}
     var res=await RC.purchasePackage({aPackage:pkg});
     var active=res&&res.customerInfo&&res.customerInfo.entitlements&&res.customerInfo.entitlements.active;
-    if(active&&active['pro_access']){
+    if(active&&active['premium']){
       try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
       if(window._setPremium)window._setPremium(true);
       else window.location.reload();
@@ -2068,7 +2068,7 @@ async function handleRestorePurchases(lang){
   try{
     var info=await RC.restorePurchases();
     var active=info&&info.customerInfo&&info.customerInfo.entitlements&&info.customerInfo.entitlements.active;
-    if(active&&active['pro_access']){
+    if(active&&active['premium']){
       try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
       if(window._setPremium)window._setPremium(true);
       else window.location.reload();
