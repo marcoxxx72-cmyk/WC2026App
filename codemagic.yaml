@@ -123,37 +123,41 @@ workflows:
           CM_KC=$(ls "$HOME/Library/codemagic-cli-tools/keychains/"*.keychain-db 2>/dev/null | head -1)
           echo "Keychain Codemagic: $CM_KC"
 
-          # Créer un keychain PERSO avec mot de passe connu, importer le cert installer
-          # avec -A + set-key-partition-list avec notre propre mot de passe → garanti OK
+          # Créer keychain perso avec mot de passe connu
           OUR_KC="/tmp/wc2026_signing.keychain-db"
           OUR_PWD="wc2026sign"
           security delete-keychain "$OUR_KC" 2>/dev/null || true
-          security create-keychain -p "$OUR_PWD" "$OUR_KC" && echo "Keychain perso créé ✓"
+          security create-keychain -p "$OUR_PWD" "$OUR_KC" && echo "Keychain créé ✓"
           security unlock-keychain -p "$OUR_PWD" "$OUR_KC"
           security set-keychain-settings -t 7200 -u "$OUR_KC"
-          # Extraire le cert installer (PEM, sans clé privée)
+
+          # Extraire cert installer depuis le keychain Codemagic (encore déverrouillé)
           security find-certificate -c "3rd Party Mac Developer Installer" \
             -a -p "$CM_KC" > /tmp/installer_cert.pem 2>/dev/null || true
           if grep -q "BEGIN CERTIFICATE" /tmp/installer_cert.pem; then
-            echo "Cert installer extrait ✓"
-            # Créer P12 = cert installer + clé privée CM_MAC_CERT_KEY
+            echo "Cert extrait ✓"
             openssl pkcs12 -export \
               -out /tmp/installer_pkg.p12 \
               -inkey /tmp/cert_key.pem \
               -in /tmp/installer_cert.pem \
               -passout pass:"$OUR_PWD" && echo "P12 créé ✓"
-            # Importer dans notre keychain avec accès total à toutes les apps
             security import /tmp/installer_pkg.p12 \
               -k "$OUR_KC" -P "$OUR_PWD" -A && echo "Import OK ✓"
-            # set-key-partition-list avec NOTRE mot de passe → garantit apple-tool: access
+            # set-key-partition-list avec notre mot de passe CONNU → garanti
             security set-key-partition-list -S apple-tool:,apple: -s -k "$OUR_PWD" "$OUR_KC" \
-              && echo "Partition list OK ✓" || echo "ERREUR partition list"
-            # Notre keychain EN PREMIER → productbuild trouve le cert sans interaction
-            security list-keychains -d user -s \
-              "$OUR_KC" ~/Library/Keychains/login.keychain-db "$CM_KC"
-            echo "Keychains (ordre):" && security list-keychains
+              && echo "Partition list OK ✓"
+            # SUPPRIMER le cert du keychain Codemagic (déverrouillé) → productbuild
+            # n'a plus d'autre choix que notre keychain
+            security delete-certificate -c "3rd Party Mac Developer Installer" \
+              "$CM_KC" 2>/dev/null \
+              && echo "Cert supprimé de Codemagic ✓" \
+              || echo "Suppression impossible (on continue)"
+            # Mettre notre keychain en premier dans toutes les listes
+            security list-keychains -s "$OUR_KC" ~/Library/Keychains/login.keychain-db "$CM_KC"
+            security default-keychain -s "$OUR_KC"
+            echo "Keychains:" && security list-keychains
           else
-            echo "ERREUR: cert installer non trouvé dans le keychain Codemagic"
+            echo "ERREUR: cert installer non trouvé"
           fi
           echo "=== Identités disponibles pour export ==="
           security find-identity -v
