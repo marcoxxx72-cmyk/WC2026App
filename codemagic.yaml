@@ -161,6 +161,14 @@ workflows:
                 && echo "Import login keychain OK ✓"
               security set-key-partition-list -S apple-tool:,apple: -s -k "" \
                 ~/Library/Keychains/login.keychain-db 2>/dev/null || true
+              # CRITIQUE: login keychain en PREMIER → productbuild trouve le cert
+              # ici (avec -A, sans interaction) avant le keychain Codemagic (bloqué)
+              security list-keychains -d user -s \
+                ~/Library/Keychains/login.keychain-db \
+                "$CM_KC" \
+                /Library/Keychains/System.keychain
+              echo "Ordre keychains après reorder:"
+              security list-keychains
             else
               echo "ERREUR: cert installer non trouvé dans le keychain"
               security find-certificate -c "Installer" -a "$CM_KC" 2>/dev/null | head -5 || true
