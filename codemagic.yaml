@@ -118,13 +118,10 @@ workflows:
             || (echo "=== ARCHIVE ÉCHOUÉ ===" && exit 1)
           echo "=== ARCHIVE RÉUSSI ✓ ==="
 
-          # ── Unlock keychain Codemagic avant export ───────────────────────────
-          CM_KC=$(ls "$HOME/Library/codemagic-cli-tools/keychains/"*.keychain-db 2>/dev/null | head -1)
-          if [ -n "$CM_KC" ]; then
-            echo "Unlock keychain: $CM_KC"
-            security unlock-keychain "$CM_KC" 2>/dev/null || true
-            security set-key-partition-list -S apple-tool:,apple: -s -k "" "$CM_KC" 2>/dev/null || true
-          fi
+          # ── Ré-initialiser accès keychain avant export ───────────────────────
+          # keychain add-certificates connaît le mot de passe du keychain Codemagic
+          # et remet les ACLs correctement pour codesign + productbuild
+          keychain add-certificates
           echo "=== Identités disponibles pour export ==="
           security find-identity -v
 
@@ -136,11 +133,19 @@ workflows:
             -exportOptionsPlist /tmp/ExportOptions-macOS.plist \
             2>&1 | tee /tmp/export.log
           EXPORT_STATUS=${PIPESTATUS[0]}
-          tail -50 /tmp/export.log || true
-          # Afficher les logs de distribution Xcode en cas d'échec
+          # Toujours montrer les erreurs du log principal
+          echo "=== Erreurs export.log ==="
+          grep -iE "error|fail|productbuild|codesign" /tmp/export.log | head -40 || true
+          # En cas d'échec : dump complet des logs de distribution Xcode
           if [ $EXPORT_STATUS -ne 0 ]; then
+            echo "=== Distribution logs (complet) ==="
             DISTLOG=$(find /var/folders -name "*.xcdistributionlogs" -maxdepth 6 2>/dev/null | tail -1)
-            [ -n "$DISTLOG" ] && find "$DISTLOG" -type f | xargs cat 2>/dev/null | tail -80 || true
+            if [ -n "$DISTLOG" ]; then
+              find "$DISTLOG" -type f | sort | while read f; do
+                echo "### $f ###"
+                cat "$f" 2>/dev/null || true
+              done | head -500
+            fi
           fi
           exit $EXPORT_STATUS
 
