@@ -91,26 +91,14 @@ workflows:
           security unlock-keychain -p "$OUR_PWD" "$OUR_KC"
           security set-keychain-settings -t 7200 -u "$OUR_KC"
 
-          # Créer le P12 installer depuis le cert .cer (dans le repo) + CM_MAC_CERT_KEY
-          # Le cert ios/App/mac_installer.cer a été créé avec CM_MAC_CERT_KEY → clés compatibles
-          openssl x509 -inform DER \
-            -in ios/App/mac_installer.cer \
-            -out /tmp/installer_cert.pem \
-            && echo "Cert DER→PEM ✓" \
-            || { echo "ERREUR: conversion cert DER→PEM"; exit 1; }
-          openssl pkcs12 -export \
-            -out /tmp/installer.p12 \
-            -inkey /tmp/cert_key.pem \
-            -in /tmp/installer_cert.pem \
-            -passout pass:"$OUR_PWD" \
-            && echo "P12 créé ✓" \
-            || { echo "ERREUR: création P12 installer"; exit 1; }
-
-          # Importer dans notre keychain avec le mot de passe du P12
-          security import /tmp/installer.p12 -k "$OUR_KC" \
-            -P "$OUR_PWD" -A \
-            && echo "Import P12 OK ✓" \
-            || { echo "ERREUR: import P12"; exit 1; }
+          # Importer directement la clé privée PEM + cert DER dans notre keychain
+          # (évite le P12 intermédiaire + l'incompatibilité OpenSSL 3.x / security import)
+          security import /tmp/cert_key.pem -k "$OUR_KC" -A \
+            && echo "Clé privée importée ✓" \
+            || { echo "ERREUR: import clé privée"; exit 1; }
+          security import ios/App/mac_installer.cer -k "$OUR_KC" -A \
+            && echo "Cert installer importé ✓" \
+            || { echo "ERREUR: import cert installer"; exit 1; }
 
           # Partition list avec MOT DE PASSE DU KEYCHAIN (connu) → clé accessible sans UI
           security set-key-partition-list -S apple-tool:,apple: -s \
