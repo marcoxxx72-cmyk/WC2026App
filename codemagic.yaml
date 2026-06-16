@@ -118,10 +118,73 @@ workflows:
             || (echo "=== ARCHIVE ÉCHOUÉ ===" && exit 1)
           echo "=== ARCHIVE RÉUSSI ✓ ==="
 
-          # ── Ré-initialiser accès keychain avant export ───────────────────────
-          # keychain add-certificates connaît le mot de passe du keychain Codemagic
-          # et remet les ACLs correctement pour codesign + productbuild
+          # ── Débloquer la clé installer pour productbuild ─────────────────────
+          # Erreur: errSecInteractionNotAllowed (-25308) → keychain verrouillé ou
+          # clé privée sans partition apple-tool: → productbuild ne peut pas signer
           keychain add-certificates
+          CM_KC=$(ls "$HOME/Library/codemagic-cli-tools/keychains/"*.keychain-db 2>/dev/null | head -1)
+          echo "Keychain: $CM_KC"
+          echo "=== Contenu codemagic-cli-tools ==="
+          ls "$HOME/Library/codemagic-cli-tools/" 2>/dev/null | head -10 || true
+
+          # Approche 1 : lire le mot de passe depuis le fichier de stockage codemagic
+          CM_KC_PWD=""
+          for PWD_FILE in \
+            "$HOME/Library/codemagic-cli-tools/keychain_password" \
+            "$HOME/Library/codemagic-cli-tools/.keychain_password" \
+            "$HOME/.codemagic/keychain_password"
+          do
+            [ -f "$PWD_FILE" ] && CM_KC_PWD=$(cat "$PWD_FILE") \
+              && echo "Mot de passe trouvé: $PWD_FILE" && break
+          done
+
+          if [ -n "$CM_KC_PWD" ]; then
+            security unlock-keychain -p "$CM_KC_PWD" "$CM_KC" 2>/dev/null && echo "Keychain débloqué ✓"
+            security set-key-partition-list -S apple-tool:,apple: -s -k "$CM_KC_PWD" "$CM_KC" \
+              && echo "Partition list OK ✓" || echo "WARN: partition list ÉCHEC"
+          else
+            echo "Mot de passe introuvable → fallback login keychain"
+            # Approche 2 : exporter le cert installer du keychain Codemagic,
+            # recréer un P12 avec mot de passe connu, importer dans le login keychain
+            security export -k "$CM_KC" -t certs -f pemseq -o /tmp/exported_certs.pem 2>/dev/null && \
+            python3 - << 'PYEOF'
+import subprocess, re
+try:
+    content = open('/tmp/exported_certs.pem').read()
+    certs = re.findall(r'-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----', content, re.DOTALL)
+    found = False
+    for cert in certs:
+        r = subprocess.run(['openssl','x509','-noout','-subject'], input=cert.encode(), capture_output=True)
+        subj = r.stdout.decode()
+        if 'Developer Installer' in subj or 'Installer' in subj:
+            open('/tmp/installer_cert.pem','w').write(cert)
+            print(f'Cert installer trouvé: {subj.strip()}')
+            found = True; break
+    if not found:
+        print('Certs dispo:')
+        for c in certs:
+            r = subprocess.run(['openssl','x509','-noout','-subject'], input=c.encode(), capture_output=True)
+            print(' ', r.stdout.decode().strip())
+except Exception as e:
+    print(f'Erreur: {e}')
+PYEOF
+            if [ -f /tmp/installer_cert.pem ]; then
+              openssl pkcs12 -export \
+                -out /tmp/installer_fresh.p12 \
+                -inkey /tmp/cert_key.pem \
+                -in /tmp/installer_cert.pem \
+                -passout pass:codemagic123 \
+                && echo "P12 créé ✓"
+              security import /tmp/installer_fresh.p12 \
+                -k ~/Library/Keychains/login.keychain-db \
+                -P codemagic123 -A \
+                && echo "Import login keychain OK ✓"
+              security set-key-partition-list -S apple-tool:,apple: -s -k "" \
+                ~/Library/Keychains/login.keychain-db 2>/dev/null || true
+            else
+              echo "ERREUR: cert installer introuvable dans le keychain"
+            fi
+          fi
           echo "=== Identités disponibles pour export ==="
           security find-identity -v
 
