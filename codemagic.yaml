@@ -118,7 +118,13 @@ workflows:
             || (echo "=== ARCHIVE ÉCHOUÉ ===" && exit 1)
           echo "=== ARCHIVE RÉUSSI ✓ ==="
 
-          # ── Diagnostics avant export ─────────────────────────────────────────
+          # ── Unlock keychain Codemagic avant export ───────────────────────────
+          CM_KC=$(ls "$HOME/Library/codemagic-cli-tools/keychains/"*.keychain-db 2>/dev/null | head -1)
+          if [ -n "$CM_KC" ]; then
+            echo "Unlock keychain: $CM_KC"
+            security unlock-keychain "$CM_KC" 2>/dev/null || true
+            security set-key-partition-list -S apple-tool:,apple: -s -k "" "$CM_KC" 2>/dev/null || true
+          fi
           echo "=== Identités disponibles pour export ==="
           security find-identity -v
 
