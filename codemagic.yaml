@@ -41,6 +41,34 @@ workflows:
             && echo "fetch-signing-files: OK ✓" \
             || { echo "fetch-signing-files: ERREUR"; exit 1; }
 
+          # ── CERT 2 : Mac Installer Distribution (requis pour le .pkg) ──────
+          echo "=== Cert Mac Installer Distribution ==="
+          P12_BEFORE=$(ls "$CERTS_DIR"/*.p12 2>/dev/null | wc -l | tr -d ' ')
+          CREATE_OUT=$(app-store-connect certificates create \
+            --type MAC_INSTALLER_DISTRIBUTION \
+            --certificate-key=@file:/tmp/cert_key.pem \
+            --save \
+            --certificates-dir "$CERTS_DIR" 2>&1)
+          CREATE_STATUS=$?
+          echo "$CREATE_OUT"
+          if [ $CREATE_STATUS -ne 0 ]; then
+            if echo "$CREATE_OUT" | grep -q "409"; then
+              echo "Cert déjà existant (409) — téléchargement..."
+              app-store-connect list-certificates \
+                --type MAC_INSTALLER_DISTRIBUTION \
+                --certificate-key=@file:/tmp/cert_key.pem \
+                --save \
+                --certificates-dir "$CERTS_DIR" 2>/dev/null || true
+            else
+              echo "ERREUR: création cert installer"; exit 1
+            fi
+          fi
+          P12_AFTER=$(ls "$CERTS_DIR"/*.p12 2>/dev/null | wc -l | tr -d ' ')
+          echo "P12 avant: $P12_BEFORE / après: $P12_AFTER"
+          [ "$P12_AFTER" -gt "$P12_BEFORE" ] \
+            && echo "Installer cert: OK ✓" \
+            || { echo "ERREUR: cert installer non installé"; exit 1; }
+
           keychain add-certificates
 
           # ── Autoriser codesign + productbuild sur TOUS les keychains ─────────
