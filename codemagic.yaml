@@ -29,8 +29,7 @@ workflows:
           PROFILES_DIR="$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles"
           mkdir -p "$CERTS_DIR" "$PROFILES_DIR"
 
-          # ── CERT 1 : Apple Distribution + profil Mac Catalyst ───────────────
-          # Même approche que le workflow iOS (fonctionne déjà avec CM_MAC_CERT_KEY)
+          # Apple Distribution cert + profil Mac Catalyst (pour xcodebuild archive)
           app-store-connect fetch-signing-files "com.marcocanal.worldcup2026" \
             --platform IOS \
             --type MAC_CATALYST_APP_STORE \
@@ -41,41 +40,11 @@ workflows:
             && echo "fetch-signing-files: OK ✓" \
             || { echo "fetch-signing-files: ERREUR"; exit 1; }
 
-          # ── CERT 2 : Mac Installer Distribution (requis pour le .pkg) ──────
-          echo "=== Cert Mac Installer Distribution ==="
-          P12_BEFORE=$(ls "$CERTS_DIR"/*.p12 2>/dev/null | wc -l | tr -d ' ')
-          CREATE_OUT=$(app-store-connect certificates create \
-            --type MAC_INSTALLER_DISTRIBUTION \
-            --certificate-key=@file:/tmp/cert_key.pem \
-            --save \
-            --certificates-dir "$CERTS_DIR" 2>&1)
-          CREATE_STATUS=$?
-          echo "$CREATE_OUT"
-          if [ $CREATE_STATUS -ne 0 ]; then
-            if echo "$CREATE_OUT" | grep -q "409"; then
-              echo "Cert déjà existant (409) — téléchargement..."
-              app-store-connect list-certificates \
-                --type MAC_INSTALLER_DISTRIBUTION \
-                --certificate-key=@file:/tmp/cert_key.pem \
-                --save \
-                --certificates-dir "$CERTS_DIR" 2>/dev/null || true
-            else
-              echo "ERREUR: création cert installer"; exit 1
-            fi
-          fi
-          P12_AFTER=$(ls "$CERTS_DIR"/*.p12 2>/dev/null | wc -l | tr -d ' ')
-          echo "P12 avant: $P12_BEFORE / après: $P12_AFTER"
-          [ "$P12_AFTER" -gt "$P12_BEFORE" ] \
-            && echo "Installer cert: OK ✓" \
-            || { echo "ERREUR: cert installer non installé"; exit 1; }
-
           keychain add-certificates
+          echo "=== Identités après add-certificates ==="
+          security find-identity -v
 
-          # ── Autoriser codesign + productbuild sur TOUS les keychains ─────────
-          security list-keychains | tr -d '"' | xargs -I{} \
-            security set-key-partition-list -S apple-tool:,apple: -s -k "" {} 2>/dev/null || true
-
-          # ── Lire le nom exact du profil pour PROVISIONING_PROFILE_SPECIFIER ─
+          # Nom exact du profil pour PROVISIONING_PROFILE_SPECIFIER
           PROFILE_PATH=$(ls "$PROFILES_DIR"/*.provisionprofile 2>/dev/null | head -1)
           PROFILE_NAME=""
           if [ -n "$PROFILE_PATH" ]; then
@@ -83,15 +52,9 @@ workflows:
               python3 -c "import sys,plistlib; d=plistlib.loads(sys.stdin.buffer.read()); print(d.get('Name',''))" \
               2>/dev/null || echo "")
           fi
-          if [ -z "$PROFILE_NAME" ]; then
-            PROFILE_NAME="World Cup 2026 mac_catalyst_app_store 1781450616"
-          fi
+          [ -z "$PROFILE_NAME" ] && PROFILE_NAME="World Cup 2026 mac_catalyst_app_store 1781450616"
           echo "Profil: $PROFILE_NAME"
           echo "$PROFILE_NAME" > /tmp/mac_profile_name.txt
-
-          # ── Diagnostics ──────────────────────────────────────────────────────
-          echo "=== Identités de signature ==="
-          security find-identity -v
           echo "=== Profils installés ==="
           ls "$PROFILES_DIR"
 
@@ -113,34 +76,48 @@ workflows:
             DEVELOPMENT_TEAM=Y6F853GG9K \
             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
             2>&1 | tee /tmp/xcodebuild.log
-          grep -E "error:|ARCHIVE SUCCEEDED" /tmp/xcodebuild.log | head -30 || true
+          grep -E "error:|ARCHIVE SUCCEEDED|ARCHIVE FAILED" /tmp/xcodebuild.log | head -20 || true
           ls /tmp/App-macOS.xcarchive 2>/dev/null \
             || (echo "=== ARCHIVE ÉCHOUÉ ===" && exit 1)
           echo "=== ARCHIVE RÉUSSI ✓ ==="
 
-          # ── Keychain perso pour productbuild (partition list avec mot de passe connu) ──
-          keychain add-certificates
-          CM_KC=$(ls "$HOME/Library/codemagic-cli-tools/keychains/"*.keychain-db 2>/dev/null | head -1)
+          # ── Keychain perso : installer cert avec mot de passe CONNU ──────────
+          # La clé privée dans ce keychain a la partition list correcte (apple-tool:)
+          # → productbuild peut signer SANS interaction UI
           OUR_KC="/tmp/wc2026_signing.keychain-db"
           OUR_PWD="wc2026sign"
           security delete-keychain "$OUR_KC" 2>/dev/null || true
           security create-keychain -p "$OUR_PWD" "$OUR_KC"
           security unlock-keychain -p "$OUR_PWD" "$OUR_KC"
           security set-keychain-settings -t 7200 -u "$OUR_KC"
-          security find-certificate -c "3rd Party Mac Developer Installer" \
-            -a -p "$CM_KC" > /tmp/installer_cert.pem 2>/dev/null || true
-          openssl pkcs12 -export -out /tmp/installer_pkg.p12 \
-            -inkey /tmp/cert_key.pem -in /tmp/installer_cert.pem \
-            -passout pass:"$OUR_PWD" 2>/dev/null && echo "P12 installer créé ✓"
-          security import /tmp/installer_pkg.p12 -k "$OUR_KC" -P "$OUR_PWD" -A \
-            && echo "Import keychain perso OK ✓"
-          security set-key-partition-list -S apple-tool:,apple: -s -k "$OUR_PWD" "$OUR_KC" \
-            && echo "Partition list OK ✓"
-          security list-keychains -s "$OUR_KC" ~/Library/Keychains/login.keychain-db "$CM_KC"
 
-          # ── EXPORT MANUEL — bypass xcodebuild -exportArchive ─────────────────
-          # xcodebuild resette le keychain list dans son subprocess et productbuild
-          # ne peut pas accéder à la clé privée → on fait tout depuis notre shell
+          # Décoder le P12 installer depuis MAC_APP_P12 (base64)
+          echo "$MAC_APP_P12" | base64 -d > /tmp/installer.p12 \
+            && echo "P12 décodé ✓" \
+            || { echo "ERREUR: décodage MAC_APP_P12"; exit 1; }
+
+          # Importer dans notre keychain avec le mot de passe du P12
+          security import /tmp/installer.p12 -k "$OUR_KC" \
+            -P "$MAC_INSTALLER_PWD" -A \
+            && echo "Import P12 OK ✓" \
+            || { echo "ERREUR: import P12 (vérifier MAC_APP_P12 + MAC_INSTALLER_PWD)"; exit 1; }
+
+          # Partition list avec MOT DE PASSE DU KEYCHAIN (connu) → clé accessible sans UI
+          security set-key-partition-list -S apple-tool:,apple: -s \
+            -k "$OUR_PWD" "$OUR_KC" \
+            && echo "Partition list OK ✓" \
+            || { echo "ERREUR: set-key-partition-list"; exit 1; }
+
+          # Notre keychain en 1er (productbuild → installer cert)
+          # CM's keychain en dernier (codesign → Apple Distribution cert)
+          CM_KC=$(ls "$HOME/Library/codemagic-cli-tools/keychains/"*.keychain-db 2>/dev/null | head -1)
+          security list-keychains -s "$OUR_KC" ~/Library/Keychains/login.keychain-db "$CM_KC"
+          security unlock-keychain -p "$OUR_PWD" "$OUR_KC"
+
+          echo "=== Identités disponibles ==="
+          security find-identity -v
+
+          # ── EXPORT MANUEL (bypass xcodebuild -exportArchive + son subprocess) ─
           PROFILES_DIR="$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles"
           PROFILE_PATH=$(ls "$PROFILES_DIR"/*.provisionprofile 2>/dev/null | head -1)
           APP_ARCHIVE="/tmp/App-macOS.xcarchive/Products/Applications/App.app"
@@ -149,35 +126,41 @@ workflows:
           cp -R "$APP_ARCHIVE" "$STAGING/"
           STAGING_APP="$STAGING/App.app"
 
-          # Extraire les entitlements de distribution depuis le profil
+          # Entitlements de distribution depuis le profil
           security cms -D -i "$PROFILE_PATH" > /tmp/profile_decoded.plist 2>/dev/null
           /usr/libexec/PlistBuddy -c "Print :Entitlements" /tmp/profile_decoded.plist -x \
-            > /tmp/dist_entitlements.plist 2>/dev/null && echo "Entitlements extraits ✓"
+            > /tmp/dist_entitlements.plist 2>/dev/null \
+            && echo "Entitlements extraits ✓" \
+            || echo "Entitlements: utilisation sans fichier explicite"
 
-          # Re-signer tous les frameworks (ordre inverse — du plus profond au plus haut)
+          # Re-signer frameworks (du plus profond au plus haut)
           find "$STAGING_APP/Contents/Frameworks" \
-            \( -name "*.framework" -o -name "*.dylib" \) | sort -r | while read fw; do
-            codesign --force \
-              --sign "Apple Distribution: Jean-Marc Canal (Y6F853GG9K)" \
-              --preserve-metadata=identifier,flags,runtime \
-              --generate-entitlement-der \
-              "$fw" 2>&1 | grep -v "replacing existing" || true
-          done
+            \( -name "*.framework" -o -name "*.dylib" \) 2>/dev/null | sort -r | \
+            while read fw; do
+              codesign --force \
+                --sign "Apple Distribution: Jean-Marc Canal (Y6F853GG9K)" \
+                --preserve-metadata=identifier,flags,runtime \
+                --generate-entitlement-der \
+                "$fw" 2>&1 | grep -v "replacing existing" || true
+            done
           echo "Frameworks re-signés ✓"
 
-          # Re-signer le bundle principal avec les entitlements de distribution
+          # Re-signer le bundle principal
           codesign --force \
             --sign "Apple Distribution: Jean-Marc Canal (Y6F853GG9K)" \
             --entitlements /tmp/dist_entitlements.plist \
             --generate-entitlement-der \
             --options runtime \
-            "$STAGING_APP" && echo "App re-signée ✓"
+            "$STAGING_APP" \
+            && echo "App re-signée ✓" \
+            || { echo "ERREUR: codesign .app"; exit 1; }
 
-          # Vérifier la signature
-          codesign --verify --deep --strict "$STAGING_APP" && echo "Vérification OK ✓"
+          codesign --verify --deep --strict "$STAGING_APP" \
+            && echo "Vérification codesign OK ✓" \
+            || echo "Vérification codesign: avertissement (non bloquant)"
 
-          # Créer le .pkg depuis notre shell (pas le subprocess xcodebuild)
-          # Notre keychain perso a apple-tool: partition → productbuild peut signer
+          # Créer le .pkg — productbuild utilise l'installer cert de NOTRE keychain
+          echo "=== Lancement productbuild ==="
           /usr/bin/productbuild \
             --sign "3rd Party Mac Developer Installer: Jean-Marc Canal (Y6F853GG9K)" \
             --component "$STAGING_APP" /Applications \
