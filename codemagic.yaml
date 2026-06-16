@@ -64,12 +64,11 @@ workflows:
             && echo "Installer cert: créé ✓" \
             || { echo "ERREUR: création installer cert"; exit 1; }
 
-          # ── Autoriser codesign + productbuild sans prompt ────────────────────
-          security set-key-partition-list \
-            -S apple-tool:,apple: -s -k "" \
-            ~/Library/Keychains/login.keychain-db 2>/dev/null || true
-
           keychain add-certificates
+
+          # ── Autoriser codesign + productbuild sur TOUS les keychains ─────────
+          security list-keychains | tr -d '"' | xargs -I{} \
+            security set-key-partition-list -S apple-tool:,apple: -s -k "" {} 2>/dev/null || true
 
           # ── Lire le nom exact du profil pour PROVISIONING_PROFILE_SPECIFIER ─
           PROFILE_PATH=$(ls "$PROFILES_DIR"/*.provisionprofile 2>/dev/null | head -1)
