@@ -113,16 +113,26 @@ workflows:
             || (echo "=== ARCHIVE ÉCHOUÉ ===" && exit 1)
           echo "=== ARCHIVE RÉUSSI ✓ ==="
 
+          # ── Diagnostics avant export ─────────────────────────────────────────
+          echo "=== Identités disponibles pour export ==="
+          security find-identity -v
+
           # ── EXPORT .pkg ──────────────────────────────────────────────────────
-          # Générer ExportOptions dynamiquement avec le bon profil
-          python3 -c "import plistlib; plistlib.dump({'method':'app-store-connect','destination':'export','signingStyle':'manual','teamID':'Y6F853GG9K','signingCertificate':'Apple Distribution','installerSigningCertificate':'3rd Party Mac Developer Installer','provisioningProfiles':{'com.marcocanal.worldcup2026':'$PROFILE_NAME'}},open('/tmp/ExportOptions-macOS.plist','wb')); print('ExportOptions OK: $PROFILE_NAME')"
+          # method:app-store-connect + Xcode14+ : Apple Distribution signe tout
+          # installerSigningCertificate n'est PAS valide pour cette méthode
+          python3 -c "import plistlib; plistlib.dump({'method':'app-store-connect','signingStyle':'manual','teamID':'Y6F853GG9K','signingCertificate':'Apple Distribution','provisioningProfiles':{'com.marcocanal.worldcup2026':'$PROFILE_NAME'}},open('/tmp/ExportOptions-macOS.plist','wb')); print('ExportOptions OK: $PROFILE_NAME')"
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
             -exportOptionsPlist /tmp/ExportOptions-macOS.plist \
             2>&1 | tee /tmp/export.log
           EXPORT_STATUS=${PIPESTATUS[0]}
-          tail -30 /tmp/export.log || true
+          tail -50 /tmp/export.log || true
+          # Afficher les logs de distribution Xcode en cas d'échec
+          if [ $EXPORT_STATUS -ne 0 ]; then
+            DISTLOG=$(find /var/folders -name "*.xcdistributionlogs" -maxdepth 6 2>/dev/null | tail -1)
+            [ -n "$DISTLOG" ] && find "$DISTLOG" -type f | xargs cat 2>/dev/null | tail -80 || true
+          fi
           exit $EXPORT_STATUS
 
     artifacts:
