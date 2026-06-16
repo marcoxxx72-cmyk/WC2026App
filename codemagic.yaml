@@ -115,53 +115,16 @@ workflows:
           echo "=== Identités disponibles ==="
           security find-identity -v
 
-          # ── EXPORT MANUEL (bypass xcodebuild -exportArchive + son subprocess) ─
-          PROFILES_DIR="$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles"
-          PROFILE_PATH=$(ls "$PROFILES_DIR"/*.provisionprofile 2>/dev/null | head -1)
+          # ── PACKAGE (pas de re-signature — l'archive est déjà correctement signée) ─
+          # xcodebuild archive a signé .app avec Apple Distribution + entitlements
+          # productbuild signe uniquement le .pkg wrapper avec l'installer cert
           APP_ARCHIVE="/tmp/App-macOS.xcarchive/Products/Applications/App.app"
-          STAGING="/tmp/App-macOS-staging"
-          rm -rf "$STAGING" && mkdir -p "$STAGING" /tmp/App-macOS
-          cp -R "$APP_ARCHIVE" "$STAGING/"
-          STAGING_APP="$STAGING/App.app"
+          mkdir -p /tmp/App-macOS
 
-          # Entitlements de distribution depuis le profil
-          security cms -D -i "$PROFILE_PATH" > /tmp/profile_decoded.plist 2>/dev/null
-          /usr/libexec/PlistBuddy -c "Print :Entitlements" /tmp/profile_decoded.plist -x \
-            > /tmp/dist_entitlements.plist 2>/dev/null \
-            && echo "Entitlements extraits ✓" \
-            || echo "Entitlements: utilisation sans fichier explicite"
-
-          # Re-signer frameworks (du plus profond au plus haut)
-          find "$STAGING_APP/Contents/Frameworks" \
-            \( -name "*.framework" -o -name "*.dylib" \) 2>/dev/null | sort -r | \
-            while read fw; do
-              codesign --force \
-                --sign "Apple Distribution: Jean-Marc Canal (Y6F853GG9K)" \
-                --preserve-metadata=identifier,flags,runtime \
-                --generate-entitlement-der \
-                "$fw" 2>&1 | grep -v "replacing existing" || true
-            done
-          echo "Frameworks re-signés ✓"
-
-          # Re-signer le bundle principal
-          codesign --force \
-            --sign "Apple Distribution: Jean-Marc Canal (Y6F853GG9K)" \
-            --entitlements /tmp/dist_entitlements.plist \
-            --generate-entitlement-der \
-            --options runtime \
-            "$STAGING_APP" \
-            && echo "App re-signée ✓" \
-            || { echo "ERREUR: codesign .app"; exit 1; }
-
-          codesign --verify --deep --strict "$STAGING_APP" \
-            && echo "Vérification codesign OK ✓" \
-            || echo "Vérification codesign: avertissement (non bloquant)"
-
-          # Créer le .pkg — productbuild utilise l'installer cert de NOTRE keychain
           echo "=== Lancement productbuild ==="
           /usr/bin/productbuild \
             --sign "3rd Party Mac Developer Installer: Jean-Marc Canal (Y6F853GG9K)" \
-            --component "$STAGING_APP" /Applications \
+            --component "$APP_ARCHIVE" /Applications \
             /tmp/App-macOS/App.pkg \
             && echo "=== .PKG CRÉÉ ✓ ===" \
             || { echo "=== PRODUCTBUILD ÉCHEC ==="; exit 1; }
