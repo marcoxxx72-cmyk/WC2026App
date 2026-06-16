@@ -123,9 +123,7 @@ workflows:
           security find-identity -v
 
           # ── EXPORT .pkg ──────────────────────────────────────────────────────
-          # method:app-store-connect + Xcode14+ : Apple Distribution signe tout
-          # installerSigningCertificate n'est PAS valide pour cette méthode
-          python3 -c "import plistlib; plistlib.dump({'method':'app-store-connect','signingStyle':'manual','teamID':'Y6F853GG9K','signingCertificate':'Apple Distribution','provisioningProfiles':{'com.marcocanal.worldcup2026':'$PROFILE_NAME'}},open('/tmp/ExportOptions-macOS.plist','wb')); print('ExportOptions OK: $PROFILE_NAME')"
+          python3 -c "import plistlib; plistlib.dump({'method':'app-store-connect','signingStyle':'manual','teamID':'Y6F853GG9K','signingCertificate':'Apple Distribution','installerSigningCertificate':'3rd Party Mac Developer Installer','provisioningProfiles':{'com.marcocanal.worldcup2026':'$PROFILE_NAME'}},open('/tmp/ExportOptions-macOS.plist','wb')); print('ExportOptions OK: $PROFILE_NAME')"
           xcodebuild -exportArchive \
             -archivePath /tmp/App-macOS.xcarchive \
             -exportPath /tmp/App-macOS \
