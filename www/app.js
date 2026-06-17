@@ -3239,10 +3239,9 @@ function App(){
         premium&&e('span',{style:{fontSize:11,color:G,fontWeight:'bold'}},'PRO ⭐')
       ),
       e('div',{style:{textAlign:'center'}},
-        e('div',{style:{fontSize:24}},'⚽'),
+        e('img',{src:'/icon-512.png',style:{width:44,height:44,borderRadius:10,marginBottom:4,objectFit:'cover'}}),
         e('div',{style:{fontSize:18,fontWeight:'bold',letterSpacing:3,textTransform:'uppercase',background:'linear-gradient(90deg,'+G+',#fff8e0,'+G+')',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}},_platform==='ios'?'WC26 Fan App':t.appTitle),
-        e('div',{style:{fontSize:10,color:'#b0c8de',letterSpacing:4,marginTop:2}},t.appSub),
-        e('div',{style:{fontSize:9,color:'rgba(176,200,222,0.6)',letterSpacing:1,marginTop:3}},lang==='fr'?'App non officielle · Non affiliée à la FIFA':'Unofficial fan app · Not affiliated with FIFA')
+        e('div',{style:{fontSize:10,color:'#b0c8de',letterSpacing:4,marginTop:2}},t.appSub)
       )
     ),
 
@@ -5183,7 +5182,7 @@ function App(){
       )
     ),
 
-    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:10,color:'#4a6a8a',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,(_platform==='ios'?'WC26 Fan App - ':'World Cup 2026 Fan App - '),premium?'PRO':'Free'),e('div',{style:{marginTop:3,color:'#6a8aaa'}},'Unofficial fan app · Not affiliated with FIFA or any official organization')))
+    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:10,color:'#4a6a8a',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,(_platform==='ios'?'WC26 Fan App - ':'World Cup 2026 Fan App - '),premium?'PRO':'Free')))
   );
 }
 
