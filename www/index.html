@@ -49,55 +49,7 @@ select{-webkit-appearance:none;appearance:none}
 </script>
 </head>
 <body>
-<div id="splash" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#08091a center/cover no-repeat;z-index:9999;transition:opacity .5s ease;cursor:pointer;overflow:hidden"></div>
 <div id="root"></div>
-<script>
-window._wcSplashUp=true;
-(function(){
-  var sp=document.getElementById('splash');
-
-  var saved='';try{saved=localStorage.getItem('wc2026_lang')||'';}catch(e){}
-  var nav=(navigator.language||'').toLowerCase().slice(0,2);
-  var map={fr:'fr',es:'es',pt:'pt',it:'it',de:'de'};
-  var lang=saved||(map[nav]||'en');
-
-  var suffix=window.innerWidth>=1024?'desktop':'phone';
-  var isNativeApp=!!(window.Capacitor&&window.Capacitor.isNativePlatform());
-  var splashSuffix=isNativeApp?('-'+suffix+'-ios'):('-'+suffix);
-  sp.style.backgroundImage="url('/public/splash-"+lang+splashSuffix+".png')";
-  sp.style.backgroundSize='cover';
-
-  // Overlay titre "WC26 FAN APP" — masque le titre original dans l'image
-  var ov=document.createElement('div');
-  ov.style.cssText='position:absolute;top:0;left:0;right:0;height:32%;background:linear-gradient(to bottom,rgba(4,4,8,0.96) 50%,transparent 100%);display:flex;align-items:center;justify-content:center;pointer-events:none;';
-  var t=document.createElement('div');
-  t.style.cssText='color:#d4af37;font-size:clamp(22px,6vw,44px);font-weight:900;letter-spacing:4px;text-transform:uppercase;font-family:Impact,"Arial Black",sans-serif;text-shadow:0 0 30px rgba(212,175,55,0.9),0 3px 10px rgba(0,0,0,0.9);text-align:center;margin-top:12px;';
-  t.textContent='WC26 FAN APP';
-  ov.appendChild(t);
-  sp.appendChild(ov);
-
-  function hide(){
-    window._wcSplashUp=false;
-    // Stop any music React may have queued, then start fresh on this gesture
-    try{
-      if(window._wcMusic){window._wcMusic.pause();window._wcMusic=null;}
-      var mu=localStorage.getItem('wc2026_music');
-      if(mu!=='off'){
-        var src=(mu==='B')?'/RitmodaTorcida.mp3':'/Goals.mp3';
-        var a=new Audio(src);a.loop=true;a.volume=0.3;a._wcsrc=src;
-        a.play().catch(function(){});
-        window._wcMusic=a;
-      }
-    }catch(e){}
-    sp.style.opacity='0';
-    setTimeout(function(){sp.style.display='none';},500);
-  }
-  setTimeout(function(){
-    sp.addEventListener('click',hide);
-    sp.addEventListener('touchstart',hide,{passive:true});
-  },500);
-})();
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
@@ -110,10 +62,15 @@ window.dispatchEvent(new Event('loaders-ready'));
 <script src="/app.js"></script>
 <script>
 (function(){
-  document.addEventListener('DOMContentLoaded',function(){
-    var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
-    if(!isIOS||!window.RCCapacitor||!window.RCCapacitor.Purchases)return;
-    var RC=window.RCCapacitor.Purchases;
+  var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
+  if(!isIOS){window._rcReady=true;return;}
+  function tryInitRC(attempt){
+    var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
+    if(!RC){
+      if(attempt<20){setTimeout(function(){tryInitRC(attempt+1);},500);}
+      else{window._rcReady=true;}
+      return;
+    }
     RC.configure({apiKey:'appl_GXcUUucxHJtVOrEQMAMwOCSlETj'}).then(function(){
       window._rcReady=true;
       return RC.getCustomerInfo();
@@ -124,7 +81,8 @@ window.dispatchEvent(new Event('loaders-ready'));
         if(window._setPremium)window._setPremium(true);
       }
     }).catch(function(){window._rcReady=true;});
-  });
+  }
+  document.addEventListener('DOMContentLoaded',function(){tryInitRC(0);});
 })();
 </script>
 </body>
