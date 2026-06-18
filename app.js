@@ -1646,36 +1646,36 @@ var ALL_TEAMS = Object.values(GROUPS).reduce(function(a,g){return a.concat(g.tea
 var FIXTURES = [
   // - JUNE 11 -
   {date:'2026-06-11',time:'15:00',home:'Mexico',away:'South Africa',group:'A',stadium:'Estadio Azteca',city:'Mexico City',homeScore:2,awayScore:0},
-  {date:'2026-06-11',time:'22:00',home:'South Korea',away:'Czechia',group:'A',stadium:'Estadio Akron',city:'Guadalajara',homeScore:2,awayScore:1}
+  {date:'2026-06-11',time:'22:00',home:'South Korea',away:'Czechia',group:'A',stadium:'Estadio Akron',city:'Guadalajara',homeScore:2,awayScore:1},
   // - JUNE 12 -
-  {date:'2026-06-12',time:'15:00',home:'Canada',away:'Bosnia',group:'B',stadium:'BMO Field',city:'Toronto',homeScore:1,awayScore:1}
-  {date:'2026-06-12',time:'21:00',home:'USA',away:'Paraguay',group:'D',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:4,awayScore:1}
+  {date:'2026-06-12',time:'15:00',home:'Canada',away:'Bosnia',group:'B',stadium:'BMO Field',city:'Toronto',homeScore:1,awayScore:1},
+  {date:'2026-06-12',time:'21:00',home:'USA',away:'Paraguay',group:'D',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:4,awayScore:1},
   // - JUNE 13 -
-  {date:'2026-06-13',time:'15:00',home:'Qatar',away:'Switzerland',group:'B',stadium:'Levis Stadium',city:'San Francisco',homeScore:1,awayScore:1}
-  {date:'2026-06-13',time:'18:00',home:'Brazil',away:'Morocco',group:'C',stadium:'MetLife Stadium',city:'New York',homeScore:1,awayScore:1}
-  {date:'2026-06-13',time:'21:00',home:'Haiti',away:'Scotland',group:'C',stadium:'Gillette Stadium',city:'Boston',homeScore:0,awayScore:1}
-  {date:'2026-06-14',time:'00:00',home:'Australia',away:'Turkey',group:'D',stadium:'BC Place',city:'Vancouver',homeScore:2,awayScore:0}
+  {date:'2026-06-13',time:'15:00',home:'Qatar',away:'Switzerland',group:'B',stadium:'Levis Stadium',city:'San Francisco',homeScore:1,awayScore:1},
+  {date:'2026-06-13',time:'18:00',home:'Brazil',away:'Morocco',group:'C',stadium:'MetLife Stadium',city:'New York',homeScore:1,awayScore:1},
+  {date:'2026-06-13',time:'21:00',home:'Haiti',away:'Scotland',group:'C',stadium:'Gillette Stadium',city:'Boston',homeScore:0,awayScore:1},
+  {date:'2026-06-14',time:'00:00',home:'Australia',away:'Turkey',group:'D',stadium:'BC Place',city:'Vancouver',homeScore:2,awayScore:0},
   // - JUNE 14 -
-  {date:'2026-06-14',time:'15:00',home:'Germany',away:'Curacao',group:'E',stadium:'NRG Stadium',city:'Houston',homeScore:7,awayScore:1}
-  {date:'2026-06-14',time:'18:00',home:'Netherlands',away:'Japan',group:'F',stadium:'AT&T Stadium',city:'Dallas',homeScore:2,awayScore:2}
-  {date:'2026-06-14',time:'21:00',home:'Ivory Coast',away:'Ecuador',group:'E',stadium:'Lincoln Financial',city:'Philadelphia',homeScore:1,awayScore:0}
+  {date:'2026-06-14',time:'15:00',home:'Germany',away:'Curacao',group:'E',stadium:'NRG Stadium',city:'Houston',homeScore:7,awayScore:1},
+  {date:'2026-06-14',time:'18:00',home:'Netherlands',away:'Japan',group:'F',stadium:'AT&T Stadium',city:'Dallas',homeScore:2,awayScore:2},
+  {date:'2026-06-14',time:'21:00',home:'Ivory Coast',away:'Ecuador',group:'E',stadium:'Lincoln Financial',city:'Philadelphia',homeScore:1,awayScore:0},
   // - JUNE 15 -
-  {date:'2026-06-15',time:'00:00',home:'Sweden',away:'Tunisia',group:'F',stadium:'Estadio BBVA',city:'Monterrey',homeScore:5,awayScore:1}
-  {date:'2026-06-15',time:'15:00',home:'Spain',away:'Cape Verde',group:'H',stadium:'Mercedes-Benz Stadium',city:'Atlanta',homeScore:0,awayScore:0}
-  {date:'2026-06-15',time:'18:00',home:'Belgium',away:'Egypt',group:'G',stadium:'Lumen Field',city:'Seattle',homeScore:1,awayScore:1}
-  {date:'2026-06-15',time:'21:00',home:'Saudi Arabia',away:'Uruguay',group:'H',stadium:'Hard Rock Stadium',city:'Miami',homeScore:1,awayScore:1}
+  {date:'2026-06-15',time:'00:00',home:'Sweden',away:'Tunisia',group:'F',stadium:'Estadio BBVA',city:'Monterrey',homeScore:5,awayScore:1},
+  {date:'2026-06-15',time:'15:00',home:'Spain',away:'Cape Verde',group:'H',stadium:'Mercedes-Benz Stadium',city:'Atlanta',homeScore:0,awayScore:0},
+  {date:'2026-06-15',time:'18:00',home:'Belgium',away:'Egypt',group:'G',stadium:'Lumen Field',city:'Seattle',homeScore:1,awayScore:1},
+  {date:'2026-06-15',time:'21:00',home:'Saudi Arabia',away:'Uruguay',group:'H',stadium:'Hard Rock Stadium',city:'Miami',homeScore:1,awayScore:1},
   // - JUNE 16 -
-  {date:'2026-06-16',time:'00:00',home:'Iran',away:'New Zealand',group:'G',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:2,awayScore:2}
-  {date:'2026-06-16',time:'15:00',home:'France',away:'Senegal',group:'I',stadium:'MetLife Stadium',city:'New York',homeScore:3,awayScore:1}
-  {date:'2026-06-16',time:'18:00',home:'Iraq',away:'Norway',group:'I',stadium:'Gillette Stadium',city:'Boston',homeScore:1,awayScore:4}
-  {date:'2026-06-16',time:'21:00',home:'Argentina',away:'Algeria',group:'J',stadium:'Arrowhead Stadium',city:'Kansas City',homeScore:3,awayScore:0}
+  {date:'2026-06-16',time:'00:00',home:'Iran',away:'New Zealand',group:'G',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:2,awayScore:2},
+  {date:'2026-06-16',time:'15:00',home:'France',away:'Senegal',group:'I',stadium:'MetLife Stadium',city:'New York',homeScore:3,awayScore:1},
+  {date:'2026-06-16',time:'18:00',home:'Iraq',away:'Norway',group:'I',stadium:'Gillette Stadium',city:'Boston',homeScore:1,awayScore:4},
+  {date:'2026-06-16',time:'21:00',home:'Argentina',away:'Algeria',group:'J',stadium:'Arrowhead Stadium',city:'Kansas City',homeScore:3,awayScore:0},
   // - JUNE 17 -
-  {date:'2026-06-17',time:'00:00',home:'Austria',away:'Jordan',group:'J',stadium:'Levis Stadium',city:'San Francisco',homeScore:3,awayScore:1}
-  {date:'2026-06-17',time:'15:00',home:'Portugal',away:'DR Congo',group:'K',stadium:'NRG Stadium',city:'Houston',homeScore:1,awayScore:1}
-  {date:'2026-06-17',time:'18:00',home:'England',away:'Croatia',group:'L',stadium:'AT&T Stadium',city:'Dallas',homeScore:4,awayScore:2}
-  {date:'2026-06-17',time:'21:00',home:'Ghana',away:'Panama',group:'L',stadium:'BMO Field',city:'Toronto',homeScore:1,awayScore:0}
+  {date:'2026-06-17',time:'00:00',home:'Austria',away:'Jordan',group:'J',stadium:'Levis Stadium',city:'San Francisco',homeScore:3,awayScore:1},
+  {date:'2026-06-17',time:'15:00',home:'Portugal',away:'DR Congo',group:'K',stadium:'NRG Stadium',city:'Houston',homeScore:1,awayScore:1},
+  {date:'2026-06-17',time:'18:00',home:'England',away:'Croatia',group:'L',stadium:'AT&T Stadium',city:'Dallas',homeScore:4,awayScore:2},
+  {date:'2026-06-17',time:'21:00',home:'Ghana',away:'Panama',group:'L',stadium:'BMO Field',city:'Toronto',homeScore:1,awayScore:0},
   // - JUNE 18 -
-  {date:'2026-06-18',time:'00:00',home:'Uzbekistan',away:'Colombia',group:'K',stadium:'Estadio Azteca',city:'Mexico City',homeScore:1,awayScore:3}
+  {date:'2026-06-18',time:'00:00',home:'Uzbekistan',away:'Colombia',group:'K',stadium:'Estadio Azteca',city:'Mexico City',homeScore:1,awayScore:3},
   {date:'2026-06-18',time:'15:00',home:'Czechia',away:'South Africa',group:'A',stadium:'Mercedes-Benz Stadium',city:'Atlanta'},
   {date:'2026-06-18',time:'18:00',home:'Switzerland',away:'Bosnia',group:'B',stadium:'SoFi Stadium',city:'Los Angeles'},
   {date:'2026-06-18',time:'21:00',home:'Canada',away:'Qatar',group:'B',stadium:'BC Place',city:'Vancouver'},
