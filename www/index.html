@@ -77,7 +77,7 @@ window.dispatchEvent(new Event('loaders-ready'));
       return RC.getCustomerInfo();
     }).then(function(info){
       var active=info&&info.customerInfo&&info.customerInfo.entitlements&&info.customerInfo.entitlements.active;
-      if(active&&active['premium']){
+      if(active&&Object.keys(active).length>0){
         try{localStorage.setItem('wc2026_pro','1');}catch(e){}
         if(window._setPremium)window._setPremium(true);
       }

@@ -2053,7 +2053,7 @@ async function handleProPurchase(lang){
     if(!pkg){alert(lang==='fr'?'Produit non disponible. Réessayez plus tard.':'Product not available. Please try again later.');resetBtns();return;}
     var res=await RC.purchasePackage({aPackage:pkg});
     var active=res&&res.customerInfo&&res.customerInfo.entitlements&&res.customerInfo.entitlements.active;
-    if(active&&active['premium']){
+    if(active&&Object.keys(active).length>0){
       try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
       if(window._setPremium)window._setPremium(true);
       else window.location.reload();
@@ -2073,7 +2073,7 @@ async function handleRestorePurchases(lang){
   try{
     var info=await RC.restorePurchases();
     var active=info&&info.customerInfo&&info.customerInfo.entitlements&&info.customerInfo.entitlements.active;
-    if(active&&active['premium']){
+    if(active&&Object.keys(active).length>0){
       try{localStorage.setItem('wc2026_pro','1');}catch(ex){}
       if(window._setPremium)window._setPremium(true);
       else window.location.reload();
