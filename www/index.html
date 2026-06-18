@@ -63,15 +63,16 @@ window.dispatchEvent(new Event('loaders-ready'));
 <script>
 (function(){
   var isIOS=window.Capacitor&&window.Capacitor.getPlatform()==='ios';
-  if(!isIOS){window._rcReady=true;return;}
+  if(!isIOS){window._rcReady=true;window._rcConfigured=true;return;}
   function tryInitRC(attempt){
     var RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
     if(!RC){
       if(attempt<20){setTimeout(function(){tryInitRC(attempt+1);},500);}
-      else{window._rcReady=true;}
+      else{window._rcReady=true;window._rcConfigured=false;}
       return;
     }
     RC.configure({apiKey:'appl_GXcUUucxHJtVOrEQMAMwOCSlETj'}).then(function(){
+      window._rcConfigured=true;
       window._rcReady=true;
       return RC.getCustomerInfo();
     }).then(function(info){
@@ -80,7 +81,7 @@ window.dispatchEvent(new Event('loaders-ready'));
         try{localStorage.setItem('wc2026_pro','1');}catch(e){}
         if(window._setPremium)window._setPremium(true);
       }
-    }).catch(function(){window._rcReady=true;});
+    }).catch(function(){window._rcConfigured=false;window._rcReady=true;});
   }
   document.addEventListener('DOMContentLoaded',function(){tryInitRC(0);});
 })();

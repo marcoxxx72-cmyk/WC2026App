@@ -1986,6 +1986,7 @@ var SPONSORS = {
   de:[{name:'ARD',icon:'📺',url:'https://www.sportschau.de'},{name:'ZDF',icon:'📺',url:'https://www.zdf.de/sport'}]
 }
 var _platform=(window.Capacitor&&window.Capacitor.getPlatform)?window.Capacitor.getPlatform():'web';
+if(new URLSearchParams(window.location.search).get('pf')==='ios')_platform='ios';
 var STORE_LINKS=_platform==='ios'?[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'}]:_platform==='android'?[{name:'Google Play',icon:'🤖',url:'https://play.google.com'}]:[{name:'App Store',icon:'🍎',url:'https://apps.apple.com'},{name:'Google Play',icon:'🤖',url:'https://play.google.com'}];
 
 function isMacCatalyst(){
@@ -2032,6 +2033,10 @@ async function handleProPurchase(lang){
       window.location.href=stripeUrl;
       return;
     }
+  }
+  if(isNativeIOS&&!window._rcConfigured){
+    alert(lang==='fr'?'Le service d\'achat ne peut pas se connecter à l\'App Store. Vérifiez votre connexion Internet et réessayez.':lang==='es'?'El servicio de compra no pudo conectarse a la App Store. Verifica tu conexión e inténtalo de nuevo.':lang==='pt'?'O serviço de compra não pôde conectar-se à App Store. Verifique sua conexão e tente novamente.':lang==='it'?'Il servizio d\'acquisto non riesce a connettersi all\'App Store. Controlla la connessione e riprova.':lang==='de'?'Der Kaufdienst kann keine Verbindung zum App Store herstellen. Überprüfe deine Verbindung und versuche es erneut.':'Unable to connect to the App Store. Please check your internet connection and try again.');
+    return;
   }
   _wcPurchasing=true;
   // Show loading on all Pro buttons
