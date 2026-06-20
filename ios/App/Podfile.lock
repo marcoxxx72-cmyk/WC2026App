@@ -4,18 +4,18 @@ PODS:
   - CapacitorCordova (5.7.8)
   - CapacitorSplashScreen (8.0.1):
     - Capacitor
-  - PurchasesHybridCommon (18.14.1):
+  - PurchasesHybridCommon (18.15.1):
     - RevenueCat (= 5.78.0)
-  - PurchasesHybridCommonUI (18.14.1):
-    - PurchasesHybridCommon (= 18.14.1)
+  - PurchasesHybridCommonUI (18.15.1):
+    - PurchasesHybridCommon (= 18.15.1)
     - RevenueCatUI (= 5.78.0)
   - RevenueCat (5.78.0)
-  - RevenuecatPurchasesCapacitor (13.1.7):
+  - RevenuecatPurchasesCapacitor (13.2.0):
     - Capacitor
-    - PurchasesHybridCommon (= 18.14.1)
-  - RevenuecatPurchasesCapacitorUi (13.1.7):
+    - PurchasesHybridCommon (= 18.15.1)
+  - RevenuecatPurchasesCapacitorUi (13.2.0):
     - Capacitor
-    - PurchasesHybridCommonUI (= 18.14.1)
+    - PurchasesHybridCommonUI (= 18.15.1)
   - RevenueCatUI (5.78.0):
     - RevenueCat (= 5.78.0)
 
@@ -49,11 +49,11 @@ SPEC CHECKSUMS:
   Capacitor: 9686e5711b48a1aa84671ede795d0175848abcba
   CapacitorCordova: 31ab98dca2ddcee051027a1afe7e8c85c82f7297
   CapacitorSplashScreen: 4b46c72298db552b3c57ce021ef028b6dc7f1fa7
-  PurchasesHybridCommon: 825e4e748b62c919bc4cb4032b0d1e452409bd74
-  PurchasesHybridCommonUI: 536abdfc64b82adcbb9ba352630722a4a1270571
+  PurchasesHybridCommon: eed735a411c1aee8c05d62933fa7c4a40ede4009
+  PurchasesHybridCommonUI: 4f0efc542177185a0d38080bbc42210d4ac15f4a
   RevenueCat: f3641992451c1426da8d8d1466cec3bbdb765962
-  RevenuecatPurchasesCapacitor: 4c30ee2136ae1b0020b34f743f738b2929497827
-  RevenuecatPurchasesCapacitorUi: d6a1fea5e63cb2d1e5eefade696cc8dfe9f26cbc
+  RevenuecatPurchasesCapacitor: 180e7d224124f97c23eaae9d590a90a510115f70
+  RevenuecatPurchasesCapacitorUi: 1a974121358fa37f729d3bba030b22159dee5d71
   RevenueCatUI: 32998f100fe73f1d0172df7eef4f0dd1bc781a05
 
 PODFILE CHECKSUM: 2e86f1381a79a0c46718c066e20fb6d2fb758792

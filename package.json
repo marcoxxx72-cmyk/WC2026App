@@ -27,8 +27,8 @@
     "@capacitor/core": "^5.7.8",
     "@capacitor/ios": "^5.7.8",
     "@capacitor/splash-screen": "^5.0.0",
-    "@revenuecat/purchases-capacitor": "13.1.7",
-    "@revenuecat/purchases-capacitor-ui": "13.1.7",
+    "@revenuecat/purchases-capacitor": "13.2.0",
+    "@revenuecat/purchases-capacitor-ui": "13.2.0",
     "puppeteer": "^25.1.0"
   }
 }

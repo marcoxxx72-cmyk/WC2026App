@@ -2015,7 +2015,7 @@ async function handleProPurchase(lang){
       }
       RC=window.RCCapacitor&&window.RCCapacitor.Purchases;
       if(!RC||!window._rcReady){
-        alert(({fr:'Assurez-vous d\'être connecté à l\'App Store, puis réessayez.',es:'Asegúrate de estar conectado a la App Store e inténtalo de nuevo.',pt:'Certifique-se de estar conectado à App Store e tente novamente.',it:'Assicurati di essere connesso all\'App Store e riprova.',de:'Stelle sicher, dass du im App Store angemeldet bist, und versuche es erneut.'}[lang])||'Ensure you\'re signed into the App Store, then try again.');
+        alert(({fr:'L\'achat intégré n\'est pas disponible pour le moment. Vérifiez votre connexion et réessayez.',es:'La compra integrada no está disponible en este momento. Verifica tu conexión e inténtalo de nuevo.',pt:'A compra integrada não está disponível no momento. Verifique sua conexão e tente novamente.',it:'L\'acquisto integrato non è disponibile al momento. Controlla la connessione e riprova.',de:'In-App-Kauf ist derzeit nicht verfügbar. Überprüfe deine Verbindung und versuche es erneut.'}[lang])||'In-App Purchase is not available right now. Please check your connection and try again.');
         return;
       }
     } else {
@@ -3232,6 +3232,10 @@ function App(){
               return e('button',{key:b.v,onClick:function(){setBgBright(b.v);try{localStorage.setItem('wc2026_bgb',String(b.v));}catch(e){}},style:{background:bgBright===b.v?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:bgBright===b.v?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 18px',cursor:'pointer',color:bgBright===b.v?'#0a0a1a':'#9bb0c8',fontSize:16,fontWeight:bgBright===b.v?'bold':'normal',minHeight:36}},b.l);
             })
           )
+        ),
+        e('div',{style:{marginTop:20,paddingTop:14,borderTop:'1px solid rgba(255,255,255,0.06)',textAlign:'center',fontSize:9,color:'#3a5070',lineHeight:1.6}},
+          'Unofficial fan app',e('br'),
+          'Not affiliated with or endorsed by FIFA or any football organization'
         )
       )
     ),
@@ -5187,7 +5191,9 @@ function App(){
       )
     ),
 
-    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:10,color:'#4a6a8a',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},e('div',null,(_platform==='ios'?'WC26 Fan App - ':'World Cup 2026 Fan App - '),premium?'PRO':'Free')))
+    e('footer',{style:{textAlign:'center',padding:'10px',fontSize:10,color:'#4a6a8a',borderTop:'1px solid rgba(212,175,55,0.08)',marginTop:4}},
+      e('div',null,(_platform==='ios'?'WC26 Fan App - ':'World Cup 2026 Fan App - '),premium?'PRO':'Free'),
+      e('div',{style:{fontSize:9,color:'#2a4060',marginTop:3}},'Unofficial fan app · Not affiliated with or endorsed by FIFA or any football organization')))
   );
 }
 
