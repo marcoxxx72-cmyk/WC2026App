@@ -1697,7 +1697,7 @@ var FIXTURES = [
   {date:'2026-06-19',time:'21:00',home:'Brazil',away:'Haiti',group:'C',stadium:'Lincoln Financial',city:'Philadelphia',homeScore:3,awayScore:0},
   // - JUNE 20 -
   {date:'2026-06-20',time:'00:00',home:'Turkey',away:'Paraguay',group:'D',stadium:'Levis Stadium',city:'San Francisco',homeScore:0,awayScore:1},
-  {date:'2026-06-20',time:'15:00',home:'Netherlands',away:'Sweden',group:'F',stadium:'NRG Stadium',city:'Houston'},
+  {date:'2026-06-20',time:'15:00',home:'Netherlands',away:'Sweden',group:'F',stadium:'NRG Stadium',city:'Houston',homeScore:5,awayScore:1},
   {date:'2026-06-20',time:'18:00',home:'Germany',away:'Ivory Coast',group:'E',stadium:'BMO Field',city:'Toronto'},
   {date:'2026-06-20',time:'21:00',home:'Ecuador',away:'Curacao',group:'E',stadium:'Arrowhead Stadium',city:'Kansas City'},
   // - JUNE 21 -
