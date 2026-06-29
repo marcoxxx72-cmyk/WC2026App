@@ -5329,14 +5329,8 @@ function App(){
         try{localStorage.setItem('wc2026_r32_results',JSON.stringify(losers));}catch(err){}
         var iW=window.innerWidth;
         var iH=Math.round(iW*640/520);
-        var iframeRef=React.useRef(null);
-        React.useEffect(function(){
-          if(iframeRef.current&&iframeRef.current.contentWindow){
-            iframeRef.current.contentWindow.postMessage({type:'bracket_data',data:bd,r32losers:losers},'*');
-          }
-        });
         return e('div',{style:{marginTop:-20,marginLeft:-16,marginRight:-16,width:iW,height:iH,overflow:'hidden',background:'#0d0d12'}},
-          e('iframe',{ref:iframeRef,src:'bracket.html',width:iW,height:iH,style:{display:'block',border:'none'},scrolling:'no'})
+          e('iframe',{src:'bracket.html',width:iW,height:iH,style:{display:'block',border:'none'},scrolling:'no'})
         );
       })():null,
 
