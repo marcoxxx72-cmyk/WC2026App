@@ -5301,29 +5301,42 @@ function App(){
 
       // - DRAW (VISUAL BRACKET) -
       tab===3?(function(){
-        var ALL_R32=[
-          {h:'Germany',a:'Paraguay'},{h:'France',a:'Sweden'},
-          {h:'South Africa',a:'Canada'},{h:'Netherlands',a:'Morocco'},
-          {h:'Portugal',a:'Croatia'},{h:'Spain',a:'Austria'},
-          {h:'USA',a:'Bosnia'},{h:'Belgium',a:'Senegal'},
-          {h:'Brazil',a:'Japan'},{h:'Ivory Coast',a:'Norway'},
-          {h:'Mexico',a:'Ecuador'},{h:'England',a:'DR Congo'},
-          {h:'Argentina',a:'Cape Verde'},{h:'Australia',a:'Egypt'},
-          {h:'Switzerland',a:'Algeria'},{h:'Colombia',a:'Ghana'},
-        ];
+        var FL={'Germany':'🇩🇪','Paraguay':'🇵🇾','France':'🇫🇷','Sweden':'🇸🇪','South Africa':'🇿🇦','Canada':'🇨🇦','Netherlands':'🇳🇱','Morocco':'🇲🇦','Portugal':'🇵🇹','Croatia':'🇭🇷','Spain':'🇪🇸','Austria':'🇦🇹','USA':'🇺🇸','Bosnia':'🇧🇦','Belgium':'🇧🇪','Senegal':'🇸🇳','Brazil':'🇧🇷','Japan':'🇯🇵','Ivory Coast':'🇨🇮','Norway':'🇳🇴','Mexico':'🇲🇽','Ecuador':'🇪🇨','England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','DR Congo':'🇨🇩','Argentina':'🇦🇷','Cape Verde':'🇨🇻','Australia':'🇦🇺','Egypt':'🇪🇬','Switzerland':'🇨🇭','Algeria':'🇩🇿','Colombia':'🇨🇴','Ghana':'🇬🇭'};
+        var LR=[['Germany','Paraguay'],['France','Sweden'],['South Africa','Canada'],['Netherlands','Morocco'],['Portugal','Croatia'],['Spain','Austria'],['USA','Bosnia'],['Belgium','Senegal']];
+        var RR=[['Brazil','Japan'],['Ivory Coast','Norway'],['Mexico','Ecuador'],['England','DR Congo'],['Argentina','Cape Verde'],['Australia','Egypt'],['Switzerland','Algeria'],['Colombia','Ghana']];
+        function gw(h,a,g){
+          var f=FIXTURES.find(function(x){return x.group===g&&((x.home===h&&x.away===a)||(x.home===a&&x.away===h));});
+          if(!f||f.homeScore==null||f.awayScore==null)return null;
+          if(f.homeScore>f.awayScore)return f.home;
+          if(f.awayScore>f.homeScore)return f.away;
+          return null;
+        }
+        var lR32n=LR.map(function(m){return gw(m[0],m[1],'R32');});
+        var rR32n=RR.map(function(m){return gw(m[0],m[1],'R32');});
+        var lR16n=[gw(lR32n[0],lR32n[1],'R16'),gw(lR32n[2],lR32n[3],'R16'),gw(lR32n[4],lR32n[5],'R16'),gw(lR32n[6],lR32n[7],'R16')];
+        var rR16n=[gw(rR32n[0],rR32n[1],'R16'),gw(rR32n[2],rR32n[3],'R16'),gw(rR32n[4],rR32n[5],'R16'),gw(rR32n[6],rR32n[7],'R16')];
+        var lQFn=[gw(lR16n[0],lR16n[1],'QF'),gw(lR16n[2],lR16n[3],'QF')];
+        var rQFn=[gw(rR16n[0],rR16n[1],'QF'),gw(rR16n[2],rR16n[3],'QF')];
+        var lSFn=gw(lQFn[0],lQFn[1],'SF');
+        var rSFn=gw(rQFn[0],rQFn[1],'SF');
+        var finN=gw(lSFn,rSFn,'Final');
+        function fl(n){return n?(FL[n]||n):null;}
+        var bd={lR32w:lR32n.map(fl),rR32w:rR32n.map(fl),lR16w:lR16n.map(fl),rR16w:rR16n.map(fl),lQFw:lQFn.map(fl),rQFw:rQFn.map(fl),lSFw:fl(lSFn),rSFw:fl(rSFn),finalW:fl(finN)};
         var losers={};
-        ALL_R32.forEach(function(m){
-          var f=FIXTURES.find(function(x){return x.home===m.h&&x.away===m.a&&x.group==='R32';});
-          if(f&&f.homeScore!=null){
-            if(f.homeScore>f.awayScore) losers[m.a]='loser';
-            else if(f.awayScore>f.homeScore) losers[m.h]='loser';
-          }
-        });
+        lR32n.forEach(function(w,i){if(w){var l=w===LR[i][0]?LR[i][1]:LR[i][0];losers[l]='loser';}});
+        rR32n.forEach(function(w,i){if(w){var l=w===RR[i][0]?RR[i][1]:RR[i][0];losers[l]='loser';}});
+        try{localStorage.setItem('wc2026_bracket',JSON.stringify(bd));}catch(err){}
         try{localStorage.setItem('wc2026_r32_results',JSON.stringify(losers));}catch(err){}
         var iW=window.innerWidth;
         var iH=Math.round(iW*640/520);
+        var iframeRef=React.useRef(null);
+        React.useEffect(function(){
+          if(iframeRef.current&&iframeRef.current.contentWindow){
+            iframeRef.current.contentWindow.postMessage({type:'bracket_data',data:bd,r32losers:losers},'*');
+          }
+        });
         return e('div',{style:{marginTop:-20,marginLeft:-16,marginRight:-16,width:iW,height:iH,overflow:'hidden',background:'#0d0d12'}},
-          e('iframe',{src:'bracket.html',width:iW,height:iH,style:{display:'block',border:'none'},scrolling:'no'})
+          e('iframe',{ref:iframeRef,src:'bracket.html',width:iW,height:iH,style:{display:'block',border:'none'},scrolling:'no'})
         );
       })():null,
 
