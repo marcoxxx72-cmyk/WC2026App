@@ -5207,118 +5207,38 @@ function App(){
               }},lang==='fr'?'Matchs':lang==='es'?'Partidos':lang==='pt'?'Jogos':lang==='it'?'Partite':lang==='de'?'Spiele':'Matches')
             )
           ),
-          // ── VISUAL BRACKET ───────────────────────────────────────────
+          // ── VISUAL BRACKET (iframe → bracket.html) ───────────────────
           bracketView==='visual'?(function(){
-            var BL='#c8a020';
-            var LS={stroke:BL,strokeWidth:1.6,fill:'none',strokeLinecap:'square',opacity:0.85};
-            var LM=[
+            // Calcule les perdants et les écrit dans localStorage pour l'iframe
+            var ALL_R32=[
               {h:'Germany',a:'Paraguay'},{h:'France',a:'Sweden'},
               {h:'South Africa',a:'Canada'},{h:'Netherlands',a:'Morocco'},
               {h:'Portugal',a:'Croatia'},{h:'Spain',a:'Austria'},
               {h:'USA',a:'Bosnia'},{h:'Belgium',a:'Senegal'},
-            ];
-            var RM=[
               {h:'Brazil',a:'Japan'},{h:'Ivory Coast',a:'Norway'},
               {h:'Mexico',a:'Ecuador'},{h:'England',a:'DR Congo'},
               {h:'Argentina',a:'Cape Verde'},{h:'Australia',a:'Egypt'},
               {h:'Switzerland',a:'Algeria'},{h:'Colombia',a:'Ghana'},
             ];
-            function getRes(h,a){
-              var f=FIXTURES.find(function(x){return x.home===h&&x.away===a&&x.group==='R32';});
-              if(!f||f.homeScore==null)return null;
-              return {hS:f.homeScore,aS:f.awayScore,w:f.homeScore>f.awayScore?h:f.awayScore>f.homeScore?a:null};
-            }
-            function slotWin(m){var r=getRes(m.h,m.a);return r?r.w:null;}
-            function MC(m,l,t){
-              var r=getRes(m.h,m.a);
-              var hL=r&&r.w===m.a;var aL=r&&r.w===m.h;
-              return e('div',{key:m.h,style:{
-                position:'absolute',left:l,top:t,width:148,height:52,
-                background:'linear-gradient(135deg,#1e1e28,#161620)',
-                border:'1px solid rgba(212,175,55,0.4)',borderRadius:8,
-                display:'flex',alignItems:'center',justifyContent:'center',
-                gap:5,padding:'5px 6px',boxShadow:'0 2px 8px rgba(0,0,0,0.5)',
-              }},
-                e('div',{style:{width:60,height:40,background:'#12121a',borderRadius:5,border:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,lineHeight:1,opacity:hL?0.22:1}},FLAG_MAP[m.h]||'🏳'),
-                e('div',{style:{width:60,height:40,background:'#12121a',borderRadius:5,border:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,lineHeight:1,opacity:aL?0.22:1}},FLAG_MAP[m.a]||'🏳')
-              );
-            }
-            function WSlot(team,l,t){
-              return e('div',{key:'w'+l+'_'+t,style:{
-                position:'absolute',left:l,top:t,width:34,height:34,
-                background:team?'rgba(212,175,55,0.15)':'rgba(255,255,255,0.03)',
-                borderRadius:5,
-                border:'1px solid '+(team?'rgba(212,175,55,0.5)':'rgba(255,255,255,0.06)'),
-                display:'flex',alignItems:'center',justifyContent:'center',
-                fontSize:20,boxShadow:team?'0 0 8px rgba(212,175,55,0.25)':'none',
-              }},team?FLAG_MAP[team]||'🏳':'');
-            }
-            // R32 winners
-            var lW=[0,1,2,3,4,5,6,7].map(function(i){return slotWin(LM[i]);});
-            var rW=[0,1,2,3,4,5,6,7].map(function(i){return slotWin(RM[i]);});
-            var sc=Math.min(1,(window.innerWidth-20)/520);
-            return e('div',{style:{height:Math.round(640*sc),overflow:'hidden',background:'#0d0d12'}},
-              e('div',{style:{position:'relative',width:520,height:640,transformOrigin:'top left',transform:'scale('+sc+')'}},
-                e('svg',{style:{position:'absolute',top:0,left:0,width:520,height:640,pointerEvents:'none'},viewBox:'0 0 520 640'},
-                  // LEFT lines
-                  e('polyline',Object.assign({},LS,{points:'158,35 175,35 175,97 158,97'})),
-                  e('line',Object.assign({},LS,{x1:175,y1:66,x2:198,y2:66})),
-                  e('polyline',Object.assign({},LS,{points:'158,203 175,203 175,265 158,265'})),
-                  e('line',Object.assign({},LS,{x1:175,y1:234,x2:198,y2:234})),
-                  e('polyline',Object.assign({},LS,{points:'198,66 215,66 215,234 198,234'})),
-                  e('line',Object.assign({},LS,{x1:215,y1:150,x2:238,y2:150})),
-                  e('polyline',Object.assign({},LS,{points:'158,371 175,371 175,433 158,433'})),
-                  e('line',Object.assign({},LS,{x1:175,y1:402,x2:198,y2:402})),
-                  e('polyline',Object.assign({},LS,{points:'158,539 175,539 175,601 158,601'})),
-                  e('line',Object.assign({},LS,{x1:175,y1:570,x2:198,y2:570})),
-                  e('polyline',Object.assign({},LS,{points:'198,402 215,402 215,570 198,570'})),
-                  e('line',Object.assign({},LS,{x1:215,y1:486,x2:238,y2:486})),
-                  e('polyline',Object.assign({},LS,{points:'238,150 255,150 255,486 238,486'})),
-                  e('line',Object.assign({},LS,{x1:255,y1:318,x2:263,y2:318})),
-                  // RIGHT lines
-                  e('polyline',Object.assign({},LS,{points:'362,35 345,35 345,97 362,97'})),
-                  e('line',Object.assign({},LS,{x1:345,y1:66,x2:322,y2:66})),
-                  e('polyline',Object.assign({},LS,{points:'362,203 345,203 345,265 362,265'})),
-                  e('line',Object.assign({},LS,{x1:345,y1:234,x2:322,y2:234})),
-                  e('polyline',Object.assign({},LS,{points:'322,66 305,66 305,234 322,234'})),
-                  e('line',Object.assign({},LS,{x1:305,y1:150,x2:282,y2:150})),
-                  e('polyline',Object.assign({},LS,{points:'362,371 345,371 345,433 362,433'})),
-                  e('line',Object.assign({},LS,{x1:345,y1:402,x2:322,y2:402})),
-                  e('polyline',Object.assign({},LS,{points:'362,539 345,539 345,601 362,601'})),
-                  e('line',Object.assign({},LS,{x1:345,y1:570,x2:322,y2:570})),
-                  e('polyline',Object.assign({},LS,{points:'322,402 305,402 305,570 322,570'})),
-                  e('line',Object.assign({},LS,{x1:305,y1:486,x2:282,y2:486})),
-                  e('polyline',Object.assign({},LS,{points:'282,150 265,150 265,486 282,486'})),
-                  e('line',Object.assign({},LS,{x1:265,y1:318,x2:257,y2:318}))
-                ),
-                // LEFT R32
-                MC(LM[0],10,9),MC(LM[1],10,71),
-                MC(LM[2],10,177),MC(LM[3],10,239),
-                MC(LM[4],10,345),MC(LM[5],10,407),
-                MC(LM[6],10,513),MC(LM[7],10,575),
-                // RIGHT R32
-                MC(RM[0],362,9),MC(RM[1],362,71),
-                MC(RM[2],362,177),MC(RM[3],362,239),
-                MC(RM[4],362,345),MC(RM[5],362,407),
-                MC(RM[6],362,513),MC(RM[7],362,575),
-                // LEFT R16 winner slots (x≈222, midpoints 66,234,402,570 → paired: 150,486)
-                WSlot(lW[0],222,49),WSlot(lW[1],222,83),
-                WSlot(lW[2],222,215),WSlot(lW[3],222,249),
-                WSlot(lW[4],222,385),WSlot(lW[5],222,419),
-                WSlot(lW[6],222,553),WSlot(lW[7],222,587),
-                // RIGHT R16 winner slots (x≈264 from right = 520-264-34=222 left edge mirrored → x=264)
-                WSlot(rW[0],264,49),WSlot(rW[1],264,83),
-                WSlot(rW[2],264,215),WSlot(rW[3],264,249),
-                WSlot(rW[4],264,385),WSlot(rW[5],264,419),
-                WSlot(rW[6],264,553),WSlot(rW[7],264,587),
-                // TROPHY
-                e('div',{style:{
-                  position:'absolute',left:'50%',top:283,
-                  transform:'translateX(-50%)',
-                  fontSize:52,lineHeight:1,
-                  filter:'drop-shadow(0 0 16px rgba(212,175,55,0.9)) drop-shadow(0 0 6px rgba(212,175,55,0.5))',
-                }},'🏆')
-              )
+            var losers={};
+            ALL_R32.forEach(function(m){
+              var f=FIXTURES.find(function(x){return x.home===m.h&&x.away===m.a&&x.group==='R32';});
+              if(f&&f.homeScore!=null){
+                if(f.homeScore>f.awayScore) losers[m.a]='loser';
+                else if(f.awayScore>f.homeScore) losers[m.h]='loser';
+              }
+            });
+            try{localStorage.setItem('wc2026_r32_results',JSON.stringify(losers));}catch(err){}
+            var iW=window.innerWidth;
+            var iH=Math.round(iW*640/520);
+            return e('div',{style:{width:iW,height:iH,overflow:'hidden',background:'#0d0d12'}},
+              e('iframe',{
+                src:'bracket.html',
+                width:iW,
+                height:iH,
+                style:{display:'block',border:'none'},
+                scrolling:'no',
+              })
             );
           })()
           // ── MATCHES VIEW ─────────────────────────────────────────────

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>WC2026 Bracket</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #0d0d12;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+  .outer {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .bracket-canvas {
+    position: relative;
+    width: 520px;
+    height: 640px;
+    background: #0d0d12;
+    transform-origin: top center;
+  }
+  svg.lines {
+    position: absolute;
+    top: 0; left: 0;
+    width: 520px; height: 640px;
+    pointer-events: none;
+  }
+  .match {
+    position: absolute;
+    width: 148px;
+    height: 52px;
+    background: linear-gradient(135deg, #1e1e28, #161620);
+    border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(212,175,55,0.08);
+  }
+  .flag {
+    width: 60px;
+    height: 40px;
+    background: #12121a;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    line-height: 1;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: opacity 0.4s ease;
+  }
+  .flag.loser { opacity: 0.2; }
+  .trophy-wrap {
+    position: absolute;
+    left: 50%;
+    top: 283px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .trophy-icon {
+    font-size: 56px;
+    line-height: 1;
+    filter: drop-shadow(0 0 14px rgba(212,175,55,0.8)) drop-shadow(0 0 4px rgba(212,175,55,0.5));
+  }
+</style>
+</head>
+<body>
+<div class="outer">
+<div class="bracket-canvas" id="canvas">
+
+  <svg class="lines" viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <style>.bl{stroke:#c8a020;stroke-width:1.6;fill:none;stroke-linecap:square;opacity:0.85;}</style>
+    </defs>
+    <!-- LEFT -->
+    <polyline class="bl" points="158,35 175,35 175,97 158,97"/>
+    <line class="bl" x1="175" y1="66" x2="198" y2="66"/>
+    <polyline class="bl" points="158,203 175,203 175,265 158,265"/>
+    <line class="bl" x1="175" y1="234" x2="198" y2="234"/>
+    <polyline class="bl" points="198,66 215,66 215,234 198,234"/>
+    <line class="bl" x1="215" y1="150" x2="238" y2="150"/>
+    <polyline class="bl" points="158,371 175,371 175,433 158,433"/>
+    <line class="bl" x1="175" y1="402" x2="198" y2="402"/>
+    <polyline class="bl" points="158,539 175,539 175,601 158,601"/>
+    <line class="bl" x1="175" y1="570" x2="198" y2="570"/>
+    <polyline class="bl" points="198,402 215,402 215,570 198,570"/>
+    <line class="bl" x1="215" y1="486" x2="238" y2="486"/>
+    <polyline class="bl" points="238,150 255,150 255,486 238,486"/>
+    <line class="bl" x1="255" y1="318" x2="263" y2="318"/>
+    <!-- RIGHT -->
+    <polyline class="bl" points="362,35 345,35 345,97 362,97"/>
+    <line class="bl" x1="345" y1="66" x2="322" y2="66"/>
+    <polyline class="bl" points="362,203 345,203 345,265 362,265"/>
+    <line class="bl" x1="345" y1="234" x2="322" y2="234"/>
+    <polyline class="bl" points="322,66 305,66 305,234 322,234"/>
+    <line class="bl" x1="305" y1="150" x2="282" y2="150"/>
+    <polyline class="bl" points="362,371 345,371 345,433 362,433"/>
+    <line class="bl" x1="345" y1="402" x2="322" y2="402"/>
+    <polyline class="bl" points="362,539 345,539 345,601 362,601"/>
+    <line class="bl" x1="345" y1="570" x2="322" y2="570"/>
+    <polyline class="bl" points="322,402 305,402 305,570 322,570"/>
+    <line class="bl" x1="305" y1="486" x2="282" y2="486"/>
+    <polyline class="bl" points="282,150 265,150 265,486 282,486"/>
+    <line class="bl" x1="265" y1="318" x2="257" y2="318"/>
+  </svg>
+
+  <!-- LEFT MATCHES -->
+  <div class="match" style="left:10px;top:9px;">
+    <div class="flag" data-team="Germany">🇩🇪</div><div class="flag" data-team="Paraguay">🇵🇾</div>
+  </div>
+  <div class="match" style="left:10px;top:71px;">
+    <div class="flag" data-team="France">🇫🇷</div><div class="flag" data-team="Sweden">🇸🇪</div>
+  </div>
+  <div class="match" style="left:10px;top:177px;">
+    <div class="flag" data-team="South Africa">🇿🇦</div><div class="flag" data-team="Canada">🇨🇦</div>
+  </div>
+  <div class="match" style="left:10px;top:239px;">
+    <div class="flag" data-team="Netherlands">🇳🇱</div><div class="flag" data-team="Morocco">🇲🇦</div>
+  </div>
+  <div class="match" style="left:10px;top:345px;">
+    <div class="flag" data-team="Portugal">🇵🇹</div><div class="flag" data-team="Croatia">🇭🇷</div>
+  </div>
+  <div class="match" style="left:10px;top:407px;">
+    <div class="flag" data-team="Spain">🇪🇸</div><div class="flag" data-team="Austria">🇦🇹</div>
+  </div>
+  <div class="match" style="left:10px;top:513px;">
+    <div class="flag" data-team="USA">🇺🇸</div><div class="flag" data-team="Bosnia">🇧🇦</div>
+  </div>
+  <div class="match" style="left:10px;top:575px;">
+    <div class="flag" data-team="Belgium">🇧🇪</div><div class="flag" data-team="Senegal">🇸🇳</div>
+  </div>
+
+  <!-- RIGHT MATCHES -->
+  <div class="match" style="left:362px;top:9px;">
+    <div class="flag" data-team="Brazil">🇧🇷</div><div class="flag" data-team="Japan">🇯🇵</div>
+  </div>
+  <div class="match" style="left:362px;top:71px;">
+    <div class="flag" data-team="Ivory Coast">🇨🇮</div><div class="flag" data-team="Norway">🇳🇴</div>
+  </div>
+  <div class="match" style="left:362px;top:177px;">
+    <div class="flag" data-team="Mexico">🇲🇽</div><div class="flag" data-team="Ecuador">🇪🇨</div>
+  </div>
+  <div class="match" style="left:362px;top:239px;">
+    <div class="flag" data-team="England">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="flag" data-team="DR Congo">🇨🇩</div>
+  </div>
+  <div class="match" style="left:362px;top:345px;">
+    <div class="flag" data-team="Argentina">🇦🇷</div><div class="flag" data-team="Cape Verde">🇨🇻</div>
+  </div>
+  <div class="match" style="left:362px;top:407px;">
+    <div class="flag" data-team="Australia">🇦🇺</div><div class="flag" data-team="Egypt">🇪🇬</div>
+  </div>
+  <div class="match" style="left:362px;top:513px;">
+    <div class="flag" data-team="Switzerland">🇨🇭</div><div class="flag" data-team="Algeria">🇩🇿</div>
+  </div>
+  <div class="match" style="left:362px;top:575px;">
+    <div class="flag" data-team="Colombia">🇨🇴</div><div class="flag" data-team="Ghana">🇬🇭</div>
+  </div>
+
+  <!-- TROPHY -->
+  <div class="trophy-wrap">
+    <div class="trophy-icon">🏆</div>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  // Scale canvas to fit viewport width
+  function scale(){
+    var canvas=document.getElementById('canvas');
+    var vw=window.innerWidth;
+    var sc=Math.min(1,vw/520);
+    canvas.style.transform='scale('+sc+')';
+    canvas.style.marginTop='0';
+    document.body.style.height=Math.round(640*sc)+'px';
+    document.documentElement.style.height=Math.round(640*sc)+'px';
+  }
+  scale();
+  window.addEventListener('resize',scale);
+
+  // Dim losers based on localStorage data written by parent app
+  function applyResults(){
+    var raw;
+    try{ raw=localStorage.getItem('wc2026_r32_results'); }catch(e){}
+    if(!raw)return;
+    var results;
+    try{ results=JSON.parse(raw); }catch(e){ return; }
+    // results = { "Germany": "Paraguay", "France": null, ... }
+    // key=winner, value=loser (or null if no result)
+    document.querySelectorAll('.flag[data-team]').forEach(function(el){
+      var team=el.getAttribute('data-team');
+      if(results[team]==='loser'){
+        el.classList.add('loser');
+      }
+    });
+  }
+  applyResults();
+
+  // Listen for updates from parent (postMessage)
+  window.addEventListener('message',function(ev){
+    if(ev.data&&ev.data.type==='r32_results'){
+      try{ localStorage.setItem('wc2026_r32_results',JSON.stringify(ev.data.results)); }catch(e){}
+      applyResults();
+    }
+  });
+})();
+</script>
+</body>
+</html>
