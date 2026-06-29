@@ -1745,23 +1745,23 @@ var FIXTURES = [
   // - JUNE 28 -
   {date:'2026-06-28',time:'00:00',home:'Algeria',away:'Austria',group:'J',stadium:'Arrowhead Stadium',city:'Kansas City'},
   {date:'2026-06-28',time:'00:00',home:'Jordan',away:'Argentina',group:'J',stadium:'AT&T Stadium',city:'Dallas'},
-  // - ROUND OF 32 (June 28 - July 1) -
-  {date:'2026-06-28',time:'15:00',home:'2nd A',away:'2nd B',group:'R32',stadium:'SoFi Stadium',city:'Los Angeles'},
-  {date:'2026-06-29',time:'13:00',home:'1st C',away:'2nd F',group:'R32',stadium:'NRG Stadium',city:'Houston'},
-  {date:'2026-06-29',time:'16:30',home:'1st E',away:'Best 3rd',group:'R32',stadium:'Gillette Stadium',city:'Boston'},
-  {date:'2026-06-29',time:'21:00',home:'1st F',away:'2nd C',group:'R32',stadium:'Estadio BBVA',city:'Monterrey'},
-  {date:'2026-06-30',time:'13:00',home:'2nd E',away:'2nd I',group:'R32',stadium:'AT&T Stadium',city:'Dallas'},
-  {date:'2026-06-30',time:'17:00',home:'1st I',away:'Best 3rd',group:'R32',stadium:'MetLife Stadium',city:'New York'},
-  {date:'2026-06-30',time:'21:00',home:'1st A',away:'Best 3rd',group:'R32',stadium:'Estadio Azteca',city:'Mexico City'},
-  {date:'2026-07-01',time:'12:00',home:'1st L',away:'Best 3rd',group:'R32',stadium:'Mercedes-Benz Stadium',city:'Atlanta'},
-  {date:'2026-07-01',time:'16:00',home:'1st G',away:'Best 3rd',group:'R32',stadium:'Lumen Field',city:'Seattle'},
-  {date:'2026-07-01',time:'17:00',home:'1st D',away:'Best 3rd',group:'R32',stadium:'Levis Stadium',city:'San Francisco'},
-  {date:'2026-07-02',time:'12:00',home:'2nd K',away:'2nd L',group:'R32',stadium:'BMO Field',city:'Toronto'},
-  {date:'2026-07-02',time:'14:00',home:'1st H',away:'2nd J',group:'R32',stadium:'SoFi Stadium',city:'Los Angeles'},
-  {date:'2026-07-03',time:'13:00',home:'1st B',away:'Best 3rd',group:'R32',stadium:'BC Place',city:'Vancouver'},
-  {date:'2026-07-03',time:'15:00',home:'2nd D',away:'2nd G',group:'R32',stadium:'AT&T Stadium',city:'Dallas'},
-  {date:'2026-07-03',time:'18:00',home:'1st J',away:'2nd H',group:'R32',stadium:'Hard Rock Stadium',city:'Miami'},
-  {date:'2026-07-04',time:'09:30',home:'1st K',away:'Best 3rd',group:'R32',stadium:'Arrowhead Stadium',city:'Kansas City'},
+  // - ROUND OF 32 (June 28 - July 4) -
+  {date:'2026-06-28',time:'23:00',home:'South Africa',away:'Canada',group:'R32',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:0,awayScore:1},
+  {date:'2026-06-29',time:'19:00',home:'Brazil',away:'Japan',group:'R32',stadium:'NRG Stadium',city:'Houston'},
+  {date:'2026-06-29',time:'21:30',home:'Germany',away:'Paraguay',group:'R32',stadium:'Gillette Stadium',city:'Boston'},
+  {date:'2026-06-30',time:'03:00',home:'Netherlands',away:'Morocco',group:'R32',stadium:'Estadio BBVA',city:'Monterrey'},
+  {date:'2026-06-30',time:'19:00',home:'Ivory Coast',away:'Norway',group:'R32',stadium:'AT&T Stadium',city:'Dallas'},
+  {date:'2026-06-30',time:'22:00',home:'France',away:'Sweden',group:'R32',stadium:'MetLife Stadium',city:'New York'},
+  {date:'2026-07-01',time:'03:00',home:'Mexico',away:'Ecuador',group:'R32',stadium:'Estadio Azteca',city:'Mexico City'},
+  {date:'2026-07-01',time:'17:00',home:'England',away:'DR Congo',group:'R32',stadium:'Mercedes-Benz Stadium',city:'Atlanta'},
+  {date:'2026-07-02',time:'00:00',home:'Belgium',away:'Senegal',group:'R32',stadium:'Lumen Field',city:'Seattle'},
+  {date:'2026-07-02',time:'01:00',home:'USA',away:'Bosnia',group:'R32',stadium:'Levis Stadium',city:'San Francisco'},
+  {date:'2026-07-02',time:'17:00',home:'Colombia',away:'Ghana',group:'R32',stadium:'BMO Field',city:'Toronto'},
+  {date:'2026-07-02',time:'22:00',home:'Spain',away:'Austria',group:'R32',stadium:'SoFi Stadium',city:'Los Angeles'},
+  {date:'2026-07-03',time:'21:00',home:'Switzerland',away:'Algeria',group:'R32',stadium:'BC Place',city:'Vancouver'},
+  {date:'2026-07-03',time:'21:00',home:'Australia',away:'Egypt',group:'R32',stadium:'AT&T Stadium',city:'Dallas'},
+  {date:'2026-07-03',time:'23:00',home:'Argentina',away:'Cape Verde',group:'R32',stadium:'Hard Rock Stadium',city:'Miami'},
+  {date:'2026-07-04',time:'15:30',home:'Portugal',away:'Croatia',group:'R32',stadium:'Arrowhead Stadium',city:'Kansas City'},
   // - ROUND OF 16 (July 4-7) -
   {date:'2026-07-04',time:'13:00',home:'R16 Match 1',away:'R16 Match 1',group:'R16',stadium:'NRG Stadium',city:'Houston'},
   {date:'2026-07-04',time:'17:00',home:'R16 Match 2',away:'R16 Match 2',group:'R16',stadium:'Lincoln Financial',city:'Philadelphia'},
@@ -1786,12 +1786,12 @@ var FIXTURES = [
 
 // - TRANSLATIONS -
 var T = {
-  en:{appTitle:'World Cup 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Home','Groups','Fixtures','Predictions','Quiz','Players','Polls','Sim','Game','Fantasy','Predict'],countdown:'Countdown',countdownSub:'🏆 Final · MetLife Stadium · Jul 19',timeUnits:['Days','Hours','Min','Sec'],keyInfo:['Host nations','Teams','Matches','Duration'],keyVals:['3 nations','48 teams','104 matches','Jun 11-Jul 19'],format:'Tournament Format',formatLines:['12 groups of 4 teams','1st + 2nd + 8 best 3rds = 32 teams','Round of 32 > 16 > QF > SF > Final','Opening: Estadio Azteca, Mexico City','Final: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GROUPS',hostLabel:'Host',groupLabel:'Group',myTeamLabel:'My Team',pickTeam:'Pick your team',pronoSub:'Who will reach the final?',pronoWinner:'World Champion 2026',pronoFinal:'Runner-up',pronoSemi:'Semi-finalists',pronoSave:'Save',pronoSaved:'Saved!',pronoReset:'Reset',pronoChoose:'Choose...',pronoMyPick:'My pick',quizSub:'Test your knowledge!',quizScore:'Score',quizNext:'Next question',quizFinish:'See result',quizRestart:'Play again',quizPerfect:'PERFECT! You are an expert!',quizGood:'Great job!',quizAvg:'Not bad!',quizBad:'Keep studying!',starsSub:'Players',pollTitle:'Polls',pollTotal:'votes',didYouKnow:'Did you know?',facts:['Italy miss WC 2026 for the 3rd consecutive time','Azteca hosts its 3rd World Cup','First-ever 48-team World Cup','First edition co-hosted by 3 countries','104 matches vs 64 in 2022','New IFAB rules in effect'],shareApp:'Share',shareCopied:'Link copied!',premiumBanner:'Go PREMIUM - Predictions + Stats + No ads',premiumBtn:'Unlock',fixturesTitle:'FIXTURES & RESULTS',fixturesAll:'All matches',fixturesMy:'My team only',noFixtures:'No fixtures found'},
-  fr:{appTitle:'Coupe du Monde 2026 Fan App',appSub:'USA - CANADA - MEXIQUE',nav:['Accueil','Groupes','Calendrier','Pronostics','Quiz','Joueurs','Sondages','Sim','Jeu','Fantasy','Predict'],countdown:'Compte a rebours',countdownSub:'🏆 Finale · MetLife Stadium · 19 juil.',timeUnits:['Jours','Heures','Min','Sec'],keyInfo:['Pays hotes','Equipes','Matchs','Duree'],keyVals:['3 nations','48 equipes','104 matchs','11 juin-19 juil.'],format:'Format du tournoi',formatLines:['12 groupes de 4 equipes','1er + 2e + 8 meilleurs 3es = 32 equipes','Tour des 32 > 16e > QF > SF > Finale','Ouverture: Estadio Azteca, Mexico','Finale: MetLife Stadium, New York'],groupsTitle:'48 EQUIPES - 12 GROUPES',hostLabel:'Pays hote',groupLabel:'Groupe',myTeamLabel:'Mon Equipe',pickTeam:'Choisir mon equipe',pronoSub:'Qui ira en finale?',pronoWinner:'Champion du Monde 2026',pronoFinal:'Finaliste',pronoSemi:'Demi-finales',pronoSave:'Sauvegarder',pronoSaved:'Sauvegarde!',pronoReset:'Reinitialiser',pronoChoose:'Choisir...',pronoMyPick:'Mon choix',quizSub:'Testez vos connaissances!',quizScore:'Score',quizNext:'Question suivante',quizFinish:'Voir mon resultat',quizRestart:'Rejouer',quizPerfect:'PARFAIT! Tu es un expert!',quizGood:'Tres bien!',quizAvg:'Pas mal!',quizBad:'Continue a reviser!',starsSub:'Joueurs',pollTitle:'Sondages',pollTotal:'votes',didYouKnow:'Le saviez-vous?',facts:["L Italie rate le Mondial 2026 pour la 3e fois consecutive","L Azteca accueille son 3e Mondial","1er Mondial a 48 equipes","1ere edition co-organisee par 3 pays","104 matchs contre 64 en 2022","Nouvelles regles IFAB effectives"],shareApp:'Partager',shareCopied:'Lien copie!',premiumBanner:'Passez PREMIUM - Pronostics + Stats + Sans pub',premiumBtn:'Debloquer',fixturesTitle:'CALENDRIER & RESULTATS',fixturesAll:'Tous les matchs',fixturesMy:'Mon equipe uniquement',noFixtures:'Aucun match trouve'},
-  es:{appTitle:'Copa del Mundo 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Pronosticos','Quiz','Jugadores','Sondeos','Sim','Juego','Fantasy','Predict'],countdown:'Cuenta regresiva',countdownSub:'🏆 Final · MetLife Stadium · 19 jul.',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitriones','Equipos','Partidos','Duracion'],keyVals:['3 naciones','48 equipos','104 partidos','11 jun-19 jul'],format:'Formato del torneo',formatLines:['12 grupos de 4 equipos','1 + 2 + 8 mejores 3eros = 32 equipos','Ronda de 32 > 16avos > QF > SF > Final','Apertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nueva York'],groupsTitle:'48 EQUIPOS - 12 GRUPOS',hostLabel:'Anfitri',groupLabel:'Grupo',myTeamLabel:'Mi Equipo',pickTeam:'Elegir mi equipo',pronoSub:'Quien llegara a la final?',pronoWinner:'Campeon del Mundo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalistas',pronoSave:'Guardar',pronoSaved:'Guardado!',pronoReset:'Reiniciar',pronoChoose:'Elegir...',pronoMyPick:'Mi eleccion',quizSub:'Pon a prueba tus conocimientos!',quizScore:'Puntuacion',quizNext:'Siguiente',quizFinish:'Ver resultado',quizRestart:'Jugar de nuevo',quizPerfect:'Perfecto! Eres un experto!',quizGood:'Muy bien!',quizAvg:'Nada mal!',quizBad:'Sigue estudiando!',starsSub:'Jugadores',pollTitle:'Sondeos',pollTotal:'votos',didYouKnow:'Sabias que?',facts:['Italia se pierde el Mundial 2026 por 3a vez consecutiva','El Azteca acoge su 3er Mundial','El primer Mundial con 48 equipos','Primera edicion organizada por 3 paises','104 partidos frente a 64 en 2022','Nuevas reglas del IFAB en vigor'],shareApp:'Compartir',shareCopied:'Enlace copiado!',premiumBanner:'Hazte PREMIUM - Pronosticos + Estadisticas + Sin anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO Y RESULTADOS',fixturesAll:'Todos los partidos',fixturesMy:'Solo mi equipo',noFixtures:'No se encontraron partidos'},
-  pt:{appTitle:'Copa do Mundo 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Palpites','Quiz','Jogadores','Enquetes','Sim','Jogo','Fantasy','Predict'],countdown:'Contagem regressiva',countdownSub:'🏆 Final · MetLife Stadium · 19 jul.',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitrioes','Selecoes','Jogos','Duracao'],keyVals:['3 nacoes','48 selecoes','104 jogos','11 jun-19 jul'],format:'Formato do torneio',formatLines:['12 grupos de 4 selecoes','1 + 2 + 8 melhores 3eiros = 32 equipes','Rodada de 32 > 16 > QF > SF > Final','Abertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nova York'],groupsTitle:'48 SELECOES - 12 GRUPOS',hostLabel:'Anfitriao',groupLabel:'Grupo',myTeamLabel:'Meu Time',pickTeam:'Escolher meu time',pronoSub:'Quem vai chegar a final?',pronoWinner:'Campeao do Mundo 2026',pronoFinal:'Vice-campeao',pronoSemi:'Semifinalistas',pronoSave:'Salvar',pronoSaved:'Salvo!',pronoReset:'Reiniciar',pronoChoose:'Escolher...',pronoMyPick:'Minha escolha',quizSub:'Teste seus conhecimentos!',quizScore:'Pontuacao',quizNext:'Proxima',quizFinish:'Ver resultado',quizRestart:'Jogar novamente',quizPerfect:'Perfeito! Voce e um expert!',quizGood:'Muito bem!',quizAvg:'Nada mal!',quizBad:'Continue estudando!',starsSub:'Jogadores',pollTitle:'Enquetes',pollTotal:'votos',didYouKnow:'Voce sabia?',facts:['A Italia perde a Copa 2026 pela 3a vez consecutiva','O Azteca sedia sua 3a Copa','Primeira Copa com 48 selecoes','Primeira edicao organizada por 3 paises','104 jogos contra 64 em 2022','Novas regras do IFAB em vigor'],shareApp:'Compartilhar',shareCopied:'Link copiado!',premiumBanner:'Seja PREMIUM - Palpites + Estatisticas + Sem anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO E RESULTADOS',fixturesAll:'Todos os jogos',fixturesMy:'Apenas meu time',noFixtures:'Nenhum jogo encontrado'},
-  it:{appTitle:'Coppa del Mondo 2026 Fan App',appSub:'USA - CANADA - MESSICO',nav:['Home','Gruppi','Calendario','Pronostici','Quiz','Giocatori','Sondaggi','Sim','Gioco','Fantasy','Predict'],countdown:'Conto alla rovescia',countdownSub:'🏆 Finale · MetLife Stadium · 19 lug.',timeUnits:['Giorni','Ore','Min','Sec'],keyInfo:['Paesi ospitanti','Squadre','Partite','Durata'],keyVals:['3 nazioni','48 squadre','104 partite','11 giu-19 lug'],format:'Formato del torneo',formatLines:['12 gironi da 4 squadre','1a + 2a + 8 migliori 3e = 32 squadre','Fase a 32 > 16 > QF > SF > Finale','Apertura: Estadio Azteca, Messico','Finale: MetLife Stadium, New York'],groupsTitle:'48 SQUADRE - 12 GIRONI',hostLabel:'Sede',groupLabel:'Girone',myTeamLabel:'La Mia Squadra',pickTeam:'Scegli la tua squadra',pronoSub:'Chi arrivera in finale?',pronoWinner:'Campione del Mondo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalisti',pronoSave:'Salva',pronoSaved:'Salvato!',pronoReset:'Azzera',pronoChoose:'Scegli...',pronoMyPick:'La mia scelta',quizSub:'Metti alla prova le tue conoscenze!',quizScore:'Punteggio',quizNext:'Domanda successiva',quizFinish:'Vedi risultato',quizRestart:'Gioca ancora',quizPerfect:'Perfetto! Sei un esperto!',quizGood:'Molto bene!',quizAvg:'Niente male!',quizBad:'Continua a studiare!',starsSub:'Giocatori',pollTitle:'Sondaggi',pollTotal:'voti',didYouKnow:'Lo sapevi?',facts:["L Italia non e al Mondiale 2026 per la 3a volta consecutiva","L Azteca ospita il suo 3o Mondiale","Primo Mondiale con 48 squadre","Prima edizione co-organizzata da 3 paesi","104 partite contro 64 nel 2022","Nuove regole IFAB in vigore"],shareApp:'Condividi',shareCopied:'Link copiato!',premiumBanner:'Diventa PREMIUM - Pronostici + Statistiche + Senza pub',premiumBtn:'Sblocca',fixturesTitle:'CALENDARIO E RISULTATI',fixturesAll:'Tutte le partite',fixturesMy:'Solo la mia squadra',noFixtures:'Nessuna partita trovata'},
-  de:{appTitle:'WM 2026 Fan App',appSub:'USA - KANADA - MEXIKO',nav:['Start','Gruppen','Spielplan','Tipps','Quiz','Spieler','Umfragen','Sim','Spiel','Fantasy','Predict'],countdown:'Countdown',countdownSub:'🏆 Finale · MetLife Stadium · 19. Jul.',timeUnits:['Tage','Stunden','Min','Sek'],keyInfo:['Gastgeberlaender','Teams','Spiele','Dauer'],keyVals:['3 Nationen','48 Teams','104 Spiele','11. Jun-19. Jul'],format:'Turnierformat',formatLines:['12 Gruppen mit je 4 Teams','1. + 2. + 8 beste 3. = 32 Teams','Runde der 32 > 16 > VF > HF > Finale','Eroeffnung: Estadio Azteca, Mexiko','Finale: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GRUPPEN',hostLabel:'Gastgeber',groupLabel:'Gruppe',myTeamLabel:'Mein Team',pickTeam:'Mein Team auswaehlen',pronoSub:'Wer kommt ins Finale?',pronoWinner:'Weltmeister 2026',pronoFinal:'Finalist',pronoSemi:'Halbfinalisten',pronoSave:'Speichern',pronoSaved:'Gespeichert!',pronoReset:'Zuruecksetzen',pronoChoose:'Auswaehlen...',pronoMyPick:'Meine Wahl',quizSub:'Teste dein Wissen!',quizScore:'Punkte',quizNext:'Naechste Frage',quizFinish:'Ergebnis sehen',quizRestart:'Nochmal spielen',quizPerfect:'Perfekt! Du bist ein Experte!',quizGood:'Sehr gut!',quizAvg:'Nicht schlecht!',quizBad:'Weiter lernen!',starsSub:'Spieler',pollTitle:'Umfragen',pollTotal:'Stimmen',didYouKnow:'Wusstest du?',facts:['Italien verpasst die WM 2026 zum 3. Mal in Folge','Das Azteca beherbergt seine 3. WM','Erste WM mit 48 Teams','Erste WM von 3 Laendern gemeinsam ausgerichtet','104 Spiele gegen 64 in 2022','Neue IFAB-Regeln in Kraft'],shareApp:'Teilen',shareCopied:'Link kopiert!',premiumBanner:'PREMIUM werden - Tipps + Statistiken + Werbefrei',premiumBtn:'Freischalten',fixturesTitle:'SPIELPLAN & ERGEBNISSE',fixturesAll:'Alle Spiele',fixturesMy:'Nur mein Team',noFixtures:'Keine Spiele gefunden'}
+  en:{appTitle:'World Cup 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Home','Groups','Fixtures','Predictions','Quiz','Players','Polls','Sim','Game','Fantasy','Predict','Bracket'],countdown:'Countdown',countdownSub:'🏆 Final · MetLife Stadium · Jul 19',timeUnits:['Days','Hours','Min','Sec'],keyInfo:['Host nations','Teams','Matches','Duration'],keyVals:['3 nations','48 teams','104 matches','Jun 11-Jul 19'],format:'Tournament Format',formatLines:['12 groups of 4 teams','1st + 2nd + 8 best 3rds = 32 teams','Round of 32 > 16 > QF > SF > Final','Opening: Estadio Azteca, Mexico City','Final: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GROUPS',hostLabel:'Host',groupLabel:'Group',myTeamLabel:'My Team',pickTeam:'Pick your team',pronoSub:'Who will reach the final?',pronoWinner:'World Champion 2026',pronoFinal:'Runner-up',pronoSemi:'Semi-finalists',pronoSave:'Save',pronoSaved:'Saved!',pronoReset:'Reset',pronoChoose:'Choose...',pronoMyPick:'My pick',quizSub:'Test your knowledge!',quizScore:'Score',quizNext:'Next question',quizFinish:'See result',quizRestart:'Play again',quizPerfect:'PERFECT! You are an expert!',quizGood:'Great job!',quizAvg:'Not bad!',quizBad:'Keep studying!',starsSub:'Players',pollTitle:'Polls',pollTotal:'votes',didYouKnow:'Did you know?',facts:['Italy miss WC 2026 for the 3rd consecutive time','Azteca hosts its 3rd World Cup','First-ever 48-team World Cup','First edition co-hosted by 3 countries','104 matches vs 64 in 2022','New IFAB rules in effect'],shareApp:'Share',shareCopied:'Link copied!',premiumBanner:'Go PREMIUM - Predictions + Stats + No ads',premiumBtn:'Unlock',fixturesTitle:'FIXTURES & RESULTS',fixturesAll:'All matches',fixturesMy:'My team only',noFixtures:'No fixtures found'},
+  fr:{appTitle:'Coupe du Monde 2026 Fan App',appSub:'USA - CANADA - MEXIQUE',nav:['Accueil','Groupes','Calendrier','Pronostics','Quiz','Joueurs','Sondages','Sim','Jeu','Fantasy','Predict','Bracket'],countdown:'Compte a rebours',countdownSub:'🏆 Finale · MetLife Stadium · 19 juil.',timeUnits:['Jours','Heures','Min','Sec'],keyInfo:['Pays hotes','Equipes','Matchs','Duree'],keyVals:['3 nations','48 equipes','104 matchs','11 juin-19 juil.'],format:'Format du tournoi',formatLines:['12 groupes de 4 equipes','1er + 2e + 8 meilleurs 3es = 32 equipes','Tour des 32 > 16e > QF > SF > Finale','Ouverture: Estadio Azteca, Mexico','Finale: MetLife Stadium, New York'],groupsTitle:'48 EQUIPES - 12 GROUPES',hostLabel:'Pays hote',groupLabel:'Groupe',myTeamLabel:'Mon Equipe',pickTeam:'Choisir mon equipe',pronoSub:'Qui ira en finale?',pronoWinner:'Champion du Monde 2026',pronoFinal:'Finaliste',pronoSemi:'Demi-finales',pronoSave:'Sauvegarder',pronoSaved:'Sauvegarde!',pronoReset:'Reinitialiser',pronoChoose:'Choisir...',pronoMyPick:'Mon choix',quizSub:'Testez vos connaissances!',quizScore:'Score',quizNext:'Question suivante',quizFinish:'Voir mon resultat',quizRestart:'Rejouer',quizPerfect:'PARFAIT! Tu es un expert!',quizGood:'Tres bien!',quizAvg:'Pas mal!',quizBad:'Continue a reviser!',starsSub:'Joueurs',pollTitle:'Sondages',pollTotal:'votes',didYouKnow:'Le saviez-vous?',facts:["L Italie rate le Mondial 2026 pour la 3e fois consecutive","L Azteca accueille son 3e Mondial","1er Mondial a 48 equipes","1ere edition co-organisee par 3 pays","104 matchs contre 64 en 2022","Nouvelles regles IFAB effectives"],shareApp:'Partager',shareCopied:'Lien copie!',premiumBanner:'Passez PREMIUM - Pronostics + Stats + Sans pub',premiumBtn:'Debloquer',fixturesTitle:'CALENDRIER & RESULTATS',fixturesAll:'Tous les matchs',fixturesMy:'Mon equipe uniquement',noFixtures:'Aucun match trouve'},
+  es:{appTitle:'Copa del Mundo 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Pronosticos','Quiz','Jugadores','Sondeos','Sim','Juego','Fantasy','Predict','Bracket'],countdown:'Cuenta regresiva',countdownSub:'🏆 Final · MetLife Stadium · 19 jul.',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitriones','Equipos','Partidos','Duracion'],keyVals:['3 naciones','48 equipos','104 partidos','11 jun-19 jul'],format:'Formato del torneo',formatLines:['12 grupos de 4 equipos','1 + 2 + 8 mejores 3eros = 32 equipos','Ronda de 32 > 16avos > QF > SF > Final','Apertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nueva York'],groupsTitle:'48 EQUIPOS - 12 GRUPOS',hostLabel:'Anfitri',groupLabel:'Grupo',myTeamLabel:'Mi Equipo',pickTeam:'Elegir mi equipo',pronoSub:'Quien llegara a la final?',pronoWinner:'Campeon del Mundo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalistas',pronoSave:'Guardar',pronoSaved:'Guardado!',pronoReset:'Reiniciar',pronoChoose:'Elegir...',pronoMyPick:'Mi eleccion',quizSub:'Pon a prueba tus conocimientos!',quizScore:'Puntuacion',quizNext:'Siguiente',quizFinish:'Ver resultado',quizRestart:'Jugar de nuevo',quizPerfect:'Perfecto! Eres un experto!',quizGood:'Muy bien!',quizAvg:'Nada mal!',quizBad:'Sigue estudiando!',starsSub:'Jugadores',pollTitle:'Sondeos',pollTotal:'votos',didYouKnow:'Sabias que?',facts:['Italia se pierde el Mundial 2026 por 3a vez consecutiva','El Azteca acoge su 3er Mundial','El primer Mundial con 48 equipos','Primera edicion organizada por 3 paises','104 partidos frente a 64 en 2022','Nuevas reglas del IFAB en vigor'],shareApp:'Compartir',shareCopied:'Enlace copiado!',premiumBanner:'Hazte PREMIUM - Pronosticos + Estadisticas + Sin anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO Y RESULTADOS',fixturesAll:'Todos los partidos',fixturesMy:'Solo mi equipo',noFixtures:'No se encontraron partidos'},
+  pt:{appTitle:'Copa do Mundo 2026 Fan App',appSub:'USA - CANADA - MEXICO',nav:['Inicio','Grupos','Calendario','Palpites','Quiz','Jogadores','Enquetes','Sim','Jogo','Fantasy','Predict','Bracket'],countdown:'Contagem regressiva',countdownSub:'🏆 Final · MetLife Stadium · 19 jul.',timeUnits:['Dias','Horas','Min','Seg'],keyInfo:['Paises anfitrioes','Selecoes','Jogos','Duracao'],keyVals:['3 nacoes','48 selecoes','104 jogos','11 jun-19 jul'],format:'Formato do torneio',formatLines:['12 grupos de 4 selecoes','1 + 2 + 8 melhores 3eiros = 32 equipes','Rodada de 32 > 16 > QF > SF > Final','Abertura: Estadio Azteca, Mexico','Final: MetLife Stadium, Nova York'],groupsTitle:'48 SELECOES - 12 GRUPOS',hostLabel:'Anfitriao',groupLabel:'Grupo',myTeamLabel:'Meu Time',pickTeam:'Escolher meu time',pronoSub:'Quem vai chegar a final?',pronoWinner:'Campeao do Mundo 2026',pronoFinal:'Vice-campeao',pronoSemi:'Semifinalistas',pronoSave:'Salvar',pronoSaved:'Salvo!',pronoReset:'Reiniciar',pronoChoose:'Escolher...',pronoMyPick:'Minha escolha',quizSub:'Teste seus conhecimentos!',quizScore:'Pontuacao',quizNext:'Proxima',quizFinish:'Ver resultado',quizRestart:'Jogar novamente',quizPerfect:'Perfeito! Voce e um expert!',quizGood:'Muito bem!',quizAvg:'Nada mal!',quizBad:'Continue estudando!',starsSub:'Jogadores',pollTitle:'Enquetes',pollTotal:'votos',didYouKnow:'Voce sabia?',facts:['A Italia perde a Copa 2026 pela 3a vez consecutiva','O Azteca sedia sua 3a Copa','Primeira Copa com 48 selecoes','Primeira edicao organizada por 3 paises','104 jogos contra 64 em 2022','Novas regras do IFAB em vigor'],shareApp:'Compartilhar',shareCopied:'Link copiado!',premiumBanner:'Seja PREMIUM - Palpites + Estatisticas + Sem anuncios',premiumBtn:'Desbloquear',fixturesTitle:'CALENDARIO E RESULTADOS',fixturesAll:'Todos os jogos',fixturesMy:'Apenas meu time',noFixtures:'Nenhum jogo encontrado'},
+  it:{appTitle:'Coppa del Mondo 2026 Fan App',appSub:'USA - CANADA - MESSICO',nav:['Home','Gruppi','Calendario','Pronostici','Quiz','Giocatori','Sondaggi','Sim','Gioco','Fantasy','Predict','Bracket'],countdown:'Conto alla rovescia',countdownSub:'🏆 Finale · MetLife Stadium · 19 lug.',timeUnits:['Giorni','Ore','Min','Sec'],keyInfo:['Paesi ospitanti','Squadre','Partite','Durata'],keyVals:['3 nazioni','48 squadre','104 partite','11 giu-19 lug'],format:'Formato del torneo',formatLines:['12 gironi da 4 squadre','1a + 2a + 8 migliori 3e = 32 squadre','Fase a 32 > 16 > QF > SF > Finale','Apertura: Estadio Azteca, Messico','Finale: MetLife Stadium, New York'],groupsTitle:'48 SQUADRE - 12 GIRONI',hostLabel:'Sede',groupLabel:'Girone',myTeamLabel:'La Mia Squadra',pickTeam:'Scegli la tua squadra',pronoSub:'Chi arrivera in finale?',pronoWinner:'Campione del Mondo 2026',pronoFinal:'Finalista',pronoSemi:'Semifinalisti',pronoSave:'Salva',pronoSaved:'Salvato!',pronoReset:'Azzera',pronoChoose:'Scegli...',pronoMyPick:'La mia scelta',quizSub:'Metti alla prova le tue conoscenze!',quizScore:'Punteggio',quizNext:'Domanda successiva',quizFinish:'Vedi risultato',quizRestart:'Gioca ancora',quizPerfect:'Perfetto! Sei un esperto!',quizGood:'Molto bene!',quizAvg:'Niente male!',quizBad:'Continua a studiare!',starsSub:'Giocatori',pollTitle:'Sondaggi',pollTotal:'voti',didYouKnow:'Lo sapevi?',facts:["L Italia non e al Mondiale 2026 per la 3a volta consecutiva","L Azteca ospita il suo 3o Mondiale","Primo Mondiale con 48 squadre","Prima edizione co-organizzata da 3 paesi","104 partite contro 64 nel 2022","Nuove regole IFAB in vigore"],shareApp:'Condividi',shareCopied:'Link copiato!',premiumBanner:'Diventa PREMIUM - Pronostici + Statistiche + Senza pub',premiumBtn:'Sblocca',fixturesTitle:'CALENDARIO E RISULTATI',fixturesAll:'Tutte le partite',fixturesMy:'Solo la mia squadra',noFixtures:'Nessuna partita trovata'},
+  de:{appTitle:'WM 2026 Fan App',appSub:'USA - KANADA - MEXIKO',nav:['Start','Gruppen','Spielplan','Tipps','Quiz','Spieler','Umfragen','Sim','Spiel','Fantasy','Predict','Bracket'],countdown:'Countdown',countdownSub:'🏆 Finale · MetLife Stadium · 19. Jul.',timeUnits:['Tage','Stunden','Min','Sek'],keyInfo:['Gastgeberlaender','Teams','Spiele','Dauer'],keyVals:['3 Nationen','48 Teams','104 Spiele','11. Jun-19. Jul'],format:'Turnierformat',formatLines:['12 Gruppen mit je 4 Teams','1. + 2. + 8 beste 3. = 32 Teams','Runde der 32 > 16 > VF > HF > Finale','Eroeffnung: Estadio Azteca, Mexiko','Finale: MetLife Stadium, New York'],groupsTitle:'48 TEAMS - 12 GRUPPEN',hostLabel:'Gastgeber',groupLabel:'Gruppe',myTeamLabel:'Mein Team',pickTeam:'Mein Team auswaehlen',pronoSub:'Wer kommt ins Finale?',pronoWinner:'Weltmeister 2026',pronoFinal:'Finalist',pronoSemi:'Halbfinalisten',pronoSave:'Speichern',pronoSaved:'Gespeichert!',pronoReset:'Zuruecksetzen',pronoChoose:'Auswaehlen...',pronoMyPick:'Meine Wahl',quizSub:'Teste dein Wissen!',quizScore:'Punkte',quizNext:'Naechste Frage',quizFinish:'Ergebnis sehen',quizRestart:'Nochmal spielen',quizPerfect:'Perfekt! Du bist ein Experte!',quizGood:'Sehr gut!',quizAvg:'Nicht schlecht!',quizBad:'Weiter lernen!',starsSub:'Spieler',pollTitle:'Umfragen',pollTotal:'Stimmen',didYouKnow:'Wusstest du?',facts:['Italien verpasst die WM 2026 zum 3. Mal in Folge','Das Azteca beherbergt seine 3. WM','Erste WM mit 48 Teams','Erste WM von 3 Laendern gemeinsam ausgerichtet','104 Spiele gegen 64 in 2022','Neue IFAB-Regeln in Kraft'],shareApp:'Teilen',shareCopied:'Link kopiert!',premiumBanner:'PREMIUM werden - Tipps + Statistiken + Werbefrei',premiumBtn:'Freischalten',fixturesTitle:'SPIELPLAN & ERGEBNISSE',fixturesAll:'Alle Spiele',fixturesMy:'Nur mein Team',noFixtures:'Keine Spiele gefunden'}
 };
 
 
@@ -2452,7 +2452,7 @@ function Card(props){
 }
 
 function App(){
-  var s1=useState(function(){try{var p=new URLSearchParams(window.location.search);var t=parseInt(p.get('tab'));return(!isNaN(t)&&t>=0&&t<=10)?t:0;}catch(e){return 0;}});var tab=s1[0];var setTab=s1[1];
+  var s1=useState(function(){try{var p=new URLSearchParams(window.location.search);var t=parseInt(p.get('tab'));return(!isNaN(t)&&t>=0&&t<=11)?t:0;}catch(e){return 0;}});var tab=s1[0];var setTab=s1[1];
   var s2=useState(function(){try{return localStorage.getItem('wc2026_lang')||'en';}catch(e){return 'en';}});var lang=s2[0];var setLang=s2[1];
   var s3=useState('A');var selGroup=s3[0];var setSelGroup=s3[1];
   var s4=useState(function(){
@@ -2545,6 +2545,7 @@ function App(){
   var s34=useState('A');var iSelGroup=s34[0];var setISelGroup=s34[1];
   var s28=useState(false);var tournLoading=s28[0];var setTournLoading=s28[1];
   var s29=useState('bracket');var simView=s29[0];var setSimView=s29[1];
+  var sBV=useState('visual');var bracketView=sBV[0];var setBracketView=sBV[1];
 
   // Onboarding
   var sOB1=useState(true);var onboarded=sOB1[0];var setOnboarded=sOB1[1];
@@ -3273,7 +3274,8 @@ function App(){
             {icon:'🎮',c1:'#880e4f',c2:'#f06292'},
             {icon:'🥅',c1:'#263238',c2:'#78909c'},
             {icon:'💫',c1:'#e65100',c2:'#ffd54f'},
-            {icon:'👑',c1:'#7b5e00',c2:'#d4af37'}
+            {icon:'👑',c1:'#7b5e00',c2:'#d4af37'},
+            {icon:'🏅',c1:'#1a237e',c2:'#5c6bc0'}
           ];
           var m=TM[i]||{icon:'⚽',c1:'#333',c2:'#555'};
           var on=tab===i;
@@ -5171,6 +5173,210 @@ function App(){
           )
         ):null
         ):null,
+
+      // - BRACKET -
+      tab===11?e('div',{style:{marginTop:-4}},
+        e('div',{style:{
+          background:'rgba(4,7,18,0.98)',
+          border:'1px solid rgba(212,175,55,0.22)',
+          borderRadius:14,overflow:'hidden',
+          boxShadow:'0 4px 32px rgba(0,0,0,0.6)',
+        }},
+          // ── HEADER + TOGGLE ──────────────────────────────────────────
+          e('div',{style:{
+            background:'rgba(212,175,55,0.08)',
+            padding:'10px 12px',
+            borderBottom:'1px solid rgba(212,175,55,0.15)',
+            display:'flex',alignItems:'center',justifyContent:'space-between',
+          }},
+            e('span',{style:{fontSize:11,fontWeight:'bold',color:G,letterSpacing:2,textTransform:'uppercase'}},
+              lang==='fr'?'⚽ TABLEAU DES 32':lang==='es'?'⚽ CUADRO DE 32':lang==='pt'?'⚽ RODADA DE 32':lang==='it'?'⚽ TURNO DEI 32':lang==='de'?'⚽ RUNDE DER 32':'⚽ ROUND OF 32'
+            ),
+            e('div',{style:{display:'flex',gap:4}},
+              e('button',{onClick:function(){setBracketView('visual');},style:{
+                background:bracketView==='visual'?G:'transparent',
+                color:bracketView==='visual'?'#000':'#6a8aaa',
+                border:'1px solid '+(bracketView==='visual'?G:'rgba(212,175,55,0.25)'),
+                borderRadius:6,padding:'3px 9px',fontSize:9,fontWeight:'bold',cursor:'pointer',
+              }},lang==='fr'?'Tableau':lang==='es'?'Cuadro':lang==='pt'?'Quadro':lang==='it'?'Schema':lang==='de'?'Turnierbaum':'Bracket'),
+              e('button',{onClick:function(){setBracketView('matches');},style:{
+                background:bracketView==='matches'?G:'transparent',
+                color:bracketView==='matches'?'#000':'#6a8aaa',
+                border:'1px solid '+(bracketView==='matches'?G:'rgba(212,175,55,0.25)'),
+                borderRadius:6,padding:'3px 9px',fontSize:9,fontWeight:'bold',cursor:'pointer',
+              }},lang==='fr'?'Matchs':lang==='es'?'Partidos':lang==='pt'?'Jogos':lang==='it'?'Partite':lang==='de'?'Spiele':'Matches')
+            )
+          ),
+          // ── VISUAL BRACKET ───────────────────────────────────────────
+          bracketView==='visual'?(function(){
+            var BL='#c8a020';
+            var LS={stroke:BL,strokeWidth:1.6,fill:'none',strokeLinecap:'square',opacity:0.85};
+            var LM=[
+              {h:'Germany',a:'Paraguay'},{h:'France',a:'Sweden'},
+              {h:'South Africa',a:'Canada'},{h:'Netherlands',a:'Morocco'},
+              {h:'Portugal',a:'Croatia'},{h:'Spain',a:'Austria'},
+              {h:'USA',a:'Bosnia'},{h:'Belgium',a:'Senegal'},
+            ];
+            var RM=[
+              {h:'Brazil',a:'Japan'},{h:'Ivory Coast',a:'Norway'},
+              {h:'Mexico',a:'Ecuador'},{h:'England',a:'DR Congo'},
+              {h:'Argentina',a:'Cape Verde'},{h:'Australia',a:'Egypt'},
+              {h:'Switzerland',a:'Algeria'},{h:'Colombia',a:'Ghana'},
+            ];
+            function getRes(h,a){
+              var f=FIXTURES.find(function(x){return x.home===h&&x.away===a&&x.group==='R32';});
+              if(!f||f.homeScore==null)return null;
+              return {hS:f.homeScore,aS:f.awayScore,w:f.homeScore>f.awayScore?h:f.awayScore>f.homeScore?a:null};
+            }
+            function slotWin(m){var r=getRes(m.h,m.a);return r?r.w:null;}
+            function MC(m,l,t){
+              var r=getRes(m.h,m.a);
+              var hL=r&&r.w===m.a;var aL=r&&r.w===m.h;
+              return e('div',{key:m.h,style:{
+                position:'absolute',left:l,top:t,width:148,height:52,
+                background:'linear-gradient(135deg,#1e1e28,#161620)',
+                border:'1px solid rgba(212,175,55,0.4)',borderRadius:8,
+                display:'flex',alignItems:'center',justifyContent:'center',
+                gap:5,padding:'5px 6px',boxShadow:'0 2px 8px rgba(0,0,0,0.5)',
+              }},
+                e('div',{style:{width:60,height:40,background:'#12121a',borderRadius:5,border:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,lineHeight:1,opacity:hL?0.22:1}},FLAG_MAP[m.h]||'🏳'),
+                e('div',{style:{width:60,height:40,background:'#12121a',borderRadius:5,border:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,lineHeight:1,opacity:aL?0.22:1}},FLAG_MAP[m.a]||'🏳')
+              );
+            }
+            function WSlot(team,l,t){
+              return e('div',{key:'w'+l+'_'+t,style:{
+                position:'absolute',left:l,top:t,width:34,height:34,
+                background:team?'rgba(212,175,55,0.15)':'rgba(255,255,255,0.03)',
+                borderRadius:5,
+                border:'1px solid '+(team?'rgba(212,175,55,0.5)':'rgba(255,255,255,0.06)'),
+                display:'flex',alignItems:'center',justifyContent:'center',
+                fontSize:20,boxShadow:team?'0 0 8px rgba(212,175,55,0.25)':'none',
+              }},team?FLAG_MAP[team]||'🏳':'');
+            }
+            // R32 winners
+            var lW=[0,1,2,3,4,5,6,7].map(function(i){return slotWin(LM[i]);});
+            var rW=[0,1,2,3,4,5,6,7].map(function(i){return slotWin(RM[i]);});
+            var sc=Math.min(1,(window.innerWidth-20)/520);
+            return e('div',{style:{height:Math.round(640*sc),overflow:'hidden',background:'#0d0d12'}},
+              e('div',{style:{position:'relative',width:520,height:640,transformOrigin:'top left',transform:'scale('+sc+')'}},
+                e('svg',{style:{position:'absolute',top:0,left:0,width:520,height:640,pointerEvents:'none'},viewBox:'0 0 520 640'},
+                  // LEFT lines
+                  e('polyline',Object.assign({},LS,{points:'158,35 175,35 175,97 158,97'})),
+                  e('line',Object.assign({},LS,{x1:175,y1:66,x2:198,y2:66})),
+                  e('polyline',Object.assign({},LS,{points:'158,203 175,203 175,265 158,265'})),
+                  e('line',Object.assign({},LS,{x1:175,y1:234,x2:198,y2:234})),
+                  e('polyline',Object.assign({},LS,{points:'198,66 215,66 215,234 198,234'})),
+                  e('line',Object.assign({},LS,{x1:215,y1:150,x2:238,y2:150})),
+                  e('polyline',Object.assign({},LS,{points:'158,371 175,371 175,433 158,433'})),
+                  e('line',Object.assign({},LS,{x1:175,y1:402,x2:198,y2:402})),
+                  e('polyline',Object.assign({},LS,{points:'158,539 175,539 175,601 158,601'})),
+                  e('line',Object.assign({},LS,{x1:175,y1:570,x2:198,y2:570})),
+                  e('polyline',Object.assign({},LS,{points:'198,402 215,402 215,570 198,570'})),
+                  e('line',Object.assign({},LS,{x1:215,y1:486,x2:238,y2:486})),
+                  e('polyline',Object.assign({},LS,{points:'238,150 255,150 255,486 238,486'})),
+                  e('line',Object.assign({},LS,{x1:255,y1:318,x2:263,y2:318})),
+                  // RIGHT lines
+                  e('polyline',Object.assign({},LS,{points:'362,35 345,35 345,97 362,97'})),
+                  e('line',Object.assign({},LS,{x1:345,y1:66,x2:322,y2:66})),
+                  e('polyline',Object.assign({},LS,{points:'362,203 345,203 345,265 362,265'})),
+                  e('line',Object.assign({},LS,{x1:345,y1:234,x2:322,y2:234})),
+                  e('polyline',Object.assign({},LS,{points:'322,66 305,66 305,234 322,234'})),
+                  e('line',Object.assign({},LS,{x1:305,y1:150,x2:282,y2:150})),
+                  e('polyline',Object.assign({},LS,{points:'362,371 345,371 345,433 362,433'})),
+                  e('line',Object.assign({},LS,{x1:345,y1:402,x2:322,y2:402})),
+                  e('polyline',Object.assign({},LS,{points:'362,539 345,539 345,601 362,601'})),
+                  e('line',Object.assign({},LS,{x1:345,y1:570,x2:322,y2:570})),
+                  e('polyline',Object.assign({},LS,{points:'322,402 305,402 305,570 322,570'})),
+                  e('line',Object.assign({},LS,{x1:305,y1:486,x2:282,y2:486})),
+                  e('polyline',Object.assign({},LS,{points:'282,150 265,150 265,486 282,486'})),
+                  e('line',Object.assign({},LS,{x1:265,y1:318,x2:257,y2:318}))
+                ),
+                // LEFT R32
+                MC(LM[0],10,9),MC(LM[1],10,71),
+                MC(LM[2],10,177),MC(LM[3],10,239),
+                MC(LM[4],10,345),MC(LM[5],10,407),
+                MC(LM[6],10,513),MC(LM[7],10,575),
+                // RIGHT R32
+                MC(RM[0],362,9),MC(RM[1],362,71),
+                MC(RM[2],362,177),MC(RM[3],362,239),
+                MC(RM[4],362,345),MC(RM[5],362,407),
+                MC(RM[6],362,513),MC(RM[7],362,575),
+                // LEFT R16 winner slots (x≈222, midpoints 66,234,402,570 → paired: 150,486)
+                WSlot(lW[0],222,49),WSlot(lW[1],222,83),
+                WSlot(lW[2],222,215),WSlot(lW[3],222,249),
+                WSlot(lW[4],222,385),WSlot(lW[5],222,419),
+                WSlot(lW[6],222,553),WSlot(lW[7],222,587),
+                // RIGHT R16 winner slots (x≈264 from right = 520-264-34=222 left edge mirrored → x=264)
+                WSlot(rW[0],264,49),WSlot(rW[1],264,83),
+                WSlot(rW[2],264,215),WSlot(rW[3],264,249),
+                WSlot(rW[4],264,385),WSlot(rW[5],264,419),
+                WSlot(rW[6],264,553),WSlot(rW[7],264,587),
+                // TROPHY
+                e('div',{style:{
+                  position:'absolute',left:'50%',top:283,
+                  transform:'translateX(-50%)',
+                  fontSize:52,lineHeight:1,
+                  filter:'drop-shadow(0 0 16px rgba(212,175,55,0.9)) drop-shadow(0 0 6px rgba(212,175,55,0.5))',
+                }},'🏆')
+              )
+            );
+          })()
+          // ── MATCHES VIEW ─────────────────────────────────────────────
+          :(function(){
+            var today='2026-06-29';
+            var r32=FIXTURES.filter(function(f){return f.group==='R32';}).slice().sort(function(a,b){
+              return a.date<b.date?-1:a.date>b.date?1:a.time<b.time?-1:1;
+            });
+            function fmtDateLabel(d){
+              var p=d.split('-');
+              var months={'06':lang==='fr'?'juin':lang==='es'?'jun':lang==='pt'?'jun':lang==='it'?'giu':lang==='de'?'Jun':'Jun','07':lang==='fr'?'juil':lang==='es'?'jul':lang==='pt'?'jul':lang==='it'?'lug':lang==='de'?'Jul':'Jul'};
+              return p[2]+' '+(months[p[1]]||p[1]);
+            }
+            function MC(f){
+              var played=f.homeScore!=null;
+              var isToday=!played&&f.date===today;
+              var hW=played&&f.homeScore>f.awayScore;
+              var aW=played&&f.awayScore>f.homeScore;
+              var statusEl=played
+                ?e('span',{style:{fontSize:8,fontWeight:'bold',color:'#2ecc71',background:'rgba(46,204,113,0.12)',borderRadius:10,padding:'2px 7px'}},lang==='fr'?'Terminé':lang==='es'?'Finalizado':lang==='pt'?'Encerrado':lang==='it'?'Terminato':lang==='de'?'Beendet':'Full Time')
+                :isToday
+                  ?e('span',{style:{fontSize:8,fontWeight:'bold',color:'#f39c12',background:'rgba(243,156,18,0.12)',borderRadius:10,padding:'2px 7px'}},lang==='fr'?'Aujourd\'hui':lang==='es'?'Hoy':lang==='pt'?'Hoje':lang==='it'?'Oggi':lang==='de'?'Heute':'Today')
+                  :e('span',{style:{fontSize:8,color:'#3a5a7a',background:'rgba(58,90,122,0.18)',borderRadius:10,padding:'2px 7px'}},f.time||'TBD');
+              return e('div',{key:f.home+f.away,style:{padding:'8px 10px',borderBottom:'1px solid rgba(212,175,55,0.07)'}},
+                e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:5}},
+                  e('span',{style:{fontSize:6,color:'#2a4060',letterSpacing:1}},f.city),
+                  statusEl
+                ),
+                e('div',{style:{display:'flex',alignItems:'center',gap:5,marginBottom:3,opacity:played&&!hW?0.38:1}},
+                  e('span',{style:{fontSize:20,lineHeight:1,flexShrink:0}},FLAG_MAP[f.home]||'🏳'),
+                  e('span',{style:{fontSize:8,fontWeight:'bold',color:hW?G:'#c8dae8',flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},tn(f.home,lang)),
+                  played?e('span',{style:{fontSize:13,fontWeight:'bold',color:hW?G:'#3a5a7a',flexShrink:0}},String(f.homeScore)):null
+                ),
+                e('div',{style:{height:1,background:'rgba(212,175,55,0.07)',margin:'3px 0'}}),
+                e('div',{style:{display:'flex',alignItems:'center',gap:5,opacity:played&&!aW?0.38:1}},
+                  e('span',{style:{fontSize:20,lineHeight:1,flexShrink:0}},FLAG_MAP[f.away]||'🏳'),
+                  e('span',{style:{fontSize:8,fontWeight:'bold',color:aW?G:'#c8dae8',flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},tn(f.away,lang)),
+                  played?e('span',{style:{fontSize:13,fontWeight:'bold',color:aW?G:'#3a5a7a',flexShrink:0}},String(f.awayScore)):null
+                )
+              );
+            }
+            var dates=[];var byDate={};
+            r32.forEach(function(f){if(!byDate[f.date]){dates.push(f.date);byDate[f.date]=[];}byDate[f.date].push(f);});
+            return e('div',null,
+              dates.map(function(d){
+                return e('div',{key:d},
+                  e('div',{style:{padding:'6px 10px',fontSize:9,fontWeight:'bold',color:d===today?'#f39c12':G,letterSpacing:2,textTransform:'uppercase',background:d===today?'rgba(243,156,18,0.06)':'rgba(212,175,55,0.04)',borderBottom:'1px solid rgba(212,175,55,0.1)',borderTop:'1px solid rgba(212,175,55,0.07)'}},
+                    fmtDateLabel(d)+(d===today?' — '+(lang==='fr'?'Aujourd\'hui':lang==='es'?'Hoy':lang==='pt'?'Hoje':lang==='it'?'Oggi':lang==='de'?'Heute':'Today'):'')
+                  ),
+                  e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr'}},
+                    byDate[d].map(function(f){return MC(f);})
+                  )
+                );
+              })
+            );
+          })()
+        )
+      ):null,
 
     e('div',{style:{borderTop:'1px solid rgba(212,175,55,0.1)',padding:'10px 16px',display:'flex',justifyContent:'center',gap:10,flexWrap:'wrap'}},
       (sponsors||SPONSORS.en).map(function(s){
