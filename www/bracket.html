@@ -188,7 +188,7 @@
   function badge(id,fA,fB,win){
     var el=document.getElementById(id);
     if(!el)return;
-    if(!fA&&!fB){el.style.display='none';return;}
+    if(!fA||!fB){el.style.display='none';return;}
     el.style.display='flex';
     var ea=document.getElementById(id+'a');
     var eb=document.getElementById(id+'b');
