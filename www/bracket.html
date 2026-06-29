@@ -6,13 +6,21 @@
 <title>WC2026 Bracket</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #0d0d12; overflow: hidden; }
-  .outer { width: 100vw; }
+  html, body {
+    background: #0d0d12;
+    width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: flex-start;
+    overflow: hidden;
+  }
+  .outer {
+    width: 100vw;
+    display: flex; justify-content: center; align-items: flex-start;
+  }
   .bracket-canvas {
-    position: fixed; top: 0; left: 0;
+    position: relative; flex-shrink: 0;
     width: 520px; height: 640px;
     background: #0d0d12;
-    transform-origin: top left;
+    transform-origin: top center;
   }
   svg.lines {
     position: absolute; top: 0; left: 0;
@@ -171,9 +179,7 @@
     var c=document.getElementById('canvas');
     var vw=window.innerWidth;
     var sc=Math.min(1,vw/520);
-    c.style.transformOrigin='top left';
     c.style.transform='scale('+sc+')';
-    c.style.left=Math.round((vw-520*sc)/2)+'px';
     var h=Math.round(640*sc);
     document.body.style.height=h+'px';
     document.documentElement.style.height=h+'px';
