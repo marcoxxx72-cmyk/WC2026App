@@ -186,10 +186,13 @@
     var canvas=document.getElementById('canvas');
     var vw=window.innerWidth;
     var sc=Math.min(1,vw/520);
+    canvas.style.transformOrigin='top left';
     canvas.style.transform='scale('+sc+')';
+    canvas.style.marginLeft=Math.round((vw-520*sc)/2)+'px';
     canvas.style.marginTop='0';
-    document.body.style.height=Math.round(640*sc)+'px';
-    document.documentElement.style.height=Math.round(640*sc)+'px';
+    var h=Math.round(640*sc);
+    document.body.style.height=h+'px';
+    document.documentElement.style.height=h+'px';
   }
   scale();
   window.addEventListener('resize',scale);
