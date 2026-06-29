@@ -1747,7 +1747,7 @@ var FIXTURES = [
   {date:'2026-06-28',time:'00:00',home:'Jordan',away:'Argentina',group:'J',stadium:'AT&T Stadium',city:'Dallas'},
   // - ROUND OF 32 (June 28 - July 4) -
   {date:'2026-06-28',time:'23:00',home:'South Africa',away:'Canada',group:'R32',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:0,awayScore:1},
-  {date:'2026-06-29',time:'19:00',home:'Brazil',away:'Japan',group:'R32',stadium:'NRG Stadium',city:'Houston'},
+  {date:'2026-06-29',time:'19:00',home:'Brazil',away:'Japan',group:'R32',stadium:'NRG Stadium',city:'Houston',homeScore:2,awayScore:1},
   {date:'2026-06-29',time:'21:30',home:'Germany',away:'Paraguay',group:'R32',stadium:'Gillette Stadium',city:'Boston'},
   {date:'2026-06-30',time:'03:00',home:'Netherlands',away:'Morocco',group:'R32',stadium:'Estadio BBVA',city:'Monterrey'},
   {date:'2026-06-30',time:'19:00',home:'Ivory Coast',away:'Norway',group:'R32',stadium:'AT&T Stadium',city:'Dallas'},

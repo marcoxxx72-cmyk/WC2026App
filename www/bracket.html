@@ -9,23 +9,19 @@
   html, body {
     background: #0d0d12;
     width: 100%; height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
     overflow: hidden;
   }
   .outer {
+    position: relative;
     width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
   }
   .bracket-canvas {
-    position: relative;
+    position: absolute;
+    top: 0;
     width: 520px;
     height: 640px;
     background: #0d0d12;
-    transform-origin: top center;
+    transform-origin: top left;
   }
   svg.lines {
     position: absolute;
@@ -188,8 +184,7 @@
     var sc=Math.min(1,vw/520);
     canvas.style.transformOrigin='top left';
     canvas.style.transform='scale('+sc+')';
-    canvas.style.marginLeft=Math.round((vw-520*sc)/2)+'px';
-    canvas.style.marginTop='0';
+    canvas.style.left=Math.round((vw-520*sc)/2)+'px';
     var h=Math.round(640*sc);
     document.body.style.height=h+'px';
     document.documentElement.style.height=h+'px';
