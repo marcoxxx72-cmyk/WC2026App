@@ -35,6 +35,7 @@
     display: flex; align-items: center; justify-content: center;
     gap: 5px; padding: 5px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,175,55,0.08);
+    transition: width 0.4s ease, left 0.4s ease;
   }
   .flag {
     width: 60px; height: 40px;
@@ -44,9 +45,9 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 27px; line-height: 1;
     overflow: hidden; flex-shrink: 0;
-    transition: opacity 0.4s ease;
   }
-  .flag.loser { opacity: 0.2; }
+  .flag.loser { display: none; }
+  .match.resolved .flag { width: 52px; font-size: 30px; }
 
   /* Advancement badges */
   .adv-badge {
@@ -62,11 +63,10 @@
     pointer-events: none;
   }
   .adv-badge .af {
-    font-size: 13px; line-height: 14px;
-    width: 17px; text-align: center;
+    font-size: 16px; line-height: 18px;
+    width: 20px; text-align: center;
     transition: opacity 0.4s ease;
   }
-  .adv-badge .af.loser { opacity: 0.12; }
 
   .trophy-wrap {
     position: absolute; left: 50%; top: 318px;
@@ -141,15 +141,15 @@
   <div class="match" style="left:362px;top:513px;"><div class="flag" data-team="Switzerland">🇨🇭</div><div class="flag" data-team="Algeria">🇩🇿</div></div>
   <div class="match" style="left:362px;top:575px;"><div class="flag" data-team="Colombia">🇨🇴</div><div class="flag" data-team="Ghana">🇬🇭</div></div>
 
-  <!-- LEFT R16 BADGES (x=186) -->
-  <div class="adv-badge" id="blr0" style="left:186px;top:66px;display:none"><span class="af" id="blr0a"></span><span class="af" id="blr0b"></span></div>
-  <div class="adv-badge" id="blr1" style="left:186px;top:234px;display:none"><span class="af" id="blr1a"></span><span class="af" id="blr1b"></span></div>
-  <div class="adv-badge" id="blr2" style="left:186px;top:402px;display:none"><span class="af" id="blr2a"></span><span class="af" id="blr2b"></span></div>
-  <div class="adv-badge" id="blr3" style="left:186px;top:570px;display:none"><span class="af" id="blr3a"></span><span class="af" id="blr3b"></span></div>
+  <!-- LEFT R16 BADGES (x=170) -->
+  <div class="adv-badge" id="blr0" style="left:170px;top:66px;display:none"><span class="af" id="blr0a"></span><span class="af" id="blr0b"></span></div>
+  <div class="adv-badge" id="blr1" style="left:170px;top:234px;display:none"><span class="af" id="blr1a"></span><span class="af" id="blr1b"></span></div>
+  <div class="adv-badge" id="blr2" style="left:170px;top:402px;display:none"><span class="af" id="blr2a"></span><span class="af" id="blr2b"></span></div>
+  <div class="adv-badge" id="blr3" style="left:170px;top:570px;display:none"><span class="af" id="blr3a"></span><span class="af" id="blr3b"></span></div>
 
-  <!-- LEFT QF BADGES (x=226) -->
-  <div class="adv-badge" id="bql0" style="left:226px;top:150px;display:none"><span class="af" id="bql0a"></span><span class="af" id="bql0b"></span></div>
-  <div class="adv-badge" id="bql1" style="left:226px;top:486px;display:none"><span class="af" id="bql1a"></span><span class="af" id="bql1b"></span></div>
+  <!-- LEFT QF BADGES (x=210) -->
+  <div class="adv-badge" id="bql0" style="left:210px;top:150px;display:none"><span class="af" id="bql0a"></span><span class="af" id="bql0b"></span></div>
+  <div class="adv-badge" id="bql1" style="left:210px;top:486px;display:none"><span class="af" id="bql1a"></span><span class="af" id="bql1b"></span></div>
 
   <!-- RIGHT R16 BADGES (x=334) -->
   <div class="adv-badge" id="brr0" style="left:334px;top:66px;display:none"><span class="af" id="brr0a"></span><span class="af" id="brr0b"></span></div>
@@ -188,12 +188,12 @@
   function badge(id,fA,fB,win){
     var el=document.getElementById(id);
     if(!el)return;
-    if(!fA||!fB){el.style.display='none';return;}
+    if(!win){el.style.display='none';return;}
     el.style.display='flex';
     var ea=document.getElementById(id+'a');
     var eb=document.getElementById(id+'b');
-    if(ea){ea.textContent=fA||'·';ea.className='af'+(win&&fA&&fA!==win?' loser':'');}
-    if(eb){eb.textContent=fB||'·';eb.className='af'+(win&&fB&&fB!==win?' loser':'');}
+    if(ea){ea.textContent=win;ea.className='af';}
+    if(eb){eb.textContent='';eb.style.display='none';}
   }
 
   function applyAll(){
@@ -230,6 +230,23 @@
     try{r32=JSON.parse(localStorage.getItem('wc2026_r32_results')||'{}');}catch(e){}
     document.querySelectorAll('.flag[data-team]').forEach(function(el){
       el.classList.toggle('loser',r32[el.getAttribute('data-team')]==='loser');
+    });
+    // Shrink match rectangles when a team is eliminated
+    document.querySelectorAll('.match').forEach(function(m){
+      var hasLoser=m.querySelector('.flag.loser')!==null;
+      if(hasLoser){
+        if(!m.dataset.origLeft) m.dataset.origLeft=parseInt(m.style.left);
+        var orig=parseInt(m.dataset.origLeft);
+        m.classList.add('resolved');
+        m.style.width='76px';
+        if(orig<200) m.style.left='82px'; // right edge stays at ~158
+      } else {
+        if(m.dataset.origLeft!==undefined){
+          m.classList.remove('resolved');
+          m.style.width='';
+          m.style.left=m.dataset.origLeft+'px';
+        }
+      }
     });
   }
 
