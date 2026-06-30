@@ -1748,8 +1748,8 @@ var FIXTURES = [
   // - ROUND OF 32 (June 28 - July 4) -
   {date:'2026-06-28',time:'23:00',home:'South Africa',away:'Canada',group:'R32',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:0,awayScore:1},
   {date:'2026-06-29',time:'19:00',home:'Brazil',away:'Japan',group:'R32',stadium:'NRG Stadium',city:'Houston',homeScore:2,awayScore:1},
-  {date:'2026-06-29',time:'21:30',home:'Germany',away:'Paraguay',group:'R32',stadium:'Gillette Stadium',city:'Boston'},
-  {date:'2026-06-30',time:'03:00',home:'Netherlands',away:'Morocco',group:'R32',stadium:'Estadio BBVA',city:'Monterrey'},
+  {date:'2026-06-29',time:'21:30',home:'Germany',away:'Paraguay',group:'R32',stadium:'Gillette Stadium',city:'Boston',homeScore:1,awayScore:1,homePen:3,awayPen:4},
+  {date:'2026-06-30',time:'03:00',home:'Netherlands',away:'Morocco',group:'R32',stadium:'Estadio BBVA',city:'Monterrey',homeScore:1,awayScore:1,homePen:2,awayPen:3},
   {date:'2026-06-30',time:'19:00',home:'Ivory Coast',away:'Norway',group:'R32',stadium:'AT&T Stadium',city:'Dallas'},
   {date:'2026-06-30',time:'22:00',home:'France',away:'Sweden',group:'R32',stadium:'MetLife Stadium',city:'New York'},
   {date:'2026-07-01',time:'03:00',home:'Mexico',away:'Ecuador',group:'R32',stadium:'Estadio Azteca',city:'Mexico City'},
@@ -3609,7 +3609,7 @@ function App(){
               ),
               e('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between'}},
                 e('div',{style:{flex:1,textAlign:'left',fontSize:13,fontWeight:f.home===activeTeam.team?'bold':'normal',color:f.home===activeTeam.team?G:'#eee8d5'}},tn(f.home,lang)),
-                (function(){var api=apiScoreMap[f.home+'|'+f.away];var hs=api?api.h:(f.homeScore!=null?f.homeScore:null);var as2=api?api.a:(f.awayScore!=null?f.awayScore:null);var isLiveNow=api&&(api.status==='IN_PLAY'||api.status==='PAUSED');var hasSc=hs!==null;return e('div',{style:{padding:'4px 12px',background:isLiveNow?'rgba(255,50,50,0.15)':hasSc?'rgba(40,200,40,0.15)':'rgba(212,175,55,0.15)',borderRadius:8,fontSize:12,fontWeight:'bold',color:isLiveNow?'#ff8888':hasSc?'#90ee90':G,margin:'0 8px',textAlign:'center'}},isLiveNow?e('span',{style:{fontSize:7,display:'block',color:'#ff4444',letterSpacing:1}},'🔴 LIVE'):null,hasSc?hs+' - '+as2:'VS');})(),
+                (function(){var api=apiScoreMap[f.home+'|'+f.away];var hs=api?api.h:(f.homeScore!=null?f.homeScore:null);var as2=api?api.a:(f.awayScore!=null?f.awayScore:null);var isLiveNow=api&&(api.status==='IN_PLAY'||api.status==='PAUSED');var hasSc=hs!==null;return e('div',{style:{padding:'4px 12px',background:isLiveNow?'rgba(255,50,50,0.15)':hasSc?'rgba(40,200,40,0.15)':'rgba(212,175,55,0.15)',borderRadius:8,fontSize:12,fontWeight:'bold',color:isLiveNow?'#ff8888':hasSc?'#90ee90':G,margin:'0 8px',textAlign:'center'}},isLiveNow?e('span',{style:{fontSize:7,display:'block',color:'#ff4444',letterSpacing:1}},'🔴 LIVE'):null,hasSc?(f.homePen!=null?hs+'('+f.homePen+')-'+as2+'('+f.awayPen+')':hs+' - '+as2):'VS');})(),
                 e('div',{style:{flex:1,textAlign:'right',fontSize:13,fontWeight:f.away===activeTeam.team?'bold':'normal',color:f.away===activeTeam.team?G:'#eee8d5'}},tn(f.away,lang))
               ),
               f.stadium&&e('div',{style:{fontSize:9,color:'#5a7090',marginTop:6}},f.stadium,' - ',f.city,' | 📺 ',getTV(f.home,lang)||getTV(f.away,lang)),
@@ -5256,8 +5256,8 @@ function App(){
             function MC(f){
               var played=f.homeScore!=null;
               var isToday=!played&&f.date===today;
-              var hW=played&&f.homeScore>f.awayScore;
-              var aW=played&&f.awayScore>f.homeScore;
+              var hW=played&&(f.homeScore>f.awayScore||(f.homeScore===f.awayScore&&f.homePen!=null&&f.homePen>f.awayPen));
+              var aW=played&&(f.awayScore>f.homeScore||(f.homeScore===f.awayScore&&f.awayPen!=null&&f.awayPen>f.homePen));
               var statusEl=played
                 ?e('span',{style:{fontSize:8,fontWeight:'bold',color:'#2ecc71',background:'rgba(46,204,113,0.12)',borderRadius:10,padding:'2px 7px'}},lang==='fr'?'Terminé':lang==='es'?'Finalizado':lang==='pt'?'Encerrado':lang==='it'?'Terminato':lang==='de'?'Beendet':'Full Time')
                 :isToday
@@ -5271,13 +5271,13 @@ function App(){
                 e('div',{style:{display:'flex',alignItems:'center',gap:5,marginBottom:3,opacity:played&&!hW?0.38:1}},
                   e('span',{style:{fontSize:20,lineHeight:1,flexShrink:0}},FLAG_MAP[f.home]||'🏳'),
                   e('span',{style:{fontSize:8,fontWeight:'bold',color:hW?G:'#c8dae8',flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},tn(f.home,lang)),
-                  played?e('span',{style:{fontSize:13,fontWeight:'bold',color:hW?G:'#3a5a7a',flexShrink:0}},String(f.homeScore)):null
+                  played?e('span',{style:{fontSize:13,fontWeight:'bold',color:hW?G:'#3a5a7a',flexShrink:0}},f.homePen!=null?String(f.homeScore)+' ('+f.homePen+')':String(f.homeScore)):null
                 ),
                 e('div',{style:{height:1,background:'rgba(212,175,55,0.07)',margin:'3px 0'}}),
                 e('div',{style:{display:'flex',alignItems:'center',gap:5,opacity:played&&!aW?0.38:1}},
                   e('span',{style:{fontSize:20,lineHeight:1,flexShrink:0}},FLAG_MAP[f.away]||'🏳'),
                   e('span',{style:{fontSize:8,fontWeight:'bold',color:aW?G:'#c8dae8',flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},tn(f.away,lang)),
-                  played?e('span',{style:{fontSize:13,fontWeight:'bold',color:aW?G:'#3a5a7a',flexShrink:0}},String(f.awayScore)):null
+                  played?e('span',{style:{fontSize:13,fontWeight:'bold',color:aW?G:'#3a5a7a',flexShrink:0}},f.awayPen!=null?String(f.awayScore)+' ('+f.awayPen+')':String(f.awayScore)):null
                 )
               );
             }
@@ -5309,6 +5309,7 @@ function App(){
           if(!f||f.homeScore==null||f.awayScore==null)return null;
           if(f.homeScore>f.awayScore)return f.home;
           if(f.awayScore>f.homeScore)return f.away;
+          if(f.homePen!=null&&f.awayPen!=null){if(f.homePen>f.awayPen)return f.home;if(f.awayPen>f.homePen)return f.away;}
           return null;
         }
         var lR32n=LR.map(function(m){return gw(m[0],m[1],'R32');});
