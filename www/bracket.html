@@ -189,20 +189,10 @@
     if(!el)return;
     var ea=document.getElementById(id+'a');
     var eb=document.getElementById(id+'b');
-    if(win){
-      // Winner known → 1 seul drapeau
-      el.style.display='flex';
-      if(ea){ea.textContent=win;ea.className='af';ea.style.display='';}
-      if(eb){eb.textContent='';eb.style.display='none';}
-    } else if(fA&&fB){
-      // Les 2 qualifiés connus → affiche le prochain match
-      el.style.display='flex';
-      if(ea){ea.textContent=fA;ea.className='af';ea.style.display='';}
-      if(eb){eb.textContent=fB;eb.className='af';eb.style.display='';}
-    } else {
-      el.style.display='none';
-      if(eb) eb.style.display='';
-    }
+    if(!win){el.style.display='none';return;}
+    el.style.display='flex';
+    if(ea){ea.textContent=win;ea.className='af';ea.style.display='';}
+    if(eb){eb.textContent='';eb.style.display='none';}
   }
 
   function applyAll(){
@@ -248,7 +238,7 @@
         var orig=parseInt(m.dataset.origLeft);
         m.classList.add('resolved');
         m.style.width='76px';
-        if(orig<200) m.style.left='10px'; // left-aligned, badge bridges gap to SVG
+        if(orig<200) m.style.left='82px'; // right edge stays at ~158 (SVG line)
       } else {
         if(m.dataset.origLeft!==undefined){
           m.classList.remove('resolved');
