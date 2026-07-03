@@ -2548,7 +2548,11 @@ function App(){
   var sBV=useState('visual');var bracketView=sBV[0];var setBracketView=sBV[1];
 
   // Onboarding
-  var sOB1=useState(true);var onboarded=sOB1[0];var setOnboarded=sOB1[1];
+  var sOB1=useState(function(){
+    if(_platform==='web')return true;
+    try{return localStorage.getItem('wc2026_onboarded')==='1';}catch(e){return false;}
+  });
+  var onboarded=sOB1[0];var setOnboarded=sOB1[1];
   var sOB2=useState(0);var obSlide=sOB2[0];var setObSlide=sOB2[1];
   function finishOnboarding(){try{localStorage.setItem('wc2026_onboarded','1');}catch(e){}setOnboarded(true);}
 
