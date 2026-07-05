@@ -56,14 +56,14 @@
     gap: 2px;
     background: rgba(8,8,16,0.97);
     border: 1px solid rgba(212,175,55,0.7);
-    border-radius: 5px;
-    padding: 3px 4px;
+    border-radius: 6px;
+    padding: 4px 6px;
     transform: translate(-50%,-50%);
     z-index: 10;
     pointer-events: none;
   }
   .adv-badge .af {
-    font-size: 15px; line-height: 17px;
+    font-size: 30px; line-height: 34px;
     text-align: center;
   }
 
@@ -77,8 +77,8 @@
     font-size: 56px; line-height: 1;
     filter: drop-shadow(0 0 14px rgba(212,175,55,0.8)) drop-shadow(0 0 4px rgba(212,175,55,0.5));
   }
-  #finalists { display: none; gap: 6px; margin-top: 3px; align-items: center; }
-  .finalist { font-size: 15px; line-height: 17px; transition: opacity 0.4s ease; }
+  #finalists { display: none; gap: 10px; margin-top: 4px; align-items: center; }
+  .finalist { font-size: 30px; line-height: 34px; transition: opacity 0.4s ease; }
   .finalist.loser { opacity: 0.12; }
 </style>
 </head>
@@ -140,25 +140,25 @@
   <div class="match" style="left:362px;top:513px;"><div class="flag" data-team="Switzerland">🇨🇭</div><div class="flag" data-team="Algeria">🇩🇿</div></div>
   <div class="match" style="left:362px;top:575px;"><div class="flag" data-team="Colombia">🇨🇴</div><div class="flag" data-team="Ghana">🇬🇭</div></div>
 
-  <!-- LEFT R16 BADGES (x=186, midpoint of the merge line 175-198, mirrors right side at 334) -->
-  <div class="adv-badge" id="blr0" style="left:186px;top:66px;display:none"><span class="af" id="blr0a"></span><span class="af" id="blr0b"></span></div>
-  <div class="adv-badge" id="blr1" style="left:186px;top:234px;display:none"><span class="af" id="blr1a"></span><span class="af" id="blr1b"></span></div>
-  <div class="adv-badge" id="blr2" style="left:186px;top:402px;display:none"><span class="af" id="blr2a"></span><span class="af" id="blr2b"></span></div>
-  <div class="adv-badge" id="blr3" style="left:186px;top:570px;display:none"><span class="af" id="blr3a"></span><span class="af" id="blr3b"></span></div>
+  <!-- LEFT R16 BADGES (x=198, exact corner vertex of the polyline where the golden bar turns) -->
+  <div class="adv-badge" id="blr0" style="left:198px;top:66px;display:none"><span class="af" id="blr0a"></span><span class="af" id="blr0b"></span></div>
+  <div class="adv-badge" id="blr1" style="left:198px;top:234px;display:none"><span class="af" id="blr1a"></span><span class="af" id="blr1b"></span></div>
+  <div class="adv-badge" id="blr2" style="left:198px;top:402px;display:none"><span class="af" id="blr2a"></span><span class="af" id="blr2b"></span></div>
+  <div class="adv-badge" id="blr3" style="left:198px;top:570px;display:none"><span class="af" id="blr3a"></span><span class="af" id="blr3b"></span></div>
 
-  <!-- LEFT QF BADGES (x=210) -->
-  <div class="adv-badge" id="bql0" style="left:210px;top:150px;display:none"><span class="af" id="bql0a"></span><span class="af" id="bql0b"></span></div>
-  <div class="adv-badge" id="bql1" style="left:210px;top:486px;display:none"><span class="af" id="bql1a"></span><span class="af" id="bql1b"></span></div>
+  <!-- LEFT QF BADGES (x=238, corner vertex ending the QF stub, same rule as R16) -->
+  <div class="adv-badge" id="bql0" style="left:238px;top:150px;display:none"><span class="af" id="bql0a"></span><span class="af" id="bql0b"></span></div>
+  <div class="adv-badge" id="bql1" style="left:238px;top:486px;display:none"><span class="af" id="bql1a"></span><span class="af" id="bql1b"></span></div>
 
-  <!-- RIGHT R16 BADGES (x=334) -->
-  <div class="adv-badge" id="brr0" style="left:334px;top:66px;display:none"><span class="af" id="brr0a"></span><span class="af" id="brr0b"></span></div>
-  <div class="adv-badge" id="brr1" style="left:334px;top:234px;display:none"><span class="af" id="brr1a"></span><span class="af" id="brr1b"></span></div>
-  <div class="adv-badge" id="brr2" style="left:334px;top:402px;display:none"><span class="af" id="brr2a"></span><span class="af" id="brr2b"></span></div>
-  <div class="adv-badge" id="brr3" style="left:334px;top:570px;display:none"><span class="af" id="brr3a"></span><span class="af" id="brr3b"></span></div>
+  <!-- RIGHT R16 BADGES (x=322, mirror of left x=198) -->
+  <div class="adv-badge" id="brr0" style="left:322px;top:66px;display:none"><span class="af" id="brr0a"></span><span class="af" id="brr0b"></span></div>
+  <div class="adv-badge" id="brr1" style="left:322px;top:234px;display:none"><span class="af" id="brr1a"></span><span class="af" id="brr1b"></span></div>
+  <div class="adv-badge" id="brr2" style="left:322px;top:402px;display:none"><span class="af" id="brr2a"></span><span class="af" id="brr2b"></span></div>
+  <div class="adv-badge" id="brr3" style="left:322px;top:570px;display:none"><span class="af" id="brr3a"></span><span class="af" id="brr3b"></span></div>
 
-  <!-- RIGHT QF BADGES (x=294) -->
-  <div class="adv-badge" id="bqr0" style="left:294px;top:150px;display:none"><span class="af" id="bqr0a"></span><span class="af" id="bqr0b"></span></div>
-  <div class="adv-badge" id="bqr1" style="left:294px;top:486px;display:none"><span class="af" id="bqr1a"></span><span class="af" id="bqr1b"></span></div>
+  <!-- RIGHT QF BADGES (x=282, mirror of left x=238) -->
+  <div class="adv-badge" id="bqr0" style="left:282px;top:150px;display:none"><span class="af" id="bqr0a"></span><span class="af" id="bqr0b"></span></div>
+  <div class="adv-badge" id="bqr1" style="left:282px;top:486px;display:none"><span class="af" id="bqr1a"></span><span class="af" id="bqr1b"></span></div>
 
   <!-- TROPHY + FINALISTS -->
   <div class="trophy-wrap">
