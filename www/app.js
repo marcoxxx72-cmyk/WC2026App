@@ -1763,8 +1763,8 @@ var FIXTURES = [
   {date:'2026-07-03',time:'23:00',home:'Argentina',away:'Cape Verde',group:'R32',stadium:'Hard Rock Stadium',city:'Miami',homeScore:3,awayScore:2},
   {date:'2026-07-04',time:'15:30',home:'Portugal',away:'Croatia',group:'R32',stadium:'Arrowhead Stadium',city:'Kansas City',homeScore:2,awayScore:1},
   // - ROUND OF 16 (July 4-7) -
-  {date:'2026-07-04',time:'19:00',home:'Canada',away:'Morocco',group:'R16',stadium:'NRG Stadium',city:'Houston'},
-  {date:'2026-07-04',time:'22:00',home:'Paraguay',away:'France',group:'R16',stadium:'Lincoln Financial',city:'Philadelphia'},
+  {date:'2026-07-04',time:'19:00',home:'Canada',away:'Morocco',group:'R16',stadium:'NRG Stadium',city:'Houston',homeScore:0,awayScore:3},
+  {date:'2026-07-04',time:'22:00',home:'Paraguay',away:'France',group:'R16',stadium:'Lincoln Financial',city:'Philadelphia',homeScore:0,awayScore:1},
   {date:'2026-07-05',time:'21:00',home:'Brazil',away:'Norway',group:'R16',stadium:'MetLife Stadium',city:'New York'},
   {date:'2026-07-06',time:'03:00',home:'Mexico',away:'England',group:'R16',stadium:'Estadio Azteca',city:'Mexico City'},
   {date:'2026-07-06',time:'21:00',home:'Portugal',away:'Spain',group:'R16',stadium:'AT&T Stadium',city:'Dallas'},
