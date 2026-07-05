@@ -49,21 +49,22 @@
   .flag.loser { display: none; }
   .match.resolved .flag { width: 52px; font-size: 30px; }
 
-  /* Advancement badges */
+  /* Advancement badges — same rectangle as a resolved R32/R16 team flag (52x40) */
   .adv-badge {
     position: absolute;
-    display: flex; flex-direction: row; align-items: center;
+    width: 52px; height: 40px;
+    display: flex; flex-direction: row; align-items: center; justify-content: center;
     gap: 2px;
-    background: rgba(8,8,16,0.97);
+    background: #12121a;
     border: 1px solid rgba(212,175,55,0.7);
-    border-radius: 6px;
-    padding: 4px 6px;
+    border-radius: 5px;
     transform: translate(-50%,-50%);
     z-index: 10;
     pointer-events: none;
+    overflow: hidden;
   }
   .adv-badge .af {
-    font-size: 30px; line-height: 34px;
+    font-size: 30px; line-height: 1;
     text-align: center;
   }
 
