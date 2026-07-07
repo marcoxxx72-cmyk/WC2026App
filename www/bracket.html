@@ -18,148 +18,148 @@
   }
   .bracket-canvas {
     position: relative; flex-shrink: 0;
-    width: 520px; height: 640px;
+    width: 580px; height: 680px;
     background: #0d0d12;
     transform-origin: top center;
   }
   svg.lines {
     position: absolute; top: 0; left: 0;
-    width: 520px; height: 640px;
+    width: 580px; height: 680px;
     pointer-events: none;
   }
   .match {
-    position: absolute; width: 148px; height: 52px;
+    position: absolute; width: 180px; height: 64px;
     background: linear-gradient(135deg,#1e1e28,#161620);
     border: 1px solid rgba(212,175,55,0.4);
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    gap: 5px; padding: 5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5),inset 0 1px 0 rgba(212,175,55,0.08);
+    gap: 6px; padding: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.6),inset 0 1px 0 rgba(212,175,55,0.1);
     transition: width 0.4s ease, left 0.4s ease;
   }
   .flag {
-    width: 60px; height: 40px;
+    width: 80px; height: 52px;
     background: #12121a;
-    border-radius: 5px;
-    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.08);
     display: flex; align-items: center; justify-content: center;
-    font-size: 27px; line-height: 1;
+    font-size: 38px; line-height: 1;
     overflow: hidden; flex-shrink: 0;
   }
   .flag.loser { display: none; }
-  .match.resolved .flag { width: 52px; font-size: 30px; }
+  .match.resolved .flag { width: 68px; font-size: 42px; }
 
-  /* Advancement badges — same rectangle as a resolved R32/R16 team flag (52x40) */
+  /* Advancement badges — same rectangle as a resolved R32/R16 team flag (68x52) */
   .adv-badge {
     position: absolute;
-    width: 52px; height: 40px;
+    width: 68px; height: 52px;
     display: flex; flex-direction: row; align-items: center; justify-content: center;
-    gap: 2px;
+    gap: 3px;
     background: #12121a;
-    border: 1px solid rgba(212,175,55,0.7);
-    border-radius: 5px;
+    border: 1px solid rgba(212,175,55,0.8);
+    border-radius: 6px;
     transform: translate(-50%,-50%);
     z-index: 10;
     pointer-events: none;
     overflow: hidden;
   }
   .adv-badge .af {
-    font-size: 30px; line-height: 1;
+    font-size: 42px; line-height: 1;
     text-align: center;
   }
 
   .trophy-wrap {
-    position: absolute; left: 50%; top: 318px;
+    position: absolute; left: 50%; top: 338px;
     transform: translateX(-50%) translateY(-50%);
     display: flex; flex-direction: column; align-items: center;
     z-index: 5;
   }
   .trophy-icon {
-    font-size: 56px; line-height: 1;
-    filter: drop-shadow(0 0 14px rgba(212,175,55,0.8)) drop-shadow(0 0 4px rgba(212,175,55,0.5));
+    font-size: 72px; line-height: 1;
+    filter: drop-shadow(0 0 18px rgba(212,175,55,0.9)) drop-shadow(0 0 6px rgba(212,175,55,0.6));
   }
-  #finalists { display: none; gap: 10px; margin-top: 4px; align-items: center; }
-  .finalist { font-size: 30px; line-height: 34px; transition: opacity 0.4s ease; }
-  .finalist.loser { opacity: 0.12; }
+  #finalists { display: none; gap: 12px; margin-top: 8px; align-items: center; }
+  .finalist { font-size: 50px; line-height: 56px; transition: opacity 0.4s ease; }
+  .finalist.loser { opacity: 0.15; }
 </style>
 </head>
 <body>
 <div class="outer">
 <div class="bracket-canvas" id="canvas">
 
-  <svg class="lines" viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
-    <defs><style>.bl{stroke:#c8a020;stroke-width:1.6;fill:none;stroke-linecap:square;opacity:0.85;}</style></defs>
+  <svg class="lines" viewBox="0 0 580 680" xmlns="http://www.w3.org/2000/svg">
+    <defs><style>.bl{stroke:#c8a020;stroke-width:2;fill:none;stroke-linecap:square;opacity:0.9;}</style></defs>
     <!-- LEFT -->
-    <polyline class="bl" points="158,35 175,35 175,97 158,97"/>
-    <line class="bl" x1="175" y1="66" x2="198" y2="66"/>
-    <polyline class="bl" points="158,203 175,203 175,265 158,265"/>
-    <line class="bl" x1="175" y1="234" x2="198" y2="234"/>
-    <polyline class="bl" points="198,66 215,66 215,234 198,234"/>
-    <line class="bl" x1="215" y1="150" x2="238" y2="150"/>
-    <polyline class="bl" points="158,371 175,371 175,433 158,433"/>
-    <line class="bl" x1="175" y1="402" x2="198" y2="402"/>
-    <polyline class="bl" points="158,539 175,539 175,601 158,601"/>
-    <line class="bl" x1="175" y1="570" x2="198" y2="570"/>
-    <polyline class="bl" points="198,402 215,402 215,570 198,570"/>
-    <line class="bl" x1="215" y1="486" x2="238" y2="486"/>
-    <polyline class="bl" points="238,150 255,150 255,486 238,486"/>
-    <line class="bl" x1="255" y1="318" x2="263" y2="318"/>
+    <polyline class="bl" points="190,38 212,38 212,106 190,106"/>
+    <line class="bl" x1="212" y1="72" x2="238" y2="72"/>
+    <polyline class="bl" points="190,218 212,218 212,286 190,286"/>
+    <line class="bl" x1="212" y1="252" x2="238" y2="252"/>
+    <polyline class="bl" points="238,72 260,72 260,252 238,252"/>
+    <line class="bl" x1="260" y1="162" x2="286" y2="162"/>
+    <polyline class="bl" points="190,398 212,398 212,466 190,466"/>
+    <line class="bl" x1="212" y1="432" x2="238" y2="432"/>
+    <polyline class="bl" points="190,578 212,578 212,646 190,646"/>
+    <line class="bl" x1="212" y1="612" x2="238" y2="612"/>
+    <polyline class="bl" points="238,432 260,432 260,612 238,612"/>
+    <line class="bl" x1="260" y1="522" x2="286" y2="522"/>
+    <polyline class="bl" points="286,162 308,162 308,522 286,522"/>
+    <line class="bl" x1="308" y1="342" x2="318" y2="342"/>
     <!-- RIGHT -->
-    <polyline class="bl" points="362,35 345,35 345,97 362,97"/>
-    <line class="bl" x1="345" y1="66" x2="322" y2="66"/>
-    <polyline class="bl" points="362,203 345,203 345,265 362,265"/>
-    <line class="bl" x1="345" y1="234" x2="322" y2="234"/>
-    <polyline class="bl" points="322,66 305,66 305,234 322,234"/>
-    <line class="bl" x1="305" y1="150" x2="282" y2="150"/>
-    <polyline class="bl" points="362,371 345,371 345,433 362,433"/>
-    <line class="bl" x1="345" y1="402" x2="322" y2="402"/>
-    <polyline class="bl" points="362,539 345,539 345,601 362,601"/>
-    <line class="bl" x1="345" y1="570" x2="322" y2="570"/>
-    <polyline class="bl" points="322,402 305,402 305,570 322,570"/>
-    <line class="bl" x1="305" y1="486" x2="282" y2="486"/>
-    <polyline class="bl" points="282,150 265,150 265,486 282,486"/>
-    <line class="bl" x1="265" y1="318" x2="257" y2="318"/>
+    <polyline class="bl" points="390,38 368,38 368,106 390,106"/>
+    <line class="bl" x1="368" y1="72" x2="342" y2="72"/>
+    <polyline class="bl" points="390,218 368,218 368,286 390,286"/>
+    <line class="bl" x1="368" y1="252" x2="342" y2="252"/>
+    <polyline class="bl" points="342,72 320,72 320,252 342,252"/>
+    <line class="bl" x1="320" y1="162" x2="294" y2="162"/>
+    <polyline class="bl" points="390,398 368,398 368,466 390,466"/>
+    <line class="bl" x1="368" y1="432" x2="342" y2="432"/>
+    <polyline class="bl" points="390,578 368,578 368,646 390,646"/>
+    <line class="bl" x1="368" y1="612" x2="342" y2="612"/>
+    <polyline class="bl" points="342,432 320,432 320,612 342,612"/>
+    <line class="bl" x1="320" y1="522" x2="294" y2="522"/>
+    <polyline class="bl" points="294,162 272,162 272,522 294,522"/>
+    <line class="bl" x1="272" y1="342" x2="262" y2="342"/>
   </svg>
 
   <!-- LEFT MATCHES -->
-  <div class="match" style="left:10px;top:9px;"><div class="flag" data-team="Germany">🇩🇪</div><div class="flag" data-team="Paraguay">🇵🇾</div></div>
-  <div class="match" style="left:10px;top:71px;"><div class="flag" data-team="France">🇫🇷</div><div class="flag" data-team="Sweden">🇸🇪</div></div>
-  <div class="match" style="left:10px;top:177px;"><div class="flag" data-team="South Africa">🇿🇦</div><div class="flag" data-team="Canada">🇨🇦</div></div>
-  <div class="match" style="left:10px;top:239px;"><div class="flag" data-team="Netherlands">🇳🇱</div><div class="flag" data-team="Morocco">🇲🇦</div></div>
-  <div class="match" style="left:10px;top:345px;"><div class="flag" data-team="Portugal">🇵🇹</div><div class="flag" data-team="Croatia">🇭🇷</div></div>
-  <div class="match" style="left:10px;top:407px;"><div class="flag" data-team="Spain">🇪🇸</div><div class="flag" data-team="Austria">🇦🇹</div></div>
-  <div class="match" style="left:10px;top:513px;"><div class="flag" data-team="USA">🇺🇸</div><div class="flag" data-team="Bosnia">🇧🇦</div></div>
-  <div class="match" style="left:10px;top:575px;"><div class="flag" data-team="Belgium">🇧🇪</div><div class="flag" data-team="Senegal">🇸🇳</div></div>
+  <div class="match" style="left:10px;top:10px;"><div class="flag" data-team="Germany">🇩🇪</div><div class="flag" data-team="Paraguay">🇵🇾</div></div>
+  <div class="match" style="left:10px;top:78px;"><div class="flag" data-team="France">🇫🇷</div><div class="flag" data-team="Sweden">🇸🇪</div></div>
+  <div class="match" style="left:10px;top:190px;"><div class="flag" data-team="South Africa">🇿🇦</div><div class="flag" data-team="Canada">🇨🇦</div></div>
+  <div class="match" style="left:10px;top:258px;"><div class="flag" data-team="Netherlands">🇳🇱</div><div class="flag" data-team="Morocco">🇲🇦</div></div>
+  <div class="match" style="left:10px;top:370px;"><div class="flag" data-team="Portugal">🇵🇹</div><div class="flag" data-team="Croatia">🇭🇷</div></div>
+  <div class="match" style="left:10px;top:438px;"><div class="flag" data-team="Spain">🇪🇸</div><div class="flag" data-team="Austria">🇦🇹</div></div>
+  <div class="match" style="left:10px;top:550px;"><div class="flag" data-team="USA">🇺🇸</div><div class="flag" data-team="Bosnia">🇧🇦</div></div>
+  <div class="match" style="left:10px;top:618px;"><div class="flag" data-team="Belgium">🇧🇪</div><div class="flag" data-team="Senegal">🇸🇳</div></div>
 
   <!-- RIGHT MATCHES -->
-  <div class="match" style="left:362px;top:9px;"><div class="flag" data-team="Brazil">🇧🇷</div><div class="flag" data-team="Japan">🇯🇵</div></div>
-  <div class="match" style="left:362px;top:71px;"><div class="flag" data-team="Ivory Coast">🇨🇮</div><div class="flag" data-team="Norway">🇳🇴</div></div>
-  <div class="match" style="left:362px;top:177px;"><div class="flag" data-team="Mexico">🇲🇽</div><div class="flag" data-team="Ecuador">🇪🇨</div></div>
-  <div class="match" style="left:362px;top:239px;"><div class="flag" data-team="England">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="flag" data-team="DR Congo">🇨🇩</div></div>
-  <div class="match" style="left:362px;top:345px;"><div class="flag" data-team="Argentina">🇦🇷</div><div class="flag" data-team="Cape Verde">🇨🇻</div></div>
-  <div class="match" style="left:362px;top:407px;"><div class="flag" data-team="Australia">🇦🇺</div><div class="flag" data-team="Egypt">🇪🇬</div></div>
-  <div class="match" style="left:362px;top:513px;"><div class="flag" data-team="Switzerland">🇨🇭</div><div class="flag" data-team="Algeria">🇩🇿</div></div>
-  <div class="match" style="left:362px;top:575px;"><div class="flag" data-team="Colombia">🇨🇴</div><div class="flag" data-team="Ghana">🇬🇭</div></div>
+  <div class="match" style="left:390px;top:10px;"><div class="flag" data-team="Brazil">🇧🇷</div><div class="flag" data-team="Japan">🇯🇵</div></div>
+  <div class="match" style="left:390px;top:78px;"><div class="flag" data-team="Ivory Coast">🇨🇮</div><div class="flag" data-team="Norway">🇳🇴</div></div>
+  <div class="match" style="left:390px;top:190px;"><div class="flag" data-team="Mexico">🇲🇽</div><div class="flag" data-team="Ecuador">🇪🇨</div></div>
+  <div class="match" style="left:390px;top:258px;"><div class="flag" data-team="England">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="flag" data-team="DR Congo">🇨🇩</div></div>
+  <div class="match" style="left:390px;top:370px;"><div class="flag" data-team="Argentina">🇦🇷</div><div class="flag" data-team="Cape Verde">🇨🇻</div></div>
+  <div class="match" style="left:390px;top:438px;"><div class="flag" data-team="Australia">🇦🇺</div><div class="flag" data-team="Egypt">🇪🇬</div></div>
+  <div class="match" style="left:390px;top:550px;"><div class="flag" data-team="Switzerland">🇨🇭</div><div class="flag" data-team="Algeria">🇩🇿</div></div>
+  <div class="match" style="left:390px;top:618px;"><div class="flag" data-team="Colombia">🇨🇴</div><div class="flag" data-team="Ghana">🇬🇭</div></div>
 
-  <!-- LEFT R16 BADGES (x=198, exact corner vertex of the polyline where the golden bar turns) -->
-  <div class="adv-badge" id="blr0" style="left:198px;top:66px;display:none"><span class="af" id="blr0a"></span><span class="af" id="blr0b"></span></div>
-  <div class="adv-badge" id="blr1" style="left:198px;top:234px;display:none"><span class="af" id="blr1a"></span><span class="af" id="blr1b"></span></div>
-  <div class="adv-badge" id="blr2" style="left:198px;top:402px;display:none"><span class="af" id="blr2a"></span><span class="af" id="blr2b"></span></div>
-  <div class="adv-badge" id="blr3" style="left:198px;top:570px;display:none"><span class="af" id="blr3a"></span><span class="af" id="blr3b"></span></div>
+  <!-- LEFT R16 BADGES (x=238, exact corner vertex of the polyline where the golden bar turns) -->
+  <div class="adv-badge" id="blr0" style="left:238px;top:72px;display:none"><span class="af" id="blr0a"></span><span class="af" id="blr0b"></span></div>
+  <div class="adv-badge" id="blr1" style="left:238px;top:252px;display:none"><span class="af" id="blr1a"></span><span class="af" id="blr1b"></span></div>
+  <div class="adv-badge" id="blr2" style="left:238px;top:432px;display:none"><span class="af" id="blr2a"></span><span class="af" id="blr2b"></span></div>
+  <div class="adv-badge" id="blr3" style="left:238px;top:612px;display:none"><span class="af" id="blr3a"></span><span class="af" id="blr3b"></span></div>
 
-  <!-- LEFT QF BADGES (x=238, corner vertex ending the QF stub, same rule as R16) -->
-  <div class="adv-badge" id="bql0" style="left:238px;top:150px;display:none"><span class="af" id="bql0a"></span><span class="af" id="bql0b"></span></div>
-  <div class="adv-badge" id="bql1" style="left:238px;top:486px;display:none"><span class="af" id="bql1a"></span><span class="af" id="bql1b"></span></div>
+  <!-- LEFT QF BADGES (x=286, corner vertex ending the QF stub, same rule as R16) -->
+  <div class="adv-badge" id="bql0" style="left:286px;top:162px;display:none"><span class="af" id="bql0a"></span><span class="af" id="bql0b"></span></div>
+  <div class="adv-badge" id="bql1" style="left:286px;top:522px;display:none"><span class="af" id="bql1a"></span><span class="af" id="bql1b"></span></div>
 
-  <!-- RIGHT R16 BADGES (x=322, mirror of left x=198) -->
-  <div class="adv-badge" id="brr0" style="left:322px;top:66px;display:none"><span class="af" id="brr0a"></span><span class="af" id="brr0b"></span></div>
-  <div class="adv-badge" id="brr1" style="left:322px;top:234px;display:none"><span class="af" id="brr1a"></span><span class="af" id="brr1b"></span></div>
-  <div class="adv-badge" id="brr2" style="left:322px;top:402px;display:none"><span class="af" id="brr2a"></span><span class="af" id="brr2b"></span></div>
-  <div class="adv-badge" id="brr3" style="left:322px;top:570px;display:none"><span class="af" id="brr3a"></span><span class="af" id="brr3b"></span></div>
+  <!-- RIGHT R16 BADGES (x=342, mirror of left x=238) -->
+  <div class="adv-badge" id="brr0" style="left:342px;top:72px;display:none"><span class="af" id="brr0a"></span><span class="af" id="brr0b"></span></div>
+  <div class="adv-badge" id="brr1" style="left:342px;top:252px;display:none"><span class="af" id="brr1a"></span><span class="af" id="brr1b"></span></div>
+  <div class="adv-badge" id="brr2" style="left:342px;top:432px;display:none"><span class="af" id="brr2a"></span><span class="af" id="brr2b"></span></div>
+  <div class="adv-badge" id="brr3" style="left:342px;top:612px;display:none"><span class="af" id="brr3a"></span><span class="af" id="brr3b"></span></div>
 
-  <!-- RIGHT QF BADGES (x=282, mirror of left x=238) -->
-  <div class="adv-badge" id="bqr0" style="left:282px;top:150px;display:none"><span class="af" id="bqr0a"></span><span class="af" id="bqr0b"></span></div>
-  <div class="adv-badge" id="bqr1" style="left:282px;top:486px;display:none"><span class="af" id="bqr1a"></span><span class="af" id="bqr1b"></span></div>
+  <!-- RIGHT QF BADGES (x=294, mirror of left x=286) -->
+  <div class="adv-badge" id="bqr0" style="left:294px;top:162px;display:none"><span class="af" id="bqr0a"></span><span class="af" id="bqr0b"></span></div>
+  <div class="adv-badge" id="bqr1" style="left:294px;top:522px;display:none"><span class="af" id="bqr1a"></span><span class="af" id="bqr1b"></span></div>
 
   <!-- TROPHY + FINALISTS -->
   <div class="trophy-wrap">
@@ -178,9 +178,9 @@
   function scale(){
     var c=document.getElementById('canvas');
     var vw=window.innerWidth;
-    var sc=Math.min(1,vw/520);
+    var sc=Math.min(1,vw/580);
     c.style.transform='scale('+sc+')';
-    var h=Math.round(640*sc);
+    var h=Math.round(680*sc);
     document.body.style.height=h+'px';
     document.documentElement.style.height=h+'px';
   }
@@ -238,8 +238,8 @@
         if(!m.dataset.origLeft) m.dataset.origLeft=parseInt(m.style.left);
         var orig=parseInt(m.dataset.origLeft);
         m.classList.add('resolved');
-        m.style.width='76px';
-        if(orig<200) m.style.left='82px'; // right edge stays at ~158 (SVG line)
+        m.style.width='92px';
+        if(orig<250) m.style.left='98px'; // right edge stays at ~190 (SVG line)
       } else {
         if(m.dataset.origLeft!==undefined){
           m.classList.remove('resolved');
