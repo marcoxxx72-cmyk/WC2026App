@@ -1768,7 +1768,7 @@ var FIXTURES = [
   {date:'2026-07-05',time:'21:00',home:'Brazil',away:'Norway',group:'R16',stadium:'MetLife Stadium',city:'New York',homeScore:1,awayScore:2},
   {date:'2026-07-06',time:'03:00',home:'Mexico',away:'England',group:'R16',stadium:'Estadio Azteca',city:'Mexico City',homeScore:2,awayScore:3},
   {date:'2026-07-06',time:'21:00',home:'Portugal',away:'Spain',group:'R16',stadium:'AT&T Stadium',city:'Dallas',homeScore:0,awayScore:1},
-  {date:'2026-07-07',time:'04:00',home:'USA',away:'Belgium',group:'R16',stadium:'Lumen Field',city:'Seattle'},
+  {date:'2026-07-07',time:'04:00',home:'USA',away:'Belgium',group:'R16',stadium:'Lumen Field',city:'Seattle',homeScore:1,awayScore:4},
   {date:'2026-07-07',time:'17:00',home:'Argentina',away:'Egypt',group:'R16',stadium:'Mercedes-Benz Stadium',city:'Atlanta'},
   {date:'2026-07-08',time:'00:00',home:'Switzerland',away:'Colombia',group:'R16',stadium:'BC Place',city:'Vancouver'},
   // - QUARTER FINALS (July 9-10) -
