@@ -1770,7 +1770,7 @@ var FIXTURES = [
   {date:'2026-07-06',time:'21:00',home:'Portugal',away:'Spain',group:'R16',stadium:'AT&T Stadium',city:'Dallas',homeScore:0,awayScore:1},
   {date:'2026-07-07',time:'04:00',home:'USA',away:'Belgium',group:'R16',stadium:'Lumen Field',city:'Seattle',homeScore:1,awayScore:4},
   {date:'2026-07-07',time:'17:00',home:'Argentina',away:'Egypt',group:'R16',stadium:'Mercedes-Benz Stadium',city:'Atlanta',homeScore:3,awayScore:2},
-  {date:'2026-07-08',time:'00:00',home:'Switzerland',away:'Colombia',group:'R16',stadium:'BC Place',city:'Vancouver'},
+  {date:'2026-07-08',time:'00:00',home:'Switzerland',away:'Colombia',group:'R16',stadium:'BC Place',city:'Vancouver',homeScore:0,awayScore:0,homePen:4,awayPen:3},
   // - QUARTER FINALS (July 9-10) -
   {date:'2026-07-09',time:'16:00',home:'QF1',away:'QF2',group:'QF',stadium:'Gillette Stadium',city:'Boston'},
   {date:'2026-07-10',time:'15:00',home:'QF3',away:'QF4',group:'QF',stadium:'SoFi Stadium',city:'Los Angeles'},
@@ -5235,7 +5235,8 @@ function App(){
             });
             try{localStorage.setItem('wc2026_r32_results',JSON.stringify(losers));}catch(err){}
             var iW=window.innerWidth;
-            var iH=Math.round(iW*680/580);
+            var _sc=Math.min(1,iW/780);
+            var iH=Math.round(680*_sc)+(_sc>=1?120:0);
             return e('div',{style:{width:iW,height:iH,overflow:'hidden',background:'#0d0d12'}},
               e('iframe',{
                 src:'bracket.html',
@@ -5333,7 +5334,8 @@ function App(){
         try{localStorage.setItem('wc2026_bracket',JSON.stringify(bd));}catch(err){}
         try{localStorage.setItem('wc2026_r32_results',JSON.stringify(losers));}catch(err){}
         var iW=window.innerWidth;
-        var iH=Math.round(iW*640/520);
+        var _sc=Math.min(1,iW/780);
+        var iH=Math.round(680*_sc)+(_sc>=1?120:0);
         return e('div',{style:{marginTop:-20,marginLeft:-16,marginRight:-16,width:iW,height:iH,overflow:'hidden',background:'#0d0d12'}},
           e('iframe',{src:'bracket.html',width:iW,height:iH,style:{display:'block',border:'none'},scrolling:'no'})
         );
