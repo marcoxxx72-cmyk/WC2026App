@@ -34,15 +34,19 @@
 <script>
 (function(){
   // ==== LAYOUT CONSTANTS — single place to tune spacing ====
-  var CW=780, CH=680, MW=180, MH=64;
+  // Responsive width: wide layout on desktop (validated), narrower on mobile so flags stay bigger
+  var BP=700, DESK_CW=780, MOB_CW=660;
+  var CW=(window.innerWidth>=BP)?DESK_CW:MOB_CW;
+  var CH=680, MW=180, MH=64;
   var TOP_DESKTOP=120;   // push the bracket down on Mac/desktop only (0 on mobile)
   var LX=10, RX=CW-10-MW;
   var tops=[10,78, 190,258, 370,438, 550,618];   // original vertical rhythm
   var cy=tops.map(function(t){return t+MH/2;});
-  // central columns spread wide → room for QF / SF / trophy
-  var EL=LX+MW, L1=EL+26, LR16=L1+40, L2=LR16+34, LQF=L2+46, L3=LQF+34, LSF=L3+14;
-  var ER=RX, R1=ER-26, RR16=R1-40, R2=RR16-34, RQF=R2-46, R3=RQF-34, RSF=R3-14;
-  var CX=CW/2;
+  var EL=LX+MW, CX=CW/2, gap=CX-EL;
+  // central columns placed as fractions of the gap → same look at any width
+  var CF=[0.13,0.33,0.50,0.73,0.90,0.97];
+  var L1=EL+gap*CF[0], LR16=EL+gap*CF[1], L2=EL+gap*CF[2], LQF=EL+gap*CF[3], L3=EL+gap*CF[4], LSF=EL+gap*CF[5];
+  var R1=CW-L1, RR16=CW-LR16, R2=CW-L2, RQF=CW-LQF, R3=CW-L3, RSF=CW-LSF;
   function mid(a,b){return (a+b)/2;}
   var r16Y=[mid(cy[0],cy[1]),mid(cy[2],cy[3]),mid(cy[4],cy[5]),mid(cy[6],cy[7])];
   var qfY=[mid(r16Y[0],r16Y[1]),mid(r16Y[2],r16Y[3])];
@@ -75,7 +79,7 @@
   function ln(x1,y1,x2,y2){var l=document.createElementNS(NS,'line');l.setAttribute('class','bl');l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);svg.appendChild(l);}
 
   function drawSide(isLeft){
-    var edge=isLeft?EL:ER, c1=isLeft?L1:R1, r16=isLeft?LR16:RR16, c2=isLeft?L2:R2, qf=isLeft?LQF:RQF, c3=isLeft?L3:R3, sf=isLeft?LSF:RSF;
+    var edge=isLeft?EL:RX, c1=isLeft?L1:R1, r16=isLeft?LR16:RR16, c2=isLeft?L2:R2, qf=isLeft?LQF:RQF, c3=isLeft?L3:R3, sf=isLeft?LSF:RSF;
     for(var p=0;p<4;p++){var a=cy[2*p],b=cy[2*p+1],m=r16Y[p];poly(edge+','+a+' '+c1+','+a+' '+c1+','+b+' '+edge+','+b);ln(c1,m,r16,m);}
     for(var q=0;q<2;q++){var a2=r16Y[2*q],b2=r16Y[2*q+1],m2=qfY[q];poly(r16+','+a2+' '+c2+','+a2+' '+c2+','+b2+' '+r16+','+b2);ln(c2,m2,qf,m2);}
     poly(qf+','+qfY[0]+' '+c3+','+qfY[0]+' '+c3+','+qfY[1]+' '+qf+','+qfY[1]);ln(c3,sfY,sf,sfY);
