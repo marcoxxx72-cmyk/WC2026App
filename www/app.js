@@ -1489,6 +1489,15 @@ var BG_THEMES = {
   leather: {label:'🟤 Cuir',     bg:'linear-gradient(160deg,#110906,#201610 50%,#110906)', hd:'linear-gradient(90deg,#1c1208,#342210,#1c1208)', nav:'rgba(7,5,3,0.97)'},
   emerald: {label:'🌿 Émeraude', bg:'linear-gradient(160deg,#050e08,#0a1e10 50%,#050e08)', hd:'linear-gradient(90deg,#081c0c,#143820,#081c0c)', nav:'rgba(2,6,4,0.97)'}
 };
+// Localized theme names (BG_THEMES.label stays as FR fallback). Emoji kept across languages.
+var THEME_NAMES = {
+  en:{blue:'🔵 Blue',obsidian:'🌑 Obsidian',silex:'🪨 Flint',petrol:'🌊 Petrol',prune:'🍇 Plum',carbon:'⚙️ Carbon',wine:'🍷 Wine',leather:'🟤 Leather',emerald:'🌿 Emerald'},
+  fr:{blue:'🔵 Bleu',obsidian:'🌑 Obsidienne',silex:'🪨 Silex',petrol:'🌊 Pétrole',prune:'🍇 Prune',carbon:'⚙️ Carbone',wine:'🍷 Vieux Vin',leather:'🟤 Cuir',emerald:'🌿 Émeraude'},
+  es:{blue:'🔵 Azul',obsidian:'🌑 Obsidiana',silex:'🪨 Sílex',petrol:'🌊 Petróleo',prune:'🍇 Ciruela',carbon:'⚙️ Carbón',wine:'🍷 Vino',leather:'🟤 Cuero',emerald:'🌿 Esmeralda'},
+  pt:{blue:'🔵 Azul',obsidian:'🌑 Obsidiana',silex:'🪨 Sílex',petrol:'🌊 Petróleo',prune:'🍇 Ameixa',carbon:'⚙️ Carbono',wine:'🍷 Vinho',leather:'🟤 Couro',emerald:'🌿 Esmeralda'},
+  it:{blue:'🔵 Blu',obsidian:'🌑 Ossidiana',silex:'🪨 Selce',petrol:'🌊 Petrolio',prune:'🍇 Prugna',carbon:'⚙️ Carbonio',wine:'🍷 Vino',leather:'🟤 Cuoio',emerald:'🌿 Smeraldo'},
+  de:{blue:'🔵 Blau',obsidian:'🌑 Obsidian',silex:'🪨 Feuerstein',petrol:'🌊 Petrol',prune:'🍇 Pflaume',carbon:'⚙️ Karbon',wine:'🍷 Wein',leather:'🟤 Leder',emerald:'🌿 Smaragd'}
+};
 var TEAM_COLORS = {
   'Argentina':'#74ACDF','Australia':'#FFD700','Austria':'#ED2939','Belgium':'#EF3340',
   'Bosnia':'#003087','Brazil':'#009C3B','Canada':'#FF0000','Cape Verde':'#003893',
@@ -2559,6 +2568,9 @@ function App(){
   var sSet=useState(false);var settingsOpen=sSet[0];var setSettingsOpen=sSet[1];
   var sBgT=useState(function(){try{var k=localStorage.getItem('wc2026_bgt');return(k&&BG_THEMES[k])?k:'blue';}catch(e){return 'blue';}});var bgTheme=sBgT[0];var setBgTheme=sBgT[1];
   var sBgB=useState(function(){try{var v=parseFloat(localStorage.getItem('wc2026_bgb'));return isNaN(v)?1:v;}catch(e){return 1;}});var bgBright=sBgB[0];var setBgBright=sBgB[1];
+  var sTxt=useState(function(){try{var tv=parseFloat(localStorage.getItem('wc2026_txt'));return isNaN(tv)?1:tv;}catch(e){return 1;}});var textScale=sTxt[0];var setTextScale=sTxt[1];
+  // Apply text zoom to <html> (uniform browser-style zoom; keeps fixed/sticky consistent).
+  try{document.documentElement.style.zoom=textScale===1?'':String(textScale);}catch(e){}
   var CUR_THEME=BG_THEMES[bgTheme]||BG_THEMES.blue;
   var musicRef=useRef(null);
   useEffect(function(){
@@ -3225,7 +3237,7 @@ function App(){
           e('div',{style:{display:'flex',gap:6,flexWrap:'wrap'}},
             Object.keys(BG_THEMES).map(function(key){
               var th=BG_THEMES[key];
-              return e('button',{key:key,onClick:function(){setBgTheme(key);try{localStorage.setItem('wc2026_bgt',key);}catch(e){}},style:{background:bgTheme===key?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:bgTheme===key?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 12px',cursor:'pointer',color:bgTheme===key?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:bgTheme===key?'bold':'normal',minHeight:36}},th.label);
+              return e('button',{key:key,onClick:function(){setBgTheme(key);try{localStorage.setItem('wc2026_bgt',key);}catch(e){}},style:{background:bgTheme===key?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:bgTheme===key?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 12px',cursor:'pointer',color:bgTheme===key?'#0a0a1a':'#9bb0c8',fontSize:11,fontWeight:bgTheme===key?'bold':'normal',minHeight:36}},(THEME_NAMES[lang]&&THEME_NAMES[lang][key])||th.label);
             })
           )
         ),
@@ -3237,6 +3249,14 @@ function App(){
             })
           )
         ),
+        e('div',{},
+          e('div',{style:{fontSize:10,color:'rgba(212,175,55,0.7)',letterSpacing:2,fontWeight:'bold',marginBottom:10,marginTop:14}},lang==='fr'?'🔤 TAILLE DU TEXTE':lang==='es'?'🔤 TAMAÑO DEL TEXTO':lang==='pt'?'🔤 TAMANHO DO TEXTO':lang==='de'?'🔤 TEXTGRÖSSE':lang==='it'?'🔤 DIMENSIONE TESTO':'🔤 TEXT SIZE'),
+          e('div',{style:{display:'flex',gap:6}},
+            [{v:1,s:13},{v:1.15,s:16},{v:1.3,s:20}].map(function(ts){
+              return e('button',{key:ts.v,onClick:function(){setTextScale(ts.v);try{localStorage.setItem('wc2026_txt',String(ts.v));}catch(e){}try{document.documentElement.style.zoom=ts.v===1?'':String(ts.v);}catch(e){}},style:{background:textScale===ts.v?'linear-gradient(135deg,'+G+',#b8963e)':'rgba(255,255,255,0.07)',border:textScale===ts.v?'none':'1px solid rgba(212,175,55,0.28)',borderRadius:8,padding:'7px 22px',cursor:'pointer',color:textScale===ts.v?'#0a0a1a':'#9bb0c8',fontWeight:'bold',minHeight:36,lineHeight:1}},e('span',{style:{fontSize:ts.s}},'A'));
+            })
+          )
+        ),
         e('div',{style:{marginTop:20,paddingTop:14,borderTop:'1px solid rgba(255,255,255,0.06)',textAlign:'center',fontSize:9,color:'#3a5070',lineHeight:1.6}},
           'Unofficial fan app',e('br'),
           'Not affiliated with or endorsed by FIFA or any football organization'
@@ -3244,7 +3264,11 @@ function App(){
       )
     ),
 
-    e('header',{style:{background:CUR_THEME.hd,borderBottom:'2px solid '+G,padding:'10px 14px',paddingTop:'max(10px, env(safe-area-inset-top))',filter:'brightness('+bgBright+')'}},
+    // Global brightness layer: brightens/darkens everything painted behind it via
+    // backdrop-filter, without being an ancestor — so fixed/sticky layout never breaks.
+    bgBright!==1&&e('div',{style:{position:'fixed',inset:0,pointerEvents:'none',zIndex:150,backdropFilter:'brightness('+bgBright+')',WebkitBackdropFilter:'brightness('+bgBright+')'}}),
+
+    e('header',{style:{background:CUR_THEME.hd,borderBottom:'2px solid '+G,padding:'10px 14px',paddingTop:'max(10px, env(safe-area-inset-top))'}},
       e('div',{style:{display:'flex',alignItems:'center',gap:6,marginBottom:8}},
         e('button',{onClick:function(){setSettingsOpen(true);},style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:G,fontSize:11,fontWeight:'bold'}},'⚙️'),
         e('button',{onClick:handleShare,style:{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(212,175,55,0.28)',borderRadius:7,padding:'4px 10px',cursor:'pointer',color:'#9bb0c8',fontSize:11}},shareCopied?t.shareCopied:'📤'),
