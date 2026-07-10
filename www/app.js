@@ -290,6 +290,18 @@ var useEffect = React.useEffect;
 var useRef = React.useRef;
 var e = React.createElement;
 
+// Inline line-icon renderer for the top nav (Lucide-style, 24x24 stroke grid).
+// Icons inherit the button's text color via stroke:'currentColor' (white when
+// the tab is active, muted blue-grey otherwise). Children are either a path
+// `d` string, or {t:'circle'|'line'|'rect', a:{...svgAttrs}} for basic shapes.
+function navIcon(children){
+  return e('svg',{width:18,height:18,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',style:{display:'block'}},
+    children.map(function(c,idx){
+      return typeof c==='string' ? e('path',{key:idx,d:c}) : e(c.t,Object.assign({key:idx},c.a));
+    })
+  );
+}
+
 // Précharger les images du jeu penalty dès le démarrage
 (function(){
   ['/goalkeeper.png','/stadium_bg.png'].forEach(function(src){
@@ -1781,7 +1793,7 @@ var FIXTURES = [
   {date:'2026-07-07',time:'17:00',home:'Argentina',away:'Egypt',group:'R16',stadium:'Mercedes-Benz Stadium',city:'Atlanta',homeScore:3,awayScore:2},
   {date:'2026-07-08',time:'00:00',home:'Switzerland',away:'Colombia',group:'R16',stadium:'BC Place',city:'Vancouver',homeScore:0,awayScore:0,homePen:4,awayPen:3},
   // - QUARTER FINALS (July 9-10) -
-  {date:'2026-07-09',time:'16:00',home:'QF1',away:'QF2',group:'QF',stadium:'Gillette Stadium',city:'Boston'},
+  {date:'2026-07-09',time:'16:00',home:'France',away:'Morocco',group:'QF',stadium:'Gillette Stadium',city:'Boston',homeScore:2,awayScore:0},
   {date:'2026-07-10',time:'15:00',home:'QF3',away:'QF4',group:'QF',stadium:'SoFi Stadium',city:'Los Angeles'},
   {date:'2026-07-10',time:'19:00',home:'QF5',away:'QF6',group:'QF',stadium:'NRG Stadium',city:'Houston'},
   {date:'2026-07-11',time:'01:00',home:'QF7',away:'QF8',group:'QF',stadium:'AT&T Stadium',city:'Dallas'},
@@ -3291,21 +3303,32 @@ function App(){
       e('div',{id:'wc-nav-inner',style:{display:'flex',gap:4,padding:'8px 10px'}},
         t.nav.map(function(label,i){
           var TM=[
-            {icon:'🏠',c1:'#1565c0',c2:'#42a5f5'},
-            {icon:'🏆',c1:'#bf360c',c2:'#ff7043'},
-            {icon:'📅',c1:'#1b5e20',c2:'#66bb6a'},
-            {icon:'🏆',c1:'#7b5e00',c2:'#ffd700'},
-            {icon:'🎯',c1:'#b71c1c',c2:'#ef5350'},
-            {icon:'🧠',c1:'#4a148c',c2:'#ab47bc'},
-            {icon:'⚽',c1:'#01579b',c2:'#29b6f6'},
-            {icon:'📊',c1:'#004d40',c2:'#26a69a'},
-            {icon:'🎮',c1:'#880e4f',c2:'#f06292'},
-            {icon:'🥅',c1:'#263238',c2:'#78909c'},
-            {icon:'💫',c1:'#e65100',c2:'#ffd54f'},
-            {icon:'👑',c1:'#7b5e00',c2:'#d4af37'},
-            {icon:'🏅',c1:'#1a237e',c2:'#5c6bc0'}
+            // 0 Home — house
+            {ic:['M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z','M9 22V12h6v10'],c1:'#1565c0',c2:'#42a5f5'},
+            // 1 Groups — people
+            {ic:['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2',{t:'circle',a:{cx:9,cy:7,r:4}},'M22 21v-2a4 4 0 0 0-3-3.87','M16 3.13a4 4 0 0 1 0 7.75'],c1:'#bf360c',c2:'#ff7043'},
+            // 2 Fixtures — calendar
+            {ic:[{t:'rect',a:{x:3,y:4,width:18,height:18,rx:2}},{t:'line',a:{x1:16,y1:2,x2:16,y2:6}},{t:'line',a:{x1:8,y1:2,x2:8,y2:6}},{t:'line',a:{x1:3,y1:10,x2:21,y2:10}}],c1:'#1b5e20',c2:'#66bb6a'},
+            // 3 Bracket — tournament tree
+            {ic:['M4 6h6v6','M4 18h6v-6','M10 12h10'],c1:'#7b5e00',c2:'#ffd700'},
+            // 4 Predictions — target
+            {ic:[{t:'circle',a:{cx:12,cy:12,r:10}},{t:'circle',a:{cx:12,cy:12,r:6}},{t:'circle',a:{cx:12,cy:12,r:2}}],c1:'#b71c1c',c2:'#ef5350'},
+            // 5 Quiz — question mark
+            {ic:[{t:'circle',a:{cx:12,cy:12,r:10}},'M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3',{t:'line',a:{x1:12,y1:17,x2:12.01,y2:17}}],c1:'#4a148c',c2:'#ab47bc'},
+            // 6 Players — person
+            {ic:['M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2',{t:'circle',a:{cx:12,cy:7,r:4}}],c1:'#01579b',c2:'#29b6f6'},
+            // 7 Polls — bar chart
+            {ic:['M3 3v18h18',{t:'line',a:{x1:18,y1:17,x2:18,y2:9}},{t:'line',a:{x1:13,y1:17,x2:13,y2:5}},{t:'line',a:{x1:8,y1:17,x2:8,y2:12}}],c1:'#004d40',c2:'#26a69a'},
+            // 8 Sim — play
+            {ic:[{t:'circle',a:{cx:12,cy:12,r:10}},'M10 8l6 4-6 4z'],c1:'#880e4f',c2:'#f06292'},
+            // 9 Game — gamepad
+            {ic:['M6 12h4','M8 10v4',{t:'line',a:{x1:15,y1:13,x2:15.01,y2:13}},{t:'line',a:{x1:18,y1:11,x2:18.01,y2:11}},'M17.32 5H6.68a4 4 0 0 0-3.98 3.59c-.01.05-.01.1-.02.15C2.6 9.42 2 14.46 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.41-1.41A2 2 0 0 1 9.83 16h4.34a2 2 0 0 1 1.41.59L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.54-.6-6.58-.69-7.26-.01-.05-.01-.1-.02-.15A4 4 0 0 0 17.32 5z'],c1:'#263238',c2:'#78909c'},
+            // 10 Fantasy — star
+            {ic:['M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01z'],c1:'#e65100',c2:'#ffd54f'},
+            // 11 Predict — sparkle
+            {ic:['M12 3l1.6 4.9a2 2 0 0 0 1.3 1.3L20 11l-5.1 1.8a2 2 0 0 0-1.3 1.3L12 20l-1.6-4.9a2 2 0 0 0-1.3-1.3L4 11l5.1-1.8a2 2 0 0 0 1.3-1.3z'],c1:'#7b5e00',c2:'#d4af37'}
           ];
-          var m=TM[i]||{icon:'⚽',c1:'#333',c2:'#555'};
+          var m=TM[i]||{ic:['M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z'],c1:'#333',c2:'#555'};
           var on=tab===i;
           return e('button',{key:i,onClick:function(){setTab(i);},style:{
             background:on?'linear-gradient(135deg,'+m.c1+','+m.c2+')':'rgba(255,255,255,0.05)',
@@ -3317,7 +3340,7 @@ function App(){
             transform:on?'scale(1.08)':'scale(1)',transition:'all 0.2s ease',
             boxShadow:on?'0 2px 12px rgba(0,0,0,0.4)':'none'
           }},
-            e('span',{style:{fontSize:15}},m.icon),
+            navIcon(m.ic),
             e('span',null,label)
           );
         })
