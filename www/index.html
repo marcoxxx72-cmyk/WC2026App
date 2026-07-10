@@ -63,16 +63,9 @@ window._wcSplashUp=true;
   sp.style.backgroundImage="url('/public/splash-"+lang+"-"+suffix+".png')";
   function hide(){
     window._wcSplashUp=false;
-    try{
-      if(window._wcMusic){window._wcMusic.pause();window._wcMusic=null;}
-      var mu=localStorage.getItem('wc2026_music');
-      if(mu!=='off'){
-        var src=(mu==='B')?'/RitmodaTorcida.mp3':'/Goals.mp3';
-        var a=new Audio(src);a.loop=true;a.volume=0.3;a._wcsrc=src;
-        a.play().catch(function(){});
-        window._wcMusic=a;
-      }
-    }catch(e){}
+    // Music no longer auto-starts on splash dismiss (Option B): it plays only
+    // when the user picks a track in Settings. Any track already playing is stopped.
+    try{if(window._wcMusic){window._wcMusic.pause();window._wcMusic=null;}}catch(e){}
     sp.style.opacity='0';
     setTimeout(function(){sp.style.display='none';},500);
   }
