@@ -1794,7 +1794,7 @@ var FIXTURES = [
   {date:'2026-07-08',time:'00:00',home:'Switzerland',away:'Colombia',group:'R16',stadium:'BC Place',city:'Vancouver',homeScore:0,awayScore:0,homePen:4,awayPen:3},
   // - QUARTER FINALS (July 9-10) -
   {date:'2026-07-09',time:'16:00',home:'France',away:'Morocco',group:'QF',stadium:'Gillette Stadium',city:'Boston',homeScore:2,awayScore:0},
-  {date:'2026-07-10',time:'15:00',home:'QF3',away:'QF4',group:'QF',stadium:'SoFi Stadium',city:'Los Angeles'},
+  {date:'2026-07-10',time:'15:00',home:'Spain',away:'Belgium',group:'QF',stadium:'SoFi Stadium',city:'Los Angeles',homeScore:2,awayScore:1},
   {date:'2026-07-10',time:'19:00',home:'QF5',away:'QF6',group:'QF',stadium:'NRG Stadium',city:'Houston'},
   {date:'2026-07-11',time:'01:00',home:'QF7',away:'QF8',group:'QF',stadium:'AT&T Stadium',city:'Dallas'},
   // - SEMI FINALS (July 13-14) -
@@ -5254,12 +5254,13 @@ function App(){
         rR32n.forEach(function(w,i){if(w){var l=w===RR[i][0]?RR[i][1]:RR[i][0];losers[l]='loser';}});
         try{localStorage.setItem('wc2026_bracket',JSON.stringify(bd));}catch(err){}
         try{localStorage.setItem('wc2026_r32_results',JSON.stringify(losers));}catch(err){}
-        var iW=window.innerWidth;
-        var _cw=iW>=700?780:660;
-        var _sc=Math.min(1,iW/_cw);
+        var vw=window.innerWidth;
+        var bW=Math.min(vw,720);                 // cap render width so wide screens stay centered (no horizontal overflow)
+        var _cw=bW>=700?780:660;
+        var _sc=Math.min(1,bW/_cw);
         var iH=Math.round(680*_sc)+(_sc>=1?120:0);
-        return e('div',{style:{marginTop:-20,marginLeft:-16,marginRight:-16,width:iW,height:iH,overflow:'hidden',background:'#0d0d12'}},
-          e('iframe',{src:'bracket.html',width:iW,height:iH,style:{display:'block',border:'none'},scrolling:'no'})
+        return e('div',{style:{marginTop:-20,marginLeft:-16,marginRight:-16,display:'flex',justifyContent:'center',overflow:'hidden',background:'#0d0d12'}},
+          e('iframe',{src:'bracket.html',width:bW,height:iH,style:{display:'block',border:'none'},scrolling:'no'})
         );
       })():null,
 
