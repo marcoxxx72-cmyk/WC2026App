@@ -1798,11 +1798,11 @@ var FIXTURES = [
   {date:'2026-07-10',time:'19:00',home:'Norway',away:'England',group:'QF',stadium:'NRG Stadium',city:'Houston',homeScore:1,awayScore:2},
   {date:'2026-07-11',time:'01:00',home:'Argentina',away:'Switzerland',group:'QF',stadium:'AT&T Stadium',city:'Dallas',homeScore:3,awayScore:1},
   // - SEMI FINALS (July 13-14) -
-  {date:'2026-07-14',time:'19:00',home:'France',away:'Spain',group:'SF',stadium:'MetLife Stadium',city:'New York'},
-  {date:'2026-07-15',time:'19:00',home:'England',away:'Argentina',group:'SF',stadium:'AT&T Stadium',city:'Dallas'},
+  {date:'2026-07-14',time:'19:00',home:'France',away:'Spain',group:'SF',stadium:'MetLife Stadium',city:'New York',homeScore:2,awayScore:1},
+  {date:'2026-07-15',time:'19:00',home:'England',away:'Argentina',group:'SF',stadium:'AT&T Stadium',city:'Dallas',homeScore:1,awayScore:3},
   // - 3RD PLACE + FINAL -
   {date:'2026-07-18',time:'19:00',home:'3rd Place',away:'3rd Place',group:'3P',stadium:'Hard Rock Stadium',city:'Miami'},
-  {date:'2026-07-19',time:'19:00',home:'FINAL',away:'FINAL',group:'FIN',stadium:'MetLife Stadium',city:'New York / New Jersey'}
+  {date:'2026-07-19',time:'19:00',home:'France',away:'Argentina',group:'FIN',stadium:'MetLife Stadium',city:'New York / New Jersey'}
 ]
 
 // - TRANSLATIONS -
@@ -5246,7 +5246,7 @@ function App(){
         var rQFn=[gw(rR16n[0],rR16n[1],'QF'),gw(rR16n[2],rR16n[3],'QF')];
         var lSFn=gw(lQFn[0],lQFn[1],'SF');
         var rSFn=gw(rQFn[0],rQFn[1],'SF');
-        var finN=gw(lSFn,rSFn,'Final');
+        var finN=gw(lSFn,rSFn,'FIN');
         function fl(n){return n?(FL[n]||n):null;}
         var bd={lR32w:lR32n.map(fl),rR32w:rR32n.map(fl),lR16w:lR16n.map(fl),rR16w:rR16n.map(fl),lQFw:lQFn.map(fl),rQFw:rQFn.map(fl),lSFw:fl(lSFn),rSFw:fl(rSFn),finalW:fl(finN)};
         var losers={};
