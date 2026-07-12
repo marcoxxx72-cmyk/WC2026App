@@ -6,9 +6,9 @@
 <title>WC2026 Bracket</title>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html,body{background:#0d0d12;width:100%;height:100%;display:flex;justify-content:center;align-items:flex-start;overflow:hidden;}
-  .outer{width:100%;display:flex;justify-content:center;align-items:flex-start;}
-  .bracket-canvas{position:relative;flex-shrink:0;background:#0d0d12;transform-origin:top center;}
+  html,body{background:#0d0d12;width:100%;height:100%;overflow:hidden;}
+  .outer{width:100%;}
+  .bracket-canvas{position:relative;flex-shrink:0;background:#0d0d12;transform-origin:top left;}
   svg.lines{position:absolute;top:0;left:0;pointer-events:none;}
   .match{position:absolute;height:64px;background:linear-gradient(135deg,#1e1e28,#161620);border:1px solid rgba(212,175,55,0.4);border-radius:10px;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px;box-shadow:0 3px 10px rgba(0,0,0,0.6),inset 0 1px 0 rgba(212,175,55,0.1);transition:width .4s ease,left .4s ease;}
   .flag{width:80px;height:52px;background:#12121a;border-radius:6px;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:38px;line-height:1;overflow:hidden;flex-shrink:0;}
@@ -100,7 +100,7 @@
   for(var q2=0;q2<2;q2++){mkBadge('bql'+q2,LQF,qfY[q2]);mkBadge('bqr'+q2,RQF,qfY[q2]);}
 
   // ==== behavior ====
-  function scale(){var vw=window.innerWidth;var sc=Math.min(1,vw/CW);var off=(sc>=1)?TOP_DESKTOP:0;canvas.style.transform='translateY('+off+'px) scale('+sc+')';var h=Math.round(CH*sc)+off;document.body.style.height=h+'px';document.documentElement.style.height=h+'px';}
+  function scale(){var vw=window.innerWidth;var sc=Math.min(1,vw/CW);var off=(sc>=1)?TOP_DESKTOP:0;var tx=Math.max(0,(vw-CW*sc)/2);canvas.style.transform='translate('+tx+'px,'+off+'px) scale('+sc+')';var h=Math.round(CH*sc)+off;document.body.style.height=h+'px';document.documentElement.style.height=h+'px';}
   function badge(id,win){var el=document.getElementById(id);if(!el)return;var ea=document.getElementById(id+'a');if(!win){el.style.display='none';return;}el.style.display='flex';if(ea){ea.textContent=win;ea.className='af';ea.style.display='';}}
   function applyAll(){
     var d={};try{d=JSON.parse(localStorage.getItem('wc2026_bracket')||'{}');}catch(e){}
