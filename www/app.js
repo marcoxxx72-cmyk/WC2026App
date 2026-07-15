@@ -1798,11 +1798,11 @@ var FIXTURES = [
   {date:'2026-07-10',time:'19:00',home:'Norway',away:'England',group:'QF',stadium:'NRG Stadium',city:'Houston',homeScore:1,awayScore:2},
   {date:'2026-07-11',time:'01:00',home:'Argentina',away:'Switzerland',group:'QF',stadium:'AT&T Stadium',city:'Dallas',homeScore:3,awayScore:1},
   // - SEMI FINALS (July 13-14) -
-  {date:'2026-07-14',time:'19:00',home:'France',away:'Spain',group:'SF',stadium:'MetLife Stadium',city:'New York'},
+  {date:'2026-07-14',time:'19:00',home:'France',away:'Spain',group:'SF',stadium:'MetLife Stadium',city:'New York',homeScore:0,awayScore:2},
   {date:'2026-07-15',time:'19:00',home:'England',away:'Argentina',group:'SF',stadium:'AT&T Stadium',city:'Dallas'},
   // - 3RD PLACE + FINAL -
-  {date:'2026-07-18',time:'19:00',home:'3rd Place',away:'3rd Place',group:'3P',stadium:'Hard Rock Stadium',city:'Miami'},
-  {date:'2026-07-19',time:'19:00',home:'Winner SF1',away:'Winner SF2',group:'FIN',stadium:'MetLife Stadium',city:'New York / New Jersey'}
+  {date:'2026-07-18',time:'19:00',home:'France',away:'3rd Place',group:'3P',stadium:'Hard Rock Stadium',city:'Miami'},
+  {date:'2026-07-19',time:'19:00',home:'Spain',away:'Winner SF2',group:'FIN',stadium:'MetLife Stadium',city:'New York / New Jersey'}
 ]
 
 // - TRANSLATIONS -
