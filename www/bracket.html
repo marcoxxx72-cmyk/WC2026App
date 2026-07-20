@@ -23,6 +23,16 @@
   .finalist{font-size:46px;line-height:52px;transition:opacity .4s ease;}
   .finalist.loser{opacity:0.15;}
   .fin-sep{color:rgba(212,175,55,0.7);font-size:22px;line-height:1;}
+  /* Champion celebration */
+  .champ-badge{display:none;font-size:14px;font-weight:bold;letter-spacing:3px;color:#ffd700;text-shadow:0 0 12px rgba(255,215,0,0.85);font-family:system-ui,-apple-system,sans-serif;margin-bottom:4px;}
+  .finalist.champion{font-size:64px;line-height:66px;animation:champPulse 1.8s ease-in-out infinite;}
+  @keyframes champPulse{
+    0%,100%{filter:drop-shadow(0 0 6px rgba(255,215,0,0.7)) drop-shadow(0 0 2px rgba(255,215,0,0.9));transform:scale(1);}
+    50%{filter:drop-shadow(0 0 22px rgba(255,215,0,0.98)) drop-shadow(0 0 9px rgba(255,215,0,0.85));transform:scale(1.09);}
+  }
+  #confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:50;}
+  .conf{position:absolute;top:-24px;width:9px;height:14px;border-radius:1px;opacity:0.92;will-change:transform;animation:confFall linear infinite;}
+  @keyframes confFall{0%{transform:translateY(-24px) rotateZ(0deg);}100%{transform:translateY(var(--fh,900px)) rotateZ(720deg);}}
 </style>
 </head>
 <body>
@@ -30,11 +40,13 @@
   <svg class="lines" id="lines" xmlns="http://www.w3.org/2000/svg"></svg>
   <div class="trophy-wrap" id="trophy">
     <div class="final-frame">
-      <div class="final-title">FINALE</div>
+      <div class="champ-badge" id="champ-badge">🏆 CHAMPION</div>
+      <div class="final-title" id="final-title">FINALE</div>
       <div id="finalists"><span class="finalist" id="fin-l"></span><span class="fin-sep">·</span><span class="finalist" id="fin-r"></span></div>
     </div>
   </div>
 </div></div>
+<div id="confetti"></div>
 <script>
 (function(){
   // ==== LAYOUT CONSTANTS — single place to tune spacing ====
@@ -106,6 +118,25 @@
   // ==== behavior ====
   function scale(){var vw=window.innerWidth;var sc=Math.min(1,vw/CW);var off=(sc>=1)?TOP_DESKTOP:0;var tx=Math.max(0,(vw-CW*sc)/2);canvas.style.transform='translate('+tx+'px,'+off+'px) scale('+sc+')';var h=Math.round(CH*sc)+off;document.body.style.height=h+'px';document.documentElement.style.height=h+'px';}
   function badge(id,win){var el=document.getElementById(id);if(!el)return;var ea=document.getElementById(id+'a');if(!win){el.style.display='none';return;}el.style.display='flex';if(ea){ea.textContent=win;ea.className='af';ea.style.display='';}}
+  var confStarted=false;
+  function startConfetti(){
+    if(confStarted)return;confStarted=true;
+    var cont=document.getElementById('confetti');if(!cont)return;
+    var pal=['#ffd700','#e63946','#f4a261','#2a9d8f','#457b9d','#ffffff','#e9c46a','#c1121f'];
+    var fh=Math.max(window.innerHeight,600)+40, N=40;
+    for(var i=0;i<N;i++){
+      var c=document.createElement('div');c.className='conf';
+      c.style.left=(Math.random()*100)+'%';
+      c.style.background=pal[i%pal.length];
+      var w=6+Math.random()*6;c.style.width=w+'px';c.style.height=(w*1.6)+'px';
+      c.style.setProperty('--fh',fh+'px');
+      var dur=3+Math.random()*3;
+      c.style.animationDuration=dur+'s';
+      c.style.animationDelay=(-Math.random()*dur)+'s';
+      cont.appendChild(c);
+    }
+  }
+  function stopConfetti(){var cont=document.getElementById('confetti');if(cont)cont.innerHTML='';confStarted=false;}
   function applyAll(){
     var d={};try{d=JSON.parse(localStorage.getItem('wc2026_bracket')||'{}');}catch(e){}
     var l16=d.lR16w||[],r16=d.rR16w||[],lq=d.lQFw||[],rq=d.rQFw||[];
@@ -113,7 +144,14 @@
     badge('bql0',lq[0]);badge('bql1',lq[1]);badge('bqr0',rq[0]);badge('bqr1',rq[1]);
     var ls=d.lSFw||null,rs=d.rSFw||null,fw=d.finalW||null;
     var frow=document.getElementById('finalists'),fL=document.getElementById('fin-l'),fR=document.getElementById('fin-r');
-    if(ls||rs){if(frow)frow.style.display='flex';if(fL){fL.textContent=ls||'·';fL.className='finalist'+(fw&&ls&&ls!==fw?' loser':'');}if(fR){fR.textContent=rs||'·';fR.className='finalist'+(fw&&rs&&rs!==fw?' loser':'');}}
+    if(ls||rs){
+      if(frow)frow.style.display='flex';
+      if(fL){fL.textContent=ls||'·';fL.className='finalist'+(fw&&ls&&ls!==fw?' loser':'')+(fw&&ls&&ls===fw?' champion':'');}
+      if(fR){fR.textContent=rs||'·';fR.className='finalist'+(fw&&rs&&rs!==fw?' loser':'')+(fw&&rs&&rs===fw?' champion':'');}
+    }
+    var champBadge=document.getElementById('champ-badge'),finalTitle=document.getElementById('final-title');
+    if(fw){if(champBadge)champBadge.style.display='block';if(finalTitle)finalTitle.style.display='none';startConfetti();}
+    else{if(champBadge)champBadge.style.display='none';if(finalTitle)finalTitle.style.display='block';stopConfetti();}
     var r32={};try{r32=JSON.parse(localStorage.getItem('wc2026_r32_results')||'{}');}catch(e){}
     document.querySelectorAll('.flag[data-team]').forEach(function(el){el.classList.toggle('loser',r32[el.getAttribute('data-team')]==='loser');});
     document.querySelectorAll('.match').forEach(function(m){var hasLoser=m.querySelector('.flag.loser')!==null;if(hasLoser){if(!m.dataset.origLeft)m.dataset.origLeft=parseInt(m.style.left);var orig=parseInt(m.dataset.origLeft);m.classList.add('resolved');m.style.width='92px';if(orig<CX)m.style.left=(EL-92)+'px';}else{if(m.dataset.origLeft!==undefined){m.classList.remove('resolved');m.style.width=MW+'px';m.style.left=m.dataset.origLeft+'px';}}});

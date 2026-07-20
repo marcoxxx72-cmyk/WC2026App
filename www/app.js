@@ -1802,7 +1802,7 @@ var FIXTURES = [
   {date:'2026-07-15',time:'19:00',home:'England',away:'Argentina',group:'SF',stadium:'AT&T Stadium',city:'Dallas',homeScore:1,awayScore:2},
   // - 3RD PLACE + FINAL -
   {date:'2026-07-18',time:'19:00',home:'France',away:'England',group:'3P',stadium:'Hard Rock Stadium',city:'Miami'},
-  {date:'2026-07-19',time:'19:00',home:'Spain',away:'Argentina',group:'FIN',stadium:'MetLife Stadium',city:'New York / New Jersey'}
+  {date:'2026-07-19',time:'19:00',home:'Spain',away:'Argentina',group:'FIN',stadium:'MetLife Stadium',city:'New York / New Jersey',homeScore:1,awayScore:0}
 ]
 
 // - TRANSLATIONS -
